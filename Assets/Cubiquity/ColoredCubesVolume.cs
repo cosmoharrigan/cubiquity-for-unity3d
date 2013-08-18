@@ -356,8 +356,6 @@ public class ColoredCubesVolume : MonoBehaviour
 		
 		newGameObject.hideFlags = HideFlags.DontSave;
 		
-		newGameObject.layer = LayerMask.NameToLayer("Volume");
-		
 		return newGameObject;
 	}
 	
