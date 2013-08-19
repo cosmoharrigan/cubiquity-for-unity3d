@@ -110,8 +110,6 @@ public class CreateProceduralColoredCubesVolumeWizard : ScriptableWizard
 		GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
 		ColoredCubesVolume coloredCubesVolume = voxelGameObject.GetComponent<ColoredCubesVolume>();
 
-		Color32 brown = new Color32(200, 100, 0, 255);
-		Color32 green = new Color32(0, 255, 0, 255);
 		Color32 blue = new Color32(0, 0, 255, 255);
 		Color32 grey = new Color32(128, 128, 128, 255);
 		Color32 white = new Color32(255, 255, 255, 255);

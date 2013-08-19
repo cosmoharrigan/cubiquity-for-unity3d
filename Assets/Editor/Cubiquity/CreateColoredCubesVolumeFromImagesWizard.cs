@@ -101,7 +101,7 @@ public class CreateColoredCubesVolumeFromImagesWizard : ScriptableWizard
 		}
 		
 		//GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
-		GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolumeFromVolDat("Voxel Terrain", imageFolder, datasetName);
+		ColoredCubesVolumeFactory.CreateVolumeFromVolDat("Voxel Terrain", imageFolder, datasetName);
 	}
 	
 	void OnCancelPressed()
