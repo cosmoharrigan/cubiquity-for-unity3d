@@ -17,7 +17,8 @@ public class CreateEmptyColoredCubesVolumeWizard : CreateVolumeWizard
 		// Make sure the Cubiquity library is installed.
 		Installation.ValidateAndFix();
 		
-        ScriptableWizard.DisplayWizard<CreateEmptyColoredCubesVolumeWizard>("Create Empty Colored Cubes Volume");
+        CreateEmptyColoredCubesVolumeWizard wizard = ScriptableWizard.DisplayWizard<CreateEmptyColoredCubesVolumeWizard>("Create Empty Colored Cubes Volume");
+		wizard.position = new Rect(100, 100, 600, 300);
     }
 	
 	void OnGUI()

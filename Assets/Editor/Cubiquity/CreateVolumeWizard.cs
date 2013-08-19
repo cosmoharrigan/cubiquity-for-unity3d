@@ -33,21 +33,29 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 		
 		EditorGUILayout.BeginHorizontal();	
 			GUILayout.Space(50);
-			EditorGUILayout.LabelField("Folder name:", GUILayout.Width(80));
-			EditorGUILayout.TextField("", datasetName);
-			if(GUILayout.Button("Select folder...", GUILayout.Width(120)))
+			EditorGUILayout.LabelField("Folder name: StreamingAssets/Cubiquity/Volumes/", GUILayout.Width(298));
+			EditorGUILayout.TextField("", datasetName, GUILayout.MinWidth(100));
+			if(GUILayout.Button("Select folder...", GUILayout.Width(100)))
 			{
-				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", Cubiquity.pathToData, "");
+				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", Cubiquity.GetPathToData(), "");
+			
+				Uri selectedFolderUri = new Uri(selectedFolderAsString + Path.DirectorySeparatorChar);
+				Uri streamingAssetsFolderUri = new Uri(Application.streamingAssetsPath + Path.DirectorySeparatorChar);
+				Uri volumeDataUri = new Uri(Cubiquity.GetPathToData() + Path.DirectorySeparatorChar);
+			
+				Uri relativeUri = volumeDataUri.MakeRelativeUri(selectedFolderUri);
+			
+				datasetName = relativeUri.ToString();
 				
-				DirectoryInfo assetDirInfo = new DirectoryInfo(Application.dataPath);
+				/*DirectoryInfo assetDirInfo = new DirectoryInfo(Application.dataPath);
 				DirectoryInfo executableDirInfo = assetDirInfo.Parent;
-				DirectoryInfo volumeDirInfo = new DirectoryInfo(executableDirInfo.FullName + Path.DirectorySeparatorChar + Cubiquity.pathToData);
+				DirectoryInfo volumeDirInfo = new DirectoryInfo(executableDirInfo.FullName + Path.DirectorySeparatorChar + Cubiquity.GetPathToData());
 			
 				Uri volumeUri = new Uri(volumeDirInfo.FullName + Path.DirectorySeparatorChar);
 				Uri selectedUri = new Uri(selectedFolderAsString);
 				Uri relativeUri = volumeUri.MakeRelativeUri(selectedUri);
 			
-				datasetName = relativeUri.ToString();
+				datasetName = relativeUri.ToString();*/
 			}
 			GUILayout.Space(20);
 		EditorGUILayout.EndHorizontal();
