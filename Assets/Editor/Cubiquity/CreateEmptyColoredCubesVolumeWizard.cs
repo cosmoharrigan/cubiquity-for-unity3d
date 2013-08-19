@@ -20,6 +20,9 @@ public class CreateEmptyColoredCubesVolumeWizard : ScriptableWizard
 	[MenuItem ("GameObject/Create Other/Colored Cubes Volume/Create Empty Colored Cubes Volume...")]
     static void CreateWizard ()
 	{
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
         ScriptableWizard.DisplayWizard<CreateEmptyColoredCubesVolumeWizard>("Create Empty Colored Cubes Volume");
     }
 	

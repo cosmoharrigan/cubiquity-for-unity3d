@@ -14,6 +14,9 @@ public class CreateColoredCubesVolumeFromImagesWizard : ScriptableWizard
 	[MenuItem ("GameObject/Create Other/Colored Cubes Volume/Create Colored Cubes Volume From Images...")]
     static void CreateWizard ()
 	{
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
         ScriptableWizard.DisplayWizard<CreateColoredCubesVolumeFromImagesWizard>("Create Colored Cubes Volume From Images");
     }
 	

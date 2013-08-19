@@ -12,6 +12,9 @@ public class ColoredCubesVolumeFactory
 	
 	public static GameObject CreateVolume(string name, Region region, string datasetName, uint baseNodeSize)
 	{		
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
 		// Make sure the page folder exists
 		CreateDatasetName(datasetName);
 		
@@ -35,6 +38,9 @@ public class ColoredCubesVolumeFactory
 	
 	public static GameObject CreateVolumeFromVolDat(string name, string voldatFolder, string datasetName, uint baseNodeSize)
 	{		
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
 		// Make sure the page folder exists
 		CreateDatasetName(datasetName);
 		
@@ -58,6 +64,9 @@ public class ColoredCubesVolumeFactory
 	
 	public static GameObject CreateVolumeFromHeightmap(string name, string heightmapFileName, string colormapFileName, string datasetName, uint baseNodeSize)
 	{		
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
 		// Make sure the page folder exists
 		CreateDatasetName(datasetName);
 		

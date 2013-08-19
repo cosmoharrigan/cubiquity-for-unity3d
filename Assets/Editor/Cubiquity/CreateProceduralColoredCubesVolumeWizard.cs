@@ -16,6 +16,9 @@ public class CreateProceduralColoredCubesVolumeWizard : ScriptableWizard
 	[MenuItem ("GameObject/Create Other/Colored Cubes Volume/Create Colored Cubes Volume Procedurally...")]
     static void CreateWizard ()
 	{
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
         ScriptableWizard.DisplayWizard<CreateProceduralColoredCubesVolumeWizard>("Create Colored Cubes Volume Procedurally");
     }
 	
