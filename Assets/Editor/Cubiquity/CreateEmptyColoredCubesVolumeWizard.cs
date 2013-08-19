@@ -12,6 +12,7 @@ public class CreateEmptyColoredCubesVolumeWizard : ScriptableWizard
 	private int width = 256;
 	private int height = 64;
 	private int depth = 256;
+	private int maximumVolumeSize = 256; // FIXME - Should get this from the library.
 	
 	private bool createFloor = true;
 	
@@ -74,16 +75,16 @@ public class CreateEmptyColoredCubesVolumeWizard : ScriptableWizard
 		
 		GUILayout.Space(10);
 		
-		EditorGUILayout.BeginHorizontal();	
+		EditorGUILayout.BeginHorizontal();
 			GUILayout.Space(50);
 			EditorGUILayout.LabelField("Width:", GUILayout.Width(50));
-			width = EditorGUILayout.IntField("", width, GUILayout.Width(40));
+			width = Math.Min(EditorGUILayout.IntField("", width, GUILayout.Width(40)), maximumVolumeSize);
 			GUILayout.Space(20);
 			EditorGUILayout.LabelField("Height:", GUILayout.Width(50));
-			height = EditorGUILayout.IntField("", height, GUILayout.Width(40));
+			height = Math.Min(EditorGUILayout.IntField("", height, GUILayout.Width(40)), maximumVolumeSize);
 			GUILayout.Space(20);
 			EditorGUILayout.LabelField("Depth:", GUILayout.Width(50));
-			depth = EditorGUILayout.IntField("", depth, GUILayout.Width(40));
+			depth = Math.Min(EditorGUILayout.IntField("", depth, GUILayout.Width(40)), maximumVolumeSize);
 			GUILayout.FlexibleSpace();
 		EditorGUILayout.EndHorizontal();
 		
