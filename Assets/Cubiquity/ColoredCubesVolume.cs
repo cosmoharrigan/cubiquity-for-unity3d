@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using System;
 using System.Collections;
@@ -53,6 +54,11 @@ public class ColoredCubesVolume : MonoBehaviour
 	// This corresponds to the root OctreeNode in Cubiquity.
 	[System.NonSerialized]
 	private GameObject rootGameObject;
+	
+	[System.NonSerialized]
+	private int maxNodeSyncsPerFrame = 4;
+	[System.NonSerialized]
+	private int nodeSyncsThisFrame = 0;
 	
 	// It seems that we need to implement this function in order to make the volume pickable in the editor.
 	// It's actually the gizmo which get's picked which is often bigger than than the volume (unless all
@@ -127,6 +133,8 @@ public class ColoredCubesVolume : MonoBehaviour
 	
 	public void Synchronize()
 	{
+		nodeSyncsThisFrame = 0;
+		
 		if(volumeHandle.HasValue)
 		{
 			CubiquityDLL.UpdateVolume(volumeHandle.Value);
@@ -182,6 +190,10 @@ public class ColoredCubesVolume : MonoBehaviour
 	{
 		Debug.Log ("ColoredCubesVolume.OnEnable()");
 		Initialize();
+		
+		// In edit mode we still want to frequently update (and not just when the mouse cursor moves).
+		// In particular some progressive loading might be happening so we need to update to drive this.
+		EditorApplication.update += Update;
 	}
 	
 	// Use this for initialization
@@ -199,6 +211,9 @@ public class ColoredCubesVolume : MonoBehaviour
 	public void OnDisable()
 	{
 		Debug.Log ("ColoredCubesVolume.OnDisable()");
+		
+		// Remove the update delegate
+		EditorApplication.update -= Update;
 		
 		// We only save if we are in editor mode, not if we are playing.
 		bool saveChanges = !Application.isPlaying;
@@ -262,6 +277,11 @@ public class ColoredCubesVolume : MonoBehaviour
 	
 	public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
 	{
+		if(nodeSyncsThisFrame >= maxNodeSyncsPerFrame)
+		{
+			return;
+		}
+		
 		uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdated(nodeHandle);		
 		OctreeNodeData octreeNodeData = (OctreeNodeData)(gameObjectToSync.GetComponent<OctreeNodeData>());
 		
@@ -295,6 +315,8 @@ public class ColoredCubesVolume : MonoBehaviour
 			
 			uint currentTime = CubiquityDLL.GetCurrentTime();
 			octreeNodeData.meshLastSyncronised = (int)(currentTime);
+			
+			nodeSyncsThisFrame++;
 		}		
 		
 		//Now syncronise any children
