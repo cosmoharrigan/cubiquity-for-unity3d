@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using System;
 using System.Collections;
@@ -190,10 +189,6 @@ public class ColoredCubesVolume : MonoBehaviour
 	{
 		Debug.Log ("ColoredCubesVolume.OnEnable()");
 		Initialize();
-		
-		// In edit mode we still want to frequently update (and not just when the mouse cursor moves).
-		// In particular some progressive loading might be happening so we need to update to drive this.
-		EditorApplication.update += Update;
 	}
 	
 	// Use this for initialization
@@ -211,9 +206,6 @@ public class ColoredCubesVolume : MonoBehaviour
 	public void OnDisable()
 	{
 		Debug.Log ("ColoredCubesVolume.OnDisable()");
-		
-		// Remove the update delegate
-		EditorApplication.update -= Update;
 		
 		// We only save if we are in editor mode, not if we are playing.
 		bool saveChanges = !Application.isPlaying;
