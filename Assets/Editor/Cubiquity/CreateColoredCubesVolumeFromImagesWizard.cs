@@ -54,14 +54,6 @@ public class CreateColoredCubesVolumeFromImagesWizard : CreateVolumeWizard
 	public override void OnCreatePressed()
 	{
 		Close();		
-		Debug.Log("Creating volume");
-		
-		if(GameObject.Find("Voxel Terrain") != null)
-		{
-			Debug.LogError("A voxel terrain already exists - you (currently) can't create another one.");
-		}
-		
-		//GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
 		ColoredCubesVolumeFactory.CreateVolumeFromVolDat("Voxel Terrain", imageFolder, datasetName);
 	}
 }
