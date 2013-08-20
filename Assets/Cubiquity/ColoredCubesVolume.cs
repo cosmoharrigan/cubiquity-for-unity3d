@@ -86,7 +86,7 @@ public class ColoredCubesVolume : MonoBehaviour
 			if((voldatFolder != null) && (voldatFolder != ""))
 			{
 				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.GetPathToData() + datasetName + "/", (uint)baseNodeSize);
+				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.GetPathToData() + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
 				
 				// The user didn't specify a region as this is determined by the size of
 				// the VolDat data, so we have to pull this information back from Cubiquity.
@@ -103,7 +103,7 @@ public class ColoredCubesVolume : MonoBehaviour
 			else if((heightmapFileName != null) && (heightmapFileName != "") && (colormapFileName != null) && (colormapFileName != ""))
 			{
 				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.GetPathToData() + datasetName + "/", (uint)baseNodeSize);
+				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.GetPathToData() + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
 				
 				// The user didn't specify a region as this is determined by the size of
 				// the VolDat data, so we have to pull this information back from Cubiquity.
@@ -120,7 +120,7 @@ public class ColoredCubesVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.GetPathToData() + datasetName + "/", (uint)baseNodeSize);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.GetPathToData() + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
 			}
 		}
 	}

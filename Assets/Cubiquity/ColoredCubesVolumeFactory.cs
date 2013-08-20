@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.IO;
 
 public class ColoredCubesVolumeFactory
 {
@@ -86,7 +87,8 @@ public class ColoredCubesVolumeFactory
 	
 	private static void CreateDatasetName(string datasetName)
 	{
-		System.IO.Directory.CreateDirectory(datasetName);
-		System.IO.Directory.CreateDirectory(datasetName + "/override");
+		string pathToData = Cubiquity.GetPathToData() + Path.DirectorySeparatorChar;
+		System.IO.Directory.CreateDirectory(pathToData + datasetName);
+		System.IO.Directory.CreateDirectory(pathToData + datasetName + "/override");
 	}
 }
