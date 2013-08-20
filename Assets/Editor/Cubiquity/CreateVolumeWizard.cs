@@ -39,23 +39,17 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 			{
 				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", Cubiquity.GetPathToData(), "");
 			
-				Uri selectedFolderUri = new Uri(selectedFolderAsString + Path.DirectorySeparatorChar);
-				Uri streamingAssetsFolderUri = new Uri(Application.streamingAssetsPath + Path.DirectorySeparatorChar);
-				Uri volumeDataUri = new Uri(Cubiquity.GetPathToData() + Path.DirectorySeparatorChar);
-			
-				Uri relativeUri = volumeDataUri.MakeRelativeUri(selectedFolderUri);
-			
-				datasetName = relativeUri.ToString();
-				
-				/*DirectoryInfo assetDirInfo = new DirectoryInfo(Application.dataPath);
-				DirectoryInfo executableDirInfo = assetDirInfo.Parent;
-				DirectoryInfo volumeDirInfo = new DirectoryInfo(executableDirInfo.FullName + Path.DirectorySeparatorChar + Cubiquity.GetPathToData());
-			
-				Uri volumeUri = new Uri(volumeDirInfo.FullName + Path.DirectorySeparatorChar);
-				Uri selectedUri = new Uri(selectedFolderAsString);
-				Uri relativeUri = volumeUri.MakeRelativeUri(selectedUri);
-			
-				datasetName = relativeUri.ToString();*/
+				if(IsSubfolder(Cubiquity.GetPathToData(), selectedFolderAsString))
+				{
+					Uri selectedFolderUri = new Uri(selectedFolderAsString + Path.DirectorySeparatorChar);
+					Uri volumeDataUri = new Uri(Cubiquity.GetPathToData() + Path.DirectorySeparatorChar);			
+					Uri relativeUri = volumeDataUri.MakeRelativeUri(selectedFolderUri);			
+					datasetName = relativeUri.ToString();
+				}
+				else
+				{
+					EditorUtility.DisplayDialog("Invalid folder", "The folder you create must be inside 'StreamingAssets/Cubiquity/Volumes/'", "Ok");
+				}
 			}
 			GUILayout.Space(20);
 		EditorGUILayout.EndHorizontal();
@@ -110,4 +104,24 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 	{
 		Close ();
 	}
+	
+	// Based on http://stackoverflow.com/a/7710620
+	private bool IsSubfolder(string parentPath, string childPath)
+    {
+        var parentUri = new Uri( parentPath ) ;
+
+        var childUri = new DirectoryInfo( childPath ).Parent ;
+
+        while( childUri != null )
+        {
+            if( new Uri( childUri.FullName ) == parentUri )
+            {
+                return true ;
+            }
+
+            childUri = childUri.Parent ;
+        }
+
+        return false ;
+    }
 }
