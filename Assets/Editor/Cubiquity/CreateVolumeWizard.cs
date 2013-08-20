@@ -41,7 +41,7 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 			
 				if(IsSubfolder(Cubiquity.GetPathToData(), selectedFolderAsString))
 				{
-					Uri selectedFolderUri = new Uri(selectedFolderAsString + Path.DirectorySeparatorChar);
+					Uri selectedFolderUri = new Uri(selectedFolderAsString);
 					Uri volumeDataUri = new Uri(Cubiquity.GetPathToData() + Path.DirectorySeparatorChar);			
 					Uri relativeUri = volumeDataUri.MakeRelativeUri(selectedFolderUri);			
 					datasetName = relativeUri.ToString();
