@@ -37,12 +37,12 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 			EditorGUILayout.TextField("", datasetName, GUILayout.MinWidth(100));
 			if(GUILayout.Button("Select folder...", GUILayout.Width(100)))
 			{
-				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", Cubiquity.GetPathToData(), "");
+				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", Cubiquity.volumesPath, "");
 			
-				if(IsSubfolder(Cubiquity.GetPathToData(), selectedFolderAsString))
+				if(IsSubfolder(Cubiquity.volumesPath, selectedFolderAsString))
 				{
 					Uri selectedFolderUri = new Uri(selectedFolderAsString);
-					Uri volumeDataUri = new Uri(Cubiquity.GetPathToData() + Path.DirectorySeparatorChar);			
+					Uri volumeDataUri = new Uri(Cubiquity.volumesPath + Path.DirectorySeparatorChar);			
 					Uri relativeUri = volumeDataUri.MakeRelativeUri(selectedFolderUri);			
 					datasetName = relativeUri.ToString();
 				}

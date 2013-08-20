@@ -5,10 +5,13 @@ using System.IO;
 public static class Cubiquity
 {
 	// This is the path to where the volumes are stored on disk.
-	public static string GetPathToData()
+	public static string volumesPath
 	{
-		string pathToData = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity/Volumes");
-		return pathToData;
+		get
+		{
+			string pathToData = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity/Volumes");
+			return pathToData;
+		}
 	}
 	
 	public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, float rayStartX, float rayStartY, float rayStartZ, float rayDirX, float rayDirY, float rayDirZ, out int resultX, out int resultY, out int resultZ)

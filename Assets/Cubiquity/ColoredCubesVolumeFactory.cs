@@ -87,7 +87,7 @@ public class ColoredCubesVolumeFactory
 	
 	private static void CreateDatasetName(string datasetName)
 	{
-		string pathToData = Cubiquity.GetPathToData() + Path.DirectorySeparatorChar;
+		string pathToData = Cubiquity.volumesPath + Path.DirectorySeparatorChar;
 		System.IO.Directory.CreateDirectory(pathToData + datasetName);
 		System.IO.Directory.CreateDirectory(pathToData + datasetName + "/override");
 	}
