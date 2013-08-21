@@ -2,8 +2,19 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using UnityEngine;
+
 public class CubiquityDLL
 {
+	// This static constructor is supposed to make sure that the Cubiquity.dll is in the right place before the DllImport is done.
+	// It doesn't seem to work, because in Standalone builds the message below is printed after the exception about the .dll not
+	// being found. We need to look into this further.
+	static CubiquityDLL()
+	{
+		//Debug.LogError("In CubiquityDLL()");
+		Installation.ValidateAndFix();
+	}
+	
 	private static void Validate(int returnCode)
 	{
 		if(returnCode < 0)
