@@ -11,13 +11,21 @@ Cubiquity is a free voxel terrain asset for Unity Free and Pro. It uses the powe
 Key Features (mostly work in progress!)
 ---------------------------------------
 - Supports two kinds of voxel environment – cubic and smooth
-  - Build your world from millions of tiny colored cubes to create detailed 3D worlds.
+
+  - Build your world from millions of tiny colored cubes to create detailed 3D worlds. 
+  
   - Create realistic terrains with powerful sculpting tools (coming soon).
+  
 - Advanced Graphical capabilities
-  - Flexible material system supports arbitrary blending between multiple materials (coming soon).
+
+  - Flexible material system supports arbitrary blending between multiple materials (coming soon).  
+  
   - Level-of-detail meshes ensure fast operation across a range of hardware.
+  
   - Supports Unity's Surface Shader system to allow easy customisation of appearance.
+  
   - Works with real-time shadows and other dynamic lighting solutions.
+  
 - Physics
   - Mesh data can be passed into Unity's physics engine for unified collision detection and handling.
   - Collision detection can also be performed directly against the voxel data.
