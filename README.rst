@@ -3,10 +3,11 @@ Cubiquity For Unity3D
 
 Introduction
 ------------
-Cubiquity is a free voxel terrain asset for Unity Free and Pro. It uses the power of native code to create environments which can be dynamically modified in both the Unity editor and also in-game, enabling dynamic digging, building, and destruction. It is currently in active development, and you can follow it's progress in this Git repository.
+Cubiquity is a free voxel terrain asset for Unity Free and Pro. It uses the power of native code to create environments which can be dynamically modified in both the Unity editor and also in-game, enabling dynamic digging, building, and destruction. It is currently in active development, and you can follow its progress in this Git repository.
 
 .. image:: http://i.imgur.com/h3m1MNz.jpg
    :target: http://youtu.be/rhV2dcM4IkE
+*Our tank demo shows how a voxel environment can be destroyed in real-time (`download <http://www.volumesoffun.com/downloads/Cubiquity/CubiquityUnity3DTest3.zip>`_)*
 
 Key Features (mostly work in progress!)
 ---------------------------------------
@@ -58,7 +59,7 @@ Key Features (mostly work in progress!)
   
 More details
 ------------
-For many years we have been actively developing the `PolyVox voxel terrain library <http://www.volumesoffun.com/polyvox-about/>`_ which has been used by several games and engines. PolyVox is an extremely powerful and flexible library, but requires an advanced knowledge of C++ and graphics programming to use effectively. Therefore we have recently introduced Cubiquity as a higher-level and easier to use interface to this functionality.
+For many years we have been actively developing the `PolyVox voxel terrain library <http://www.volumesoffun.com/polyvox-about/>`_ which has been used `by several games and engines <http://www.volumesoffun.com/polyvox-projects/>`_. PolyVox is an extremely powerful and flexible library, but requires an advanced knowledge of C++ and graphics programming to use effectively. Therefore we have recently introduced Cubiquity as a higher-level and easier to use interface to this functionality.
 
 Cubiquity is independent of any particular game engine, but this Git repository provides the integration layer which connects Cubiquity to the Unity3D engine. It is this combination of the Cubiquity library and the integration layer which we will be making available for download from our website and also through the Unity3D asset store.
 
@@ -66,6 +67,6 @@ Our business and licensing plan is very simple. We want to allow all Unity3D use
 
 Follow Us
 ---------
-Our main blog
-Our Twitter feed
-Our Youtube channel
+- `Our main blog <http://www.volumesoffun.com/blog/>`_
+- `Our Twitter feed <http://www.twitter.com/volumesoffun>`_
+- `Our Youtube channel <http://www.youtube.com/user/VolumesOfFun>`_
