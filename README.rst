@@ -7,7 +7,7 @@ Cubiquity is a free voxel terrain asset for Unity Free and Pro. It uses the powe
 
 .. image:: http://i.imgur.com/h3m1MNz.jpg
    :target: http://youtu.be/rhV2dcM4IkE
-*Our tank demo shows how a voxel environment can be destroyed in real-time (`download <http://www.volumesoffun.com/downloads/Cubiquity/CubiquityUnity3DTest3.zip>`_)*
+    *Our tank demo shows how a voxel environment can be destroyed in real-time* `(download) <http://www.volumesoffun.com/downloads/Cubiquity/CubiquityUnity3DTest3.zip>`_
 
 Key Features (mostly work in progress!)
 ---------------------------------------
