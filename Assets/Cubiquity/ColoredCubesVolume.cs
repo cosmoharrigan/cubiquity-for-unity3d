@@ -368,7 +368,7 @@ public class ColoredCubesVolume : MonoBehaviour
 			newGameObject.transform.localPosition = octreeNodeData.lowerCorner;
 		}
 		
-		newGameObject.hideFlags = HideFlags.DontSave;
+		newGameObject.hideFlags = HideFlags.HideAndDontSave;
 		
 		return newGameObject;
 	}
