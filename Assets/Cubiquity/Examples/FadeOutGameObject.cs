@@ -29,6 +29,8 @@ public class FadeOutGameObject : MonoBehaviour
 				fading = true;
 				fadeStart = Time.time;
 				
+				// Bit of a hack - we also have a dummy material in 'Resources' to make
+				// sure the shader exists in standalone builds. Need to do this properly.
 				renderer.material.shader = Shader.Find ("Transparent/Diffuse");
 			}
 		}
