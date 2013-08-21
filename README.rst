@@ -27,24 +27,38 @@ Key Features (mostly work in progress!)
   - Works with real-time shadows and other dynamic lighting solutions.
   
 - Physics
+
   - Mesh data can be passed into Unity's physics engine for unified collision detection and handling.
+  
   - Collision detection can also be performed directly against the voxel data.
+  
   - Custom raycast functionality for picking voxels.
+  
 - Create worlds easily
+
   - Import voxel terrains from external sources such as heightmaps.
+  
   - Direct access to the voxel data allows you to procedurally generate worlds from code.
+  
   - Editing tools available both in-editor and in-game (coming soon).
+  
 - Solid engineering
+
   - Cubiquity is powered by the PolyVox voxel library, which has been in development for over seven years and is used by several games.
+  
   - Package includes all C# scripts allowing you to customize it to your needs.
+  
   - Integrates seamlessly with many other packages from the asset store.
+  
 - Licensing options
+
   - Available free (including commercial use) for environments up to a limited size.
+  
   - Larger volumes will be available in the future for a fee.
   
 More details
 ------------
-For many years we have been actively developing the PolyVox voxel terrain library which has been used by several games and engines. PolyVox is an extremely powerful and flexible library, but requires an advanced knowledge of C++ and graphics programming to use effectively. Therefore we have recently introduced Cubiquity as a higher-level and easier to use interface to this functionality.
+For many years we have been actively developing the `PolyVox voxel terrain library <http://www.volumesoffun.com/polyvox-about/>`_ which has been used by several games and engines. PolyVox is an extremely powerful and flexible library, but requires an advanced knowledge of C++ and graphics programming to use effectively. Therefore we have recently introduced Cubiquity as a higher-level and easier to use interface to this functionality.
 
 Cubiquity is independent of any particular game engine, but this Git repository provides the integration layer which connects Cubiquity to the Unity3D engine. It is this combination of the Cubiquity library and the integration layer which we will be making available for download from our website and also through the Unity3D asset store.
 
