@@ -6,8 +6,8 @@ Introduction
 Cubiquity is a free voxel terrain asset for Unity Free and Pro. It uses the power of native code to create environments which can be dynamically modified in both the Unity editor and also in-game, enabling dynamic digging, building, and destruction. It is currently in active development, and you can follow its progress in this Git repository.
 
 
-.. image:: http://i.imgur.com/h3m1MNz.jpg
-   :target: http://youtu.be/rhV2dcM4IkE
+.. image:: http://i.imgur.com/jGP69pV.jpg
+   :target: http://youtu.be/6z0jd-J8QMQ
 *Our tank demo shows how a voxel environment can be destroyed in real-time* `(download) <http://www.volumesoffun.com/downloads/Cubiquity/CubiquityUnity3DTest3.zip>`_
 
 Key Features (mostly work in progress!)
