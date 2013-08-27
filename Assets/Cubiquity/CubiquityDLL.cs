@@ -88,6 +88,52 @@ public class CubiquityDLL
 		Validate(cuDeleteColouredCubesVolume(volumeHandle));
 	}
 	
+	//--------------------------------------------------------------------------------
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuNewSmoothTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
+	public static uint NewSmoothTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
+	{
+		uint result;
+		Validate(cuNewSmoothTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+		return result;
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuUpdateVolumeMC(uint volumeHandle);
+	public static void UpdateVolumeMC(uint volumeHandle)
+	{
+		Validate(cuUpdateVolumeMC(volumeHandle));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetEnclosingRegionMC(uint volumeHandle, out int lowerX, out int lowerY, out int lowerZ, out int upperX, out int upperY, out int upperZ);	
+	public static void GetEnclosingRegionMC(uint volumeHandle, out int lowerX, out int lowerY, out int lowerZ, out int upperX, out int upperY, out int upperZ)
+	{		
+		Validate(cuGetEnclosingRegionMC(volumeHandle, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, out byte value);	
+	public static void GetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, out byte value)
+	{		
+		Validate(cuGetVoxelMC(volumeHandle, x, y, z, index, out value));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuSetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, byte value);
+	public static void SetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, byte value)
+	{
+		Validate(cuSetVoxelMC(volumeHandle, x, y, z, index, value));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuDeleteSmoothTerrainVolume(uint volumeHandle);
+	public static void DeleteSmoothTerrainVolume(uint volumeHandle)
+	{
+		Validate(cuDeleteSmoothTerrainVolume(volumeHandle));
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////
 	// Octree functions
 	////////////////////////////////////////////////////////////////////////////////
@@ -152,6 +198,69 @@ public class CubiquityDLL
 		return result;
 	}
 	
+	//----------------------------------------------------------------------
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuHasRootOctreeNodeMC(uint volumeHandle, out uint result);
+	public static uint HasRootOctreeNodeMC(uint volumeHandle)
+	{
+		uint result;
+		Validate(cuHasRootOctreeNodeMC(volumeHandle, out result));
+		return result;
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetRootOctreeNodeMC(uint volumeHandle, out uint result);
+	public static uint GetRootOctreeNodeMC(uint volumeHandle)
+	{
+		uint result;
+		Validate(cuGetRootOctreeNodeMC(volumeHandle, out result));
+		return result;
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuHasChildNodeMC(uint nodeHandle, uint childX, uint childY, uint childZ, out uint result);
+	public static uint HasChildNodeMC(uint nodeHandle, uint childX, uint childY, uint childZ)
+	{
+		uint result;
+		Validate(cuHasChildNodeMC(nodeHandle, childX, childY, childZ, out result));
+		return result;
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetChildNodeMC(uint nodeHandle, uint childX, uint childY, uint childZ, out uint result);
+	public static uint GetChildNodeMC(uint nodeHandle, uint childX, uint childY, uint childZ)
+	{
+		uint result;
+		Validate(cuGetChildNodeMC(nodeHandle, childX, childY, childZ, out result));
+		return result;
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuNodeHasMeshMC(uint nodeHandle, out uint result);
+	public static uint NodeHasMeshMC(uint nodeHandle)
+	{
+		uint result;
+		Validate(cuNodeHasMeshMC(nodeHandle, out result));
+		return result;
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetNodePositionMC(uint nodeHandle, out int x, out int y, out int z);
+	public static void GetNodePositionMC(uint nodeHandle, out int x, out int y, out int z)
+	{
+		Validate(cuGetNodePositionMC(nodeHandle, out x, out y, out z));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetMeshLastUpdatedMC(uint nodeHandle, out uint result);
+	public static uint GetMeshLastUpdatedMC(uint nodeHandle)
+	{
+		uint result;
+		Validate(cuGetMeshLastUpdatedMC(nodeHandle, out result));
+		return result;
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////
 	// Mesh functions
 	////////////////////////////////////////////////////////////////////////////////
@@ -182,6 +291,39 @@ public class CubiquityDLL
 		
 		CubiquityVertex[] result = new CubiquityVertex[noOfVertices];
 		Validate(cuGetVertices(octreeNodeHandle, out result));
+		
+		return result;
+	}
+	
+	//--------------------------------------------------------------------------------
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetNoOfIndicesMC(uint octreeNodeHandle, out uint result);
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetIndicesMC(uint octreeNodeHandle, out int[] result);
+	public static int[] GetIndicesMC(uint octreeNodeHandle)
+	{
+		uint noOfIndices;
+		Validate(cuGetNoOfIndicesMC(octreeNodeHandle, out noOfIndices));
+		
+		int[] result = new int[noOfIndices];
+		Validate(cuGetIndicesMC(octreeNodeHandle, out result));
+		
+		return result;
+	}
+		
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetNoOfVerticesMC(uint octreeNodeHandle, out uint result);
+	[DllImport ("CubiquityC")]
+	private static extern int cuGetVerticesMC(uint octreeNodeHandle, out CubiquitySmoothVertex[] result);
+	public static CubiquitySmoothVertex[] GetVerticesMC(uint octreeNodeHandle)
+	{
+		// Based on http://stackoverflow.com/a/1318929
+		uint noOfVertices;
+		Validate(cuGetNoOfVerticesMC(octreeNodeHandle, out noOfVertices));
+		
+		CubiquitySmoothVertex[] result = new CubiquitySmoothVertex[noOfVertices];
+		Validate(cuGetVerticesMC(octreeNodeHandle, out result));
 		
 		return result;
 	}
