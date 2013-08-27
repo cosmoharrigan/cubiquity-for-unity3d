@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-public struct CubiquityVertex 
+public struct CubiquitySmoothVertex 
 {
 	// Disable 'Field ... is never assigned to'
 	// warnings as this structure is just for interop
@@ -13,12 +13,18 @@ public struct CubiquityVertex
 	public float x;
 	public float y;
 	public float z;
-	public uint colour;
+	public float nx;
+	public float ny;
+	public float nz;
+	public byte m0;
+	public byte m1;
+	public byte m2;
+	public byte m3;
 	#pragma warning restore 0649
 }
 
 [ExecuteInEditMode]
-public class ColoredCubesVolume : MonoBehaviour
+public class SmoothTerrainVolume : MonoBehaviour
 {		
 	// The name of the dataset to load from disk. A folder with this name
 	// should be found in the location specified by 'Cubiquity.volumesPath'.
@@ -87,44 +93,10 @@ public class ColoredCubesVolume : MonoBehaviour
 		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
 		if(volumeHandle == null)
 		{	
-			// If the voldatFolder is set then we initialize the volume with the suplpied data.
-			if((voldatFolder != null) && (voldatFolder != ""))
-			{
-				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
-				
-				// The user didn't specify a region as this is determined by the size of
-				// the VolDat data, so we have to pull this information back from Cubiquity.
-				int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
-				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
-				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
-				
-				// Set this to null so we don't import this data again. When the volume is shutdown the
-				// data is flushed to the page folder, and when the volume is reinitialised the data will
-				// be loaded from the page folder as with a normal volume. So there is no need to reimport.
-				voldatFolder = null;
-			}
-			// Otherwise see if we can initialise from a heightmap
-			else if((heightmapFileName != null) && (heightmapFileName != "") && (colormapFileName != null) && (colormapFileName != ""))
-			{
-				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
-				
-				// The user didn't specify a region as this is determined by the size of
-				// the VolDat data, so we have to pull this information back from Cubiquity.
-				int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
-				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
-				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
-				
-				// Set this to null so we don't import this data again. When the volume is shutdown the
-				// data is flushed to the page folder, and when the volume is reinitialised the data will
-				// be loaded from the page folder as with a normal volume. So there is no need to reimport.
-				voldatFolder = null;
-			}
-			else if(region != null)
+			if(region != null)
 			{
 				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+				volumeHandle = CubiquityDLL.NewSmoothTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
 			}
 		}
@@ -136,11 +108,11 @@ public class ColoredCubesVolume : MonoBehaviour
 		
 		if(volumeHandle.HasValue)
 		{
-			CubiquityDLL.UpdateVolume(volumeHandle.Value);
+			CubiquityDLL.UpdateVolumeMC(volumeHandle.Value);
 			
-			if(CubiquityDLL.HasRootOctreeNode(volumeHandle.Value) == 1)
+			if(CubiquityDLL.HasRootOctreeNodeMC(volumeHandle.Value) == 1)
 			{		
-				uint rootNodeHandle = CubiquityDLL.GetRootOctreeNode(volumeHandle.Value);
+				uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(volumeHandle.Value);
 			
 				if(rootGameObject == null)
 				{					
@@ -157,7 +129,7 @@ public class ColoredCubesVolume : MonoBehaviour
 		
 		if(volumeHandle.HasValue)
 		{
-			CubiquityDLL.DeleteColoredCubesVolume(volumeHandle.Value);
+			CubiquityDLL.DeleteSmoothTerrainVolume(volumeHandle.Value);
 			volumeHandle = null;
 			
 			// Now that we've destroyed the volume handle, and volume data will have been paged into the override folder. This
@@ -213,56 +185,24 @@ public class ColoredCubesVolume : MonoBehaviour
 		Shutdown(saveChanges);
 	}
 	
-	public Color32 GetVoxel(int x, int y, int z)
+	public byte GetVoxel(int x, int y, int z, uint materialIndex)
 	{
-		Color32 color = new Color32();
+		byte materialStrength = 0;
 		if(volumeHandle.HasValue)
 		{
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z, out color.r, out color.g, out color.b, out color.a);
+			CubiquityDLL.GetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, out materialStrength);
 		}
-		return color;
+		return materialStrength;
 	}
 	
-	public bool IsSurfaceVoxel(int x, int y, int z)
-	{
-		if(volumeHandle.HasValue)
-		{
-			Color32 color = new Color32();
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return false;
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x + 1, y, z, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return true;
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x - 1, y, z, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return true;
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x, y + 1, z, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return true;
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x, y - 1, z, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return true;
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z + 1, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return true;
-			
-			CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z - 1, out color.r, out color.g, out color.b, out color.a);
-			if(color.a < 127) return true;
-		}
-		
-		return false;
-	}
-	
-	public void SetVoxel(int x, int y, int z, Color32 color)
+	public void SetVoxel(int x, int y, int z, uint materialIndex, byte materialStrength)
 	{
 		if(volumeHandle.HasValue)
 		{
 			if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
 				&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z) // FIX THESE VALUES!
 			{
-				byte alpha = color.a > 127 ? (byte)255 : (byte)0; // Threshold the alpha until we support transparency.
-				CubiquityDLL.SetVoxel(volumeHandle.Value, x, y, z, color.r, color.g, color.b, alpha);
+				CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, materialStrength);
 			}
 		}
 	}
@@ -274,14 +214,14 @@ public class ColoredCubesVolume : MonoBehaviour
 			return;
 		}
 		
-		uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdated(nodeHandle);		
+		uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdatedMC(nodeHandle);		
 		OctreeNodeData octreeNodeData = (OctreeNodeData)(gameObjectToSync.GetComponent<OctreeNodeData>());
 		
 		if(octreeNodeData.meshLastSyncronised < meshLastUpdated)
 		{			
-			if(CubiquityDLL.NodeHasMesh(nodeHandle) == 1)
+			if(CubiquityDLL.NodeHasMeshMC(nodeHandle) == 1)
 			{				
-				Mesh renderingMesh;
+				/*Mesh renderingMesh;
 				Mesh physicsMesh;
 				
 				BuildMeshFromNodeHandle(nodeHandle, out renderingMesh, out physicsMesh);
@@ -292,9 +232,9 @@ public class ColoredCubesVolume : MonoBehaviour
 				if(mf.sharedMesh != null)
 				{
 					DestroyImmediate(mf.sharedMesh);
-				}
+				}*/
 				
-		        mf.sharedMesh = renderingMesh;				
+		        /*mf.sharedMesh = renderingMesh;				
 				
 				mr.material = new Material(Shader.Find("ColoredCubesVolume"));
 				
@@ -302,7 +242,7 @@ public class ColoredCubesVolume : MonoBehaviour
 				{
 					MeshCollider mc = (MeshCollider)gameObjectToSync.GetComponent(typeof(MeshCollider));
 					mc.sharedMesh = physicsMesh;
-				}
+				}*/
 			}
 			
 			uint currentTime = CubiquityDLL.GetCurrentTime();
@@ -318,10 +258,10 @@ public class ColoredCubesVolume : MonoBehaviour
 			{
 				for(uint x = 0; x < 2; x++)
 				{
-					if(CubiquityDLL.HasChildNode(nodeHandle, x, y, z) == 1)
+					if(CubiquityDLL.HasChildNodeMC(nodeHandle, x, y, z) == 1)
 					{					
 					
-						uint childNodeHandle = CubiquityDLL.GetChildNode(nodeHandle, x, y, z);					
+						uint childNodeHandle = CubiquityDLL.GetChildNodeMC(nodeHandle, x, y, z);					
 						
 						GameObject childGameObject = octreeNodeData.GetChild(x,y,z);
 						
@@ -343,12 +283,13 @@ public class ColoredCubesVolume : MonoBehaviour
 	{
 		int xPos, yPos, zPos;
 		//Debug.Log("Getting position for node handle = " + nodeHandle);
-		CubiquityDLL.GetNodePosition(nodeHandle, out xPos, out yPos, out zPos);
+		CubiquityDLL.GetNodePositionMC(nodeHandle, out xPos, out yPos, out zPos);
 		
 		StringBuilder name = new StringBuilder("(" + xPos + ", " + yPos + ", " + zPos + ")");
 		
 		GameObject newGameObject = new GameObject(name.ToString ());
 		newGameObject.AddComponent<OctreeNodeData>();
+		//FIXME - Should we really add these here? Or once we determine we actually have meshes?
 		newGameObject.AddComponent<MeshFilter>();
 		newGameObject.AddComponent<MeshRenderer>();
 		newGameObject.AddComponent<MeshCollider>();
@@ -373,28 +314,6 @@ public class ColoredCubesVolume : MonoBehaviour
 		return newGameObject;
 	}
 	
-	float packPosition(Vector3 position)
-	{
-		position.x += 0.5f;
-		position.y += 0.5f;
-		position.z += 0.5f;
-		
-		float result = position.x * 65536.0f + position.y * 256.0f + position.z;
-		
-		return result;
-	}
-	
-	float packColor(uint color)
-	{
-		uint red = (uint)((color >> 0) & 0xF);
-		uint green = (uint)((color >> 4) & 0xF);
-		uint blue = (uint)((color >> 8) & 0xF);
-		
-		float result = (float)(red * 256 + green * 16 + blue);
-		
-		return result;
-	}
-	
 	void BuildMeshFromNodeHandle(uint nodeHandle, out Mesh renderingMesh, out Mesh physicsMesh)
 	{
 		// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C
@@ -404,8 +323,8 @@ public class ColoredCubesVolume : MonoBehaviour
 		physicsMesh = UseCollisionMesh ? new Mesh() : null;
 		
 		// Get the data from Cubiquity.
-		int[] indices = CubiquityDLL.GetIndices(nodeHandle);		
-		CubiquityVertex[] cubiquityVertices = CubiquityDLL.GetVertices(nodeHandle);			
+		int[] indices = CubiquityDLL.GetIndicesMC(nodeHandle);		
+		CubiquitySmoothVertex[] cubiquityVertices = CubiquityDLL.GetVerticesMC(nodeHandle);			
 		
 		// Create the arrays which we'll copy the data to.
         Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
@@ -415,14 +334,14 @@ public class ColoredCubesVolume : MonoBehaviour
 		{
 			// Get the vertex data from Cubiquity.
 			Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
-			UInt32 colour = cubiquityVertices[ct].colour;
+			//UInt32 colour = cubiquityVertices[ct].colour;
 			
 			// Pack it for efficient vertex buffer usage.
-			float packedPosition = packPosition(position);
-			float packedColor = packColor(colour);
+			//float packedPosition = packPosition(position);
+			//float packedColor = packColor(colour);
 				
 			// Copy it to the arrays.
-			renderingVertices[ct] = new Vector3(packedPosition, packedColor, 0.0f);			
+			renderingVertices[ct] = position;	
 			if(UseCollisionMesh)
 			{
 				physicsVertices[ct] = position;
