@@ -237,9 +237,9 @@ public class SmoothTerrainVolume : MonoBehaviour
 				
 		        mf.sharedMesh = renderingMesh;				
 				
-				/*mr.material = new Material(Shader.Find("ColoredCubesVolume"));
+				mr.material = new Material(Shader.Find("SmoothTerrainVolume"));
 				
-				if(UseCollisionMesh)
+				/*if(UseCollisionMesh)
 				{
 					MeshCollider mc = (MeshCollider)gameObjectToSync.GetComponent(typeof(MeshCollider));
 					mc.sharedMesh = physicsMesh;
@@ -329,6 +329,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 		
 		// Create the arrays which we'll copy the data to.
         Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
+		Vector3[] renderingNormals = new Vector3[cubiquityVertices.Length];		
 		Vector3[] physicsVertices = UseCollisionMesh ? new Vector3[cubiquityVertices.Length] : null;
 		
 		Debug.Log ("Got " + cubiquityVertices.Length + " vertices");
@@ -337,6 +338,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 		{
 			// Get the vertex data from Cubiquity.
 			Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
+			Vector3 normal = new Vector3(cubiquityVertices[ct].nx, cubiquityVertices[ct].ny, cubiquityVertices[ct].nz);
 			//UInt32 colour = cubiquityVertices[ct].colour;
 			
 			// Pack it for efficient vertex buffer usage.
@@ -345,6 +347,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 				
 			// Copy it to the arrays.
 			renderingVertices[ct] = position;	
+			renderingNormals[ct] = normal;	
 			if(UseCollisionMesh)
 			{
 				physicsVertices[ct] = position;
@@ -353,6 +356,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 		
 		// Assign vertex data to the meshes.
 		renderingMesh.vertices = renderingVertices; 
+		renderingMesh.normals = renderingNormals;
 		renderingMesh.triangles = indices;
 		
 		// FIXME - Get proper bounds
