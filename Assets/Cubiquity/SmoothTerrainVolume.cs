@@ -219,9 +219,10 @@ public class SmoothTerrainVolume : MonoBehaviour
 		
 		if(octreeNodeData.meshLastSyncronised < meshLastUpdated)
 		{			
+			Debug.Log ("Syncronising mesh");
 			if(CubiquityDLL.NodeHasMeshMC(nodeHandle) == 1)
 			{				
-				/*Mesh renderingMesh;
+				Mesh renderingMesh;
 				Mesh physicsMesh;
 				
 				BuildMeshFromNodeHandle(nodeHandle, out renderingMesh, out physicsMesh);
@@ -232,11 +233,11 @@ public class SmoothTerrainVolume : MonoBehaviour
 				if(mf.sharedMesh != null)
 				{
 					DestroyImmediate(mf.sharedMesh);
-				}*/
+				}
 				
-		        /*mf.sharedMesh = renderingMesh;				
+		        mf.sharedMesh = renderingMesh;				
 				
-				mr.material = new Material(Shader.Find("ColoredCubesVolume"));
+				/*mr.material = new Material(Shader.Find("ColoredCubesVolume"));
 				
 				if(UseCollisionMesh)
 				{
@@ -309,7 +310,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 			newGameObject.transform.localPosition = octreeNodeData.lowerCorner;
 		}
 		
-		newGameObject.hideFlags = HideFlags.HideAndDontSave;
+		newGameObject.hideFlags = HideFlags.DontSave;
 		
 		return newGameObject;
 	}
@@ -329,6 +330,8 @@ public class SmoothTerrainVolume : MonoBehaviour
 		// Create the arrays which we'll copy the data to.
         Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
 		Vector3[] physicsVertices = UseCollisionMesh ? new Vector3[cubiquityVertices.Length] : null;
+		
+		Debug.Log ("Got " + cubiquityVertices.Length + " vertices");
 		
 		for(int ct = 0; ct < cubiquityVertices.Length; ct++)
 		{

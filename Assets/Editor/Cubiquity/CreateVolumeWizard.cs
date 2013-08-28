@@ -9,9 +9,9 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 {
 	protected string datasetName = "New Volume";
 	
-	protected int width = 256;
-	protected int height = 64;
-	protected int depth = 256;
+	protected int width = 128;
+	protected int height = 32;
+	protected int depth = 128;
 	private int maximumVolumeSize = 256; // FIXME - Should get this from the library.
 	
 	protected void OnGuiHeader(bool drawSizeSelector)
