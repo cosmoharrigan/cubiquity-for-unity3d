@@ -27,4 +27,11 @@ public static class Cubiquity
 		
 		return hit == 1;
 	}
+	
+	public static bool PickTerrainSurface(SmoothTerrainVolume volume, float rayStartX, float rayStartY, float rayStartZ, float rayDirX, float rayDirY, float rayDirZ, out float resultX, out float resultY, out float resultZ)
+	{
+		uint hit = CubiquityDLL.PickTerrainSurface((uint)volume.volumeHandle, rayStartX, rayStartY, rayStartZ, rayDirX, rayDirY, rayDirZ, out resultX, out resultY, out resultZ);
+		
+		return hit == 1;
+	}
 }
