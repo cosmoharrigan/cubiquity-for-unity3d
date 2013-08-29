@@ -369,4 +369,15 @@ public class CubiquityDLL
 		Validate(cuPickTerrainSurface(volumeHandle, rayStartX, rayStartY, rayStartZ, rayDirX, rayDirY, rayDirZ, out resultX, out resultY, out resultZ, out result));
 		return result;
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////
+	// Editing functions
+	////////////////////////////////////////////////////////////////////////////////
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float radius);
+	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float radius)
+	{
+		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, radius));
+	}
 }

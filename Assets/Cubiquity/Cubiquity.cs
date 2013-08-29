@@ -34,4 +34,9 @@ public static class Cubiquity
 		
 		return hit == 1;
 	}
+	
+	public static void SculptSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float radius)
+	{
+		CubiquityDLL.SculptSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, radius);
+	}
 }

@@ -1,6 +1,6 @@
 ﻿Shader "SmoothTerrainVolume" {
 	Properties {
-		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_MainTex ("Base (RGB)", 2D) = "gray" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }

@@ -34,6 +34,7 @@ public class SmoothTerrainVolumeEditor : Editor
 			{
 				//smoothTerrainVolume.SetVoxel(resultX, resultY, resultZ, paintColor);
 				Debug.Log ("Hit! - " + new Vector3(resultX, resultY, resultZ));
+				Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, 5.0f);
 			}
 			
 			//Selection.activeGameObject = coloredCubesVolume.gameObject;
