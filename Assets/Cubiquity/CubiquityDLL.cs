@@ -375,9 +375,9 @@ public class CubiquityDLL
 	////////////////////////////////////////////////////////////////////////////////
 	
 	[DllImport ("CubiquityC")]
-	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float radius);
-	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float radius)
+	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float speed);
+	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float speed)
 	{
-		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, radius));
+		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, speed));
 	}
 }
