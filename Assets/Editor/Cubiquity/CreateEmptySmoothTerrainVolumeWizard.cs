@@ -64,28 +64,14 @@ public class CreateEmptySmoothTerrainVolumeWizard : CreateVolumeWizard
 	{
 		Close();
 		
-		GameObject voxelGameObject = SmoothTerrainVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
-		SmoothTerrainVolume smoothTerrainVolume = voxelGameObject.GetComponent<SmoothTerrainVolume>();
-		
-		smoothTerrainVolume.createFloor = createFloor ? (uint)1 : (uint)0;
-		smoothTerrainVolume.floorDepth = (uint)floorThickness;
-		
-		// Call Initialize so we can start drawing into the volume right away.
-		//coloredCubesVolume.Initialize();
-		/*if(createFloor)
+		if(createFloor)
 		{
-			//Color32 floorColor = new Color32(192, 192, 192, 255);
-			
-			for(int z = 0; z <= depth-1; z++)
-			{
-				for(int y = 0; y < floorThickness; y++)
-				{
-					for(int x = 0; x <= width-1; x++)
-					{
-						smoothTerrainVolume.SetVoxel(x, y, z, 0, 255);
-					}
-				}
-			}
-		}*/
+			SmoothTerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName, (uint)floorThickness);
+		}
+		else
+		{
+			SmoothTerrainVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
+		}
+
 	}
 }

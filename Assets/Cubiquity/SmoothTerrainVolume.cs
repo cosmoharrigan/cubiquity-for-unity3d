@@ -42,32 +42,15 @@ public class SmoothTerrainVolume : MonoBehaviour
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
 	
-	// If this is set then we import image slices from this path.
-	[System.NonSerialized]
-	internal string voldatFolder;
-	
-	// If this is set then we import from this heightmap and colormap
-	[System.NonSerialized]
-	internal string heightmapFileName;
-	internal string colormapFileName;
-	
-	[System.NonSerialized]
-	public uint createFloor = 1;
-	[System.NonSerialized]
-	public uint floorDepth = 8;
-	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.
 	[System.NonSerialized]
 	internal uint? volumeHandle = null;
 	
 	// This corresponds to the root OctreeNode in Cubiquity.
-	[System.NonSerialized]
 	private GameObject rootGameObject;
 	
-	[System.NonSerialized]
 	private int maxNodeSyncsPerFrame = 4;
-	[System.NonSerialized]
 	private int nodeSyncsThisFrame = 0;
 	
 	// It seems that we need to implement this function in order to make the volume pickable in the editor.
@@ -102,7 +85,22 @@ public class SmoothTerrainVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewSmoothTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize, createFloor, floorDepth);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize, 0, 0);
+			}
+		}
+	}
+	
+	internal void InitializeWithFloor(uint floorDepth)
+	{	
+		// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
+		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
+		if(volumeHandle == null)
+		{	
+			if(region != null)
+			{
+				// Create an empty region of the desired size.
+				volumeHandle = CubiquityDLL.NewSmoothTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize, 1, floorDepth);
 			}
 		}
 	}

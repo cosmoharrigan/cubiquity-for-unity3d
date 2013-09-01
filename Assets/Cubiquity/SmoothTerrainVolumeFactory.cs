@@ -32,6 +32,32 @@ public class SmoothTerrainVolumeFactory
 		return VoxelTerrainRoot;
 	}
 	
+	public static GameObject CreateVolumeWithFloor(string name, Region region, string datasetName, uint floorDepth)
+	{
+		return CreateVolumeWithFloor (name, region, datasetName, DefaultBaseNodeSize, floorDepth);
+	}
+	
+	public static GameObject CreateVolumeWithFloor(string name, Region region, string datasetName, uint baseNodeSize, uint floorDepth)
+	{		
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
+		// Make sure the page folder exists
+		CreateDatasetName(datasetName);
+		
+		GameObject VoxelTerrainRoot = new GameObject(name);
+		VoxelTerrainRoot.AddComponent<SmoothTerrainVolume>();
+		
+		SmoothTerrainVolume smoothTerrainVolume = VoxelTerrainRoot.GetComponent<SmoothTerrainVolume>();
+		smoothTerrainVolume.region = region;
+		smoothTerrainVolume.baseNodeSize = (int)baseNodeSize;
+		smoothTerrainVolume.datasetName = datasetName;
+		
+		smoothTerrainVolume.InitializeWithFloor(floorDepth);
+		
+		return VoxelTerrainRoot;
+	}
+	
 	private static void CreateDatasetName(string datasetName)
 	{
 		string pathToData = Cubiquity.volumesPath + Path.DirectorySeparatorChar;
