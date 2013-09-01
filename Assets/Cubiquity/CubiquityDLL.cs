@@ -91,11 +91,11 @@ public class CubiquityDLL
 	//--------------------------------------------------------------------------------
 	
 	[DllImport ("CubiquityC")]
-	private static extern int cuNewSmoothTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
-	public static uint NewSmoothTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
+	private static extern int cuNewSmoothTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, uint createFloor, uint floorDepth, out uint result);
+	public static uint NewSmoothTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize, uint createFloor, uint floorDepth)
 	{
 		uint result;
-		Validate(cuNewSmoothTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+		Validate(cuNewSmoothTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, createFloor, floorDepth, out result));
 		return result;
 	}
 	

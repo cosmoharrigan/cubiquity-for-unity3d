@@ -51,6 +51,11 @@ public class SmoothTerrainVolume : MonoBehaviour
 	internal string heightmapFileName;
 	internal string colormapFileName;
 	
+	[System.NonSerialized]
+	public uint createFloor = 1;
+	[System.NonSerialized]
+	public uint floorDepth = 8;
+	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.
 	[System.NonSerialized]
@@ -97,7 +102,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewSmoothTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize, createFloor, floorDepth);
 			}
 		}
 	}
