@@ -49,11 +49,10 @@ public class ColoredCubesVolumeFactory
 		VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 		
 		ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
-		coloredCubesVolume.voldatFolder = voldatFolder;
 		coloredCubesVolume.baseNodeSize = (int)baseNodeSize;
 		coloredCubesVolume.datasetName = datasetName;
 		
-		coloredCubesVolume.Initialize();
+		coloredCubesVolume.InitializeFromVoldat(voldatFolder);
 		
 		return VoxelTerrainRoot;
 	}
@@ -75,12 +74,10 @@ public class ColoredCubesVolumeFactory
 		VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 		
 		ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
-		coloredCubesVolume.heightmapFileName = heightmapFileName;
-		coloredCubesVolume.colormapFileName = colormapFileName;
 		coloredCubesVolume.baseNodeSize = (int)baseNodeSize;
 		coloredCubesVolume.datasetName = datasetName;
 		
-		coloredCubesVolume.Initialize();
+		coloredCubesVolume.InitializeFromHeightmap(heightmapFileName, colormapFileName);
 		
 		return VoxelTerrainRoot;
 	}

@@ -36,27 +36,15 @@ public class ColoredCubesVolume : MonoBehaviour
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
 	
-	// If this is set then we import image slices from this path.
-	[System.NonSerialized]
-	internal string voldatFolder;
-	
-	// If this is set then we import from this heightmap and colormap
-	[System.NonSerialized]
-	internal string heightmapFileName;
-	internal string colormapFileName;
-	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.
 	[System.NonSerialized]
 	internal uint? volumeHandle = null;
 	
 	// This corresponds to the root OctreeNode in Cubiquity.
-	[System.NonSerialized]
 	private GameObject rootGameObject;
 	
-	[System.NonSerialized]
 	private int maxNodeSyncsPerFrame = 4;
-	[System.NonSerialized]
 	private int nodeSyncsThisFrame = 0;
 	
 	// It seems that we need to implement this function in order to make the volume pickable in the editor.
@@ -86,47 +74,47 @@ public class ColoredCubesVolume : MonoBehaviour
 		// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
 		if(volumeHandle == null)
-		{	
-			// If the voldatFolder is set then we initialize the volume with the suplpied data.
-			if((voldatFolder != null) && (voldatFolder != ""))
-			{
-				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
-				
-				// The user didn't specify a region as this is determined by the size of
-				// the VolDat data, so we have to pull this information back from Cubiquity.
-				int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
-				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
-				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
-				
-				// Set this to null so we don't import this data again. When the volume is shutdown the
-				// data is flushed to the page folder, and when the volume is reinitialised the data will
-				// be loaded from the page folder as with a normal volume. So there is no need to reimport.
-				voldatFolder = null;
-			}
-			// Otherwise see if we can initialise from a heightmap
-			else if((heightmapFileName != null) && (heightmapFileName != "") && (colormapFileName != null) && (colormapFileName != ""))
-			{
-				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
-				
-				// The user didn't specify a region as this is determined by the size of
-				// the VolDat data, so we have to pull this information back from Cubiquity.
-				int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
-				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
-				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
-				
-				// Set this to null so we don't import this data again. When the volume is shutdown the
-				// data is flushed to the page folder, and when the volume is reinitialised the data will
-				// be loaded from the page folder as with a normal volume. So there is no need to reimport.
-				voldatFolder = null;
-			}
-			else if(region != null)
+		{				
+			if(region != null)
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
 			}
+		}
+	}
+	
+	internal void InitializeFromHeightmap(string heightmapFileName, string colormapFileName)
+	{
+		// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
+		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
+		if(volumeHandle == null)
+		{
+			// Ask Cubiquity to create a volume from the VolDat data.
+			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
+			
+			// The user didn't specify a region as this is determined by the size of
+			// the VolDat data, so we have to pull this information back from Cubiquity.
+			int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
+			CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
+			region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
+		}
+	}
+	
+	internal void InitializeFromVoldat(string voldatFolder)
+	{
+		// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
+		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
+		if(volumeHandle == null)
+		{
+			// Ask Cubiquity to create a volume from the VolDat data.
+			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
+			
+			// The user didn't specify a region as this is determined by the size of
+			// the VolDat data, so we have to pull this information back from Cubiquity.
+			int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
+			CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
+			region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
 		}
 	}
 	
