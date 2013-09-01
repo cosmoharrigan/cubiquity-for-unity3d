@@ -7,8 +7,8 @@ public class SmoothTerrainVolumeEditor : Editor
 {
 	SmoothTerrainVolume smoothTerrainVolume;
 	
-	private float brushSize;
-	private float opacity;
+	private float brushSize = 5.0f;
+	private float opacity = 1.0f;
 
 	public void OnEnable()
 	{
@@ -24,7 +24,7 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
+			opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
 		EditorGUILayout.EndHorizontal();
 	}
 	
