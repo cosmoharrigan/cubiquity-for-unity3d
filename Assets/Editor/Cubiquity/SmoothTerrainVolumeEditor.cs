@@ -9,6 +9,11 @@ public class SmoothTerrainVolumeEditor : Editor
 	
 	private float brushSize = 5.0f;
 	private float opacity = 1.0f;
+	
+	bool raiseLowerPressed = true;
+	bool smoothPressed = false;
+	bool paintTexture = false;
+	bool settingPressed = false;
 
 	public void OnEnable()
 	{
@@ -17,6 +22,38 @@ public class SmoothTerrainVolumeEditor : Editor
 	
 	public override void OnInspectorGUI()
 	{
+		GUILayoutOption buttonWidth = GUILayout.MaxWidth(20f);
+		EditorGUILayout.BeginHorizontal();
+		if(EditorGUILayout.Toggle(raiseLowerPressed, EditorStyles.miniButtonLeft, buttonWidth))
+		{
+			raiseLowerPressed = true;
+			smoothPressed = false;
+			paintTexture = false;
+			settingPressed = false;
+		}
+		if(EditorGUILayout.Toggle(smoothPressed, EditorStyles.miniButtonMid, buttonWidth))
+		{
+			raiseLowerPressed = false;
+			smoothPressed = true;
+			paintTexture = false;
+			settingPressed = false;
+		}
+		if(EditorGUILayout.Toggle(paintTexture, EditorStyles.miniButtonMid, buttonWidth))
+		{
+			raiseLowerPressed = false;
+			smoothPressed = false;
+			paintTexture = true;
+			settingPressed = false;
+		}
+		if(EditorGUILayout.Toggle(settingPressed, EditorStyles.miniButtonRight, buttonWidth))
+		{
+			raiseLowerPressed = false;
+			smoothPressed = false;
+			paintTexture = false;
+			settingPressed = true;
+		}
+		EditorGUILayout.EndHorizontal();
+			
 		EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
 			brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
