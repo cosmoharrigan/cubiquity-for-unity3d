@@ -10,7 +10,7 @@ public class SmoothTerrainVolumeEditor : Editor
 	private float brushSize = 5.0f;
 	private float opacity = 1.0f;
 	
-	bool raiseLowerPressed = true;
+	bool sculptPressed = true;
 	bool smoothPressed = false;
 	bool paintTexture = false;
 	bool settingPressed = false;
@@ -22,47 +22,49 @@ public class SmoothTerrainVolumeEditor : Editor
 	
 	public override void OnInspectorGUI()
 	{
-		GUILayoutOption buttonWidth = GUILayout.MaxWidth(20f);
 		EditorGUILayout.BeginHorizontal();
-		if(EditorGUILayout.Toggle(raiseLowerPressed, EditorStyles.miniButtonLeft, buttonWidth))
+		if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft))
 		{
-			raiseLowerPressed = true;
+			sculptPressed = true;
 			smoothPressed = false;
 			paintTexture = false;
 			settingPressed = false;
 		}
-		if(EditorGUILayout.Toggle(smoothPressed, EditorStyles.miniButtonMid, buttonWidth))
+		if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid))
 		{
-			raiseLowerPressed = false;
+			sculptPressed = false;
 			smoothPressed = true;
 			paintTexture = false;
 			settingPressed = false;
 		}
-		if(EditorGUILayout.Toggle(paintTexture, EditorStyles.miniButtonMid, buttonWidth))
+		if(GUILayout.Toggle(paintTexture, "Paint", EditorStyles.miniButtonMid))
 		{
-			raiseLowerPressed = false;
+			sculptPressed = false;
 			smoothPressed = false;
 			paintTexture = true;
 			settingPressed = false;
 		}
-		if(EditorGUILayout.Toggle(settingPressed, EditorStyles.miniButtonRight, buttonWidth))
+		if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight))
 		{
-			raiseLowerPressed = false;
+			sculptPressed = false;
 			smoothPressed = false;
 			paintTexture = false;
 			settingPressed = true;
 		}
 		EditorGUILayout.EndHorizontal();
 			
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
-			brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
-		EditorGUILayout.EndHorizontal();
-		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-			opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
-		EditorGUILayout.EndHorizontal();
+		if(sculptPressed)
+		{
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
+				brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
+				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
+			EditorGUILayout.EndHorizontal();
+		}
 	}
 	
 	public void OnSceneGUI()
