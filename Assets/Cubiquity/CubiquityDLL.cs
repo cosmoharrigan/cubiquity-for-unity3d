@@ -375,9 +375,23 @@ public class CubiquityDLL
 	////////////////////////////////////////////////////////////////////////////////
 	
 	[DllImport ("CubiquityC")]
-	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float speed);
-	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float speed)
+	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount);
+	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount)
 	{
-		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, speed));
+		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, amount));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuBlurSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount);
+	public static void BlurSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount)
+	{
+		Validate(cuBlurSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, amount));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuPaintSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, uint materialIndex, float amount);
+	public static void PaintSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, uint materialIndex, float amount)
+	{
+		Validate(cuPaintSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, materialIndex, amount));
 	}
 }

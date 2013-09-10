@@ -35,8 +35,18 @@ public static class Cubiquity
 		return hit == 1;
 	}
 	
-	public static void SculptSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushRadius, float speed)
+	public static void SculptSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushRadius, float amount)
 	{
-		CubiquityDLL.SculptSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, speed);
+		CubiquityDLL.SculptSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, amount);
+	}
+	
+	public static void BlurSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushRadius, float amount)
+	{
+		CubiquityDLL.BlurSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, amount);
+	}
+	
+	public static void PaintSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushRadius, uint materialIndex, float amount)
+	{
+		CubiquityDLL.PaintSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, materialIndex, amount);
 	}
 }
