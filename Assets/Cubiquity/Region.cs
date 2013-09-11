@@ -4,16 +4,16 @@ using System.Collections;
 [System.Serializable]
 public class Region
 {
-	public IntVector3 lowerCorner;
-	public IntVector3 upperCorner;
+	public Vector3i lowerCorner;
+	public Vector3i upperCorner;
 	
 	public Region(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ)
 	{
-		lowerCorner = new IntVector3(lowerX, lowerY, lowerZ);
-		upperCorner = new IntVector3(upperX, upperY, upperZ);
+		lowerCorner = new Vector3i(lowerX, lowerY, lowerZ);
+		upperCorner = new Vector3i(upperX, upperY, upperZ);
 	}
 	
-	public Region(IntVector3 lowerCorner, IntVector3 upperCorner)
+	public Region(Vector3i lowerCorner, Vector3i upperCorner)
 	{
 		this.lowerCorner = lowerCorner;
 		this.upperCorner = upperCorner;

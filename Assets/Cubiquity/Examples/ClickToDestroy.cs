@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -75,11 +75,11 @@ public class ClickToDestroy : MonoBehaviour
 		// Later on we will be deleting some voxels, but we'll also be looking at the neighbours of a voxel.
 		// This interaction can have some unexpected results, so it is best to first make a list of voxels we
 		// want to delete and then delete them later in a separate pass.
-		List<IntVector3> voxelsToDelete = new List<IntVector3>();
+		List<Vector3i> voxelsToDelete = new List<Vector3i>();
 		
 		// Iterage over every voxel in a cubic region defined by the received position (the center) and
 		// the range. It is quite possible that this will be hundreds or even thousands of voxels.
-		for(int z = zPos - range; z < zPos + range; z++)
+		for(int z = zPos - range; z < zPos + range; z++) 
 		{
 			for(int y = yPos - range; y < yPos + range; y++)
 			{
@@ -106,7 +106,7 @@ public class ClickToDestroy : MonoBehaviour
 						{
 							bool isSurfaceVoxel = coloredCubesVolume.IsSurfaceVoxel(x, y, z);
 							
-							IntVector3 voxel = new IntVector3(x, y, z);
+							Vector3i voxel = new Vector3i(x, y, z);
 							voxelsToDelete.Add(voxel);
 
 								if(isSurfaceVoxel)
@@ -137,7 +137,7 @@ public class ClickToDestroy : MonoBehaviour
 			}
 		}
 		
-		foreach (IntVector3 voxel in voxelsToDelete) // Loop through List with foreach
+		foreach (Vector3i voxel in voxelsToDelete) // Loop through List with foreach
 		{
 		    coloredCubesVolume.SetVoxel(voxel.x, voxel.y, voxel.z, new Color32(0,0,0,0));
 		}
