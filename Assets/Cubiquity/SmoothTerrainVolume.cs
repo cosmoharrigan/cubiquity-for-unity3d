@@ -42,6 +42,9 @@ public class SmoothTerrainVolume : MonoBehaviour
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
 	
+	public Texture2D tex0;
+	public Texture2D tex1;
+	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.
 	[System.NonSerialized]
@@ -242,7 +245,9 @@ public class SmoothTerrainVolume : MonoBehaviour
 				
 				//mr.material = new Material(Shader.Find("SmoothTerrainVolume"));
 				
-				mr.material = Resources.Load("SmoothTerrain", typeof(Material)) as Material;
+				mr.sharedMaterial = Resources.Load("SmoothTerrain", typeof(Material)) as Material;
+				mr.sharedMaterial.SetTexture("_Tex0", tex0);
+				mr.sharedMaterial.SetTexture("_Tex1", tex1);
 				
 				/*if(UseCollisionMesh)
 				{

@@ -81,6 +81,9 @@ public class SmoothTerrainVolumeEditor : Editor
 				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
 				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
 			EditorGUILayout.EndHorizontal();
+			
+			smoothTerrainVolume.tex0 = EditorGUILayout.ObjectField(smoothTerrainVolume.tex0,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+			smoothTerrainVolume.tex1 = EditorGUILayout.ObjectField(smoothTerrainVolume.tex1,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
 		}
 	}
 	
@@ -90,7 +93,7 @@ public class SmoothTerrainVolumeEditor : Editor
 		Event e = Event.current;
 		
 		Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
-		Vector3 dir = ray.direction * 1000.0f; //The maximum distance out ray will be cast.
+		Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 		
 		if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 		{
