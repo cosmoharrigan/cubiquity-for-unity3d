@@ -65,8 +65,12 @@ public class SmoothTerrainVolumeEditor : Editor
 				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
 			EditorGUILayout.EndHorizontal();
 		}
+		else
+		{
+			EditorGUILayout.LabelField("Only sculpting is implemented at the moment!");
+		}
 		
-		if(smoothPressed)
+		/*if(smoothPressed)
 		{
 		}
 		
@@ -84,7 +88,7 @@ public class SmoothTerrainVolumeEditor : Editor
 			
 			smoothTerrainVolume.tex0 = EditorGUILayout.ObjectField(smoothTerrainVolume.tex0,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
 			smoothTerrainVolume.tex1 = EditorGUILayout.ObjectField(smoothTerrainVolume.tex1,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-		}
+		}*/
 	}
 	
 	public void OnSceneGUI()

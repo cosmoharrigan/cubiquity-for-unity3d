@@ -1,7 +1,7 @@
 ﻿Shader "SmoothTerrainVolume" {
 	Properties {
-		_Tex0 ("Base (RGB)", 2D) = "white" {}
-		_Tex1 ("Base (RGB)", 2D) = "black" {}
+		_Tex0 ("Base (RGB)", 2D) = "gray" {}
+		_Tex1 ("Base (RGB)", 2D) = "gray" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -54,6 +54,9 @@
 			half4 samp1 = texTriplanar(_Tex1, IN.worldPos.xyz * invTexScale, IN.worldNormal.xyz);
 			
 			half4 result = samp0 * textureBlendWeights.r + samp1 * textureBlendWeights.g;
+			
+			result = tex2D(_Tex0, float2(0.5, 0.5));
+			
 			//half4 c = tex2D (_Tex0, IN.uv_Tex0);
 			//half c = IN.color;
 			o.Albedo = result.rgb;

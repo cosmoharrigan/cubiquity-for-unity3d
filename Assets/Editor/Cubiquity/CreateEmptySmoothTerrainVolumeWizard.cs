@@ -11,7 +11,7 @@ public class CreateEmptySmoothTerrainVolumeWizard : CreateVolumeWizard
 	
 	private int floorThickness = 8;
 	
-	[MenuItem ("GameObject/Create Other/Smooth Terrain Volume/Create Empty Smooth Terrain Volume - HIGHLY EXPERIMENTAL!!!...")]
+	[MenuItem ("GameObject/Create Other/Smooth Terrain Volume/Create Empty Smooth Terrain Volume...")]
     static void CreateWizard ()
 	{
 		// Make sure the Cubiquity library is installed.
