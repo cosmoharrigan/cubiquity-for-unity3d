@@ -14,6 +14,8 @@ public class SmoothTerrainVolumeEditor : Editor
 	bool smoothPressed = false;
 	bool paintPressed = false;
 	bool settingPressed = false;
+	
+	int selectedTexture = 0;
 
 	public void OnEnable()
 	{
@@ -65,12 +67,8 @@ public class SmoothTerrainVolumeEditor : Editor
 				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
 			EditorGUILayout.EndHorizontal();
 		}
-		else
-		{
-			EditorGUILayout.LabelField("Only sculpting is implemented at the moment!");
-		}
 		
-		/*if(smoothPressed)
+		if(smoothPressed)
 		{
 		}
 		
@@ -86,9 +84,17 @@ public class SmoothTerrainVolumeEditor : Editor
 				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
 			EditorGUILayout.EndHorizontal();
 			
-			smoothTerrainVolume.tex0 = EditorGUILayout.ObjectField(smoothTerrainVolume.tex0,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-			smoothTerrainVolume.tex1 = EditorGUILayout.ObjectField(smoothTerrainVolume.tex1,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-		}*/
+			// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
+			int imageThumbnailSize = 80;
+			int inspectorWidth = Screen.width;			
+			int widthInThumbnails = inspectorWidth / imageThumbnailSize;
+			
+			Texture[] images = smoothTerrainVolume.diffuseMaps;
+			selectedTexture = GUILayout.SelectionGrid (selectedTexture, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize), GUILayout.Height(imageThumbnailSize));
+			
+			smoothTerrainVolume.diffuseMaps[0] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[0],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+			smoothTerrainVolume.diffuseMaps[1] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[1],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+		}
 	}
 	
 	public void OnSceneGUI()
@@ -116,7 +122,7 @@ public class SmoothTerrainVolumeEditor : Editor
 				}
 				else if(paintPressed)
 				{
-					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, (uint)1, opacity);
+					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, (uint)selectedTexture, opacity);
 				}
 			}
 			

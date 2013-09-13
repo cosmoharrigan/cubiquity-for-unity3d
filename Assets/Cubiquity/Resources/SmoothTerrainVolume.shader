@@ -1,7 +1,7 @@
 ﻿Shader "SmoothTerrainVolume" {
 	Properties {
-		_Tex0 ("Base (RGB)", 2D) = "gray" {}
-		_Tex1 ("Base (RGB)", 2D) = "gray" {}
+		_Tex0 ("Base (RGB)", 2D) = "white" {}
+		_Tex1 ("Base (RGB)", 2D) = "black" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -42,6 +42,9 @@
 			half texScale = 8.0f;
 			half invTexScale = 1.0f / texScale;
 			
+			// Interpolation can cause the normal vector to become denomalised.
+			IN.worldNormal = normalize(IN.worldNormal);
+			
 			// Vertex colors coming out of Cubiquity don't actually sum to one
 			// (roughly 0.5 as that's where the isosurface is). Make them sum
 			// to one, though Cubiquity should probably be changed to do this.
@@ -54,8 +57,6 @@
 			half4 samp1 = texTriplanar(_Tex1, IN.worldPos.xyz * invTexScale, IN.worldNormal.xyz);
 			
 			half4 result = samp0 * textureBlendWeights.r + samp1 * textureBlendWeights.g;
-			
-			result = tex2D(_Tex0, float2(0.5, 0.5));
 			
 			//half4 c = tex2D (_Tex0, IN.uv_Tex0);
 			//half c = IN.color;
