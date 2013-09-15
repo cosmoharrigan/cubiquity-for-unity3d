@@ -70,6 +70,15 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		if(smoothPressed)
 		{
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
+				brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
+				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
+			EditorGUILayout.EndHorizontal();
 		}
 		
 		if(paintPressed)
@@ -81,19 +90,28 @@ public class SmoothTerrainVolumeEditor : Editor
 			
 			EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
+				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
 			EditorGUILayout.EndHorizontal();
 			
 			// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
 			int imageThumbnailSize = 80;
 			int inspectorWidth = Screen.width;			
 			int widthInThumbnails = inspectorWidth / imageThumbnailSize;
+			int noOfThumbbails = (int)License.MaxNoOfMaterials;
+			int noOfRows = noOfThumbbails / widthInThumbnails;
+			if(noOfThumbbails % widthInThumbnails != 0)
+			{
+				noOfRows++;
+			}
 			
+			//No draw the texture selection grid
 			Texture[] images = smoothTerrainVolume.diffuseMaps;
-			selectedTexture = GUILayout.SelectionGrid (selectedTexture, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize), GUILayout.Height(imageThumbnailSize));
+			selectedTexture = GUILayout.SelectionGrid (selectedTexture, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
 			
-			smoothTerrainVolume.diffuseMaps[0] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[0],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-			smoothTerrainVolume.diffuseMaps[1] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[1],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+			for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
+			{
+				smoothTerrainVolume.diffuseMaps[ct] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[ct],typeof(Texture),false, GUILayout.Width(imageThumbnailSize), GUILayout.Height(imageThumbnailSize)) as Texture2D;
+			}
 		}
 	}
 	
@@ -119,6 +137,7 @@ public class SmoothTerrainVolumeEditor : Editor
 				}
 				else if(smoothPressed)
 				{
+					Cubiquity.BlurSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, opacity);
 				}
 				else if(paintPressed)
 				{
