@@ -44,6 +44,8 @@ public class SmoothTerrainVolume : MonoBehaviour
 	
 	public Texture2D[] diffuseMaps = new Texture2D[License.MaxNoOfMaterials];
 	
+	private Material material = new Material(Shader.Find("SmoothTerrainVolume"));
+	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.
 	[System.NonSerialized]
@@ -242,7 +244,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 				
 		        mf.sharedMesh = renderingMesh;				
 				
-				mr.material = new Material(Shader.Find("SmoothTerrainVolume"));
+				mr.material = material;
 				mr.sharedMaterial.SetTexture("_Tex0", diffuseMaps[0]);
 				mr.sharedMaterial.SetTexture("_Tex1", diffuseMaps[1]);
 				mr.sharedMaterial.SetTexture("_Tex2", diffuseMaps[2]);
