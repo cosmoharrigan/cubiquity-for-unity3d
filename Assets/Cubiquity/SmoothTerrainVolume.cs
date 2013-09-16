@@ -247,8 +247,8 @@ public class SmoothTerrainVolume : MonoBehaviour
 				mr.sharedMaterial = Resources.Load("SmoothTerrain", typeof(Material)) as Material;
 				mr.sharedMaterial.SetTexture("_Tex0", diffuseMaps[0]);
 				mr.sharedMaterial.SetTexture("_Tex1", diffuseMaps[1]);
-				//mr.sharedMaterial.SetTexture("_Tex2", diffuseMaps[2]);
-				//mr.sharedMaterial.SetTexture("_Tex3", diffuseMaps[3]);
+				mr.sharedMaterial.SetTexture("_Tex2", diffuseMaps[2]);
+				mr.sharedMaterial.SetTexture("_Tex3", diffuseMaps[3]);
 				
 				/*if(UseCollisionMesh)
 				{
