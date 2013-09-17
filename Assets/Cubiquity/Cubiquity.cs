@@ -45,8 +45,8 @@ public static class Cubiquity
 		CubiquityDLL.BlurSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, amount);
 	}
 	
-	public static void PaintSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushRadius, uint materialIndex, float amount)
+	public static void PaintSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushRadius, float amount, uint materialIndex)
 	{
-		CubiquityDLL.PaintSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, materialIndex, amount);
+		CubiquityDLL.PaintSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushRadius, amount, materialIndex);
 	}
 }

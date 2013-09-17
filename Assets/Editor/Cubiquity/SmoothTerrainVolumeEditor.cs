@@ -141,7 +141,7 @@ public class SmoothTerrainVolumeEditor : Editor
 				}
 				else if(paintPressed)
 				{
-					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, (uint)selectedTexture, opacity);
+					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, opacity, (uint)selectedTexture);
 				}
 			}
 			
