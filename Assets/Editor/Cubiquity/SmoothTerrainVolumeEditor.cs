@@ -7,7 +7,8 @@ public class SmoothTerrainVolumeEditor : Editor
 {
 	SmoothTerrainVolume smoothTerrainVolume;
 	
-	private float brushSize = 5.0f;
+	private float brushInnerRadius = 5.0f;
+	private float brushOuterRadius = 5.0f;
 	private float opacity = 1.0f;
 	
 	bool sculptPressed = true;
@@ -58,21 +59,31 @@ public class SmoothTerrainVolumeEditor : Editor
 		if(sculptPressed)
 		{
 			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
-				brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
+				EditorGUILayout.LabelField("Brush Inner Radius:", GUILayout.Width(120));
+				brushInnerRadius = GUILayout.HorizontalSlider(brushInnerRadius, 0.0f, 10.0f);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Brush Outer Radius:", GUILayout.Width(120));
+				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
 			EditorGUILayout.EndHorizontal();
 			
 			EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-				opacity = GUILayout.HorizontalSlider(opacity, -2.0f, 2.0f);
+				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
 			EditorGUILayout.EndHorizontal();
 		}
 		
 		if(smoothPressed)
 		{
 			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
-				brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
+				EditorGUILayout.LabelField("Brush Inner Radius:", GUILayout.Width(120));
+				brushInnerRadius = GUILayout.HorizontalSlider(brushInnerRadius, 0.0f, 10.0f);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Brush Outer Radius:", GUILayout.Width(120));
+				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
 			EditorGUILayout.EndHorizontal();
 			
 			EditorGUILayout.BeginHorizontal();
@@ -84,8 +95,13 @@ public class SmoothTerrainVolumeEditor : Editor
 		if(paintPressed)
 		{
 			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Size:", GUILayout.Width(80));
-				brushSize = GUILayout.HorizontalSlider(brushSize, 0.0f, 10.0f);
+				EditorGUILayout.LabelField("Brush Inner Radius:", GUILayout.Width(120));
+				brushInnerRadius = GUILayout.HorizontalSlider(brushInnerRadius, 0.0f, 10.0f);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("Brush Outer Radius:", GUILayout.Width(120));
+				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
 			EditorGUILayout.EndHorizontal();
 			
 			EditorGUILayout.BeginHorizontal();
@@ -133,15 +149,15 @@ public class SmoothTerrainVolumeEditor : Editor
 			{
 				if(sculptPressed)
 				{
-					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, opacity);
+					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
 				}
 				else if(smoothPressed)
 				{
-					Cubiquity.BlurSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, opacity);
+					Cubiquity.BlurSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
 				}
 				else if(paintPressed)
 				{
-					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushSize, opacity, (uint)selectedTexture);
+					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
 				}
 			}
 			

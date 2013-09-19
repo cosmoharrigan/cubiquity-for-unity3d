@@ -375,23 +375,23 @@ public class CubiquityDLL
 	////////////////////////////////////////////////////////////////////////////////
 	
 	[DllImport ("CubiquityC")]
-	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount);
-	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount)
+	private static extern int cuSculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount);
+	public static void SculptSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
 	{
-		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, amount));
+		Validate(cuSculptSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount));
 	}
 	
 	[DllImport ("CubiquityC")]
-	private static extern int cuBlurSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount);
-	public static void BlurSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount)
+	private static extern int cuBlurSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount);
+	public static void BlurSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
 	{
-		Validate(cuBlurSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, amount));
+		Validate(cuBlurSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount));
 	}
 	
 	[DllImport ("CubiquityC")]
-	private static extern int cuPaintSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount, uint materialIndex);
-	public static void PaintSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushRadius, float amount, uint materialIndex)
+	private static extern int cuPaintSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex);
+	public static void PaintSmoothTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex)
 	{
-		Validate(cuPaintSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushRadius, amount, materialIndex));
+		Validate(cuPaintSmoothTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount, materialIndex));
 	}
 }
