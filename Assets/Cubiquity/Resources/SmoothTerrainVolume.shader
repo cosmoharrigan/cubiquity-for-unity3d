@@ -28,15 +28,26 @@
 		
 		half4 texTriplanar(sampler2D tex, float3 coords, float3 dx, float3 dy, float3 triplanarBlendWeights)
 		{						
-			// Sample the texture three times
+			// Used to avoid sampling a texture unless it
+			// signicantly contributes to the final color.
+			float blendWeightThreshold = 0.01;
+			
+			// Sample the texture three times (onec along each axis) and combine the results.
 			half4 triplanarSample = 0.0;
-			if(triplanarBlendWeights.z > 0.01)
+			if(triplanarBlendWeights.z > blendWeightThreshold)
+			{
 				triplanarSample += tex2Dgrad(tex, coords.xy, dx.xy, dy.xy) * triplanarBlendWeights.z;
-			if(triplanarBlendWeights.x > 0.01)
+			}
+			if(triplanarBlendWeights.x > blendWeightThreshold)
+			{
 				triplanarSample += tex2Dgrad(tex, coords.yz, dx.yz, dy.yz) * triplanarBlendWeights.x;
-			if(triplanarBlendWeights.y > 0.01)
+			}
+			if(triplanarBlendWeights.y > blendWeightThreshold)
+			{
 				triplanarSample += tex2Dgrad(tex, coords.xz, dx.xz, dy.xz) * triplanarBlendWeights.y;
+			}
 					
+			// Return the combined result.
 			return triplanarSample;
 		}
 
@@ -55,23 +66,27 @@
 			half materialStrengthsSum = materialStrengths.x + materialStrengths.y + materialStrengths.z + materialStrengths.w;
 			materialStrengths /= materialStrengthsSum;
 			
+			// Texture coordinates are calculated from the world
+			// space position, scaled by a user-supplied factor.
+			float3 texCoords = IN.worldPos.xyz * invTexScale;
+			
+			// Texture coordinate derivatives are explicitly calculated
+			// so that we can sample textures inside conditional logic.
+			float3 dx = ddx(texCoords);
+			float3 dy = ddy(texCoords);
+			
 			// Squaring a normalized vector makes the components sum to one. It also seems
-			// to give nicer transitions than simply dividing each compoent by the sum.
-			float3 triplanarBlendWeights = IN.worldNormal * IN.worldNormal;
+			// to give nicer transitions than simply dividing each component by the sum.
+			float3 triplanarBlendWeights = IN.worldNormal * IN.worldNormal;	
 			
-			float3 coords = IN.worldPos.xyz * invTexScale;
-			
-			float3 dx = ddx(coords);
-			float3 dy = ddy(coords);	
-			
+			// Sample each of the four textures using triplanar texturing, and
+			// additively blend the results using the factors in materialStrengths.
 			half4 diffuse = 0.0;
-			diffuse += texTriplanar(_Tex0, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.r);
-			diffuse += texTriplanar(_Tex1, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.g);
-			diffuse += texTriplanar(_Tex2, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.b);
-			diffuse += texTriplanar(_Tex3, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.a);
+			diffuse += texTriplanar(_Tex0, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.r);
+			diffuse += texTriplanar(_Tex1, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.g);
+			diffuse += texTriplanar(_Tex2, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.b);
+			diffuse += texTriplanar(_Tex3, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
-			//half4 c = tex2D (_Tex0, IN.uv_Tex0);
-			//half c = IN.color;
 			o.Albedo = diffuse.rgb;
 			o.Alpha = 1.0;
 		}
