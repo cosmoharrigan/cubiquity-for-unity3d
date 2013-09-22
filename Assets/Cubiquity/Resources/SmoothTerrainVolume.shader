@@ -26,18 +26,8 @@
 			float3 worldPos;
 		};
 		
-		half4 texTriplanar(sampler2D tex, float3 coords, float3 normal, float materialStrength)
-		{
-			// Squaring a normalized vector makes the components sum to one. It also seems
-			// to give nicer transitions than simply dividing each compoent by the sum.
-			float3 triplanarBlendWeights = normal * normal;
-			
-			// Modulate the contribution according to the material stength
-			triplanarBlendWeights *= materialStrength;
-			
-			float3 dx = ddx(coords);
-			float3 dy = ddy(coords);
-			
+		half4 texTriplanar(sampler2D tex, float3 coords, float3 dx, float3 dy, float3 triplanarBlendWeights)
+		{						
 			// Sample the texture three times
 			half4 triplanarSample = 0.0;
 			if(triplanarBlendWeights.z > 0.01)
@@ -62,22 +52,27 @@
 			// (roughly 0.5 as that's where the isosurface is). Make them sum
 			// to one, though Cubiquity should probably be changed to do this.
 			half4 materialStrengths = IN.color;
-			//half materialStrengthsSum = materialStrengths.x + materialStrengths.y + materialStrengths.z + materialStrengths.w;
-			//materialStrengths /= materialStrengthsSum;
-			materialStrengths = normalize(materialStrengths);
-			materialStrengths = materialStrengths * materialStrengths;
+			half materialStrengthsSum = materialStrengths.x + materialStrengths.y + materialStrengths.z + materialStrengths.w;
+			materialStrengths /= materialStrengthsSum;
 			
+			// Squaring a normalized vector makes the components sum to one. It also seems
+			// to give nicer transitions than simply dividing each compoent by the sum.
+			float3 triplanarBlendWeights = IN.worldNormal * IN.worldNormal;
 			
-			half4 samp0 = texTriplanar(_Tex0, IN.worldPos.xyz * invTexScale, IN.worldNormal.xyz, materialStrengths.r);
-			half4 samp1 = texTriplanar(_Tex1, IN.worldPos.xyz * invTexScale, IN.worldNormal.xyz, materialStrengths.g);
-			half4 samp2 = texTriplanar(_Tex2, IN.worldPos.xyz * invTexScale, IN.worldNormal.xyz, materialStrengths.b);
-			half4 samp3 = texTriplanar(_Tex3, IN.worldPos.xyz * invTexScale, IN.worldNormal.xyz, materialStrengths.a);
+			float3 coords = IN.worldPos.xyz * invTexScale;
 			
-			half4 result = samp0 + samp1 + samp2 + samp3;
+			float3 dx = ddx(coords);
+			float3 dy = ddy(coords);	
+			
+			half4 diffuse = 0.0;
+			diffuse += texTriplanar(_Tex0, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.r);
+			diffuse += texTriplanar(_Tex1, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.g);
+			diffuse += texTriplanar(_Tex2, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.b);
+			diffuse += texTriplanar(_Tex3, IN.worldPos.xyz * invTexScale, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
 			//half4 c = tex2D (_Tex0, IN.uv_Tex0);
 			//half c = IN.color;
-			o.Albedo = result.rgb;
+			o.Albedo = diffuse.rgb;
 			o.Alpha = 1.0;
 		}
 		ENDCG
