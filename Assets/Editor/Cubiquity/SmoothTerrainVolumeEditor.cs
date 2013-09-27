@@ -17,10 +17,19 @@ public class SmoothTerrainVolumeEditor : Editor
 	bool settingPressed = false;
 	
 	int selectedTexture = 0;
+	
+	Texture[] brushTextures;
 
 	public void OnEnable()
 	{
 	    smoothTerrainVolume = target as SmoothTerrainVolume;
+		
+		brushTextures = new Texture[5];
+		brushTextures[0] = Resources.Load("Icons/SoftBrush") as Texture;
+		brushTextures[1] = Resources.Load("Icons/MediumSoftBrush") as Texture;
+		brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
+		brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
+		brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
 	}
 	
 	public override void OnInspectorGUI()
@@ -55,6 +64,9 @@ public class SmoothTerrainVolumeEditor : Editor
 			settingPressed = true;
 		}
 		EditorGUILayout.EndHorizontal();
+		
+		//GUILayout.SelectionGrid(1, brushContent, 3);
+		DrawTextureSelectionGrid(1, brushTextures, 5, 50);
 			
 		if(sculptPressed)
 		{
@@ -109,26 +121,30 @@ public class SmoothTerrainVolumeEditor : Editor
 				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
 			EditorGUILayout.EndHorizontal();
 			
-			// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
-			int imageThumbnailSize = 80;
-			int inspectorWidth = Screen.width;			
-			int widthInThumbnails = inspectorWidth / imageThumbnailSize;
-			int noOfThumbbails = (int)License.MaxNoOfMaterials;
-			int noOfRows = noOfThumbbails / widthInThumbnails;
-			if(noOfThumbbails % widthInThumbnails != 0)
-			{
-				noOfRows++;
-			}
-			
-			//No draw the texture selection grid
-			Texture[] images = smoothTerrainVolume.diffuseMaps;
-			selectedTexture = GUILayout.SelectionGrid (selectedTexture, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
+			selectedTexture = DrawTextureSelectionGrid(selectedTexture, smoothTerrainVolume.diffuseMaps, 3, 80);
 			
 			for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
 			{
-				smoothTerrainVolume.diffuseMaps[ct] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[ct],typeof(Texture),false, GUILayout.Width(imageThumbnailSize), GUILayout.Height(imageThumbnailSize)) as Texture2D;
+				smoothTerrainVolume.diffuseMaps[ct] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[ct],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
 			}
 		}
+	}
+	
+	private int DrawTextureSelectionGrid(int selected, Texture[] images, int xCount, int thumbnailSize)
+	{
+		// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
+		int imageThumbnailSize = thumbnailSize;
+		int inspectorWidth = Screen.width;			
+		int widthInThumbnails = inspectorWidth / imageThumbnailSize;
+		int noOfThumbbails = (int)License.MaxNoOfMaterials;
+		int noOfRows = noOfThumbbails / widthInThumbnails;
+		if(noOfThumbbails % widthInThumbnails != 0)
+		{
+			noOfRows++;
+		}
+		
+		//No draw the texture selection grid
+		return GUILayout.SelectionGrid (selectedTexture, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
 	}
 	
 	public void OnSceneGUI()
