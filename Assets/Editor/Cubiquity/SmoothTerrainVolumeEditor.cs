@@ -7,7 +7,8 @@ public class SmoothTerrainVolumeEditor : Editor
 {
 	SmoothTerrainVolume smoothTerrainVolume;
 	
-	private float brushInnerRadius = 5.0f;
+	private const int NoOfBrushes = 5;
+	
 	private float brushOuterRadius = 5.0f;
 	private float opacity = 1.0f;
 	
@@ -16,6 +17,7 @@ public class SmoothTerrainVolumeEditor : Editor
 	bool paintPressed = false;
 	bool settingPressed = false;
 	
+	int selectedBrush = 0;
 	int selectedTexture = 0;
 	
 	Texture[] brushTextures;
@@ -24,7 +26,7 @@ public class SmoothTerrainVolumeEditor : Editor
 	{
 	    smoothTerrainVolume = target as SmoothTerrainVolume;
 		
-		brushTextures = new Texture[5];
+		brushTextures = new Texture[NoOfBrushes];
 		brushTextures[0] = Resources.Load("Icons/SoftBrush") as Texture;
 		brushTextures[1] = Resources.Load("Icons/MediumSoftBrush") as Texture;
 		brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
@@ -64,70 +66,77 @@ public class SmoothTerrainVolumeEditor : Editor
 			settingPressed = true;
 		}
 		EditorGUILayout.EndHorizontal();
-		
-		//GUILayout.SelectionGrid(1, brushContent, 3);
-		DrawTextureSelectionGrid(1, brushTextures, 5, 50);
 			
 		if(sculptPressed)
 		{
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Inner Radius:", GUILayout.Width(120));
-				brushInnerRadius = GUILayout.HorizontalSlider(brushInnerRadius, 0.0f, 10.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Outer Radius:", GUILayout.Width(120));
-				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
-			EditorGUILayout.EndHorizontal();
+			DrawSculptControls();
 		}
 		
 		if(smoothPressed)
 		{
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Inner Radius:", GUILayout.Width(120));
-				brushInnerRadius = GUILayout.HorizontalSlider(brushInnerRadius, 0.0f, 10.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Outer Radius:", GUILayout.Width(120));
-				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
-			EditorGUILayout.EndHorizontal();
+			DrawSmoothControls();
 		}
 		
 		if(paintPressed)
 		{
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Inner Radius:", GUILayout.Width(120));
-				brushInnerRadius = GUILayout.HorizontalSlider(brushInnerRadius, 0.0f, 10.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Brush Outer Radius:", GUILayout.Width(120));
-				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
-			EditorGUILayout.EndHorizontal();
-			
-			selectedTexture = DrawTextureSelectionGrid(selectedTexture, smoothTerrainVolume.diffuseMaps, 3, 80);
-			
-			for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
-			{
-				smoothTerrainVolume.diffuseMaps[ct] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[ct],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-			}
+			DrawPaintControls();
 		}
+	}
+	
+	private void DrawSculptControls()
+	{
+		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Brush Radius:", GUILayout.Width(120));
+			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
+			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
+		EditorGUILayout.EndHorizontal();
+	}
+	
+	private void DrawSmoothControls()
+	{
+		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Brush Radius:", GUILayout.Width(120));
+			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
+			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
+		EditorGUILayout.EndHorizontal();
+	}
+	
+	private void DrawPaintControls()
+	{
+		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Brush Radius:", GUILayout.Width(120));
+			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
+			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
+		EditorGUILayout.EndHorizontal();
+		
+		selectedTexture = DrawTextureSelectionGrid(selectedTexture, smoothTerrainVolume.diffuseMaps, 3, 80);
+		
+		for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
+		{
+			smoothTerrainVolume.diffuseMaps[ct] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[ct],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+		}
+	}
+	
+	private void DrawSettingsControls()
+	{
 	}
 	
 	private int DrawTextureSelectionGrid(int selected, Texture[] images, int xCount, int thumbnailSize)
@@ -144,7 +153,7 @@ public class SmoothTerrainVolumeEditor : Editor
 		}
 		
 		//No draw the texture selection grid
-		return GUILayout.SelectionGrid (selectedTexture, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
+		return GUILayout.SelectionGrid (selected, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
 	}
 	
 	public void OnSceneGUI()
@@ -163,6 +172,10 @@ public class SmoothTerrainVolumeEditor : Editor
 			bool hit = Cubiquity.PickTerrainSurface(smoothTerrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 			if(hit)
 			{
+				// Selected brush is in the range 0 to NoOfBrushes - 1. Convert this to a 0 to 1 range.
+				float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
+				// Use this value to compute the inner radius as a proportion of the outer radius.
+				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 				if(sculptPressed)
 				{
 					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
