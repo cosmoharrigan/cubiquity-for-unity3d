@@ -111,7 +111,7 @@
 				//brushStrength = 1.0 - lerpFactor;
 			}
 			
-			brushColor = brushColor * brushStrength;
+			brushColor.a = brushColor.a * brushStrength;
 			
 			float3 resultColor = diffuse.rgb * (1.0 - brushColor.a) + brushColor.rgb * brushColor.a;
 			

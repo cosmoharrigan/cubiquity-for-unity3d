@@ -164,22 +164,23 @@ public class SmoothTerrainVolumeEditor : Editor
 		Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 		Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 		
-		if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
-		{
-			// Perform the raycasting. If there's a hit the position will be stored in these ints.
-			float resultX, resultY, resultZ;
-
-			bool hit = Cubiquity.PickTerrainSurface(smoothTerrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
-			if(hit)
+		// Perform the raycasting. If there's a hit the position will be stored in these ints.
+		float resultX, resultY, resultZ;
+		bool hit = Cubiquity.PickTerrainSurface(smoothTerrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+		
+		if(hit)
+		{		
+			//Debug.Log("Hit");
+			// Selected brush is in the range 0 to NoOfBrushes - 1. Convert this to a 0 to 1 range.
+			float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
+			// Use this value to compute the inner radius as a proportion of the outer radius.
+			float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
+				
+			smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
+			smoothTerrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
+			
+			if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 			{
-				// Selected brush is in the range 0 to NoOfBrushes - 1. Convert this to a 0 to 1 range.
-				float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
-				// Use this value to compute the inner radius as a proportion of the outer radius.
-				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
-				
-				smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
-				smoothTerrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));				
-				
 				if(sculptPressed)
 				{
 					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
@@ -192,16 +193,18 @@ public class SmoothTerrainVolumeEditor : Editor
 				{
 					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
 				}
-			}
-			
-			//Selection.activeGameObject = coloredCubesVolume.gameObject;
+			}	
 		}
-		else if ( e.type == EventType.Layout )
+		
+		if ( e.type == EventType.Layout )
 	    {
 	       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
 	       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
 	    }
 		
 		smoothTerrainVolume.Synchronize();
+		
+		//Repaint ();
+		HandleUtility.Repaint();
 	}
 }
