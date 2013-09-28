@@ -3,7 +3,7 @@
 		_Tex0 ("Base (RGB)", 2D) = "white" {}
 		_Tex1 ("Base (RGB)", 2D) = "white" {}
 		_Tex2 ("Base (RGB)", 2D) = "white" {}
-		//_Tex3 ("Base (RGB)", 2D) = "white" {}
+		_Tex3 ("Base (RGB)", 2D) = "white" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -18,6 +18,9 @@
 		sampler2D _Tex1;
 		sampler2D _Tex2;
 		sampler2D _Tex3;
+		
+		float4 _BrushCenter;
+		float4 _BrushInnerAndOuterRadius;
 
 		struct Input
 		{
@@ -86,6 +89,14 @@
 			diffuse += texTriplanar(_Tex1, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.g);
 			diffuse += texTriplanar(_Tex2, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.b);
 			diffuse += texTriplanar(_Tex3, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.a);
+			
+			//_BrushCenter = float4(0.0, 0.0, 0.0, 0.0);
+			_BrushInnerAndOuterRadius = float4(0.0, 20.0, 0.0, 0.0);
+			
+			if(length(IN.worldPos.xyz - _BrushCenter.xyz) < _BrushInnerAndOuterRadius.y)
+			{
+				diffuse = half4(1.0, 0.0, 0.0, 1.0);
+			}
 			
 			o.Albedo = diffuse.rgb;
 			o.Alpha = 1.0;

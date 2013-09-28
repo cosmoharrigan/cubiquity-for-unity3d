@@ -44,7 +44,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 	
 	public Texture2D[] diffuseMaps = new Texture2D[License.MaxNoOfMaterials];
 	
-	private Material material;
+	public Material material; //FIXME - should probably  be internal? Visible to the editor so it can set the brush params
 	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.

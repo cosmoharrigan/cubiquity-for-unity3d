@@ -176,6 +176,10 @@ public class SmoothTerrainVolumeEditor : Editor
 				float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
 				// Use this value to compute the inner radius as a proportion of the outer radius.
 				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
+				
+				smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
+				//smoothTerrainVolume.material.SetFloat(_BrushOu
+				
 				if(sculptPressed)
 				{
 					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
