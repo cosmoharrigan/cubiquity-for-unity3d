@@ -20,7 +20,7 @@
 		sampler2D _Tex3;
 		
 		float4 _BrushCenter;
-		float4 _BrushInnerAndOuterRadius;
+		float4 _BrushSettings;
 
 		struct Input
 		{
@@ -91,14 +91,31 @@
 			diffuse += texTriplanar(_Tex3, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
 			//_BrushCenter = float4(0.0, 0.0, 0.0, 0.0);
-			_BrushInnerAndOuterRadius = float4(0.0, 20.0, 0.0, 0.0);
+			//_BrushSettings = float4(0.0, 20.0, 0.0, 0.0);
+			float brushStrength = 0.0f;
+			float4 brushColor = float4(1.0, 0.0, 0.0, 1.0);
 			
-			if(length(IN.worldPos.xyz - _BrushCenter.xyz) < _BrushInnerAndOuterRadius.y)
+			float distToBrushCenter = length(IN.worldPos.xyz - _BrushCenter.xyz);
+			if(distToBrushCenter < _BrushSettings.x)
 			{
-				diffuse = half4(1.0, 0.0, 0.0, 1.0);
+				brushStrength = 1.0;
+			}
+			else if(distToBrushCenter < _BrushSettings.y)
+			{
+				float lerpFactor = (distToBrushCenter - _BrushSettings.x) / (_BrushSettings.y - _BrushSettings.x);
+				brushStrength = lerp(1.0f, 0.0f, lerpFactor);
+		
+				brushStrength = min(brushStrength, 1.0f);
+				brushStrength = max(brushStrength, 0.0f);
+				
+				//brushStrength = 1.0 - lerpFactor;
 			}
 			
-			o.Albedo = diffuse.rgb;
+			brushColor = brushColor * brushStrength;
+			
+			float3 resultColor = diffuse.rgb * (1.0 - brushColor.a) + brushColor.rgb * brushColor.a;
+			
+			o.Albedo = resultColor;
 			o.Alpha = 1.0;
 		}
 		ENDCG

@@ -178,7 +178,7 @@ public class SmoothTerrainVolumeEditor : Editor
 				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 				
 				smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
-				//smoothTerrainVolume.material.SetFloat(_BrushOu
+				smoothTerrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));				
 				
 				if(sculptPressed)
 				{
