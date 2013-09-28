@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using System.Collections.Generic;
  
 [CustomEditor (typeof(SmoothTerrainVolume))]
 public class SmoothTerrainVolumeEditor : Editor
@@ -176,6 +177,11 @@ public class SmoothTerrainVolumeEditor : Editor
 			// Use this value to compute the inner radius as a proportion of the outer radius.
 			float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 				
+			List<string> keywords = new List<string>();
+			keywords.Add("SHOW_BRUSH");
+			smoothTerrainVolume.material.shaderKeywords = keywords.ToArray();
+			//Shader.DisableKeyword("SHOW_BRUSH");
+			//Shader.EnableKeyword("HIDE_BRUSH");
 			smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
 			smoothTerrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
 			

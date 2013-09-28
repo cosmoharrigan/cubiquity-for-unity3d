@@ -13,14 +13,17 @@
 		#pragma surface surf Lambert
 		#pragma target 3.0
 		#pragma only_renderers d3d9
+		#pragma multi_compile SHOW_BRUSH HIDE_BRUSH
 
 		sampler2D _Tex0;
 		sampler2D _Tex1;
 		sampler2D _Tex2;
 		sampler2D _Tex3;
 		
+#if SHOW_BRUSH
 		float4 _BrushCenter;
 		float4 _BrushSettings;
+#endif
 
 		struct Input
 		{
@@ -35,7 +38,7 @@
 			// signicantly contributes to the final color.
 			float blendWeightThreshold = 0.01;
 			
-			// Sample the texture three times (onec along each axis) and combine the results.
+			// Sample the texture three times (once along each axis) and combine the results.
 			half4 triplanarSample = 0.0;
 			if(triplanarBlendWeights.z > blendWeightThreshold)
 			{
@@ -90,8 +93,7 @@
 			diffuse += texTriplanar(_Tex2, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.b);
 			diffuse += texTriplanar(_Tex3, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
-			//_BrushCenter = float4(0.0, 0.0, 0.0, 0.0);
-			//_BrushSettings = float4(0.0, 20.0, 0.0, 0.0);
+#if SHOW_BRUSH
 			float brushStrength = 0.0f;
 			float4 brushColor = float4(1.0, 0.0, 0.0, 1.0);
 			
@@ -114,6 +116,9 @@
 			brushColor.a = brushColor.a * brushStrength;
 			
 			float3 resultColor = diffuse.rgb * (1.0 - brushColor.a) + brushColor.rgb * brushColor.a;
+#else
+			float3 resultColor = diffuse.rgb;
+#endif
 			
 			o.Albedo = resultColor;
 			o.Alpha = 1.0;

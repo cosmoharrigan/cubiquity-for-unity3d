@@ -167,7 +167,8 @@ public class SmoothTerrainVolume : MonoBehaviour
 	void OnEnable()
 	{
 		Debug.Log ("ColoredCubesVolume.OnEnable()");
-		material = new Material(Shader.Find("SmoothTerrainVolume"));
+		Shader shader = Shader.Find("SmoothTerrainVolume");
+		material = new Material(shader);
 		Initialize();
 	}
 	
