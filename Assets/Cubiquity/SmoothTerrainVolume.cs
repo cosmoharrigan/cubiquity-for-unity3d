@@ -42,7 +42,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
 	
-	public Texture2D[] diffuseMaps = new Texture2D[License.MaxNoOfMaterials];
+	public TerrainMaterial[] materials = new TerrainMaterial[License.MaxNoOfMaterials];
 	
 	public Material material; //FIXME - should probably  be internal? Visible to the editor so it can set the brush params
 	
@@ -169,6 +169,12 @@ public class SmoothTerrainVolume : MonoBehaviour
 		Debug.Log ("ColoredCubesVolume.OnEnable()");
 		Shader shader = Shader.Find("SmoothTerrainVolume");
 		material = new Material(shader);
+		
+		for(int i = 0; i < License.MaxNoOfMaterials; i++)
+		{
+			materials[i] = new TerrainMaterial();
+		}
+		
 		Initialize();
 	}
 	
@@ -247,10 +253,10 @@ public class SmoothTerrainVolume : MonoBehaviour
 		        mf.sharedMesh = renderingMesh;				
 				
 				mr.material = material;
-				mr.sharedMaterial.SetTexture("_Tex0", diffuseMaps[0]);
-				mr.sharedMaterial.SetTexture("_Tex1", diffuseMaps[1]);
-				mr.sharedMaterial.SetTexture("_Tex2", diffuseMaps[2]);
-				mr.sharedMaterial.SetTexture("_Tex3", diffuseMaps[3]);
+				mr.sharedMaterial.SetTexture("_Tex0", materials[0].diffuseMap);
+				mr.sharedMaterial.SetTexture("_Tex1", materials[1].diffuseMap);
+				mr.sharedMaterial.SetTexture("_Tex2", materials[2].diffuseMap);
+				mr.sharedMaterial.SetTexture("_Tex3", materials[3].diffuseMap);
 				
 				/*if(UseCollisionMesh)
 				{

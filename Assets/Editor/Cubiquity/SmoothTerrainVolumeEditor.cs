@@ -104,17 +104,17 @@ public class SmoothTerrainVolumeEditor : Editor
 	
 	private void DrawPaintControls()
 	{
-		DrawInstructions("Select a brush and texture below, then click the terrain to paint the texture on it.");
+		DrawInstructions("Select a brush and material below, then click the terrain to paint the material on it.");
 		
 		DrawBrushSelector();
 		
-		DrawTextureSelector();
+		DrawMaterialSelector();
 		
 		DrawBrushSettings(10.0f, 1.0f);
 		
 		for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
 		{
-			smoothTerrainVolume.diffuseMaps[ct] = EditorGUILayout.ObjectField(smoothTerrainVolume.diffuseMaps[ct],typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+			smoothTerrainVolume.materials[ct].diffuseMap = EditorGUILayout.ObjectField(smoothTerrainVolume.materials[ct].diffuseMap,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
 		}
 	}
 	
@@ -136,11 +136,22 @@ public class SmoothTerrainVolumeEditor : Editor
 		EditorGUILayout.Space();
 	}
 	
-	private void DrawTextureSelector()
+	private void DrawMaterialSelector()
 	{
-		EditorGUILayout.LabelField("Textures", EditorStyles.boldLabel);
+		EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 		
-		selectedTexture = DrawTextureSelectionGrid(selectedTexture, smoothTerrainVolume.diffuseMaps, 3, 80);
+		Texture2D[] diffuseMaps = new Texture2D[smoothTerrainVolume.materials.Length];
+		for(int i = 0; i < smoothTerrainVolume.materials.Length; i++)
+		{
+			diffuseMaps[i] = smoothTerrainVolume.materials[i].diffuseMap;
+		}
+		selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
+		
+		EditorGUILayout.Space();
+		
+		if(GUILayout.Button("Edit selected material..."))
+		{
+		}
 		
 		EditorGUILayout.Space();
 	}
@@ -175,7 +186,7 @@ public class SmoothTerrainVolumeEditor : Editor
 			noOfRows++;
 		}
 		
-		//No draw the texture selection grid
+		//Now draw the texture selection grid
 		return GUILayout.SelectionGrid (selected, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
 	}
 	
