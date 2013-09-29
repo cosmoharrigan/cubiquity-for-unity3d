@@ -38,28 +38,28 @@ public class SmoothTerrainVolumeEditor : Editor
 	public override void OnInspectorGUI()
 	{
 		EditorGUILayout.BeginHorizontal();
-		if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft))
+		if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 		{
 			sculptPressed = true;
 			smoothPressed = false;
 			paintPressed = false;
 			settingPressed = false;
 		}
-		if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid))
+		if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 		{
 			sculptPressed = false;
 			smoothPressed = true;
 			paintPressed = false;
 			settingPressed = false;
 		}
-		if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid))
+		if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 		{
 			sculptPressed = false;
 			smoothPressed = false;
 			paintPressed = true;
 			settingPressed = false;
 		}
-		if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight))
+		if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 		{
 			sculptPressed = false;
 			smoothPressed = false;
@@ -85,50 +85,32 @@ public class SmoothTerrainVolumeEditor : Editor
 	}
 	
 	private void DrawSculptControls()
-	{
-		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+	{		
+		DrawInstructions("Click on the terrain to pull the surface out. Hold down shift while clicking to push in instead.");
+			
+		DrawBrushSelector();
 		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Brush Radius:", GUILayout.Width(120));
-			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
-		EditorGUILayout.EndHorizontal();
-		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
-		EditorGUILayout.EndHorizontal();
+		DrawBrushSettings(10.0f, 1.0f);
 	}
 	
 	private void DrawSmoothControls()
 	{
-		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+		DrawInstructions("Click on the terrain to smooth the surface or to soften the boundary between textures.");
 		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Brush Radius:", GUILayout.Width(120));
-			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
-		EditorGUILayout.EndHorizontal();
+		DrawBrushSelector();
 		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 2.0f);
-		EditorGUILayout.EndHorizontal();
+		DrawBrushSettings(10.0f, 1.0f);
 	}
 	
 	private void DrawPaintControls()
 	{
-		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+		DrawInstructions("Select a brush and texture below, then click the terrain to paint the texture on it.");
 		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Brush Radius:", GUILayout.Width(120));
-			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, 10.0f);
-		EditorGUILayout.EndHorizontal();
+		DrawBrushSelector();
 		
-		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(80));
-			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, 1.0f);
-		EditorGUILayout.EndHorizontal();
+		DrawTextureSelector();
 		
-		selectedTexture = DrawTextureSelectionGrid(selectedTexture, smoothTerrainVolume.diffuseMaps, 3, 80);
+		DrawBrushSettings(10.0f, 1.0f);
 		
 		for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
 		{
@@ -138,6 +120,46 @@ public class SmoothTerrainVolumeEditor : Editor
 	
 	private void DrawSettingsControls()
 	{
+	}
+	
+	private void DrawInstructions( string message)
+	{
+		EditorGUILayout.LabelField("Instructions", EditorStyles.boldLabel);
+		EditorGUILayout.HelpBox(message, MessageType.None);
+		EditorGUILayout.Space();
+	}
+	
+	private void DrawBrushSelector()
+	{
+		EditorGUILayout.LabelField("Brushes", EditorStyles.boldLabel);
+		selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+		EditorGUILayout.Space();
+	}
+	
+	private void DrawTextureSelector()
+	{
+		EditorGUILayout.LabelField("Textures", EditorStyles.boldLabel);
+		
+		selectedTexture = DrawTextureSelectionGrid(selectedTexture, smoothTerrainVolume.diffuseMaps, 3, 80);
+		
+		EditorGUILayout.Space();
+	}
+	
+	private void DrawBrushSettings(float maxBrushRadius, float maxOpacity)
+	{
+		EditorGUILayout.LabelField("Brush settings", EditorStyles.boldLabel);
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Radius:", GUILayout.Width(50));
+			brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, maxBrushRadius);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Opacity:", GUILayout.Width(50));
+			opacity = GUILayout.HorizontalSlider(opacity, 0.0f, maxOpacity);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.Space();
 	}
 	
 	private int DrawTextureSelectionGrid(int selected, Texture[] images, int xCount, int thumbnailSize)
