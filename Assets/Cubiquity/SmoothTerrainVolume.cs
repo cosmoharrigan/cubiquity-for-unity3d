@@ -172,7 +172,10 @@ public class SmoothTerrainVolume : MonoBehaviour
 		
 		for(int i = 0; i < License.MaxNoOfMaterials; i++)
 		{
-			materials[i] = new TerrainMaterial();
+			if(materials[i] == null)
+			{
+				materials[i] = new TerrainMaterial();
+			}
 		}
 		
 		Initialize();
