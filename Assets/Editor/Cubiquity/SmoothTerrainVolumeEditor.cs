@@ -178,12 +178,13 @@ public class SmoothTerrainVolumeEditor : Editor
 			float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 				
 			List<string> keywords = new List<string>();
-			keywords.Add("SHOW_BRUSH");
+			keywords.Add("BRUSH_MARKER_ON");
 			smoothTerrainVolume.material.shaderKeywords = keywords.ToArray();
 			//Shader.DisableKeyword("SHOW_BRUSH");
 			//Shader.EnableKeyword("HIDE_BRUSH");
 			smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
 			smoothTerrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
+			smoothTerrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
 			
 			if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 			{

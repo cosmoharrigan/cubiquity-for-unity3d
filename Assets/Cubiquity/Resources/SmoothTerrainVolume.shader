@@ -13,16 +13,17 @@
 		#pragma surface surf Lambert
 		#pragma target 3.0
 		#pragma only_renderers d3d9
-		#pragma multi_compile SHOW_BRUSH HIDE_BRUSH
+		#pragma multi_compile BRUSH_MARKER_ON BRUSH_MARKER_OFF
 
 		sampler2D _Tex0;
 		sampler2D _Tex1;
 		sampler2D _Tex2;
 		sampler2D _Tex3;
 		
-#if SHOW_BRUSH
+#if BRUSH_MARKER_ON
 		float4 _BrushCenter;
 		float4 _BrushSettings;
+		float4 _BrushColor;
 #endif
 
 		struct Input
@@ -93,9 +94,8 @@
 			diffuse += texTriplanar(_Tex2, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.b);
 			diffuse += texTriplanar(_Tex3, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
-#if SHOW_BRUSH
+#if BRUSH_MARKER_ON
 			float brushStrength = 0.0f;
-			float4 brushColor = float4(1.0, 0.0, 0.0, 1.0);
 			
 			float distToBrushCenter = length(IN.worldPos.xyz - _BrushCenter.xyz);
 			if(distToBrushCenter < _BrushSettings.x)
@@ -113,14 +113,13 @@
 				//brushStrength = 1.0 - lerpFactor;
 			}
 			
-			brushColor.a = brushColor.a * brushStrength;
+			_BrushColor.a = _BrushColor.a * brushStrength;
 			
-			float3 resultColor = diffuse.rgb * (1.0 - brushColor.a) + brushColor.rgb * brushColor.a;
+			o.Albedo = diffuse.rgb * (1.0 - _BrushColor.a) + _BrushColor.rgb * _BrushColor.a;
 #else
-			float3 resultColor = diffuse.rgb;
+			o.Albedo = diffuse.rgb;
 #endif
-			
-			o.Albedo = resultColor;
+
 			o.Alpha = 1.0;
 		}
 		ENDCG
