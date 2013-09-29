@@ -170,13 +170,13 @@ public class SmoothTerrainVolume : MonoBehaviour
 		Shader shader = Shader.Find("SmoothTerrainVolume");
 		material = new Material(shader);
 		
-		for(int i = 0; i < License.MaxNoOfMaterials; i++)
+		/*for(int i = 0; i < License.MaxNoOfMaterials; i++)
 		{
 			if(materials[i] == null)
 			{
 				materials[i] = new TerrainMaterial();
 			}
-		}
+		}*/
 		
 		Initialize();
 	}
@@ -255,11 +255,15 @@ public class SmoothTerrainVolume : MonoBehaviour
 				
 		        mf.sharedMesh = renderingMesh;				
 				
-				mr.material = material;
-				mr.sharedMaterial.SetTexture("_Tex0", materials[0].diffuseMap);
-				mr.sharedMaterial.SetTexture("_Tex1", materials[1].diffuseMap);
-				mr.sharedMaterial.SetTexture("_Tex2", materials[2].diffuseMap);
-				mr.sharedMaterial.SetTexture("_Tex3", materials[3].diffuseMap);
+				mr.material = material;				
+				for(int i = 0; i < materials.Length; i++)
+				{
+					if(materials[i] != null)
+					{
+						string texName = "_Tex" + i;
+						mr.sharedMaterial.SetTexture(texName, materials[i].diffuseMap);
+					}
+				}
 				
 				/*if(UseCollisionMesh)
 				{

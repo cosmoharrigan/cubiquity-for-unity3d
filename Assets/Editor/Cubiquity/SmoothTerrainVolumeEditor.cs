@@ -143,7 +143,10 @@ public class SmoothTerrainVolumeEditor : Editor
 		Texture2D[] diffuseMaps = new Texture2D[smoothTerrainVolume.materials.Length];
 		for(int i = 0; i < smoothTerrainVolume.materials.Length; i++)
 		{
-			diffuseMaps[i] = smoothTerrainVolume.materials[i].diffuseMap;
+			if(smoothTerrainVolume.materials[i] != null)
+			{
+				diffuseMaps[i] = smoothTerrainVolume.materials[i].diffuseMap;
+			}
 		}
 		selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
 		
