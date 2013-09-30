@@ -232,7 +232,12 @@ public class SmoothTerrainVolumeEditor : Editor
 			{
 				if(sculptPressed)
 				{
-					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
+					float multiplier = 1.0f;
+					if(e.modifiers == EventModifiers.Shift)
+					{
+						multiplier  = -1.0f;
+					}
+					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity * multiplier);
 				}
 				else if(smoothPressed)
 				{
