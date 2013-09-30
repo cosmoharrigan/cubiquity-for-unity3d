@@ -112,10 +112,10 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		DrawBrushSettings(10.0f, 1.0f);
 		
-		for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
+		/*for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
 		{
 			smoothTerrainVolume.materials[ct].diffuseMap = EditorGUILayout.ObjectField(smoothTerrainVolume.materials[ct].diffuseMap,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-		}
+		}*/
 	}
 	
 	private void DrawSettingsControls()
@@ -154,6 +154,12 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		if(GUILayout.Button("Edit selected material..."))
 		{
+			if(smoothTerrainVolume.materials[selectedTexture] != null)
+			{
+				smoothTerrainVolume.materials[selectedTexture] = new TerrainMaterial();
+			}
+			
+			TerrainMaterialEditorWindow.EditMaterial(smoothTerrainVolume.materials[selectedTexture]);
 		}
 		
 		EditorGUILayout.Space();
