@@ -127,6 +127,16 @@ public class SmoothTerrainVolume : MonoBehaviour
 				}
 				syncNode(rootNodeHandle, rootGameObject);
 			}
+			
+			//Is there some impact to doing this every frame?
+			for(int i = 0; i < materials.Length; i++)
+			{
+				if(materials[i] != null)
+				{
+					string texName = "_Tex" + i;
+					material.SetTexture(texName, materials[i].diffuseMap);
+				}
+			}
 		}
 	}
 	
@@ -255,15 +265,16 @@ public class SmoothTerrainVolume : MonoBehaviour
 				
 		        mf.sharedMesh = renderingMesh;				
 				
-				mr.material = material;				
-				for(int i = 0; i < materials.Length; i++)
+				mr.material = material;
+				mr.sharedMaterial = material;
+				/*for(int i = 0; i < materials.Length; i++)
 				{
 					if(materials[i] != null)
 					{
 						string texName = "_Tex" + i;
-						mr.sharedMaterial.SetTexture(texName, materials[i].diffuseMap);
+						material.SetTexture(texName, materials[i].diffuseMap);
 					}
-				}
+				}*/
 				
 				/*if(UseCollisionMesh)
 				{

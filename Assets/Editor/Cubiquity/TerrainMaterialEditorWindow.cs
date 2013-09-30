@@ -15,6 +15,17 @@ public class TerrainMaterialEditorWindow : EditorWindow
 	
 	void OnGUI()
 	{
-		material.diffuseMap = EditorGUILayout.ObjectField(material.diffuseMap,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+		EditorGUILayout.LabelField("Instructions", EditorStyles.boldLabel);
+		EditorGUILayout.HelpBox("Please choose a texture to assign to this material slot. You can also adjust the scale and offset of your selected texture." , MessageType.None);
+		EditorGUILayout.Space();
+		
+		EditorGUILayout.LabelField("Texture", EditorStyles.boldLabel);
+		Texture2D oldTexture = material.diffuseMap;
+		Texture2D newTexture = EditorGUILayout.ObjectField(oldTexture,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+		if(oldTexture != newTexture)
+		{
+			material.diffuseMap = newTexture;
+			HandleUtility.Repaint();
+		}
 	}
 }
