@@ -42,7 +42,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
 	
-	public TerrainMaterial[] materials = new TerrainMaterial[License.MaxNoOfMaterials];
+	public SmoothTerrainMaterial[] materials = new SmoothTerrainMaterial[License.MaxNoOfMaterials];
 	
 	public Material material; //FIXME - should probably  be internal? Visible to the editor so it can set the brush params
 	

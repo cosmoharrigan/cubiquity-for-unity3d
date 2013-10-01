@@ -156,10 +156,10 @@ public class SmoothTerrainVolumeEditor : Editor
 		{
 			if(smoothTerrainVolume.materials[selectedTexture] != null)
 			{
-				smoothTerrainVolume.materials[selectedTexture] = new TerrainMaterial();
+				smoothTerrainVolume.materials[selectedTexture] = new SmoothTerrainMaterial();
 			}
 			
-			TerrainMaterialEditorWindow.EditMaterial(smoothTerrainVolume.materials[selectedTexture]);
+			SmoothTerrainMaterialEditorWindow.EditMaterial(smoothTerrainVolume.materials[selectedTexture]);
 		}
 		
 		EditorGUILayout.Space();
