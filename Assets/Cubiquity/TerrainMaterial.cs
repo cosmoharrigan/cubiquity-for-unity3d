@@ -5,6 +5,8 @@ using System.Collections;
 [System.Serializable]
 public class TerrainMaterial
 {
-	[SerializeField]
 	public Texture2D diffuseMap;
+	
+	public Vector3 scale = new Vector3(4.0f, 4.0f, 4.0f);
+	public Vector3 offset = new Vector3(0.0f, 0.0f, 0.0f);
 }

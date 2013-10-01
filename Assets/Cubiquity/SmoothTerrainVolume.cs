@@ -133,8 +133,15 @@ public class SmoothTerrainVolume : MonoBehaviour
 			{
 				if(materials[i] != null)
 				{
-					string texName = "_Tex" + i;
-					material.SetTexture(texName, materials[i].diffuseMap);
+					material.SetTexture("_Tex" + i, materials[i].diffuseMap);
+					
+					Vector3 invScale;
+					invScale.x = 1.0f / materials[i].scale.x;
+					invScale.y = 1.0f / materials[i].scale.y;
+					invScale.z = 1.0f / materials[i].scale.z;
+					material.SetVector("_TexInvScale" + i, invScale);
+					
+					material.SetVector("_TexOffset" + i, materials[i].offset);
 				}
 			}
 		}

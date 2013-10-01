@@ -27,5 +27,33 @@ public class TerrainMaterialEditorWindow : EditorWindow
 			material.diffuseMap = newTexture;
 			HandleUtility.Repaint();
 		}
+		
+		EditorGUILayout.LabelField("Scale", EditorStyles.boldLabel);
+		material.scale = DrawVectorEditor(material.scale, 0.1f, 64.0f);
+		
+		EditorGUILayout.LabelField("Offset", EditorStyles.boldLabel);
+		material.offset = DrawVectorEditor(material.offset, 0.0f, 1.0f);
+	}
+	
+	Vector3 DrawVectorEditor(Vector3 vecToEdit, float min, float max)
+	{
+		Vector3 result;
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("X", GUILayout.Width(10));
+			result.x = EditorGUILayout.Slider(vecToEdit.x, min, max);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Y", GUILayout.Width(10));
+			result.y = EditorGUILayout.Slider(vecToEdit.y, min, max);
+		EditorGUILayout.EndHorizontal();
+		
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Z", GUILayout.Width(10));
+			result.z = EditorGUILayout.Slider(vecToEdit.z, min, max);
+		EditorGUILayout.EndHorizontal();
+		
+		return result;
 	}
 }

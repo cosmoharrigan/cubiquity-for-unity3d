@@ -20,6 +20,16 @@
 		sampler2D _Tex2;
 		sampler2D _Tex3;
 		
+		float3 _TexInvScale0;
+		float3 _TexInvScale1;
+		float3 _TexInvScale2;
+		float3 _TexInvScale3;
+		
+		float3 _TexOffset0;
+		float3 _TexOffset1;
+		float3 _TexOffset2;
+		float3 _TexOffset3;
+		
 #if BRUSH_MARKER_ON
 		float4 _BrushCenter;
 		float4 _BrushSettings;
@@ -60,8 +70,8 @@
 
 		void surf (Input IN, inout SurfaceOutput o)
 		{
-			half texScale = 8.0;
-			half invTexScale = 1.0 / texScale;
+			//half texScale = 8.0;
+			//half invTexScale = 1.0 / texScale;
 			
 			// Interpolation can cause the normal vector to become denomalised.
 			IN.worldNormal = normalize(IN.worldNormal);
@@ -75,7 +85,7 @@
 			
 			// Texture coordinates are calculated from the world
 			// space position, scaled by a user-supplied factor.
-			float3 texCoords = IN.worldPos.xyz * invTexScale;
+			float3 texCoords = IN.worldPos.xyz; // * invTexScale;
 			
 			// Texture coordinate derivatives are explicitly calculated
 			// so that we can sample textures inside conditional logic.
@@ -89,10 +99,10 @@
 			// Sample each of the four textures using triplanar texturing, and
 			// additively blend the results using the factors in materialStrengths.
 			half4 diffuse = 0.0;
-			diffuse += texTriplanar(_Tex0, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.r);
-			diffuse += texTriplanar(_Tex1, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.g);
-			diffuse += texTriplanar(_Tex2, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.b);
-			diffuse += texTriplanar(_Tex3, texCoords, dx, dy, triplanarBlendWeights * materialStrengths.a);
+			diffuse += texTriplanar(_Tex0, texCoords * _TexInvScale0 + _TexOffset0, dx * _TexInvScale0, dy * _TexInvScale0, triplanarBlendWeights * materialStrengths.r);
+			diffuse += texTriplanar(_Tex1, texCoords * _TexInvScale1 + _TexOffset1, dx * _TexInvScale1, dy * _TexInvScale1, triplanarBlendWeights * materialStrengths.g);
+			diffuse += texTriplanar(_Tex2, texCoords * _TexInvScale2 + _TexOffset2, dx * _TexInvScale2, dy * _TexInvScale2, triplanarBlendWeights * materialStrengths.b);
+			diffuse += texTriplanar(_Tex3, texCoords * _TexInvScale3 + _TexOffset3, dx * _TexInvScale3, dy * _TexInvScale3, triplanarBlendWeights * materialStrengths.a);
 			
 #if BRUSH_MARKER_ON
 			float brushStrength = 0.0f;
