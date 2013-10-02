@@ -44,7 +44,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 	
 	public SmoothTerrainMaterial[] materials = new SmoothTerrainMaterial[License.MaxNoOfMaterials];
 	
-	public Material material; //FIXME - should probably  be internal? Visible to the editor so it can set the brush params
+	public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 	
 	// If set, this identifies the volume to the Cubiquity DLL. It can
 	// be tested against null to find if the volume is currently valid.
@@ -128,21 +128,19 @@ public class SmoothTerrainVolume : MonoBehaviour
 				syncNode(rootNodeHandle, rootGameObject);
 			}
 			
-			//Is there some impact to doing this every frame?
+			// We syncronise all the material properties every time. If we find this has some
+			// performance overhead then we could add an 'isModified' flag to each terrain material.
 			for(int i = 0; i < materials.Length; i++)
 			{
-				if(materials[i] != null)
-				{
-					material.SetTexture("_Tex" + i, materials[i].diffuseMap);
-					
-					Vector3 invScale;
-					invScale.x = 1.0f / materials[i].scale.x;
-					invScale.y = 1.0f / materials[i].scale.y;
-					invScale.z = 1.0f / materials[i].scale.z;
-					material.SetVector("_TexInvScale" + i, invScale);
-					
-					material.SetVector("_TexOffset" + i, materials[i].offset);
-				}
+				material.SetTexture("_Tex" + i, materials[i].diffuseMap);
+				
+				Vector3 invScale;
+				invScale.x = 1.0f / materials[i].scale.x;
+				invScale.y = 1.0f / materials[i].scale.y;
+				invScale.z = 1.0f / materials[i].scale.z;
+				material.SetVector("_TexInvScale" + i, invScale);
+				
+				material.SetVector("_TexOffset" + i, materials[i].offset);
 			}
 		}
 	}
@@ -187,13 +185,13 @@ public class SmoothTerrainVolume : MonoBehaviour
 		Shader shader = Shader.Find("SmoothTerrainVolume");
 		material = new Material(shader);
 		
-		/*for(int i = 0; i < License.MaxNoOfMaterials; i++)
+		for(int i = 0; i < License.MaxNoOfMaterials; i++)
 		{
 			if(materials[i] == null)
 			{
-				materials[i] = new TerrainMaterial();
+				materials[i] = new SmoothTerrainMaterial();
 			}
-		}*/
+		}
 		
 		Initialize();
 	}
