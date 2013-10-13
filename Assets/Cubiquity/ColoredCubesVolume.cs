@@ -79,7 +79,7 @@ public class ColoredCubesVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize);
 			}
 		}
 	}
@@ -91,7 +91,7 @@ public class ColoredCubesVolume : MonoBehaviour
 		if(volumeHandle == null)
 		{
 			// Ask Cubiquity to create a volume from the VolDat data.
-			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
+			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize);
 			
 			// The user didn't specify a region as this is determined by the size of
 			// the VolDat data, so we have to pull this information back from Cubiquity.
@@ -108,7 +108,7 @@ public class ColoredCubesVolume : MonoBehaviour
 		if(volumeHandle == null)
 		{
 			// Ask Cubiquity to create a volume from the VolDat data.
-			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, (uint)baseNodeSize);
+			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize);
 			
 			// The user didn't specify a region as this is determined by the size of
 			// the VolDat data, so we have to pull this information back from Cubiquity.
@@ -150,21 +150,21 @@ public class ColoredCubesVolume : MonoBehaviour
 			
 			// Now that we've destroyed the volume handle, and volume data will have been paged into the override folder. This
 			// includes any potential changes to the volume. If the user wanted to save this then copy it to the main page folder
-			if(saveChanges)
+			/*if(saveChanges)
 			{
 				foreach(var file in Directory.GetFiles(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + "/override"))
 				{
 					File.Copy(file, Path.Combine(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, Path.GetFileName(file)), true);
 				}
-			}
+			}*/
 			
 			// Delete all the data in override
 			// FIXME - Should probably check for a file extension.
-			System.IO.DirectoryInfo overrideDirectory = new DirectoryInfo(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + "/override");
+			/*System.IO.DirectoryInfo overrideDirectory = new DirectoryInfo(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + "/override");
 			foreach (FileInfo file in overrideDirectory.GetFiles())
 			{
 				file.Delete();
-			}
+			}*/
 			
 			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
