@@ -88,6 +88,20 @@ public class CubiquityDLL
 		Validate(cuDeleteColouredCubesVolume(volumeHandle));
 	}
 	
+	[DllImport ("CubiquityC")]
+	private static extern int cuAcceptOverrideBlocks(uint volumeHandle);
+	public static void AcceptOverrideBlocks(uint volumeHandle)
+	{
+		Validate(cuAcceptOverrideBlocks(volumeHandle));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuDiscardOverrideBlocks(uint volumeHandle);
+	public static void DiscardOverrideBlocks(uint volumeHandle)
+	{
+		Validate(cuDiscardOverrideBlocks(volumeHandle));
+	}
+	
 	//--------------------------------------------------------------------------------
 	
 	[DllImport ("CubiquityC")]
@@ -132,6 +146,20 @@ public class CubiquityDLL
 	public static void DeleteSmoothTerrainVolume(uint volumeHandle)
 	{
 		Validate(cuDeleteSmoothTerrainVolume(volumeHandle));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuAcceptOverrideBlocksMC(uint volumeHandle);
+	public static void AcceptOverrideBlocksMC(uint volumeHandle)
+	{
+		Validate(cuAcceptOverrideBlocksMC(volumeHandle));
+	}
+	
+	[DllImport ("CubiquityC")]
+	private static extern int cuDiscardOverrideBlocksMC(uint volumeHandle);
+	public static void DiscardOverrideBlocksMC(uint volumeHandle)
+	{
+		Validate(cuDiscardOverrideBlocksMC(volumeHandle));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////

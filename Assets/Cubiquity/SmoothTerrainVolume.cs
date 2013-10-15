@@ -151,26 +151,14 @@ public class SmoothTerrainVolume : MonoBehaviour
 		
 		if(volumeHandle.HasValue)
 		{
+			if(saveChanges)
+			{
+				CubiquityDLL.AcceptOverrideBlocksMC(volumeHandle.Value);
+			}
+			CubiquityDLL.DiscardOverrideBlocksMC(volumeHandle.Value);
+			
 			CubiquityDLL.DeleteSmoothTerrainVolume(volumeHandle.Value);
 			volumeHandle = null;
-			
-			// Now that we've destroyed the volume handle, and volume data will have been paged into the override folder. This
-			// includes any potential changes to the volume. If the user wanted to save this then copy it to the main page folder
-			/*if(saveChanges)
-			{
-				foreach(var file in Directory.GetFiles(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + "/override"))
-				{
-					File.Copy(file, Path.Combine(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + Path.DirectorySeparatorChar, Path.GetFileName(file)), true);
-				}
-			}*/
-			
-			// Delete all the data in override
-			// FIXME - Should probably check for a file extension.
-			/*System.IO.DirectoryInfo overrideDirectory = new DirectoryInfo(Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + "/override");
-			foreach (FileInfo file in overrideDirectory.GetFiles())
-			{
-				file.Delete();
-			}*/
 			
 			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
