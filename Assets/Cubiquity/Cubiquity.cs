@@ -28,24 +28,24 @@ public static class Cubiquity
 		return hit == 1;
 	}
 	
-	public static bool PickTerrainSurface(SmoothTerrainVolume volume, float rayStartX, float rayStartY, float rayStartZ, float rayDirX, float rayDirY, float rayDirZ, out float resultX, out float resultY, out float resultZ)
+	public static bool PickTerrainSurface(TerrainVolume volume, float rayStartX, float rayStartY, float rayStartZ, float rayDirX, float rayDirY, float rayDirZ, out float resultX, out float resultY, out float resultZ)
 	{
 		uint hit = CubiquityDLL.PickTerrainSurface((uint)volume.volumeHandle, rayStartX, rayStartY, rayStartZ, rayDirX, rayDirY, rayDirZ, out resultX, out resultY, out resultZ);
 		
 		return hit == 1;
 	}
 	
-	public static void SculptSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
+	public static void SculptTerrainVolume(TerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
 	{
 		CubiquityDLL.SculptSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount);
 	}
 	
-	public static void BlurSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
+	public static void BlurTerrainVolume(TerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
 	{
 		CubiquityDLL.BlurSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount);
 	}
 	
-	public static void PaintSmoothTerrainVolume(SmoothTerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex)
+	public static void PaintTerrainVolume(TerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex)
 	{
 		CubiquityDLL.PaintSmoothTerrainVolume((uint)volume.volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount, materialIndex);
 	}

@@ -3,10 +3,10 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
  
-[CustomEditor (typeof(SmoothTerrainVolume))]
-public class SmoothTerrainVolumeEditor : Editor
+[CustomEditor (typeof(TerrainVolume))]
+public class TerrainVolumeEditor : Editor
 {
-	SmoothTerrainVolume smoothTerrainVolume;
+	TerrainVolume terrainVolume;
 	
 	private const int NoOfBrushes = 5;
 	
@@ -25,7 +25,7 @@ public class SmoothTerrainVolumeEditor : Editor
 
 	public void OnEnable()
 	{
-	    smoothTerrainVolume = target as SmoothTerrainVolume;
+	    terrainVolume = target as TerrainVolume;
 		
 		brushTextures = new Texture[NoOfBrushes];
 		brushTextures[0] = Resources.Load("Icons/SoftBrush") as Texture;
@@ -114,7 +114,7 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		/*for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
 		{
-			smoothTerrainVolume.materials[ct].diffuseMap = EditorGUILayout.ObjectField(smoothTerrainVolume.materials[ct].diffuseMap,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
+			terrainVolume.materials[ct].diffuseMap = EditorGUILayout.ObjectField(terrainVolume.materials[ct].diffuseMap,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
 		}*/
 	}
 	
@@ -140,10 +140,10 @@ public class SmoothTerrainVolumeEditor : Editor
 	{
 		EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 		
-		Texture2D[] diffuseMaps = new Texture2D[smoothTerrainVolume.materials.Length];
-		for(int i = 0; i < smoothTerrainVolume.materials.Length; i++)
+		Texture2D[] diffuseMaps = new Texture2D[terrainVolume.materials.Length];
+		for(int i = 0; i < terrainVolume.materials.Length; i++)
 		{
-			diffuseMaps[i] = smoothTerrainVolume.materials[i].diffuseMap;
+			diffuseMaps[i] = terrainVolume.materials[i].diffuseMap;
 		}
 		selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
 		
@@ -151,7 +151,7 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		if(GUILayout.Button("Edit selected material..."))
 		{			
-			SmoothTerrainMaterialEditorWindow.EditMaterial(smoothTerrainVolume.materials[selectedTexture]);
+			TerrainMaterialEditorWindow.EditMaterial(terrainVolume.materials[selectedTexture]);
 		}
 		
 		EditorGUILayout.Space();
@@ -201,7 +201,7 @@ public class SmoothTerrainVolumeEditor : Editor
 		
 		// Perform the raycasting. If there's a hit the position will be stored in these ints.
 		float resultX, resultY, resultZ;
-		bool hit = Cubiquity.PickTerrainSurface(smoothTerrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+		bool hit = Cubiquity.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 		
 		if(hit)
 		{		
@@ -213,12 +213,12 @@ public class SmoothTerrainVolumeEditor : Editor
 				
 			List<string> keywords = new List<string>();
 			keywords.Add("BRUSH_MARKER_ON");
-			smoothTerrainVolume.material.shaderKeywords = keywords.ToArray();
+			terrainVolume.material.shaderKeywords = keywords.ToArray();
 			//Shader.DisableKeyword("SHOW_BRUSH");
 			//Shader.EnableKeyword("HIDE_BRUSH");
-			smoothTerrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
-			smoothTerrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
-			smoothTerrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+			terrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
+			terrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
+			terrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
 			
 			if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 			{
@@ -229,15 +229,15 @@ public class SmoothTerrainVolumeEditor : Editor
 					{
 						multiplier  = -1.0f;
 					}
-					Cubiquity.SculptSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity * multiplier);
+					Cubiquity.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity * multiplier);
 				}
 				else if(smoothPressed)
 				{
-					Cubiquity.BlurSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
+					Cubiquity.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
 				}
 				else if(paintPressed)
 				{
-					Cubiquity.PaintSmoothTerrainVolume(smoothTerrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
+					Cubiquity.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
 				}
 			}	
 		}
@@ -248,7 +248,7 @@ public class SmoothTerrainVolumeEditor : Editor
 	       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
 	    }
 		
-		smoothTerrainVolume.Synchronize();
+		terrainVolume.Synchronize();
 		
 		//Repaint ();
 		HandleUtility.Repaint();

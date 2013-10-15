@@ -2,7 +2,7 @@
 using System.Collections;
 using System.IO;
 
-public class SmoothTerrainVolumeFactory
+public class TerrainVolumeFactory
 {
 	private static uint DefaultBaseNodeSize = 32;
 	
@@ -20,14 +20,14 @@ public class SmoothTerrainVolumeFactory
 		CreateDatasetName(datasetName);
 		
 		GameObject VoxelTerrainRoot = new GameObject(name);
-		VoxelTerrainRoot.AddComponent<SmoothTerrainVolume>();
+		VoxelTerrainRoot.AddComponent<TerrainVolume>();
 		
-		SmoothTerrainVolume smoothTerrainVolume = VoxelTerrainRoot.GetComponent<SmoothTerrainVolume>();
-		smoothTerrainVolume.region = region;
-		smoothTerrainVolume.baseNodeSize = (int)baseNodeSize;
-		smoothTerrainVolume.datasetName = datasetName;
+		TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
+		terrainVolume.region = region;
+		terrainVolume.baseNodeSize = (int)baseNodeSize;
+		terrainVolume.datasetName = datasetName;
 		
-		smoothTerrainVolume.Initialize();
+		terrainVolume.Initialize();
 		
 		return VoxelTerrainRoot;
 	}
@@ -46,14 +46,14 @@ public class SmoothTerrainVolumeFactory
 		CreateDatasetName(datasetName);
 		
 		GameObject VoxelTerrainRoot = new GameObject(name);
-		VoxelTerrainRoot.AddComponent<SmoothTerrainVolume>();
+		VoxelTerrainRoot.AddComponent<TerrainVolume>();
 		
-		SmoothTerrainVolume smoothTerrainVolume = VoxelTerrainRoot.GetComponent<SmoothTerrainVolume>();
-		smoothTerrainVolume.region = region;
-		smoothTerrainVolume.baseNodeSize = (int)baseNodeSize;
-		smoothTerrainVolume.datasetName = datasetName;
+		TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
+		terrainVolume.region = region;
+		terrainVolume.baseNodeSize = (int)baseNodeSize;
+		terrainVolume.datasetName = datasetName;
 		
-		smoothTerrainVolume.InitializeWithFloor(floorDepth);
+		terrainVolume.InitializeWithFloor(floorDepth);
 		
 		return VoxelTerrainRoot;
 	}

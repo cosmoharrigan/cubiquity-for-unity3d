@@ -22,11 +22,11 @@ class UpdateAllVolumes
 			coloredCubesVolume.Synchronize();
 		}
 		
-		Object[] smoothVolumes = Object.FindObjectsOfType(typeof(SmoothTerrainVolume));
+		Object[] smoothVolumes = Object.FindObjectsOfType(typeof(TerrainVolume));
 		foreach(Object volume in smoothVolumes)
 		{
-			SmoothTerrainVolume smoothTerrainVolume = volume as SmoothTerrainVolume;
-			smoothTerrainVolume.Synchronize();
+			TerrainVolume terrainVolume = volume as TerrainVolume;
+			terrainVolume.Synchronize();
 		}
     }
 }

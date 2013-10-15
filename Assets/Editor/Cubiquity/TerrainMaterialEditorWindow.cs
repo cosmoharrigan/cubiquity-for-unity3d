@@ -2,13 +2,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class SmoothTerrainMaterialEditorWindow : EditorWindow
+public class TerrainMaterialEditorWindow : EditorWindow
 {
-	private SmoothTerrainMaterial material;
+	private TerrainMaterial material;
 		
-	public static void EditMaterial(SmoothTerrainMaterial materialToEdit)
+	public static void EditMaterial(TerrainMaterial materialToEdit)
 	{
-		SmoothTerrainMaterialEditorWindow window = ScriptableObject.CreateInstance<SmoothTerrainMaterialEditorWindow>();
+		TerrainMaterialEditorWindow window = ScriptableObject.CreateInstance<TerrainMaterialEditorWindow>();
 		window.material = materialToEdit;
 		window.ShowUtility();
 	}

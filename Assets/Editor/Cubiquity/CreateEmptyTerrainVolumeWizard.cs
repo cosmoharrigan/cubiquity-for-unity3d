@@ -5,19 +5,19 @@ using System;
 using System.Collections;
 using System.IO;
 
-public class CreateEmptySmoothTerrainVolumeWizard : CreateVolumeWizard
+public class CreateEmptyTerrainVolumeWizard : CreateVolumeWizard
 {	
 	private bool createFloor = true;
 	
 	private int floorThickness = 8;
 	
-	[MenuItem ("GameObject/Create Other/Smooth Terrain Volume/Create Empty Smooth Terrain Volume...")]
+	[MenuItem ("GameObject/Create Other/Terrain Volume/Create Empty Terrain Volume...")]
     static void CreateWizard ()
 	{
 		// Make sure the Cubiquity library is installed.
 		Installation.ValidateAndFix();
 		
-        CreateEmptySmoothTerrainVolumeWizard wizard = ScriptableWizard.DisplayWizard<CreateEmptySmoothTerrainVolumeWizard>("Create Empty Smooth Terrain Volume");
+        CreateEmptyTerrainVolumeWizard wizard = ScriptableWizard.DisplayWizard<CreateEmptyTerrainVolumeWizard>("Create Empty Terrain Volume");
 		wizard.position = new Rect(100, 100, 600, 300);
     }
 	
@@ -66,11 +66,11 @@ public class CreateEmptySmoothTerrainVolumeWizard : CreateVolumeWizard
 		
 		if(createFloor)
 		{
-			SmoothTerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName, (uint)floorThickness);
+			TerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName, (uint)floorThickness);
 		}
 		else
 		{
-			SmoothTerrainVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
+			TerrainVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
 		}
 
 	}

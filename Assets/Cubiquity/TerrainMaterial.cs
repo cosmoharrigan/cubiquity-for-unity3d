@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 [System.Serializable]
-public class SmoothTerrainMaterial
+public class TerrainMaterial
 {
 	public Texture2D diffuseMap;
 	

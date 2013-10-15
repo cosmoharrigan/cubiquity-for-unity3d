@@ -24,7 +24,7 @@ public struct CubiquitySmoothVertex
 }
 
 [ExecuteInEditMode]
-public class SmoothTerrainVolume : MonoBehaviour
+public class TerrainVolume : MonoBehaviour
 {		
 	// The name of the dataset to load from disk. A folder with this name
 	// should be found in the location specified by 'Cubiquity.volumesPath'.
@@ -42,7 +42,7 @@ public class SmoothTerrainVolume : MonoBehaviour
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
 	
-	public SmoothTerrainMaterial[] materials = new SmoothTerrainMaterial[License.MaxNoOfMaterials];
+	public TerrainMaterial[] materials = new TerrainMaterial[License.MaxNoOfMaterials];
 	
 	public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 	
@@ -170,14 +170,14 @@ public class SmoothTerrainVolume : MonoBehaviour
 	void OnEnable()
 	{
 		Debug.Log ("ColoredCubesVolume.OnEnable()");
-		Shader shader = Shader.Find("SmoothTerrainVolume");
+		Shader shader = Shader.Find("TerrainVolume");
 		material = new Material(shader);
 		
 		for(int i = 0; i < License.MaxNoOfMaterials; i++)
 		{
 			if(materials[i] == null)
 			{
-				materials[i] = new SmoothTerrainMaterial();
+				materials[i] = new TerrainMaterial();
 			}
 		}
 		
