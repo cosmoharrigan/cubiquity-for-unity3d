@@ -22,8 +22,8 @@ class UpdateAllVolumes
 			coloredCubesVolume.Synchronize();
 		}
 		
-		Object[] smoothVolumes = Object.FindObjectsOfType(typeof(TerrainVolume));
-		foreach(Object volume in smoothVolumes)
+		Object[] terrainVolumes = Object.FindObjectsOfType(typeof(TerrainVolume));
+		foreach(Object volume in terrainVolumes)
 		{
 			TerrainVolume terrainVolume = volume as TerrainVolume;
 			terrainVolume.Synchronize();

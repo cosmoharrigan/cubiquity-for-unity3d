@@ -88,7 +88,7 @@ public class TerrainVolume : MonoBehaviour
 			if(region != null)
 			{
 				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewSmoothTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize, 0, 0);
 			}
 		}
@@ -103,7 +103,7 @@ public class TerrainVolume : MonoBehaviour
 			if(region != null)
 			{
 				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewSmoothTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize, 1, floorDepth);
 			}
 		}
@@ -157,7 +157,7 @@ public class TerrainVolume : MonoBehaviour
 			}
 			CubiquityDLL.DiscardOverrideBlocksMC(volumeHandle.Value);
 			
-			CubiquityDLL.DeleteSmoothTerrainVolume(volumeHandle.Value);
+			CubiquityDLL.DeleteTerrainVolume(volumeHandle.Value);
 			volumeHandle = null;
 			
 			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
