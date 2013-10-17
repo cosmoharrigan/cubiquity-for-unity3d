@@ -20,8 +20,7 @@ public struct CubiquityVertex
 [ExecuteInEditMode]
 public class ColoredCubesVolume : MonoBehaviour
 {		
-	// The name of the dataset to load from disk. A folder with this name
-	// should be found in the location specified by 'Cubiquity.volumesPath'.
+	// The name of the dataset to load from disk.
 	public string datasetName = null;
 	
 	// The side length of an extracted mesh for the most detailed LOD.
@@ -79,7 +78,7 @@ public class ColoredCubesVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z,  datasetName, (uint)baseNodeSize);
 			}
 		}
 	}
@@ -91,7 +90,7 @@ public class ColoredCubesVolume : MonoBehaviour
 		if(volumeHandle == null)
 		{
 			// Ask Cubiquity to create a volume from the VolDat data.
-			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize);
+			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, datasetName, (uint)baseNodeSize);
 			
 			// The user didn't specify a region as this is determined by the size of
 			// the VolDat data, so we have to pull this information back from Cubiquity.
@@ -108,7 +107,7 @@ public class ColoredCubesVolume : MonoBehaviour
 		if(volumeHandle == null)
 		{
 			// Ask Cubiquity to create a volume from the VolDat data.
-			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, Cubiquity.volumesPath + Path.DirectorySeparatorChar + datasetName + ".vol", (uint)baseNodeSize);
+			volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, datasetName, (uint)baseNodeSize);
 			
 			// The user didn't specify a region as this is determined by the size of
 			// the VolDat data, so we have to pull this information back from Cubiquity.

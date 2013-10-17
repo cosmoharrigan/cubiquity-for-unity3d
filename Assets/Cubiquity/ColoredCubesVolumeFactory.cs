@@ -16,9 +16,6 @@ public class ColoredCubesVolumeFactory
 		// Make sure the Cubiquity library is installed.
 		Installation.ValidateAndFix();
 		
-		// Make sure the page folder exists
-		CreateDatasetName(datasetName);
-		
 		GameObject VoxelTerrainRoot = new GameObject(name);
 		VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 		
@@ -42,9 +39,6 @@ public class ColoredCubesVolumeFactory
 		// Make sure the Cubiquity library is installed.
 		Installation.ValidateAndFix();
 		
-		// Make sure the page folder exists
-		CreateDatasetName(datasetName);
-		
 		GameObject VoxelTerrainRoot = new GameObject(name);
 		VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 		
@@ -67,9 +61,6 @@ public class ColoredCubesVolumeFactory
 		// Make sure the Cubiquity library is installed.
 		Installation.ValidateAndFix();
 		
-		// Make sure the page folder exists
-		CreateDatasetName(datasetName);
-		
 		GameObject VoxelTerrainRoot = new GameObject(name);
 		VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 		
@@ -80,12 +71,5 @@ public class ColoredCubesVolumeFactory
 		coloredCubesVolume.InitializeFromHeightmap(heightmapFileName, colormapFileName);
 		
 		return VoxelTerrainRoot;
-	}
-	
-	private static void CreateDatasetName(string datasetName)
-	{
-		string pathToData = Cubiquity.volumesPath + Path.DirectorySeparatorChar;
-		System.IO.Directory.CreateDirectory(pathToData + datasetName);
-		System.IO.Directory.CreateDirectory(pathToData + datasetName + "/override");
 	}
 }

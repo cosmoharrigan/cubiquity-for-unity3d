@@ -16,9 +16,6 @@ public class TerrainVolumeFactory
 		// Make sure the Cubiquity library is installed.
 		Installation.ValidateAndFix();
 		
-		// Make sure the page folder exists
-		CreateDatasetName(datasetName);
-		
 		GameObject VoxelTerrainRoot = new GameObject(name);
 		VoxelTerrainRoot.AddComponent<TerrainVolume>();
 		
@@ -43,7 +40,7 @@ public class TerrainVolumeFactory
 		Installation.ValidateAndFix();
 		
 		// Make sure the page folder exists
-		CreateDatasetName(datasetName);
+		//CreateDatasetName(datasetName);
 		
 		GameObject VoxelTerrainRoot = new GameObject(name);
 		VoxelTerrainRoot.AddComponent<TerrainVolume>();
@@ -56,12 +53,5 @@ public class TerrainVolumeFactory
 		terrainVolume.InitializeWithFloor(floorDepth);
 		
 		return VoxelTerrainRoot;
-	}
-	
-	private static void CreateDatasetName(string datasetName)
-	{
-		string pathToData = Cubiquity.volumesPath + Path.DirectorySeparatorChar;
-		System.IO.Directory.CreateDirectory(pathToData + datasetName);
-		System.IO.Directory.CreateDirectory(pathToData + datasetName + "/override");
 	}
 }

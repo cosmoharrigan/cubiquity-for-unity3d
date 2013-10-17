@@ -11,7 +11,7 @@ public class CreateEmptyColoredCubesVolumeWizard : CreateVolumeWizard
 	
 	private int floorThickness = 8;
 	
-	[MenuItem ("GameObject/Create Other/Colored Cubes Volume/Create Empty Colored Cubes Volume...")]
+	[MenuItem ("GameObject/Create Other/Colored Cubes Volume (Old)/Create Empty Colored Cubes Volume...")]
     static void CreateWizard ()
 	{
 		// Make sure the Cubiquity library is installed.
