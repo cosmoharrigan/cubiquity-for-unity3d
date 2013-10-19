@@ -27,7 +27,8 @@ public struct CubiquitySmoothVertex
 public class TerrainVolume : MonoBehaviour
 {		
 	// The name of the dataset to load from disk.
-	public string datasetName = null;
+	//public string datasetName = null;
+	public TerrainVolumeData data = null;
 	
 	// The side length of an extracted mesh for the most detailed LOD.
 	// Bigger values mean fewer batches but slower surface extraction.
@@ -88,7 +89,7 @@ public class TerrainVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, datasetName, (uint)baseNodeSize, 0, 0);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 0, 0);
 			}
 		}
 	}
@@ -103,7 +104,7 @@ public class TerrainVolume : MonoBehaviour
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, datasetName, (uint)baseNodeSize, 1, floorDepth);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 1, floorDepth);
 			}
 		}
 	}
