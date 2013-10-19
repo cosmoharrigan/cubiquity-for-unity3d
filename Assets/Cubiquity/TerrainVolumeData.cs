@@ -8,4 +8,6 @@ public sealed class TerrainVolumeData
 	
 	// The extents (dimensions in voxels) of the volume.
 	public Region region = null;
+	
+	public TerrainMaterial[] materials = new TerrainMaterial[License.MaxNoOfMaterials];
 }

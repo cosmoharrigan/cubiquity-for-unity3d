@@ -27,7 +27,6 @@ public struct CubiquitySmoothVertex
 public class TerrainVolume : MonoBehaviour
 {		
 	// The name of the dataset to load from disk.
-	//public string datasetName = null;
 	public TerrainVolumeData data = null;
 	
 	// The side length of an extracted mesh for the most detailed LOD.
@@ -38,8 +37,6 @@ public class TerrainVolume : MonoBehaviour
 	// Determines whether collision data is generated as well as a
 	// renderable mesh. This does not apply when in the Unity editor.
 	public bool UseCollisionMesh = true;
-	
-	public TerrainMaterial[] materials = new TerrainMaterial[License.MaxNoOfMaterials];
 	
 	public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 	
@@ -127,17 +124,17 @@ public class TerrainVolume : MonoBehaviour
 			
 			// We syncronise all the material properties every time. If we find this has some
 			// performance overhead then we could add an 'isModified' flag to each terrain material.
-			for(int i = 0; i < materials.Length; i++)
+			for(int i = 0; i < data.materials.Length; i++)
 			{
-				material.SetTexture("_Tex" + i, materials[i].diffuseMap);
+				material.SetTexture("_Tex" + i, data.materials[i].diffuseMap);
 				
 				Vector3 invScale;
-				invScale.x = 1.0f / materials[i].scale.x;
-				invScale.y = 1.0f / materials[i].scale.y;
-				invScale.z = 1.0f / materials[i].scale.z;
+				invScale.x = 1.0f / data.materials[i].scale.x;
+				invScale.y = 1.0f / data.materials[i].scale.y;
+				invScale.z = 1.0f / data.materials[i].scale.z;
 				material.SetVector("_TexInvScale" + i, invScale);
 				
-				material.SetVector("_TexOffset" + i, materials[i].offset);
+				material.SetVector("_TexOffset" + i, data.materials[i].offset);
 			}
 		}
 	}
@@ -172,9 +169,9 @@ public class TerrainVolume : MonoBehaviour
 		
 		for(int i = 0; i < License.MaxNoOfMaterials; i++)
 		{
-			if(materials[i] == null)
+			if(data.materials[i] == null)
 			{
-				materials[i] = new TerrainMaterial();
+				data.materials[i] = new TerrainMaterial();
 			}
 		}
 		

@@ -140,10 +140,10 @@ public class TerrainVolumeEditor : Editor
 	{
 		EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 		
-		Texture2D[] diffuseMaps = new Texture2D[terrainVolume.materials.Length];
-		for(int i = 0; i < terrainVolume.materials.Length; i++)
+		Texture2D[] diffuseMaps = new Texture2D[terrainVolume.data.materials.Length];
+		for(int i = 0; i < terrainVolume.data.materials.Length; i++)
 		{
-			diffuseMaps[i] = terrainVolume.materials[i].diffuseMap;
+			diffuseMaps[i] = terrainVolume.data.materials[i].diffuseMap;
 		}
 		selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
 		
@@ -151,7 +151,7 @@ public class TerrainVolumeEditor : Editor
 		
 		if(GUILayout.Button("Edit selected material..."))
 		{			
-			TerrainMaterialEditorWindow.EditMaterial(terrainVolume.materials[selectedTexture]);
+			TerrainMaterialEditorWindow.EditMaterial(terrainVolume.data.materials[selectedTexture]);
 		}
 		
 		EditorGUILayout.Space();
