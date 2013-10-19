@@ -39,9 +39,6 @@ public class TerrainVolume : MonoBehaviour
 	// renderable mesh. This does not apply when in the Unity editor.
 	public bool UseCollisionMesh = true;
 	
-	// The extents (dimensions in voxels) of the volume.
-	public Region region = null;
-	
 	public TerrainMaterial[] materials = new TerrainMaterial[License.MaxNoOfMaterials];
 	
 	public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
@@ -64,9 +61,9 @@ public class TerrainVolume : MonoBehaviour
 	void OnDrawGizmos()
 	{
 		// Compute the size of the volume.
-		int width = (region.upperCorner.x - region.lowerCorner.x) + 1;
-		int height = (region.upperCorner.y - region.lowerCorner.y) + 1;
-		int depth = (region.upperCorner.z - region.lowerCorner.z) + 1;
+		int width = (data.region.upperCorner.x - data.region.lowerCorner.x) + 1;
+		int height = (data.region.upperCorner.y - data.region.lowerCorner.y) + 1;
+		int depth = (data.region.upperCorner.z - data.region.lowerCorner.z) + 1;
 		float offsetX = width / 2;
 		float offsetY = height / 2;
 		float offsetZ = depth / 2;
@@ -74,7 +71,7 @@ public class TerrainVolume : MonoBehaviour
 		// The origin is at the centre of a voxel, but we want this box to start at the corner of the voxel.
 		Vector3 halfVoxelOffset = new Vector3(0.5f, 0.5f, 0.5f);
 		
-		// Draw an invisible box surrounding the olume. This is what actually gets picked.
+		// Draw an invisible box surrounding the volume. This is what actually gets picked.
         Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.0f);
 		Gizmos.DrawCube (transform.position - halfVoxelOffset + new Vector3(offsetX, offsetY, offsetZ), new Vector3 (width, height, depth));
     }
@@ -85,11 +82,11 @@ public class TerrainVolume : MonoBehaviour
 		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
 		if(volumeHandle == null)
 		{	
-			if(region != null)
+			if(data != null)
 			{
 				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 0, 0);
+				volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
+					data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 0, 0);
 			}
 		}
 	}
@@ -100,11 +97,11 @@ public class TerrainVolume : MonoBehaviour
 		// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
 		if(volumeHandle == null)
 		{	
-			if(region != null)
+			if(data != null)
 			{
 				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 1, floorDepth);
+				volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
+					data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 1, floorDepth);
 			}
 		}
 	}
@@ -220,8 +217,8 @@ public class TerrainVolume : MonoBehaviour
 	{
 		if(volumeHandle.HasValue)
 		{
-			if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
-				&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z) // FIX THESE VALUES!
+			if(x >= data.region.lowerCorner.x && y >= data.region.lowerCorner.y && z >= data.region.lowerCorner.z
+				&& x <= data.region.upperCorner.x && y <= data.region.upperCorner.y && z <= data.region.upperCorner.z)
 			{
 				CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, materialStrength);
 			}

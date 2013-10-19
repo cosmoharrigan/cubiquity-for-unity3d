@@ -19,7 +19,7 @@ public class MainMenuEntries : MonoBehaviour
 		int height = 32;
 		int depth = 128;
 		
-		string path = AssetDatabase.GenerateUniqueAssetPath(Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol");
+		string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
 		TerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), path, 8);
 	}
 	
@@ -30,7 +30,7 @@ public class MainMenuEntries : MonoBehaviour
 		int height = 64;
 		int depth = 256;
 		
-		string path = AssetDatabase.GenerateUniqueAssetPath(Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + "test.vol");
+		string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
 		
 		GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), path);
 		ColoredCubesVolume coloredCubesVolume = voxelGameObject.GetComponent<ColoredCubesVolume>();

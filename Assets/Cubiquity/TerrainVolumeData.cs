@@ -5,4 +5,7 @@ using System.Collections;
 public sealed class TerrainVolumeData
 {
 	public string pathToVoxels;
+	
+	// The extents (dimensions in voxels) of the volume.
+	public Region region = null;
 }

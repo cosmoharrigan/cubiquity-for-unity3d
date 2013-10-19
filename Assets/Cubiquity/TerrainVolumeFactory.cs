@@ -20,11 +20,12 @@ public class TerrainVolumeFactory
 		VoxelTerrainRoot.AddComponent<TerrainVolume>();
 		
 		TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-		terrainVolume.region = region;
 		terrainVolume.baseNodeSize = (int)baseNodeSize;
 		
 		TerrainVolumeData data = new TerrainVolumeData();
 		data.pathToVoxels = datasetName;
+		data.region = region;
+		
 		terrainVolume.data = data;
 		
 		terrainVolume.Initialize();
@@ -49,11 +50,12 @@ public class TerrainVolumeFactory
 		VoxelTerrainRoot.AddComponent<TerrainVolume>();
 		
 		TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-		terrainVolume.region = region;
 		terrainVolume.baseNodeSize = (int)baseNodeSize;
 		
 		TerrainVolumeData data = new TerrainVolumeData();
 		data.pathToVoxels = datasetName;
+		data.region = region;
+		
 		terrainVolume.data = data;
 		
 		terrainVolume.InitializeWithFloor(floorDepth);
