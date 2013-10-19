@@ -167,14 +167,6 @@ public class TerrainVolume : MonoBehaviour
 		Shader shader = Shader.Find("TerrainVolume");
 		material = new Material(shader);
 		
-		for(int i = 0; i < License.MaxNoOfMaterials; i++)
-		{
-			if(data.materials[i] == null)
-			{
-				data.materials[i] = new TerrainMaterial();
-			}
-		}
-		
 		Initialize();
 	}
 	
