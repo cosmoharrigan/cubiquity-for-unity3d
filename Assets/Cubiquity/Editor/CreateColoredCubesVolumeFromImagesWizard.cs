@@ -9,7 +9,7 @@ public class CreateColoredCubesVolumeFromImagesWizard : CreateVolumeWizard
 {		
 	private string imageFolder = "";
 	
-	[MenuItem ("GameObject/Create Other/Colored Cubes Volume (Old)/Create Colored Cubes Volume From Images...")]
+	//[MenuItem ("GameObject/Create Other/Colored Cubes Volume (Old)/Create Colored Cubes Volume From Images...")]
     static void CreateWizard ()
 	{
 		// Make sure the Cubiquity library is installed.

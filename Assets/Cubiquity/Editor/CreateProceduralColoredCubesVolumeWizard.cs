@@ -7,7 +7,7 @@ using System.IO;
 
 public class CreateProceduralColoredCubesVolumeWizard : CreateVolumeWizard
 {	
-	[MenuItem ("GameObject/Create Other/Colored Cubes Volume (Old)/Create Colored Cubes Volume Procedurally...")]
+	//[MenuItem ("GameObject/Create Other/Colored Cubes Volume (Old)/Create Colored Cubes Volume Procedurally...")]
     static void CreateWizard ()
 	{
 		// Make sure the Cubiquity library is installed.
