@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections;
  
 [CustomEditor (typeof(ColoredCubesVolume))]
-public class ColoredCubesVolumeEditor : Editor
+public class ColoredCubesVolumeEditModeEditor : Editor
 {
 	ColoredCubesVolume coloredCubesVolume;
 	

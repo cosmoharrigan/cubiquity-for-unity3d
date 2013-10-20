@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
  
 [CustomEditor (typeof(TerrainVolume))]
-public class TerrainVolumeEditor : Editor
+public class TerrainVolumeEditModeEditor : Editor
 {
 	TerrainVolume terrainVolume;
 	
@@ -229,15 +229,15 @@ public class TerrainVolumeEditor : Editor
 					{
 						multiplier  = -1.0f;
 					}
-					Cubiquity.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity * multiplier);
+					TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity * multiplier);
 				}
 				else if(smoothPressed)
 				{
-					Cubiquity.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
+					TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
 				}
 				else if(paintPressed)
 				{
-					Cubiquity.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
+					TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
 				}
 			}	
 		}
