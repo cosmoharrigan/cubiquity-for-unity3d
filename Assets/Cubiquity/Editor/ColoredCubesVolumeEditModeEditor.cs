@@ -58,7 +58,7 @@ public class ColoredCubesVolumeEditModeEditor : Editor
 			int resultX, resultY, resultZ;
 			if(addMode)
 			{
-				bool hit = Cubiquity.PickLastEmptyVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+				bool hit = ColoredCubesVolumePicking.PickLastEmptyVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 				if(hit)
 				{
 					coloredCubesVolume.SetVoxel(resultX, resultY, resultZ, paintColor);
@@ -66,7 +66,7 @@ public class ColoredCubesVolumeEditModeEditor : Editor
 			}
 			else if(deleteMode)
 			{
-				bool hit = Cubiquity.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+				bool hit = ColoredCubesVolumePicking.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 				if(hit)
 				{
 					coloredCubesVolume.SetVoxel(resultX, resultY, resultZ, new Color32(0, 0, 0, 0));
@@ -74,7 +74,7 @@ public class ColoredCubesVolumeEditModeEditor : Editor
 			}
 			else if(paintMode)
 			{
-				bool hit = Cubiquity.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+				bool hit = ColoredCubesVolumePicking.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 				if(hit)
 				{
 					coloredCubesVolume.SetVoxel(resultX, resultY, resultZ, paintColor);

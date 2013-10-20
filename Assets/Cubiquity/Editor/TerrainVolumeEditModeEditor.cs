@@ -201,7 +201,7 @@ public class TerrainVolumeEditModeEditor : Editor
 		
 		// Perform the raycasting. If there's a hit the position will be stored in these ints.
 		float resultX, resultY, resultZ;
-		bool hit = Cubiquity.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+		bool hit = TerrainVolumePicking.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 		
 		if(hit)
 		{		

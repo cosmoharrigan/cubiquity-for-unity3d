@@ -46,7 +46,7 @@ public class ClickToDestroy : MonoBehaviour
 				
 				// Perform the raycasting. If there's a hit the position will be stored in these ints.
 				int resultX, resultY, resultZ;
-				bool hit = Cubiquity.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+				bool hit = ColoredCubesVolumePicking.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 				
 				// If we hit a solid voxel then create an explosion at this point.
 				if(hit)
