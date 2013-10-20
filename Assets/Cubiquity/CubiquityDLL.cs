@@ -422,4 +422,14 @@ public class CubiquityDLL
 	{
 		Validate(cuPaintTerrainVolume(volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount, materialIndex));
 	}
+	
+	////////////////////////////////////////////////////////////////////////////////
+	// Volume generation functions
+	////////////////////////////////////////////////////////////////////////////////
+	[DllImport ("CubiquityC")]
+	private static extern int cuGenerateFloor(uint volumeHandle, int lowerLayerHeight, uint lowerLayerMaterial, int upperLayerHeight, uint upperLayerMaterial);
+	public static void GenerateFloor(uint volumeHandle, int lowerLayerHeight, uint lowerLayerMaterial, int upperLayerHeight, uint upperLayerMaterial)
+	{
+		Validate(cuGenerateFloor(volumeHandle, lowerLayerHeight, lowerLayerMaterial, upperLayerHeight, upperLayerMaterial));
+	}
 }

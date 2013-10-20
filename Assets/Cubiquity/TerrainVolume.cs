@@ -119,6 +119,8 @@ public class TerrainVolume : MonoBehaviour
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
 					data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 1, floorDepth);
+				
+				CubiquityDLL.GenerateFloor(volumeHandle.Value, (int)floorDepth - 2, (uint)0, (int)floorDepth, (uint)1);
 			}
 		}
 	}
