@@ -13,25 +13,11 @@ public class TerrainVolumeFactory
 	
 	public static GameObject CreateVolume(string name, Region region, string datasetName, uint baseNodeSize)
 	{		
-		// Make sure the Cubiquity library is installed.
-		Installation.ValidateAndFix();
-		
-		GameObject VoxelTerrainRoot = new GameObject(name);
-		VoxelTerrainRoot.AddComponent<TerrainVolume>();
-		
-		TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-		terrainVolume.baseNodeSize = (int)baseNodeSize;
-		
-		//TerrainVolumeData data = ScriptableObjectUtility.CreateAsset<TerrainVolumeData>();
 		TerrainVolumeData data = new TerrainVolumeData();
 		data.pathToVoxels = datasetName;
 		data.region = region;
 		
-		terrainVolume.data = data;
-		
-		terrainVolume.Initialize();
-		
-		return VoxelTerrainRoot;
+		return TerrainVolume.CreateGameObject(data);
 	}
 	
 	public static GameObject CreateVolumeWithFloor(string name, Region region, string datasetName, uint floorDepth)

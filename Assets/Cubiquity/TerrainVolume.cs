@@ -50,6 +50,26 @@ public class TerrainVolume : MonoBehaviour
 	
 	private int maxNodeSyncsPerFrame = 4;
 	private int nodeSyncsThisFrame = 0;
+	private static int DefaultBaseNodeSize = 32;
+	private static uint DefaultFloorDepth = 8;
+	
+	public static GameObject CreateGameObject(TerrainVolumeData data)
+	{
+		// Make sure the Cubiquity library is installed.
+		Installation.ValidateAndFix();
+		
+		GameObject VoxelTerrainRoot = new GameObject("Terrain Volume");
+		VoxelTerrainRoot.AddComponent<TerrainVolume>();
+		
+		TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
+		terrainVolume.baseNodeSize = DefaultBaseNodeSize;
+		
+		terrainVolume.data = data;
+		
+		terrainVolume.InitializeWithFloor(DefaultFloorDepth);
+		
+		return VoxelTerrainRoot;
+	}
 	
 	// It seems that we need to implement this function in order to make the volume pickable in the editor.
 	// It's actually the gizmo which get's picked which is often bigger than than the volume (unless all

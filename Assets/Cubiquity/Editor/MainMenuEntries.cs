@@ -20,7 +20,12 @@ public class MainMenuEntries : MonoBehaviour
 		int depth = 128;
 		
 		string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
-		TerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), path, 8);
+		
+		TerrainVolumeData data = new TerrainVolumeData();
+		data.pathToVoxels = path;
+		data.region = new Region(0, 0, 0, width-1, height-1, depth-1);
+		
+		TerrainVolume.CreateGameObject(data);
 	}
 	
 	[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
