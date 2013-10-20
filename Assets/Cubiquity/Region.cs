@@ -1,21 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-[System.Serializable]
-public class Region
+namespace Cubiquity
 {
-	public Vector3i lowerCorner;
-	public Vector3i upperCorner;
-	
-	public Region(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ)
+	[System.Serializable]
+	public class Region
 	{
-		lowerCorner = new Vector3i(lowerX, lowerY, lowerZ);
-		upperCorner = new Vector3i(upperX, upperY, upperZ);
-	}
-	
-	public Region(Vector3i lowerCorner, Vector3i upperCorner)
-	{
-		this.lowerCorner = lowerCorner;
-		this.upperCorner = upperCorner;
+		public Vector3i lowerCorner;
+		public Vector3i upperCorner;
+		
+		public Region(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ)
+		{
+			lowerCorner = new Vector3i(lowerX, lowerY, lowerZ);
+			upperCorner = new Vector3i(upperX, upperY, upperZ);
+		}
+		
+		public Region(Vector3i lowerCorner, Vector3i upperCorner)
+		{
+			this.lowerCorner = lowerCorner;
+			this.upperCorner = upperCorner;
+		}
 	}
 }

@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+using Cubiquity;
+
 public class ClickToDestroy : MonoBehaviour
 {
 	private ColoredCubesVolume coloredCubesVolume;

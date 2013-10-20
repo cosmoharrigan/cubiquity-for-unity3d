@@ -1,19 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class CubiquityException: System.Exception
+namespace Cubiquity
 {
-   public CubiquityException()
-   {
-   }
-
-   public CubiquityException(string message)
-		:base(message)
-   {
-   }
+	public class CubiquityException: System.Exception
+	{
+	   public CubiquityException()
+	   {
+	   }
 	
-	public CubiquityException(string message, CubiquityException innerException)
-		:base(message, innerException)
-   {
-   }
+	   public CubiquityException(string message)
+			:base(message)
+	   {
+	   }
+		
+		public CubiquityException(string message, CubiquityException innerException)
+			:base(message, innerException)
+	   {
+	   }
+	}
 }

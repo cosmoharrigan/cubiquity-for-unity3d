@@ -1,7 +1,10 @@
-﻿public static class License
+﻿namespace Cubiquity
 {
-	public static uint MaxNoOfMaterials
+	public static class License
 	{
-		get { return 4; }
+		public static uint MaxNoOfMaterials
+		{
+			get { return 4; }
+		}
 	}
 }

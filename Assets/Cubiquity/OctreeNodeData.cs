@@ -1,49 +1,52 @@
 using UnityEngine;
 using System.Collections;
 
-public class OctreeNodeData : MonoBehaviour
+namespace Cubiquity
 {
-	[System.NonSerialized]
-	public int meshLastSyncronised;
-	[System.NonSerialized]
-	public Vector3 lowerCorner;
-	[System.NonSerialized]
-	public GameObject[,,] children;
-	
-	// Use this for initialization
-	void Awake()
+	public class OctreeNodeData : MonoBehaviour
 	{
-		//meshLastSyncronised = 0;
-	}
-	
-	public void OnEnable()
-	{
-	}
-	
-	// Update is called once per frame
-	void Update()
-	{	
-	}
-	
-	public GameObject GetChild(uint x, uint y, uint z)
-	{
-		if(children != null)
+		[System.NonSerialized]
+		public int meshLastSyncronised;
+		[System.NonSerialized]
+		public Vector3 lowerCorner;
+		[System.NonSerialized]
+		public GameObject[,,] children;
+		
+		// Use this for initialization
+		void Awake()
 		{
-			return children[x, y, z];
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	public void SetChild(uint x, uint y, uint z, GameObject gameObject)
-	{
-		if(children == null)
-		{
-			children = new GameObject[2, 2, 2];
+			//meshLastSyncronised = 0;
 		}
 		
-		children[x, y, z] = gameObject;
+		public void OnEnable()
+		{
+		}
+		
+		// Update is called once per frame
+		void Update()
+		{	
+		}
+		
+		public GameObject GetChild(uint x, uint y, uint z)
+		{
+			if(children != null)
+			{
+				return children[x, y, z];
+			}
+			else
+			{
+				return null;
+			}
+		}
+		
+		public void SetChild(uint x, uint y, uint z, GameObject gameObject)
+		{
+			if(children == null)
+			{
+				children = new GameObject[2, 2, 2];
+			}
+			
+			children[x, y, z] = gameObject;
+		}
 	}
 }

@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[System.Serializable]
-public sealed class TerrainVolumeData
+namespace Cubiquity
 {
-	public TerrainVolumeData()
+	[System.Serializable]
+	public sealed class TerrainVolumeData
 	{
-		materials = new TerrainMaterial[License.MaxNoOfMaterials];
-		
-		for(int i = 0; i < materials.Length; i++)
+		public TerrainVolumeData()
 		{
-			materials[i] = new TerrainMaterial();
+			materials = new TerrainMaterial[License.MaxNoOfMaterials];
+			
+			for(int i = 0; i < materials.Length; i++)
+			{
+				materials[i] = new TerrainMaterial();
+			}
 		}
+		
+		public string pathToVoxels;
+		
+		// The extents (dimensions in voxels) of the volume.
+		public Region region = null;
+		
+		public TerrainMaterial[] materials;
 	}
-	
-	public string pathToVoxels;
-	
-	// The extents (dimensions in voxels) of the volume.
-	public Region region = null;
-	
-	public TerrainMaterial[] materials;
 }
