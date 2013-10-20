@@ -7,6 +7,16 @@ using System.IO;
 
 abstract public class CreateVolumeWizard : ScriptableWizard
 {
+	// This is the path to where the volumes are stored on disk.
+	public static string volumesPath
+	{
+		get
+		{
+			string pathToData = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity/Volumes");
+			return pathToData;
+		}
+	}
+	
 	protected string datasetName = "New Volume";
 	
 	protected int width = 128;
@@ -37,12 +47,12 @@ abstract public class CreateVolumeWizard : ScriptableWizard
 			EditorGUILayout.TextField("", datasetName, GUILayout.MinWidth(100));
 			if(GUILayout.Button("Select folder...", GUILayout.Width(100)))
 			{
-				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", Cubiquity.volumesPath, "");
+				string selectedFolderAsString = EditorUtility.SaveFolderPanel("Create or choose and empty folder for the volume data", volumesPath, "");
 			
-				if(IsSubfolder(Cubiquity.volumesPath, selectedFolderAsString))
+				if(IsSubfolder(volumesPath, selectedFolderAsString))
 				{
 					Uri selectedFolderUri = new Uri(selectedFolderAsString);
-					Uri volumeDataUri = new Uri(Cubiquity.volumesPath + Path.DirectorySeparatorChar);			
+					Uri volumeDataUri = new Uri(volumesPath + Path.DirectorySeparatorChar);			
 					Uri relativeUri = volumeDataUri.MakeRelativeUri(selectedFolderUri);			
 					datasetName = relativeUri.ToString();
 				}
