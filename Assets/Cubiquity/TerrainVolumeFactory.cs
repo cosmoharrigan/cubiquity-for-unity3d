@@ -36,7 +36,7 @@ namespace Cubiquity
 			VoxelTerrainRoot.AddComponent<TerrainVolume>();
 			
 			TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-			terrainVolume.baseNodeSize = (int)baseNodeSize;
+			//terrainVolume.baseNodeSize = (int)baseNodeSize;
 			
 			//TerrainVolumeData data = ScriptableObjectUtility.CreateAsset<TerrainVolumeData>();
 			TerrainVolumeData data = new TerrainVolumeData(region, datasetName);
