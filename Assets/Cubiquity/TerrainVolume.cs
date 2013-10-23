@@ -42,11 +42,6 @@ namespace Cubiquity
 		
 		public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 		
-		// If set, this identifies the volume to the Cubiquity DLL. It can
-		// be tested against null to find if the volume is currently valid.
-		[System.NonSerialized]
-		internal uint? volumeHandle = null;
-		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
 		
@@ -99,12 +94,12 @@ namespace Cubiquity
 		{	
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(volumeHandle == null)
+			if(data != null)
 			{	
-				if(data != null)
+				if(data.volumeHandle == null)
 				{
 					// Create an empty region of the desired size.
-					volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
+					data.volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
 						data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 0, 0);
 				}
 			}
@@ -114,15 +109,15 @@ namespace Cubiquity
 		{	
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(volumeHandle == null)
+			if(data.volumeHandle == null)
 			{	
 				if(data != null)
 				{
 					// Create an empty region of the desired size.
-					volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
+					data.volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
 						data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 1, floorDepth);
 					
-					CubiquityDLL.GenerateFloor(volumeHandle.Value, (int)floorDepth - 2, (uint)0, (int)floorDepth, (uint)1);
+					CubiquityDLL.GenerateFloor(data.volumeHandle.Value, (int)floorDepth - 2, (uint)0, (int)floorDepth, (uint)1);
 				}
 			}
 		}
@@ -131,13 +126,13 @@ namespace Cubiquity
 		{
 			nodeSyncsThisFrame = 0;
 			
-			if(volumeHandle.HasValue)
+			if(data.volumeHandle.HasValue)
 			{
-				CubiquityDLL.UpdateVolumeMC(volumeHandle.Value);
+				CubiquityDLL.UpdateVolumeMC(data.volumeHandle.Value);
 				
-				if(CubiquityDLL.HasRootOctreeNodeMC(volumeHandle.Value) == 1)
+				if(CubiquityDLL.HasRootOctreeNodeMC(data.volumeHandle.Value) == 1)
 				{		
-					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(volumeHandle.Value);
+					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(data.volumeHandle.Value);
 				
 					if(rootGameObject == null)
 					{					
@@ -167,16 +162,16 @@ namespace Cubiquity
 		{
 			Debug.Log("In ColoredCubesVolume.Shutdown()");
 			
-			if(volumeHandle.HasValue)
+			if(data.volumeHandle.HasValue)
 			{
 				if(saveChanges)
 				{
-					CubiquityDLL.AcceptOverrideBlocksMC(volumeHandle.Value);
+					CubiquityDLL.AcceptOverrideBlocksMC(data.volumeHandle.Value);
 				}
-				CubiquityDLL.DiscardOverrideBlocksMC(volumeHandle.Value);
+				CubiquityDLL.DiscardOverrideBlocksMC(data.volumeHandle.Value);
 				
-				CubiquityDLL.DeleteTerrainVolume(volumeHandle.Value);
-				volumeHandle = null;
+				CubiquityDLL.DeleteTerrainVolume(data.volumeHandle.Value);
+				data.volumeHandle = null;
 				
 				// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
 				// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
@@ -214,28 +209,6 @@ namespace Cubiquity
 			bool saveChanges = !Application.isPlaying;
 			
 			Shutdown(saveChanges);
-		}
-		
-		public byte GetVoxel(int x, int y, int z, uint materialIndex)
-		{
-			byte materialStrength = 0;
-			if(volumeHandle.HasValue)
-			{
-				CubiquityDLL.GetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, out materialStrength);
-			}
-			return materialStrength;
-		}
-		
-		public void SetVoxel(int x, int y, int z, uint materialIndex, byte materialStrength)
-		{
-			if(volumeHandle.HasValue)
-			{
-				if(x >= data.region.lowerCorner.x && y >= data.region.lowerCorner.y && z >= data.region.lowerCorner.z
-					&& x <= data.region.upperCorner.x && y <= data.region.upperCorner.y && z <= data.region.upperCorner.z)
-				{
-					CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, materialStrength);
-				}
-			}
 		}
 		
 		public void syncNode(uint nodeHandle, GameObject gameObjectToSync)

@@ -5,7 +5,19 @@ namespace Cubiquity
 {
 	[System.Serializable]
 	public sealed class TerrainVolumeData
-	{
+	{		
+		public string pathToVoxels;
+		
+		// If set, this identifies the volume to the Cubiquity DLL. It can
+		// be tested against null to find if the volume is currently valid.
+		[System.NonSerialized]
+		internal uint? volumeHandle = null;
+		
+		// The extents (dimensions in voxels) of the volume.
+		public Region region = null;
+		
+		public TerrainMaterial[] materials;
+		
 		public TerrainVolumeData()
 		{
 			materials = new TerrainMaterial[License.MaxNoOfMaterials];
@@ -16,11 +28,26 @@ namespace Cubiquity
 			}
 		}
 		
-		public string pathToVoxels;
+		public byte GetVoxel(int x, int y, int z, uint materialIndex)
+		{
+			byte materialStrength = 0;
+			if(volumeHandle.HasValue)
+			{
+				CubiquityDLL.GetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, out materialStrength);
+			}
+			return materialStrength;
+		}
 		
-		// The extents (dimensions in voxels) of the volume.
-		public Region region = null;
-		
-		public TerrainMaterial[] materials;
+		public void SetVoxel(int x, int y, int z, uint materialIndex, byte materialStrength)
+		{
+			if(volumeHandle.HasValue)
+			{
+				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
+					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z)
+				{
+					CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, materialStrength);
+				}
+			}
+		}
 	}
 }
