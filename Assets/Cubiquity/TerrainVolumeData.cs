@@ -10,16 +10,29 @@ namespace Cubiquity
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
-		[System.NonSerialized]
 		internal uint? volumeHandle = null;
 		
 		// The extents (dimensions in voxels) of the volume.
-		public Region region = null;
+		/*[SerializeField]
+		public Region region {get; private set;}*/
+		
+		[SerializeField]
+		private Region _region;
+	    public Region region
+	    {
+	        //set the person name
+	        //set { this._region = value; }
+	        //get the person name 
+	        get { return this._region; }
+	    }
 		
 		public TerrainMaterial[] materials;
 		
-		public TerrainVolumeData()
+		public TerrainVolumeData(Region region, string pathToVoxels)
 		{
+			this._region = region;
+			this.pathToVoxels = pathToVoxels;
+			
 			materials = new TerrainMaterial[License.MaxNoOfMaterials];
 			
 			for(int i = 0; i < materials.Length; i++)

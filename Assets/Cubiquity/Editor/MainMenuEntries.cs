@@ -23,9 +23,7 @@ namespace Cubiquity
 			
 			string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
 			
-			TerrainVolumeData data = new TerrainVolumeData();
-			data.pathToVoxels = path;
-			data.region = new Region(0, 0, 0, width-1, height-1, depth-1);
+			TerrainVolumeData data = new TerrainVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), path);
 			
 			TerrainVolume.CreateGameObject(data);
 		}
