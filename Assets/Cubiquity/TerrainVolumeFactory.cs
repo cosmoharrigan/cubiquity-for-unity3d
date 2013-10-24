@@ -15,7 +15,10 @@ namespace Cubiquity
 		
 		public static GameObject CreateVolume(string name, Region region, string datasetName, uint baseNodeSize)
 		{		
-			TerrainVolumeData data = new TerrainVolumeData(region, datasetName);			
+			TerrainVolumeData data = new TerrainVolumeData();
+			data.pathToVoxels = datasetName;
+			data.region = region;
+			
 			return TerrainVolume.CreateGameObject(data);
 		}
 		
@@ -36,10 +39,12 @@ namespace Cubiquity
 			VoxelTerrainRoot.AddComponent<TerrainVolume>();
 			
 			TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-			//terrainVolume.baseNodeSize = (int)baseNodeSize;
+			terrainVolume.baseNodeSize = (int)baseNodeSize;
 			
 			//TerrainVolumeData data = ScriptableObjectUtility.CreateAsset<TerrainVolumeData>();
-			TerrainVolumeData data = new TerrainVolumeData(region, datasetName);
+			TerrainVolumeData data = new TerrainVolumeData();
+			data.pathToVoxels = datasetName;
+			data.region = region;
 			
 			terrainVolume.data = data;
 			

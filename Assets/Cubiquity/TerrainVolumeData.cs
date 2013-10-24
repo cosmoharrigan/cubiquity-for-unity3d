@@ -10,29 +10,16 @@ namespace Cubiquity
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
+		[System.NonSerialized]
 		internal uint? volumeHandle = null;
 		
-		// The extents (dimensions in voxels) of the volume.		
-		public Region region {get; private set;}
+		// The extents (dimensions in voxels) of the volume.
+		public Region region = null;
 		
 		public TerrainMaterial[] materials;
 		
-		// Don't really like having this defined here. The base node size should be a rendering property rather than a
-		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
-		private static uint DefaultBaseNodeSize = 32;
-		
-		private static int DefaultFloorDepth = 8;
-		
-		public TerrainVolumeData(Region region, string pathToVoxels)
+		public TerrainVolumeData()
 		{
-			this.region = region;
-			this.pathToVoxels = pathToVoxels;
-			
-			volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-						region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 0, 0);
-			
-			CubiquityDLL.GenerateFloor(volumeHandle.Value, DefaultFloorDepth - 2, (uint)0, DefaultFloorDepth, (uint)1);
-			
 			materials = new TerrainMaterial[License.MaxNoOfMaterials];
 			
 			for(int i = 0; i < materials.Length; i++)
