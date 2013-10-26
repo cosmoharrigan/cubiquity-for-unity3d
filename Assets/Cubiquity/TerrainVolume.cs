@@ -61,7 +61,7 @@ namespace Cubiquity
 			
 			terrainVolume.data = data;
 			
-			terrainVolume.data.Initialize();
+			//terrainVolume.data.Initialize();
 			
 			return VoxelTerrainRoot;
 		}
@@ -151,11 +151,6 @@ namespace Cubiquity
 			Debug.Log ("ColoredCubesVolume.OnEnable()");
 			Shader shader = Shader.Find("TerrainVolume");
 			material = new Material(shader);
-			
-			if(data != null)
-			{
-				data.Initialize();
-			}
 		}
 		
 		// Use this for initialization
