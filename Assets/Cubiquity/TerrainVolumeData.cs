@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+
+using System;
+using System.IO;
 using System.Collections;
 
 namespace Cubiquity
@@ -6,7 +9,8 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class TerrainVolumeData : ScriptableObject
 	{		
-		public string pathToVoxels;
+		[SerializeField]
+		private string pathToVoxels;
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
@@ -38,10 +42,10 @@ namespace Cubiquity
 			}
 		}
 		
-		public void Init(Region region, string pathToVoxels)
+		public void Init(Region region)
 		{
 			this._region = region;
-			this.pathToVoxels = pathToVoxels;
+			this.pathToVoxels = GeneratePathToVoxels();
 			
 			InitializeCubiquityVolume();
 		}
@@ -84,6 +88,14 @@ namespace Cubiquity
 					CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, materialStrength);
 				}
 			}
+		}
+		
+		private string GeneratePathToVoxels()
+		{
+			System.Random random = new System.Random();
+			int randomVal = random.Next();
+			randomVal.ToString("X8");			
+			return Application.streamingAssetsPath + Path.DirectorySeparatorChar + randomVal.ToString("X8") + ".vol";
 		}
 	}
 }

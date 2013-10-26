@@ -21,12 +21,10 @@ namespace Cubiquity
 			int height = 32;
 			int depth = 128;
 			
-			string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
-			
 			//TerrainVolumeData data = new TerrainVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), path);
 			
 			TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
-			data.Init(new Region(0, 0, 0, width-1, height-1, depth-1), path);
+			data.Init(new Region(0, 0, 0, width-1, height-1, depth-1));
 			
 			TerrainVolume.CreateGameObject(data);
 			

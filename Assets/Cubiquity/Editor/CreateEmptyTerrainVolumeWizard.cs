@@ -68,11 +68,11 @@ namespace Cubiquity
 			
 			if(createFloor)
 			{
-				TerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName, (uint)floorThickness);
+				TerrainVolumeFactory.CreateVolumeWithFloor("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), (uint)floorThickness);
 			}
 			else
 			{
-				TerrainVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
+				TerrainVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1));
 			}
 	
 		}

@@ -8,25 +8,25 @@ namespace Cubiquity
 	{
 		private static uint DefaultBaseNodeSize = 32;
 		
-		public static GameObject CreateVolume(string name, Region region, string datasetName)
+		public static GameObject CreateVolume(string name, Region region)
 		{
-			return CreateVolume (name, region, datasetName, DefaultBaseNodeSize);
+			return CreateVolume (name, region, DefaultBaseNodeSize);
 		}
 		
-		public static GameObject CreateVolume(string name, Region region, string datasetName, uint baseNodeSize)
+		public static GameObject CreateVolume(string name, Region region, uint baseNodeSize)
 		{		
 			//TerrainVolumeData data = new TerrainVolumeData(region, datasetName);			
 			TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
-			data.Init(region, datasetName);
+			data.Init(region);
 			return TerrainVolume.CreateGameObject(data);
 		}
 		
-		public static GameObject CreateVolumeWithFloor(string name, Region region, string datasetName, uint floorDepth)
+		public static GameObject CreateVolumeWithFloor(string name, Region region, uint floorDepth)
 		{
-			return CreateVolumeWithFloor (name, region, datasetName, DefaultBaseNodeSize, floorDepth);
+			return CreateVolumeWithFloor (name, region, DefaultBaseNodeSize, floorDepth);
 		}
 		
-		public static GameObject CreateVolumeWithFloor(string name, Region region, string datasetName, uint baseNodeSize, uint floorDepth)
+		public static GameObject CreateVolumeWithFloor(string name, Region region, uint baseNodeSize, uint floorDepth)
 		{		
 			// Make sure the Cubiquity library is installed.
 			Installation.ValidateAndFix();
@@ -43,7 +43,7 @@ namespace Cubiquity
 			//TerrainVolumeData data = ScriptableObjectUtility.CreateAsset<TerrainVolumeData>();
 			//TerrainVolumeData data = new TerrainVolumeData(region, datasetName);
 			TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
-			data.Init(region, datasetName);
+			data.Init(region);
 			
 			terrainVolume.data = data;
 			
