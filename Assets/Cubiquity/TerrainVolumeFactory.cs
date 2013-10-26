@@ -43,7 +43,7 @@ namespace Cubiquity
 			
 			terrainVolume.data = data;
 			
-			terrainVolume.data.InitializeWithFloor();
+			terrainVolume.data.Initialize();
 			
 			return VoxelTerrainRoot;
 		}

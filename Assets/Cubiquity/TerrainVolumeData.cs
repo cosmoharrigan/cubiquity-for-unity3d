@@ -10,19 +10,15 @@ namespace Cubiquity
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
+		[System.NonSerialized] // Internal variables aren't serialized anyway?
 		internal uint? volumeHandle = null;
 		
-		// The extents (dimensions in voxels) of the volume.
-		/*[SerializeField]
-		public Region region {get; private set;}*/
-		
+		// We need to explicitly serialize the private field because
+		// Unity3D doesn't automatically serialize the public property
 		[SerializeField]
 		private Region _region;
 	    public Region region
 	    {
-	        //set the person name
-	        //set { this._region = value; }
-	        //get the person name 
 	        get { return this._region; }
 	    }
 		
@@ -57,22 +53,6 @@ namespace Cubiquity
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 0, 0);
-			}
-		}
-		
-		internal void InitializeWithFloor()
-		{	
-			uint floorDepth = DefaultFloorDepth;
-			
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(volumeHandle == null)
-			{	
-				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 1, floorDepth);
-				
-				//CubiquityDLL.GenerateFloor(volumeHandle.Value, (int)floorDepth - 2, (uint)0, (int)floorDepth, (uint)1);
 			}
 		}
 		
