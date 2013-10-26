@@ -26,6 +26,10 @@ namespace Cubiquity
 			TerrainVolumeData data = new TerrainVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), path);
 			
 			TerrainVolume.CreateGameObject(data);
+			
+			// Create some ground in the terrain so it shows up in the editor.
+			// Soil as a base (mat 0) and then a couple of layers of grass (mat 1).
+			TerrainVolumeGenerator.GenerateFloor(data, 6, (uint)0, 8, (uint)1);
 		}
 		
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
