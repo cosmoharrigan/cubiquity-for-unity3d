@@ -32,6 +32,10 @@ namespace Cubiquity
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
 		private static uint DefaultBaseNodeSize = 32;
 		
+		// We use a static Random for making filenames, as Randoms are seeded by timestamp
+		// and client code could potentially create a number of volumes on quick sucession.  
+		private static System.Random randomIntGenerator = new System.Random();
+		
 		public TerrainVolumeData()
 		{			
 			materials = new TerrainMaterial[License.MaxNoOfMaterials];
@@ -92,10 +96,9 @@ namespace Cubiquity
 		
 		private string GeneratePathToVoxels()
 		{
-			System.Random random = new System.Random();
-			int randomVal = random.Next();
-			randomVal.ToString("X8");			
-			return Application.streamingAssetsPath + Path.DirectorySeparatorChar + randomVal.ToString("X8") + ".vol";
+			// Generate a random filename from an integer
+			string filename = randomIntGenerator.Next().ToString("X8") + ".vol";
+			return Application.streamingAssetsPath + Path.DirectorySeparatorChar + filename;
 		}
 	}
 }
