@@ -46,6 +46,12 @@ namespace Cubiquity
 			}
 		}
 		
+		// Ideally we will get rid of this function in the future. It is needed at the moment because the Region cannot be
+		// specified via the constructor as this class is created with ScriptableObject.CreateInstance(). However, Init() get
+		// called after OnEnable() (which will have failed to create the Cubiquity volume due to not having the Region) so we
+		// have to try and create the cubiquity volume again.
+		//
+		// This should improve once we remove the concept of Cubiquity volumes needing a region.
 		public void Init(Region region)
 		{
 			this._region = region;
