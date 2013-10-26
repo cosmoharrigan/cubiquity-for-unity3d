@@ -4,7 +4,7 @@ using System.Collections;
 namespace Cubiquity
 {
 	[System.Serializable]
-	public sealed class TerrainVolumeData
+	public sealed class TerrainVolumeData : ScriptableObject
 	{		
 		public string pathToVoxels;
 		
@@ -28,19 +28,20 @@ namespace Cubiquity
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
 		private static uint DefaultBaseNodeSize = 32;
 		
-		private static uint DefaultFloorDepth = 8;
-		
-		public TerrainVolumeData(Region region, string pathToVoxels)
-		{
-			this._region = region;
-			this.pathToVoxels = pathToVoxels;
-			
+		public TerrainVolumeData()
+		{			
 			materials = new TerrainMaterial[License.MaxNoOfMaterials];
 			
 			for(int i = 0; i < materials.Length; i++)
 			{
 				materials[i] = new TerrainMaterial();
 			}
+		}
+		
+		public void Init(Region region, string pathToVoxels)
+		{
+			this._region = region;
+			this.pathToVoxels = pathToVoxels;
 		}
 
 		internal void Initialize()
