@@ -28,6 +28,12 @@ namespace Cubiquity
 		
 		public TerrainMaterial[] materials;
 		
+		// Don't really like having this defined here. The base node size should be a rendering property rather than a
+		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
+		private static uint DefaultBaseNodeSize = 32;
+		
+		private static uint DefaultFloorDepth = 8;
+		
 		public TerrainVolumeData(Region region, string pathToVoxels)
 		{
 			this._region = region;
@@ -38,6 +44,35 @@ namespace Cubiquity
 			for(int i = 0; i < materials.Length; i++)
 			{
 				materials[i] = new TerrainMaterial();
+			}
+		}
+
+		internal void Initialize()
+		{	
+			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
+			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
+
+			if(volumeHandle == null)
+			{
+				// Create an empty region of the desired size.
+				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 0, 0);
+			}
+		}
+		
+		internal void InitializeWithFloor()
+		{	
+			uint floorDepth = DefaultFloorDepth;
+			
+			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
+			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
+			if(volumeHandle == null)
+			{	
+				// Create an empty region of the desired size.
+				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 1, floorDepth);
+				
+				CubiquityDLL.GenerateFloor(volumeHandle.Value, (int)floorDepth - 2, (uint)0, (int)floorDepth, (uint)1);
 			}
 		}
 		

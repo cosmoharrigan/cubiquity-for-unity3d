@@ -34,7 +34,7 @@ namespace Cubiquity
 		// The side length of an extracted mesh for the most detailed LOD.
 		// Bigger values mean fewer batches but slower surface extraction.
 		// For some reason Unity won't serialize uints so it's stored as int.
-		public int baseNodeSize = 0;
+		//public int baseNodeSize = 0;
 		
 		// Determines whether collision data is generated as well as a
 		// renderable mesh. This does not apply when in the Unity editor.
@@ -47,8 +47,6 @@ namespace Cubiquity
 		
 		private int maxNodeSyncsPerFrame = 4;
 		private int nodeSyncsThisFrame = 0;
-		private static int DefaultBaseNodeSize = 32;
-		private static uint DefaultFloorDepth = 8;
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
 		{
@@ -59,11 +57,11 @@ namespace Cubiquity
 			VoxelTerrainRoot.AddComponent<TerrainVolume>();
 			
 			TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-			terrainVolume.baseNodeSize = DefaultBaseNodeSize;
+			//terrainVolume.baseNodeSize = DefaultBaseNodeSize;
 			
 			terrainVolume.data = data;
 			
-			terrainVolume.InitializeWithFloor(DefaultFloorDepth);
+			terrainVolume.data.InitializeWithFloor();
 			
 			return VoxelTerrainRoot;
 		}
@@ -89,38 +87,6 @@ namespace Cubiquity
 	        Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.0f);
 			Gizmos.DrawCube (transform.position - halfVoxelOffset + new Vector3(offsetX, offsetY, offsetZ), new Vector3 (width, height, depth));
 	    }
-		
-		internal void Initialize()
-		{	
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(data != null)
-			{	
-				if(data.volumeHandle == null)
-				{
-					// Create an empty region of the desired size.
-					data.volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
-						data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 0, 0);
-				}
-			}
-		}
-		
-		internal void InitializeWithFloor(uint floorDepth)
-		{	
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(data.volumeHandle == null)
-			{	
-				if(data != null)
-				{
-					// Create an empty region of the desired size.
-					data.volumeHandle = CubiquityDLL.NewTerrainVolume(data.region.lowerCorner.x, data.region.lowerCorner.y, data.region.lowerCorner.z,
-						data.region.upperCorner.x, data.region.upperCorner.y, data.region.upperCorner.z, data.pathToVoxels, (uint)baseNodeSize, 1, floorDepth);
-					
-					CubiquityDLL.GenerateFloor(data.volumeHandle.Value, (int)floorDepth - 2, (uint)0, (int)floorDepth, (uint)1);
-				}
-			}
-		}
 		
 		public void Synchronize()
 		{
@@ -186,7 +152,10 @@ namespace Cubiquity
 			Shader shader = Shader.Find("TerrainVolume");
 			material = new Material(shader);
 			
-			Initialize();
+			if(data != null)
+			{
+				data.Initialize();
+			}
 		}
 		
 		// Use this for initialization
