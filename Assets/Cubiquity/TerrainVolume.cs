@@ -94,19 +94,11 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
-			if(brushMarker != null)
-			{
-				List<string> keywords = new List<string> {"BRUSH_MARKER_ON"};
-				material.shaderKeywords = keywords.ToArray();
-				material.SetVector("_BrushCenter", brushMarker.center);				
-				material.SetVector("_BrushSettings", new Vector4(brushMarker.innerRadius, brushMarker.outerRadius, brushMarker.opacity, 0.0f));
-				material.SetVector("_BrushColor", brushMarker.color);
-			}
-			else
-			{
-				List<string> keywords = new List<string> {"BRUSH_MARKER_OFF"};
-				material.shaderKeywords = keywords.ToArray();
-			}
+			List<string> keywords = new List<string> { brushMarker.isVisible ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF"};
+			material.shaderKeywords = keywords.ToArray();
+			material.SetVector("_BrushCenter", brushMarker.center);				
+			material.SetVector("_BrushSettings", new Vector4(brushMarker.innerRadius, brushMarker.outerRadius, brushMarker.opacity, 0.0f));
+			material.SetVector("_BrushColor", brushMarker.color);
 			
 			nodeSyncsThisFrame = 0;
 			
@@ -144,17 +136,17 @@ namespace Cubiquity
 		
 		void OnEnable()
 		{
-			Debug.Log ("ColoredCubesVolume.OnEnable()");
+			Debug.Log ("TerrainVolume.OnEnable()");
 			Shader shader = Shader.Find("TerrainVolume");
 			material = new Material(shader);
 			
 			// I think it's easiest if we ensure a brush always exists, and allow
 			// the user to hide it be setting the isVisible property to false.
-			/*if(brushMarker == null)
+			if(brushMarker == null)
 			{
 				brushMarker = new TerrainVolumeBrushMarker();
 				brushMarker.isVisible = false; // Hide it by default.
-			}*/
+			}
 		}
 		
 		// Update is called once per frame
@@ -183,7 +175,6 @@ namespace Cubiquity
 			
 			if(octreeNodeData.meshLastSyncronised < meshLastUpdated)
 			{			
-				Debug.Log ("Syncronising mesh");
 				if(CubiquityDLL.NodeHasMeshMC(nodeHandle) == 1)
 				{				
 					Mesh renderingMesh;
@@ -256,7 +247,6 @@ namespace Cubiquity
 		GameObject BuildGameObjectFromNodeHandle(uint nodeHandle, GameObject parentGameObject)
 		{
 			int xPos, yPos, zPos;
-			//Debug.Log("Getting position for node handle = " + nodeHandle);
 			CubiquityDLL.GetNodePositionMC(nodeHandle, out xPos, out yPos, out zPos);
 			
 			StringBuilder name = new StringBuilder("(" + xPos + ", " + yPos + ", " + zPos + ")");
@@ -305,8 +295,6 @@ namespace Cubiquity
 			Vector3[] renderingNormals = new Vector3[cubiquityVertices.Length];		
 			Color32[] renderingColors = new Color32[cubiquityVertices.Length];		
 			Vector3[] physicsVertices = UseCollisionMesh && Application.isPlaying ? new Vector3[cubiquityVertices.Length] : null;
-			
-			Debug.Log ("Got " + cubiquityVertices.Length + " vertices");
 			
 			for(int ct = 0; ct < cubiquityVertices.Length; ct++)
 			{
