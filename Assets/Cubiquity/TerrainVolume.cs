@@ -186,7 +186,7 @@ namespace Cubiquity
 						}
 					}*/
 					
-					if(UseCollisionMesh)
+					if(UseCollisionMesh && Application.isPlaying)
 					{
 						MeshCollider mc = (MeshCollider)gameObjectToSync.GetComponent(typeof(MeshCollider));
 						mc.sharedMesh = physicsMesh;
@@ -268,7 +268,7 @@ namespace Cubiquity
 			
 			// Create rendering and possible collision meshes.
 			renderingMesh = new Mesh();		
-			physicsMesh = UseCollisionMesh ? new Mesh() : null;
+			physicsMesh = UseCollisionMesh && Application.isPlaying ? new Mesh() : null;
 			
 			// Get the data from Cubiquity.
 			int[] indices = CubiquityDLL.GetIndicesMC(nodeHandle);		
@@ -278,7 +278,7 @@ namespace Cubiquity
 	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
 			Vector3[] renderingNormals = new Vector3[cubiquityVertices.Length];		
 			Color32[] renderingColors = new Color32[cubiquityVertices.Length];		
-			Vector3[] physicsVertices = UseCollisionMesh ? new Vector3[cubiquityVertices.Length] : null;
+			Vector3[] physicsVertices = UseCollisionMesh && Application.isPlaying ? new Vector3[cubiquityVertices.Length] : null;
 			
 			Debug.Log ("Got " + cubiquityVertices.Length + " vertices");
 			
@@ -298,7 +298,7 @@ namespace Cubiquity
 				renderingVertices[ct] = position;	
 				renderingNormals[ct] = normal;
 				renderingColors[ct] = color;
-				if(UseCollisionMesh)
+				if(UseCollisionMesh && Application.isPlaying)
 				{
 					physicsVertices[ct] = position;
 				}
@@ -313,7 +313,7 @@ namespace Cubiquity
 			// FIXME - Get proper bounds
 			renderingMesh.bounds = new Bounds(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(500.0f, 500.0f, 500.0f));
 			
-			if(UseCollisionMesh)
+			if(UseCollisionMesh && Application.isPlaying)
 			{
 				physicsMesh.vertices = physicsVertices;
 				physicsMesh.triangles = indices;
