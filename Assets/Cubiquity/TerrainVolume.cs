@@ -29,12 +29,12 @@ namespace Cubiquity
 	public class TerrainVolume : MonoBehaviour
 	{		
 		// The name of the dataset to load from disk.
-		public TerrainVolumeData data = null;
-		
-		// The side length of an extracted mesh for the most detailed LOD.
-		// Bigger values mean fewer batches but slower surface extraction.
-		// For some reason Unity won't serialize uints so it's stored as int.
-		//public int baseNodeSize = 0;
+		[SerializeField]
+		private TerrainVolumeData mData = null;
+		public TerrainVolumeData data
+	    {
+	        get { return this.mData; }
+	    }
 		
 		// Determines whether collision data is generated as well as a
 		// renderable mesh. This does not apply when in the Unity editor.
@@ -59,7 +59,7 @@ namespace Cubiquity
 			TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
 			//terrainVolume.baseNodeSize = DefaultBaseNodeSize;
 			
-			terrainVolume.data = data;
+			terrainVolume.mData = data;
 			
 			//terrainVolume.data.Initialize();
 			
