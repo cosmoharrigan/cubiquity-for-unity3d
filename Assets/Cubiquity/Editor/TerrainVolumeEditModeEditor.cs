@@ -213,14 +213,21 @@ namespace Cubiquity
 				// Use this value to compute the inner radius as a proportion of the outer radius.
 				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 					
-				List<string> keywords = new List<string>();
+				/*List<string> keywords = new List<string>();
 				keywords.Add("BRUSH_MARKER_ON");
 				terrainVolume.material.shaderKeywords = keywords.ToArray();
 				//Shader.DisableKeyword("SHOW_BRUSH");
 				//Shader.EnableKeyword("HIDE_BRUSH");
 				terrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
 				terrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
-				terrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+				terrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));*/
+				
+				terrainVolume.brush.isVisible = true;
+				terrainVolume.brush.center = new Vector3(resultX, resultY, resultZ);
+				terrainVolume.brush.innerRadius = brushInnerRadius;
+				terrainVolume.brush.outerRadius = brushOuterRadius;
+				terrainVolume.brush.opacity = opacity;
+				terrainVolume.brush.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f); // FIXME - Don't need to set this every time
 				
 				if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 				{
@@ -242,6 +249,10 @@ namespace Cubiquity
 						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
 					}
 				}	
+			}
+			else
+			{
+				terrainVolume.brush.isVisible = false;
 			}
 			
 			if ( e.type == EventType.Layout )

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -39,6 +40,8 @@ namespace Cubiquity
 		// Determines whether collision data is generated as well as a
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
+		
+		public TerrainVolumeBrush brush;
 		
 		public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 		
@@ -90,6 +93,15 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
+			List<string> keywords = new List<string>();
+			keywords.Add("BRUSH_MARKER_ON");
+			material.shaderKeywords = keywords.ToArray();
+			//Shader.DisableKeyword("SHOW_BRUSH");
+			//Shader.EnableKeyword("HIDE_BRUSH");
+			material.SetVector("_BrushCenter", brush.center);				
+			material.SetVector("_BrushSettings", new Vector4(brush.innerRadius, brush.outerRadius, brush.opacity, 0.0f));
+			material.SetVector("_BrushColor", brush.color);
+			
 			nodeSyncsThisFrame = 0;
 			
 			if(data.volumeHandle.HasValue)
@@ -129,11 +141,19 @@ namespace Cubiquity
 			Debug.Log ("ColoredCubesVolume.OnEnable()");
 			Shader shader = Shader.Find("TerrainVolume");
 			material = new Material(shader);
+			
+			// I think it's easiest if we ensure a brush always exists, and allow
+			// the user to hide it be setting the isVisible property to false.
+			if(brush == null)
+			{
+				brush = new TerrainVolumeBrush();
+				brush.isVisible = false; // Hide it by default.
+			}
 		}
 		
 		// Update is called once per frame
 		void Update()
-		{
+		{		
 			Synchronize();
 		}
 		
