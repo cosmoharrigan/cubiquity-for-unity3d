@@ -182,6 +182,10 @@ namespace Cubiquity
 		
 		public static bool operator ==(Vector3i a, Vector3i b)
 		{
+			if(a == null || b == null)
+			{
+				return a == null && b == null;
+			}
 			return a.x == b.x &&
 				   a.y == b.y && 
 				   a.z == b.z;
@@ -190,6 +194,10 @@ namespace Cubiquity
 		
 		public static bool operator !=(Vector3i a, Vector3i b)
 		{
+			if(a == null || b == null)
+			{
+				return !(a == null && b == null);
+			}
 			return a.x != b.x || 
 				   a.y != b.y ||
 				   a.z != b.z;
