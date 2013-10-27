@@ -6,6 +6,7 @@ using System.Collections.Generic;
 namespace Cubiquity
 {
 	[CustomEditor (typeof(TerrainVolume))]
+	[System.Serializable]
 	public class TerrainVolumeEditModeEditor : Editor
 	{
 		TerrainVolume terrainVolume;
@@ -15,7 +16,8 @@ namespace Cubiquity
 		//private float brushOuterRadius = 5.0f;
 		//private float opacity = 1.0f;
 		
-		TerrainVolumeBrushMarker brushMarker;
+		[SerializeField]
+		public TerrainVolumeBrushMarker brushMarker;
 		
 		bool sculptPressed = true;
 		bool smoothPressed = false;
@@ -38,9 +40,18 @@ namespace Cubiquity
 			brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
 			brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
 			
-			brushMarker = new TerrainVolumeBrushMarker();
+			if(brushMarker == null)
+			{
+				//brushMarker = new TerrainVolumeBrushMarker();
+				brushMarker = ScriptableObject.CreateInstance<TerrainVolumeBrushMarker>();
+				brushMarker.innerRadius = 4.0f;
+				brushMarker.outerRadius = 5.0f;
+				brushMarker.opacity = 1.0f;
+				brushMarker.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f);
+			}
+			
 			terrainVolume.brushMarker = brushMarker;
-			brushMarker.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f);
+			
 		}
 		
 		public override void OnInspectorGUI()
