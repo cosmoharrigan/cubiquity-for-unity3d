@@ -12,8 +12,10 @@ namespace Cubiquity
 		
 		private const int NoOfBrushes = 5;
 		
-		private float brushOuterRadius = 5.0f;
-		private float opacity = 1.0f;
+		//private float brushOuterRadius = 5.0f;
+		//private float opacity = 1.0f;
+		
+		TerrainVolumeBrushMarker brushMarker;
 		
 		bool sculptPressed = true;
 		bool smoothPressed = false;
@@ -35,6 +37,10 @@ namespace Cubiquity
 			brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
 			brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
 			brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
+			
+			brushMarker = new TerrainVolumeBrushMarker();
+			terrainVolume.brushMarker = brushMarker;
+			brushMarker.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f);
 		}
 		
 		public override void OnInspectorGUI()
@@ -165,12 +171,12 @@ namespace Cubiquity
 			
 			EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("Radius:", GUILayout.Width(50));
-				brushOuterRadius = GUILayout.HorizontalSlider(brushOuterRadius, 0.0f, maxBrushRadius);
+				brushMarker.outerRadius = GUILayout.HorizontalSlider(brushMarker.outerRadius, 0.0f, maxBrushRadius);
 			EditorGUILayout.EndHorizontal();
 			
 			EditorGUILayout.BeginHorizontal();
 				EditorGUILayout.LabelField("Opacity:", GUILayout.Width(50));
-				opacity = GUILayout.HorizontalSlider(opacity, 0.0f, maxOpacity);
+				brushMarker.opacity = GUILayout.HorizontalSlider(brushMarker.opacity, 0.0f, maxOpacity);
 			EditorGUILayout.EndHorizontal();
 			
 			EditorGUILayout.Space();
@@ -211,7 +217,7 @@ namespace Cubiquity
 				// Selected brush is in the range 0 to NoOfBrushes - 1. Convert this to a 0 to 1 range.
 				float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
 				// Use this value to compute the inner radius as a proportion of the outer radius.
-				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
+				float brushInnerRadius = brushMarker.outerRadius * brushInnerScaleFactor;
 					
 				/*List<string> keywords = new List<string>();
 				keywords.Add("BRUSH_MARKER_ON");
@@ -222,12 +228,9 @@ namespace Cubiquity
 				terrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
 				terrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));*/
 				
-				terrainVolume.brush.isVisible = true;
-				terrainVolume.brush.center = new Vector3(resultX, resultY, resultZ);
-				terrainVolume.brush.innerRadius = brushInnerRadius;
-				terrainVolume.brush.outerRadius = brushOuterRadius;
-				terrainVolume.brush.opacity = opacity;
-				terrainVolume.brush.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f); // FIXME - Don't need to set this every time
+				brushMarker.isVisible = true;
+				brushMarker.center = new Vector3(resultX, resultY, resultZ);
+				brushMarker.innerRadius = brushInnerRadius;
 				
 				if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 				{
@@ -238,21 +241,21 @@ namespace Cubiquity
 						{
 							multiplier  = -1.0f;
 						}
-						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity * multiplier);
+						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushMarker.outerRadius, brushMarker.opacity * multiplier);
 					}
 					else if(smoothPressed)
 					{
-						TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity);
+						TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushMarker.outerRadius, brushMarker.opacity);
 					}
 					else if(paintPressed)
 					{
-						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, opacity, (uint)selectedTexture);
+						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushMarker.outerRadius, brushMarker.opacity, (uint)selectedTexture);
 					}
 				}	
 			}
 			else
 			{
-				terrainVolume.brush.isVisible = false;
+				terrainVolume.brushMarker.isVisible = false;
 			}
 			
 			if ( e.type == EventType.Layout )

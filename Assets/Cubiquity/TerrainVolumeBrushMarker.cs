@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public sealed class TerrainVolumeBrush
+public sealed class TerrainVolumeBrushMarker
 {
 	public bool isVisible = true; // Visible by default so the user doesn't wonder where their custom brush is.
 	public Vector3 center = new Vector3(0.0f, 0.0f, 0.0f);

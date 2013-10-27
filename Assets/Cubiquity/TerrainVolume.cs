@@ -41,7 +41,7 @@ namespace Cubiquity
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
 		
-		public TerrainVolumeBrush brush;
+		public TerrainVolumeBrushMarker brushMarker;
 		
 		public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 		
@@ -93,11 +93,11 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
-			List<string> keywords = new List<string> { brush.isVisible ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF" };
+			List<string> keywords = new List<string> { brushMarker.isVisible ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF" };
 			material.shaderKeywords = keywords.ToArray();
-			material.SetVector("_BrushCenter", brush.center);				
-			material.SetVector("_BrushSettings", new Vector4(brush.innerRadius, brush.outerRadius, brush.opacity, 0.0f));
-			material.SetVector("_BrushColor", brush.color);
+			material.SetVector("_BrushCenter", brushMarker.center);				
+			material.SetVector("_BrushSettings", new Vector4(brushMarker.innerRadius, brushMarker.outerRadius, brushMarker.opacity, 0.0f));
+			material.SetVector("_BrushColor", brushMarker.color);
 			
 			nodeSyncsThisFrame = 0;
 			
@@ -141,10 +141,10 @@ namespace Cubiquity
 			
 			// I think it's easiest if we ensure a brush always exists, and allow
 			// the user to hide it be setting the isVisible property to false.
-			if(brush == null)
+			if(brushMarker == null)
 			{
-				brush = new TerrainVolumeBrush();
-				brush.isVisible = false; // Hide it by default.
+				brushMarker = new TerrainVolumeBrushMarker();
+				brushMarker.isVisible = false; // Hide it by default.
 			}
 		}
 		
