@@ -89,6 +89,24 @@ namespace Cubiquity
 			
 			InitializeCubiquityVolume();
 		}
+		
+		private void OnDisable()
+		{
+			if(volumeHandle.HasValue)
+			{
+				// We only save if we are in editor mode, not if we are playing.
+				bool saveChanges = !Application.isPlaying;
+				
+				if(saveChanges)
+				{
+					CubiquityDLL.AcceptOverrideBlocksMC(volumeHandle.Value);
+				}
+				CubiquityDLL.DiscardOverrideBlocksMC(volumeHandle.Value);
+				
+				CubiquityDLL.DeleteTerrainVolume(volumeHandle.Value);
+				volumeHandle = null;
+			}
+		}
 
 		private void InitializeCubiquityVolume()
 		{	

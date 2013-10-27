@@ -124,28 +124,6 @@ namespace Cubiquity
 			}
 		}
 		
-		public void Shutdown(bool saveChanges)
-		{
-			Debug.Log("In ColoredCubesVolume.Shutdown()");
-			
-			if(data.volumeHandle.HasValue)
-			{
-				if(saveChanges)
-				{
-					CubiquityDLL.AcceptOverrideBlocksMC(data.volumeHandle.Value);
-				}
-				CubiquityDLL.DiscardOverrideBlocksMC(data.volumeHandle.Value);
-				
-				CubiquityDLL.DeleteTerrainVolume(data.volumeHandle.Value);
-				data.volumeHandle = null;
-				
-				// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
-				// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
-				// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
-				DestroyImmediate(rootGameObject);
-			}
-		}
-		
 		void OnEnable()
 		{
 			Debug.Log ("ColoredCubesVolume.OnEnable()");
@@ -167,12 +145,10 @@ namespace Cubiquity
 		
 		public void OnDisable()
 		{
-			Debug.Log ("ColoredCubesVolume.OnDisable()");
-			
-			// We only save if we are in editor mode, not if we are playing.
-			bool saveChanges = !Application.isPlaying;
-			
-			Shutdown(saveChanges);
+			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
+			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
+			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
+			DestroyImmediate(rootGameObject);
 		}
 		
 		public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
