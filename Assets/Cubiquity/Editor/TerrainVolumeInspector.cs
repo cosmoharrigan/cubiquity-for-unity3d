@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Cubiquity
 {
 	[CustomEditor (typeof(TerrainVolume))]
-	public class TerrainVolumeEditModeEditor : Editor
+	public class TerrainVolumeInspector : Editor
 	{
 		TerrainVolume terrainVolume;
 		
@@ -30,7 +30,6 @@ namespace Cubiquity
 	
 		public void OnEnable()
 		{
-			Debug.Log ("TerrainVolumeEditModeEditor.OnEnable()");
 		    terrainVolume = target as TerrainVolume;
 			
 			brushTextures = new Texture[NoOfBrushes];
