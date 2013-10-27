@@ -93,11 +93,8 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
-			List<string> keywords = new List<string>();
-			keywords.Add("BRUSH_MARKER_ON");
+			List<string> keywords = new List<string> { brush.isVisible ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF" };
 			material.shaderKeywords = keywords.ToArray();
-			//Shader.DisableKeyword("SHOW_BRUSH");
-			//Shader.EnableKeyword("HIDE_BRUSH");
 			material.SetVector("_BrushCenter", brush.center);				
 			material.SetVector("_BrushSettings", new Vector4(brush.innerRadius, brush.outerRadius, brush.opacity, 0.0f));
 			material.SetVector("_BrushColor", brush.color);
