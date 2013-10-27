@@ -6,23 +6,25 @@ using System.Collections.Generic;
 namespace Cubiquity
 {
 	[CustomEditor (typeof(TerrainVolume))]
-	[System.Serializable]
 	public class TerrainVolumeEditModeEditor : Editor
 	{
 		TerrainVolume terrainVolume;
 		
 		private const int NoOfBrushes = 5;
 		
-		public float brushOuterRadius = 5.0f;
-		public float brushOpacity = 1.0f;
+		// Making these static lets the values persist when switching away from the volume
+		// and then back to it. Actually I though serialization would be the solution here,
+		// but serializing properties of an inspector doesn't seem to work.
+		private static float brushOuterRadius = 5.0f;
+		private static float brushOpacity = 1.0f;
 		
-		bool sculptPressed = true;
-		bool smoothPressed = false;
-		bool paintPressed = false;
-		bool settingPressed = false;
+		private static bool sculptPressed = true;
+		private static bool smoothPressed = false;
+		private static bool paintPressed = false;
+		private static bool settingPressed = false;
 		
-		int selectedBrush = 0;
-		int selectedTexture = 0;
+		private static int selectedBrush = 0;
+		private static int selectedTexture = 0;
 		
 		Texture[] brushTextures;
 	
