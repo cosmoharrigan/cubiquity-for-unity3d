@@ -131,12 +131,6 @@ namespace Cubiquity
 			material = new Material(shader);
 		}
 		
-		// Use this for initialization
-		/*void Start()
-		{		
-			
-		}*/
-		
 		// Update is called once per frame
 		void Update()
 		{
@@ -192,11 +186,11 @@ namespace Cubiquity
 						}
 					}*/
 					
-					/*if(UseCollisionMesh)
+					if(UseCollisionMesh)
 					{
 						MeshCollider mc = (MeshCollider)gameObjectToSync.GetComponent(typeof(MeshCollider));
 						mc.sharedMesh = physicsMesh;
-					}*/
+					}
 				}
 				
 				uint currentTime = CubiquityDLL.GetCurrentTime();
