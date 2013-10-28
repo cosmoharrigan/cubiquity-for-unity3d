@@ -19,6 +19,7 @@ namespace Cubiquity
 		private static float brushOpacity = 1.0f;
 		
 		private static bool sculptPressed = true;
+		private static bool csgPressed = false;
 		private static bool smoothPressed = false;
 		private static bool paintPressed = false;
 		private static bool settingPressed = false;
@@ -46,6 +47,15 @@ namespace Cubiquity
 			if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
 				sculptPressed = true;
+				csgPressed = false;
+				smoothPressed = false;
+				paintPressed = false;
+				settingPressed = false;
+			}
+			if(GUILayout.Toggle(csgPressed, "CSG", EditorStyles.miniButtonMid, GUILayout.Height(24)))
+			{
+				sculptPressed = false;
+				csgPressed = true;
 				smoothPressed = false;
 				paintPressed = false;
 				settingPressed = false;
@@ -53,6 +63,7 @@ namespace Cubiquity
 			if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
+				csgPressed = false;
 				smoothPressed = true;
 				paintPressed = false;
 				settingPressed = false;
@@ -60,6 +71,7 @@ namespace Cubiquity
 			if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
+				csgPressed = false;
 				smoothPressed = false;
 				paintPressed = true;
 				settingPressed = false;
@@ -67,6 +79,7 @@ namespace Cubiquity
 			if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
+				csgPressed = false;
 				smoothPressed = false;
 				paintPressed = false;
 				settingPressed = true;
@@ -76,6 +89,11 @@ namespace Cubiquity
 			if(sculptPressed)
 			{
 				DrawSculptControls();
+			}
+			
+			if(csgPressed)
+			{
+				DrawCSGControls();
 			}
 			
 			if(smoothPressed)
@@ -94,6 +112,15 @@ namespace Cubiquity
 			DrawInstructions("Click on the terrain to pull the surface out. Hold down shift while clicking to push in instead.");
 				
 			DrawBrushSelector();
+			
+			DrawBrushSettings(10.0f, 1.0f);
+		}
+		
+		private void DrawCSGControls()
+		{		
+			DrawInstructions("CSG instructions here...");
+				
+			DrawMaterialSelector();
 			
 			DrawBrushSettings(10.0f, 1.0f);
 		}
@@ -243,6 +270,11 @@ namespace Cubiquity
 						}
 						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity * multiplier);
 					}
+					else if(csgPressed && (e.type != EventType.MouseDrag))
+					{
+						Region region = new Region((int)resultX - 50, (int)resultY - 50, (int)resultZ - 50, (int)resultX + 50, (int)resultY + 50, (int)resultZ + 50);
+						TerrainVolumeEditor.CreateCuboid(terrainVolume, region, 0);
+					}
 					else if(smoothPressed)
 					{
 						TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity);
@@ -251,7 +283,7 @@ namespace Cubiquity
 					{
 						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity, (uint)selectedTexture);
 					}
-				}	
+				}
 			}
 			else
 			{
