@@ -273,7 +273,12 @@ namespace Cubiquity
 					else if(csgPressed && (e.type != EventType.MouseDrag))
 					{
 						Region region = new Region((int)resultX - 50, (int)resultY - 50, (int)resultZ - 50, (int)resultX + 50, (int)resultY + 50, (int)resultZ + 50);
-						TerrainVolumeEditor.CreateCuboid(terrainVolume, region, 0);
+						
+						MultiMaterial multiMaterial = new MultiMaterial();						
+						multiMaterial.materials = new byte[MultiMaterial.NoOfMaterials];
+						multiMaterial.materials[0] = 255;
+						
+						TerrainVolumeEditor.CreateCuboid(terrainVolume, region, multiMaterial);
 					}
 					else if(smoothPressed)
 					{

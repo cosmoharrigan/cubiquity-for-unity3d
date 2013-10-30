@@ -60,14 +60,14 @@ namespace Cubiquity
 			return materialStrength;
 		}
 		
-		public void SetVoxel(int x, int y, int z, uint materialIndex, byte materialStrength)
+		public void SetVoxel(int x, int y, int z, MultiMaterial multiMaterial)
 		{
 			if(volumeHandle.HasValue)
 			{
 				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
 					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z)
-				{
-					CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, materialStrength);
+				{						
+					CubiquityDLL.SetVoxelMCNew(volumeHandle.Value, x, y, z, multiMaterial);
 				}
 			}
 		}
