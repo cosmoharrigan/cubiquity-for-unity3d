@@ -77,6 +77,20 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
+		private static extern int cuSetVoxelNew(uint volumeHandle, int x, int y, int z, CubeColor color);
+		public static void SetVoxelNew(uint volumeHandle, int x, int y, int z, CubeColor color)
+		{
+			Validate(cuSetVoxelNew(volumeHandle, x, y, z, color));
+		}
+		
+		[DllImport ("CubiquityC")]
+		private static extern int cuGetVoxelNew(uint volumeHandle, int x, int y, int z, out ushort color);	
+		public static void GetVoxelNew(uint volumeHandle, int x, int y, int z, out ushort color)
+		{		
+			Validate(cuGetVoxelNew(volumeHandle, x, y, z, out color));
+		}
+		
+		[DllImport ("CubiquityC")]
 		private static extern int cuSetVoxel(uint volumeHandle, int x, int y, int z, byte red, byte green, byte blue, byte alpha);
 		public static void SetVoxel(uint volumeHandle, int x, int y, int z, byte red, byte green, byte blue, byte alpha)
 		{

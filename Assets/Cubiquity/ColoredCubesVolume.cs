@@ -238,8 +238,16 @@ namespace Cubiquity
 				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
 					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z) // FIX THESE VALUES!
 				{
-					byte alpha = color.a > 127 ? (byte)255 : (byte)0; // Threshold the alpha until we support transparency.
-					CubiquityDLL.SetVoxel(volumeHandle.Value, x, y, z, color.r, color.g, color.b, alpha);
+					/*byte alpha = color.a > 127 ? (byte)255 : (byte)0; // Threshold the alpha until we support transparency.
+					CubiquityDLL.SetVoxel(volumeHandle.Value, x, y, z, color.r, color.g, color.b, alpha);*/
+					
+					//ushort col = ushort.MaxValue;
+					CubeColor col = new CubeColor();
+					col.red = (ushort)(color.r / 17);
+					col.green = (ushort)(color.g / 17);
+					col.blue = (ushort)(color.b / 17);
+					col.alpha = (ushort)(color.a / 17);
+					CubiquityDLL.SetVoxelNew(volumeHandle.Value, x, y, z, col);
 				}
 			}
 		}
