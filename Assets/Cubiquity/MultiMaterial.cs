@@ -17,11 +17,11 @@ public struct MultiMaterial
     {
         get
 		{
-			return getEightBitsAt(24);
+			return getEightBitsAt(0);
 		}
 		set
 		{		
-			setEightBitsAt(24, value);
+			setEightBitsAt(0, value);
 		}
     }
 	
