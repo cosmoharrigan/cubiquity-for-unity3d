@@ -23,6 +23,10 @@ namespace Cubiquity
 		public byte m1;
 		public byte m2;
 		public byte m3;
+		public byte m4;
+		public byte m5;
+		public byte m6;
+		public byte m7;
 		#pragma warning restore 0649
 	}
 	

@@ -6,13 +6,13 @@ namespace Cubiquity
 {
 	public struct ByteArray
 	{
-		private uint data;
+		private ulong data;
 		
-		public uint this[int i]
+		public byte this[int i]
 		{
 			get
 			{
-				return getEightBitsAt(i * 8);
+				return (byte)(getEightBitsAt(i * 8));
 			}
 			set
 			{
@@ -20,18 +20,18 @@ namespace Cubiquity
 			}
 		}
 		
-		private uint getEightBitsAt(int offset)
+		private ulong getEightBitsAt(int offset)
 		{
-			uint mask = 0x000000FF;
-			uint result = data;
+			ulong mask = 0x000000FF;
+			ulong result = data;
 			result >>= offset;
 			result &= mask;
 			return result;
 		}
 		
-		private void setEightBitsAt(int offset, uint val)
+		private void setEightBitsAt(int offset, ulong val)
 		{
-			uint mask = 0x000000FF;
+			ulong mask = 0x000000FF;
 			int shift = offset;
 			mask <<= shift;
 			
