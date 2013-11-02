@@ -15,7 +15,7 @@ namespace Cubiquity
 		public float x;
 		public float y;
 		public float z;
-		public uint colour;
+		public uint color;
 		#pragma warning restore 0649
 	}
 	
@@ -400,11 +400,11 @@ namespace Cubiquity
 			{
 				// Get the vertex data from Cubiquity.
 				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
-				UInt32 colour = cubiquityVertices[ct].colour;
+				UInt32 color = cubiquityVertices[ct].color;
 				
 				// Pack it for efficient vertex buffer usage.
 				float packedPosition = packPosition(position);
-				float packedColor = packColor(colour);
+				float packedColor = packColor(color);
 					
 				// Copy it to the arrays.
 				renderingVertices[ct] = new Vector3(packedPosition, packedColor, 0.0f);			

@@ -29,29 +29,29 @@ namespace Cubiquity
 		// Volume functions
 		////////////////////////////////////////////////////////////////////////////////
 		[DllImport ("CubiquityC")]
-		private static extern int cuNewColouredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
+		private static extern int cuNewColoredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
 		public static uint NewColoredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
 		{
 			uint result;
-			Validate(cuNewColouredCubesVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+			Validate(cuNewColoredCubesVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
 			return result;
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuNewColouredCubesVolumeFromVolDat(StringBuilder voldatFolder, StringBuilder datasetName, uint baseNodeSize, out uint result);	
+		private static extern int cuNewColoredCubesVolumeFromVolDat(StringBuilder voldatFolder, StringBuilder datasetName, uint baseNodeSize, out uint result);	
 		public static uint NewColoredCubesVolumeFromVolDat(string voldatFolder, string datasetName, uint baseNodeSize)
 		{
 			uint result;
-			Validate(cuNewColouredCubesVolumeFromVolDat(new StringBuilder(voldatFolder), new StringBuilder(datasetName), baseNodeSize, out result));
+			Validate(cuNewColoredCubesVolumeFromVolDat(new StringBuilder(voldatFolder), new StringBuilder(datasetName), baseNodeSize, out result));
 			return result;
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuNewColouredCubesVolumeFromHeightmap(StringBuilder heightmapFileName, StringBuilder colormapFileName, StringBuilder datasetName, uint baseNodeSize, out uint result);	
+		private static extern int cuNewColoredCubesVolumeFromHeightmap(StringBuilder heightmapFileName, StringBuilder colormapFileName, StringBuilder datasetName, uint baseNodeSize, out uint result);	
 		public static uint NewColoredCubesVolumeFromHeightmap(string heightmapFileName, string colormapFileName, string datasetName, uint baseNodeSize)
 		{
 			uint result;
-			Validate(cuNewColouredCubesVolumeFromHeightmap(new StringBuilder(heightmapFileName), new StringBuilder(colormapFileName), new StringBuilder(datasetName), baseNodeSize, out result));
+			Validate(cuNewColoredCubesVolumeFromHeightmap(new StringBuilder(heightmapFileName), new StringBuilder(colormapFileName), new StringBuilder(datasetName), baseNodeSize, out result));
 			return result;
 		}
 		
@@ -98,10 +98,10 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuDeleteColouredCubesVolume(uint volumeHandle);
+		private static extern int cuDeleteColoredCubesVolume(uint volumeHandle);
 		public static void DeleteColoredCubesVolume(uint volumeHandle)
 		{
-			Validate(cuDeleteColouredCubesVolume(volumeHandle));
+			Validate(cuDeleteColoredCubesVolume(volumeHandle));
 		}
 		
 		[DllImport ("CubiquityC")]

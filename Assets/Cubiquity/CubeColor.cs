@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Cubiquity
 {
-	// FIXME - The colour channels below should have their orderchanged both here and in cubiquity.
+	// FIXME - The color channels below should have their orderchanged both here and in cubiquity.
 	// Red should be in the most significant four bits and alpha in the lease significant four bits.
 	public struct CubeColor
 	{

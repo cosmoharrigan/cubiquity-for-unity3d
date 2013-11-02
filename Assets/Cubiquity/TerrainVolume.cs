@@ -302,11 +302,11 @@ namespace Cubiquity
 				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
 				Vector3 normal = new Vector3(cubiquityVertices[ct].nx, cubiquityVertices[ct].ny, cubiquityVertices[ct].nz);
 				Color32 color = new Color32(cubiquityVertices[ct].m0, cubiquityVertices[ct].m1, cubiquityVertices[ct].m2, cubiquityVertices[ct].m3);
-				//UInt32 colour = cubiquityVertices[ct].colour;
+				//UInt32 color = cubiquityVertices[ct].color;
 				
 				// Pack it for efficient vertex buffer usage.
 				//float packedPosition = packPosition(position);
-				//float packedColor = packColor(colour);
+				//float packedColor = packColor(color);
 					
 				// Copy it to the arrays.
 				renderingVertices[ct] = position;	
