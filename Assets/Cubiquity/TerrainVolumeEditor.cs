@@ -21,7 +21,7 @@ namespace Cubiquity
 			CubiquityDLL.PaintTerrainVolume((uint)volume.data.volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount, materialIndex);
 		}
 		
-		public static void CreateCuboid(TerrainVolume volume, Region region, MultiMaterial multiMaterial)
+		public static void CreateCuboid(TerrainVolume volume, Region region, MaterialSet materialSet)
 		{
 			for(int z = region.lowerCorner.z; z <= region.upperCorner.z; z++)
 			{
@@ -29,11 +29,11 @@ namespace Cubiquity
 				{
 					for(int x = region.lowerCorner.x; x <= region.upperCorner.x; x++)
 					{
-						volume.data.SetVoxel(x, y, z, multiMaterial);
-						/*MultiMaterial multiMaterial = new MultiMaterial();
-						multiMaterial.materials = new byte[4];
+						volume.data.SetVoxel(x, y, z, materialSet);
+						/*MaterialSet materialSet = new MaterialSet();
+						materialSet.materials = new byte[4];
 						
-						multiMaterial.materials[0] = 255;
+						materialSet.materials[0] = 255;
 						
 						volume.data.Set*/
 					}

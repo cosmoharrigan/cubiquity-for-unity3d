@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Cubiquity
 {
-	public struct MultiMaterial
+	public struct MaterialSet
 	{
 		public const uint NoOfMaterials = 4;
 		

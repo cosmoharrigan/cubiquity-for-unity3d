@@ -158,17 +158,17 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuGetVoxelMCNew(uint volumeHandle, int x, int y, int z, out MultiMaterial multiMaterial);	
-		public static void GetVoxelMCNew(uint volumeHandle, int x, int y, int z, out MultiMaterial multiMaterial)
+		private static extern int cuGetVoxelMCNew(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet);	
+		public static void GetVoxelMCNew(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet)
 		{		
-			Validate(cuGetVoxelMCNew(volumeHandle, x, y, z, out multiMaterial));
+			Validate(cuGetVoxelMCNew(volumeHandle, x, y, z, out materialSet));
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuSetVoxelMCNew(uint volumeHandle, int x, int y, int z, MultiMaterial multiMaterial);
-		public static void SetVoxelMCNew(uint volumeHandle, int x, int y, int z, MultiMaterial multiMaterial)
+		private static extern int cuSetVoxelMCNew(uint volumeHandle, int x, int y, int z, MaterialSet materialSet);
+		public static void SetVoxelMCNew(uint volumeHandle, int x, int y, int z, MaterialSet materialSet)
 		{
-			Validate(cuSetVoxelMCNew(volumeHandle, x, y, z, multiMaterial));
+			Validate(cuSetVoxelMCNew(volumeHandle, x, y, z, materialSet));
 		}
 		
 		[DllImport ("CubiquityC")]
