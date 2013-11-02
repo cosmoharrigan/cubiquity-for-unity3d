@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+
+using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
@@ -8,36 +10,53 @@ namespace Cubiquity
 	{
 		private ulong data;
 		
-		public byte this[int i]
+		public int Length
 		{
 			get
 			{
+				return 8;
+			}
+		}
+		
+		public byte this[uint i]
+		{
+			get
+			{
+				if(i >= Length)
+				{
+					throw new ArgumentOutOfRangeException("Index out of range");
+				}
+				
 				return (byte)(getEightBitsAt(i * 8));
 			}
 			set
 			{
+				if(i >= Length)
+				{
+					throw new ArgumentOutOfRangeException("Index out of range");
+				}
+				
 				setEightBitsAt(i * 8, value);
 			}
 		}
 		
-		private ulong getEightBitsAt(int offset)
+		private ulong getEightBitsAt(uint offset)
 		{
 			ulong mask = 0x000000FF;
 			ulong result = data;
-			result >>= offset;
+			result >>= (int)offset;
 			result &= mask;
 			return result;
 		}
 		
-		private void setEightBitsAt(int offset, ulong val)
+		private void setEightBitsAt(uint offset, ulong val)
 		{
 			ulong mask = 0x000000FF;
-			int shift = offset;
-			mask <<= shift;
+			mask <<= (int)offset;
 			
 			data = (uint)(data & (uint)(~mask));
 			
-			val <<= shift;
+			val <<= (int)offset;
 			val &= mask;
 			
 			data |= val;
