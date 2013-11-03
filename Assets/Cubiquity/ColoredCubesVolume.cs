@@ -15,7 +15,7 @@ namespace Cubiquity
 		public float x;
 		public float y;
 		public float z;
-		public CubeColor color;
+		public QuantizedColor color;
 		#pragma warning restore 0649
 	}
 	
@@ -242,7 +242,7 @@ namespace Cubiquity
 					CubiquityDLL.SetVoxel(volumeHandle.Value, x, y, z, color.r, color.g, color.b, alpha);*/
 					
 					//ushort col = ushort.MaxValue;
-					CubeColor col = new CubeColor();
+					QuantizedColor col = new QuantizedColor();
 					col.red = (ushort)(color.r / 17);
 					col.green = (ushort)(color.g / 17);
 					col.blue = (ushort)(color.b / 17);
@@ -369,7 +369,7 @@ namespace Cubiquity
 			return result;
 		}
 		
-		float packColor(CubeColor color)
+		float packColor(QuantizedColor color)
 		{			
 			float result = (float)(color.red * 256 + color.green * 16 + color.blue);
 			
@@ -396,7 +396,7 @@ namespace Cubiquity
 			{
 				// Get the vertex data from Cubiquity.
 				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
-				CubeColor color = cubiquityVertices[ct].color;
+				QuantizedColor color = cubiquityVertices[ct].color;
 				
 				// Pack it for efficient vertex buffer usage.
 				float packedPosition = packPosition(position);
