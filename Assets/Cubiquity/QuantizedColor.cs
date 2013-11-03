@@ -2,80 +2,111 @@
 using System.Collections;
 
 namespace Cubiquity
-{
-	// FIXME - The color channels below should have their orderchanged both here and in cubiquity.
-	// Red should be in the most significant four bits and alpha in the lease significant four bits.
+{	
 	public struct QuantizedColor
 	{
+		private static int MaxInOutValue = byte.MaxValue;
+		
+		private static int RedMSB = 15;
+		private static int RedLSB = 12;		
+		private static int GreenMSB = 11;
+		private static int GreenLSB = 8;
+		private static int BlueMSB = 7;
+		private static int BlueLSB = 4;
+		private static int AlphaMSB = 3;
+		private static int AlphaLSB = 0;
+		
+		private static int NoOfRedBits = RedMSB - RedLSB + 1;
+		private static int NoOfGreenBits = GreenMSB - GreenLSB + 1;
+		private static int NoOfBlueBits = BlueMSB - BlueLSB + 1;
+		private static int NoOfAlphaBits = AlphaMSB - AlphaLSB + 1;
+		
+		private static int RedMultiplier = MaxInOutValue / ((0x01 << NoOfRedBits) - 1);
+		private static int GreenMultiplier = MaxInOutValue / ((0x01 << NoOfGreenBits) - 1);
+		private static int BlueMultiplier = MaxInOutValue / ((0x01 << NoOfBlueBits) - 1);
+		private static int AlphaMultiplier = MaxInOutValue / ((0x01 << NoOfAlphaBits) - 1);
+		
 	    public uint color;
-	
-	    public uint red
-	    {
-	        get
-			{
-				//return getFourBitsAt(0);
-				//return getBits(3, 0);
-				return getBits(15, 12);
-			}
-			set
-			{		
-				//setFourBitsAt(0, value);
-				//setBits(3, 0, value);
-				setBits(15, 12, value);
-			}
-	    }
 		
-		public uint green
-	    {
-	        get
-			{
-				//return getFourBitsAt(4);
-				//return getBits(7, 4);
-				return getBits(11, 8);
-			}
-			set
-			{		
-				//setFourBitsAt(4, value);
-				//setBits(7, 4, value);
-				setBits(11, 8, value);
-			}
-	    }
-		
-		public uint blue
-	    {
-	        get
-			{
-				//return getFourBitsAt(8);
-				//return getBits(11, 8);
-				return getBits(7, 4);
-			}
-			set
-			{		
-				//setFourBitsAt(8, value);
-				//setBits(11, 8, value);
-				setBits(7, 4, value);
-			}
-	    }
-		
-		public uint alpha
-	    {
-	        get
-			{
-				//return getFourBitsAt(12);
-				//return getBits(15, 12);
-				return getBits(3, 0);
-			}
-			set
-			{		
-				//setFourBitsAt(12, value);
-				//setBits(15, 12, value);
-				setBits(3, 0, value);
-			}
-	    }
-		
-		uint getBits(uint MSB, uint LSB)
+		public QuantizedColor(byte red, byte green, byte blue, byte alpha)
 		{
-			int noOfBitsToGet = (int)((MSB - LSB) + 1);
+			this.red = red;
+			this.green = green;
+			this.blue = blue;
+			this.alpha = alpha;
+		}
+		
+		public static explicit operator QuantizedColor(Color color)
+		{
+			QuantizedColor quantizedColor = new QuantizedColor();
+			quantizedColor.red = (byte)(color.r * 255.0f);
+			quantizedColor.green = (byte)(color.g * 255.0f);
+			quantizedColor.blue = (byte)(color.b * 255.0f);
+			quantizedColor.alpha = (byte)(color.a * 255.0f);
+			return quantizedColor;
+		}
+		
+		public static explicit operator QuantizedColor(Color32 color32)
+		{
+			QuantizedColor quantizedColor = new QuantizedColor();
+			quantizedColor.red = color32.r;
+			quantizedColor.green = color32.g;
+			quantizedColor.blue = color32.b;
+			quantizedColor.alpha = color32.a;
+			return quantizedColor;
+		}
+	
+	    public byte red
+	    {
+	        get
+			{
+				return (byte)(getBits(15, 12) * RedMultiplier);
+			}
+			set
+			{
+				setBits(15, 12, (byte)(value / RedMultiplier));
+			}
+	    }
+		
+		public byte green
+	    {
+	        get
+			{
+				return (byte)(getBits(11, 8) * GreenMultiplier);
+			}
+			set
+			{
+				setBits(11, 8, (byte)(value / GreenMultiplier));
+			}
+	    }
+		
+		public byte blue
+	    {
+	        get
+			{
+				return (byte)(getBits(7, 4) * BlueMultiplier);
+			}
+			set
+			{
+				setBits(7, 4, (byte)(value / BlueMultiplier));
+			}
+	    }
+		
+		public byte alpha
+	    {
+	        get
+			{
+				return (byte)(getBits(3, 0) * AlphaMultiplier);
+			}
+			set
+			{
+				setBits(3, 0, (byte)(value / AlphaMultiplier));
+			}
+	    }
+		
+		uint getBits(int MSB, int LSB)
+		{
+			int noOfBitsToGet = (MSB - LSB) + 1;
 
 			// Build a mask containing all '0's except for the least significant bits (which are '1's).
 			uint mask = uint.MaxValue; //Set to all '1's
@@ -83,46 +114,23 @@ namespace Cubiquity
 			mask = ~mask; // And invert
 
 			// Move the desired bits into the LSBs and mask them off
-			uint result = (color >> (int)LSB) & mask;
+			uint result = (color >> LSB) & mask;
 
 			return result;
 		}
 		
-		void setBits(uint MSB, uint LSB, uint bitsToSet)
+		void setBits(int MSB, int LSB, uint bitsToSet)
 		{
-			int noOfBitsToSet = (int)((MSB - LSB) + 1);
+			int noOfBitsToSet = (MSB - LSB) + 1;
 
 			uint mask = uint.MaxValue; //Set to all '1's
 			mask = mask << noOfBitsToSet; // Insert the required number of '0's for the lower bits
 			mask = ~mask; // And invert
-			mask = mask << (int)LSB;
+			mask = mask << LSB;
 
-			bitsToSet = (bitsToSet << (int)LSB) & mask;
+			bitsToSet = (bitsToSet << LSB) & mask;
 
 			color = (color & ~mask) | bitsToSet;
 		}
-		
-		/*private uint getFourBitsAt(ushort offset)
-		{
-			uint mask = 0x000F;
-			uint result = color;
-			result >>= offset;
-			result &= mask;
-			return result;
-		}
-		
-		private void setFourBitsAt(ushort offset, uint val)
-		{
-			uint mask = 0x000F;
-			int shift = (int)offset;
-			mask <<= shift;
-			
-			color = (ushort)(color & (ushort)(~mask));
-			
-			val <<= shift;
-			val &= mask;
-			
-			color |= val;
-		}*/
 	}
 }

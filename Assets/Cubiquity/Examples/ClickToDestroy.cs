@@ -141,7 +141,7 @@ public class ClickToDestroy : MonoBehaviour
 		
 		foreach (Vector3i voxel in voxelsToDelete) // Loop through List with foreach
 		{
-		    coloredCubesVolume.SetVoxel(voxel.x, voxel.y, voxel.z, new Color32(0,0,0,0));
+		    coloredCubesVolume.SetVoxel(voxel.x, voxel.y, voxel.z, new QuantizedColor(0,0,0,0));
 		}
 	}
 }

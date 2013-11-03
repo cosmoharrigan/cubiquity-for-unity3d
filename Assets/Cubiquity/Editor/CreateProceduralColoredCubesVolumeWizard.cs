@@ -40,9 +40,9 @@ namespace Cubiquity
 			GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), datasetName);
 			ColoredCubesVolume coloredCubesVolume = voxelGameObject.GetComponent<ColoredCubesVolume>();
 	
-			Color32 blue = new Color32(0, 0, 255, 255);
-			Color32 grey = new Color32(128, 128, 128, 255);
-			Color32 white = new Color32(255, 255, 255, 255);
+			QuantizedColor blue = new QuantizedColor(0, 0, 255, 255);
+			QuantizedColor grey = new QuantizedColor(128, 128, 128, 255);
+			QuantizedColor white = new QuantizedColor(255, 255, 255, 255);
 			
 			
 			for(int z = 0; z <= depth-1; z++)

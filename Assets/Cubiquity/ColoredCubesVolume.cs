@@ -231,23 +231,14 @@ namespace Cubiquity
 			return false;
 		}
 		
-		public void SetVoxel(int x, int y, int z, Color32 color)
+		public void SetVoxel(int x, int y, int z, QuantizedColor color)
 		{
 			if(volumeHandle.HasValue)
 			{
 				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
 					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z) // FIX THESE VALUES!
 				{
-					/*byte alpha = color.a > 127 ? (byte)255 : (byte)0; // Threshold the alpha until we support transparency.
-					CubiquityDLL.SetVoxel(volumeHandle.Value, x, y, z, color.r, color.g, color.b, alpha);*/
-					
-					//ushort col = ushort.MaxValue;
-					QuantizedColor col = new QuantizedColor();
-					col.red = (ushort)(color.r / 17);
-					col.green = (ushort)(color.g / 17);
-					col.blue = (ushort)(color.b / 17);
-					col.alpha = (ushort)(color.a / 17);
-					CubiquityDLL.SetVoxelNew(volumeHandle.Value, x, y, z, col);
+					CubiquityDLL.SetVoxelNew(volumeHandle.Value, x, y, z, color);
 				}
 			}
 		}
@@ -360,6 +351,11 @@ namespace Cubiquity
 		
 		float packPosition(Vector3 position)
 		{
+			// Important note: In theory this packing approach can be used to pack 24 bits of data, as a float can hold all
+			// integers up to 2^24. This means we should be able to pack 3 8-bit values. However, when trying this with colors
+			// it seemed not to quite work, and the value (255,255,255) did not unpack correctly on the GPU. This is something
+			// to be aware of if we ever try to have larger meshes - 128x128x128 might be the actual practical limit.
+			
 			position.x += 0.5f;
 			position.y += 0.5f;
 			position.z += 0.5f;
@@ -370,8 +366,8 @@ namespace Cubiquity
 		}
 		
 		float packColor(QuantizedColor color)
-		{			
-			float result = (float)(color.red * 256 + color.green * 16 + color.blue);
+		{
+			float result = (float)(color.color >> 4);
 			
 			return result;
 		}

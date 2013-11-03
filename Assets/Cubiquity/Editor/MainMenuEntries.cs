@@ -48,7 +48,7 @@ namespace Cubiquity
 			// Call Initialize so we can start drawing into the volume right away.
 			
 			int floorThickness = 8;
-			Color32 floorColor = new Color32(192, 192, 192, 255);
+			QuantizedColor floorColor = new QuantizedColor(192, 192, 192, 255);
 			
 			for(int z = 0; z <= depth-1; z++)
 			{

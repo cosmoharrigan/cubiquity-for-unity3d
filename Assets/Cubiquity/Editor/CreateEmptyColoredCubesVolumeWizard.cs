@@ -73,7 +73,7 @@ namespace Cubiquity
 			//coloredCubesVolume.Initialize();
 			if(createFloor)
 			{
-				Color32 floorColor = new Color32(192, 192, 192, 255);
+				QuantizedColor floorColor = new QuantizedColor(192, 192, 192, 255);
 				
 				for(int z = 0; z <= depth-1; z++)
 				{
