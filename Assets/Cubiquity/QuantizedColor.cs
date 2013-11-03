@@ -21,10 +21,10 @@ namespace Cubiquity
 		private static int NoOfBlueBits = BlueMSB - BlueLSB + 1;
 		private static int NoOfAlphaBits = AlphaMSB - AlphaLSB + 1;
 		
-		private static int RedMultiplier = MaxInOutValue / ((0x01 << NoOfRedBits) - 1);
-		private static int GreenMultiplier = MaxInOutValue / ((0x01 << NoOfGreenBits) - 1);
-		private static int BlueMultiplier = MaxInOutValue / ((0x01 << NoOfBlueBits) - 1);
-		private static int AlphaMultiplier = MaxInOutValue / ((0x01 << NoOfAlphaBits) - 1);
+		private static int RedScaleFactor = MaxInOutValue / ((0x01 << NoOfRedBits) - 1);
+		private static int GreenScaleFactor = MaxInOutValue / ((0x01 << NoOfGreenBits) - 1);
+		private static int BlueScaleFactor = MaxInOutValue / ((0x01 << NoOfBlueBits) - 1);
+		private static int AlphaScaleFactor = MaxInOutValue / ((0x01 << NoOfAlphaBits) - 1);
 		
 	    public uint color;
 		
@@ -60,11 +60,11 @@ namespace Cubiquity
 	    {
 	        get
 			{
-				return (byte)(getBits(15, 12) * RedMultiplier);
+				return (byte)(getBits(RedMSB, RedLSB) * RedScaleFactor);
 			}
 			set
 			{
-				setBits(15, 12, (byte)(value / RedMultiplier));
+				setBits(RedMSB, RedLSB, (byte)(value / RedScaleFactor));
 			}
 	    }
 		
@@ -72,11 +72,11 @@ namespace Cubiquity
 	    {
 	        get
 			{
-				return (byte)(getBits(11, 8) * GreenMultiplier);
+				return (byte)(getBits(GreenMSB, GreenLSB) * GreenScaleFactor);
 			}
 			set
 			{
-				setBits(11, 8, (byte)(value / GreenMultiplier));
+				setBits(GreenMSB, GreenLSB, (byte)(value / GreenScaleFactor));
 			}
 	    }
 		
@@ -84,11 +84,11 @@ namespace Cubiquity
 	    {
 	        get
 			{
-				return (byte)(getBits(7, 4) * BlueMultiplier);
+				return (byte)(getBits(BlueMSB, BlueLSB) * BlueScaleFactor);
 			}
 			set
 			{
-				setBits(7, 4, (byte)(value / BlueMultiplier));
+				setBits(BlueMSB, BlueLSB, (byte)(value / BlueScaleFactor));
 			}
 	    }
 		
@@ -96,11 +96,11 @@ namespace Cubiquity
 	    {
 	        get
 			{
-				return (byte)(getBits(3, 0) * AlphaMultiplier);
+				return (byte)(getBits(AlphaMSB, AlphaLSB) * AlphaScaleFactor);
 			}
 			set
 			{
-				setBits(3, 0, (byte)(value / AlphaMultiplier));
+				setBits(AlphaMSB, AlphaLSB, (byte)(value / AlphaScaleFactor));
 			}
 	    }
 		
