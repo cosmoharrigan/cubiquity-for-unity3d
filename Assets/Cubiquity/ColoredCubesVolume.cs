@@ -371,11 +371,15 @@ namespace Cubiquity
 		
 		float packColor(uint color)
 		{
-			uint red = (uint)((color >> 0) & 0xF);
+			CubeColor col = new CubeColor();
+			col.color = color;
+			/*uint red = (uint)((color >> 0) & 0xF);
 			uint green = (uint)((color >> 4) & 0xF);
 			uint blue = (uint)((color >> 8) & 0xF);
 			
-			float result = (float)(red * 256 + green * 16 + blue);
+			float result = (float)(red * 256 + green * 16 + blue);*/
+			
+			float result = (float)(col.red * 256 + col.green * 16 + col.blue);
 			
 			return result;
 		}
