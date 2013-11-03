@@ -7,9 +7,9 @@ namespace Cubiquity
 	// Red should be in the most significant four bits and alpha in the lease significant four bits.
 	public struct CubeColor
 	{
-	    ushort color;
+	    public uint color;
 	
-	    public ushort red
+	    public uint red
 	    {
 	        get
 			{
@@ -21,7 +21,7 @@ namespace Cubiquity
 			}
 	    }
 		
-		public ushort green
+		public uint green
 	    {
 	        get
 			{
@@ -33,7 +33,7 @@ namespace Cubiquity
 			}
 	    }
 		
-		public ushort blue
+		public uint blue
 	    {
 	        get
 			{
@@ -45,7 +45,7 @@ namespace Cubiquity
 			}
 	    }
 		
-		public ushort alpha
+		public uint alpha
 	    {
 	        get
 			{
@@ -57,19 +57,19 @@ namespace Cubiquity
 			}
 	    }
 		
-		private ushort getFourBitsAt(ushort offset)
+		private uint getFourBitsAt(ushort offset)
 		{
-			ushort mask = 0x000F;
-			ushort result = color;
+			uint mask = 0x000F;
+			uint result = color;
 			result >>= offset;
 			result &= mask;
 			return result;
 		}
 		
-		private void setFourBitsAt(ushort offset, ushort val)
+		private void setFourBitsAt(ushort offset, uint val)
 		{
-			ushort mask = 0x000F;
-			ushort shift = offset;
+			uint mask = 0x000F;
+			int shift = (int)offset;
 			mask <<= shift;
 			
 			color = (ushort)(color & (ushort)(~mask));
