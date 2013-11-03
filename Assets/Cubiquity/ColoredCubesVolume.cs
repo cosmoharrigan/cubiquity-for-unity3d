@@ -15,7 +15,7 @@ namespace Cubiquity
 		public float x;
 		public float y;
 		public float z;
-		public uint color;
+		public CubeColor color;
 		#pragma warning restore 0649
 	}
 	
@@ -369,17 +369,9 @@ namespace Cubiquity
 			return result;
 		}
 		
-		float packColor(uint color)
-		{
-			CubeColor col = new CubeColor();
-			col.color = color;
-			/*uint red = (uint)((color >> 0) & 0xF);
-			uint green = (uint)((color >> 4) & 0xF);
-			uint blue = (uint)((color >> 8) & 0xF);
-			
-			float result = (float)(red * 256 + green * 16 + blue);*/
-			
-			float result = (float)(col.red * 256 + col.green * 16 + col.blue);
+		float packColor(CubeColor color)
+		{			
+			float result = (float)(color.red * 256 + color.green * 16 + color.blue);
 			
 			return result;
 		}
@@ -404,7 +396,7 @@ namespace Cubiquity
 			{
 				// Get the vertex data from Cubiquity.
 				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
-				UInt32 color = cubiquityVertices[ct].color;
+				CubeColor color = cubiquityVertices[ct].color;
 				
 				// Pack it for efficient vertex buffer usage.
 				float packedPosition = packPosition(position);
