@@ -7,14 +7,14 @@ namespace Cubiquity
 	{
 		private static int MaxInOutValue = byte.MaxValue;
 		
-		private static int RedMSB = 15;
-		private static int RedLSB = 12;		
-		private static int GreenMSB = 11;
-		private static int GreenLSB = 8;
-		private static int BlueMSB = 7;
-		private static int BlueLSB = 4;
-		private static int AlphaMSB = 3;
-		private static int AlphaLSB = 0;
+		private static int RedMSB = 31;
+		private static int RedLSB = 28;		
+		private static int GreenMSB = 27;
+		private static int GreenLSB = 24;
+		private static int BlueMSB = 23;
+		private static int BlueLSB = 20;
+		private static int AlphaMSB = 19;
+		private static int AlphaLSB = 16;
 		
 		private static int NoOfRedBits = RedMSB - RedLSB + 1;
 		private static int NoOfGreenBits = GreenMSB - GreenLSB + 1;

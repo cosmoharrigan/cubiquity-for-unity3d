@@ -367,7 +367,7 @@ namespace Cubiquity
 		
 		float packColor(QuantizedColor color)
 		{
-			float result = (float)(color.color >> 4);
+			float result = (float)(color.color >> 20);
 			
 			return result;
 		}
