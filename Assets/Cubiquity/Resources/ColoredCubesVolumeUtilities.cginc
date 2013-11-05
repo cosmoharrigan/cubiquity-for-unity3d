@@ -24,11 +24,11 @@ float3 unpackColor(float inputVal)
 		
 	// Convert each component to a value in the range 0-255      	
 	float3 result = floor(inputVec / float3(256.0, 16.0, 1.0));	      	
-	float3 shiftedResult = float3(0.0, result.rg) * 16.0;	
+	float3 shiftedResult = float3(0.0, result.rg) * float3(16.0, 16.0, 16.0);
 	result -= shiftedResult;
 	
 	// Convert to range 0-1
-	result /= 15.0;
+	result /= float3(15.0, 15.0, 15.0);
 		
 	// Return the result	
 	return result;
