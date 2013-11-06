@@ -349,29 +349,6 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		float packPosition(Vector3 position)
-		{
-			// Important note: In theory this packing approach can be used to pack 24 bits of data, as a float can hold all
-			// integers up to 2^24. This means we should be able to pack 3 8-bit values. However, when trying this with colors
-			// it seemed not to quite work, and the value (255,255,255) did not unpack correctly on the GPU. This is something
-			// to be aware of if we ever try to have larger meshes - 128x128x128 might be the actual practical limit.
-			
-			position.x += 0.5f;
-			position.y += 0.5f;
-			position.z += 0.5f;
-			
-			float result = position.x * 65536.0f + position.y * 256.0f + position.z;
-			
-			return result;
-		}
-		
-		float packColor(QuantizedColor color)
-		{
-			float result = (float)(color.color >> 20);
-			
-			return result;
-		}
-		
 		void BuildMeshFromNodeHandle(uint nodeHandle, out Mesh renderingMesh, out Mesh physicsMesh)
 		{
 			// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C
@@ -394,14 +371,8 @@ namespace Cubiquity
 				// Get the vertex data from Cubiquity.
 				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
 				QuantizedColor color = cubiquityVertices[ct].color;
-				
-				// Pack it for efficient vertex buffer usage.
-				//float packedPosition = packPosition(position);
-				//float packedColor = packColor(color);
 					
 				// Copy it to the arrays.
-				//renderingVertices[ct] = new Vector3(packedPosition, packedColor, 0.0f);			
-				
 				renderingVertices[ct] = position;
 				renderingColors[ct] = (Color32)color;
 				
