@@ -13,7 +13,6 @@ Shader "ColoredCubesVolume"
           float4 color : COLOR;
           float4 modelPos;
           float3 worldPos;
-          float3 customColor;
       };
       
       #include "ColoredCubesVolumeUtilities.cginc"
@@ -24,21 +23,14 @@ Shader "ColoredCubesVolume"
       void vert (inout appdata_full v, out Input o)
       {
       	UNITY_INITIALIZE_OUTPUT(Input,o);
-      	//float4 unpackedPosition = float4(unpackPosition(v.vertex.x), 1.0f);
-      	//float4 unpackedColor = float4(unpackColor(v.vertex.y), 1.0f);
       	
-      	//v.vertex = unpackedPosition;
-      	
+      	// Unity can't cope with the idea that we're peforming lighting without having per-vertex
+      	// normals. We specify dummy ones here to avoid having to use up vertex buffer space for them.
       	v.normal = float3 (0.0f, 0.0f, 1.0f);
-
-    v.tangent = float4 (1.0f, 0.0f, 0.0f, 1.0f);     
-          
-          
-          o.modelPos = v.vertex;
-          
-          //o.customColor = float3(0.0, v.texcoord.x, 0.0);
-          //o.customColor = floatToRGB(v.texcoord.x);
-          //o.customColor = unpackedColor.xyz;
+      	v.tangent = float4 (1.0f, 0.0f, 0.0f, 1.0f);     
+        
+        // Model-space position is use for adding noise.
+        o.modelPos = v.vertex;
       }
       
       void surf (Input IN, inout SurfaceOutput o)
@@ -46,7 +38,7 @@ Shader "ColoredCubesVolume"
       	// Compute the surface normal in the fragment shader.
       	float3 surfaceNormal = normalize(cross(ddx(IN.worldPos.xyz), ddy(IN.worldPos.xyz)));
       	
-	    //Add noise
+	    //Add noise - we use model space to prevent noise scrolling if the volume moves.
 	    float noise = positionBasedNoise(float4(IN.modelPos.xyz, 0.1));
         
         o.Albedo = IN.color + noise;
