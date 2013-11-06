@@ -11,7 +11,7 @@ namespace Cubiquity
 		{
 			string fileName = "CubiquityC.dll";
 	        string sourcePath = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity");
-	        string destPath =  @".";
+	        string destPath =  @"../..";
 	
 	        // Use Path class to manipulate file and directory paths. 
 	        string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
