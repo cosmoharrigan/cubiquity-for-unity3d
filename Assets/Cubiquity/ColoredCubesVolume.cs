@@ -385,7 +385,8 @@ namespace Cubiquity
 			CubiquityVertex[] cubiquityVertices = CubiquityDLL.GetVertices(nodeHandle);			
 			
 			// Create the arrays which we'll copy the data to.
-	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
+	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];	
+			Color32[] renderingColors = new Color32[cubiquityVertices.Length];
 			Vector3[] physicsVertices = UseCollisionMesh ? new Vector3[cubiquityVertices.Length] : null;
 			
 			for(int ct = 0; ct < cubiquityVertices.Length; ct++)
@@ -395,11 +396,15 @@ namespace Cubiquity
 				QuantizedColor color = cubiquityVertices[ct].color;
 				
 				// Pack it for efficient vertex buffer usage.
-				float packedPosition = packPosition(position);
-				float packedColor = packColor(color);
+				//float packedPosition = packPosition(position);
+				//float packedColor = packColor(color);
 					
 				// Copy it to the arrays.
-				renderingVertices[ct] = new Vector3(packedPosition, packedColor, 0.0f);			
+				//renderingVertices[ct] = new Vector3(packedPosition, packedColor, 0.0f);			
+				
+				renderingVertices[ct] = position;
+				renderingColors[ct] = (Color32)color;
+				
 				if(UseCollisionMesh)
 				{
 					physicsVertices[ct] = position;
@@ -408,6 +413,7 @@ namespace Cubiquity
 			
 			// Assign vertex data to the meshes.
 			renderingMesh.vertices = renderingVertices; 
+			renderingMesh.colors32 = renderingColors;
 			renderingMesh.triangles = indices;
 			
 			// FIXME - Get proper bounds

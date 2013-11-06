@@ -55,6 +55,16 @@ namespace Cubiquity
 			quantizedColor.alpha = color32.a;
 			return quantizedColor;
 		}
+		
+		public static explicit operator Color32(QuantizedColor quantizedColor)
+		{
+			Color32 color32 = new Color32();
+			color32.r = quantizedColor.red;
+			color32.g = quantizedColor.green;
+			color32.b = quantizedColor.blue;
+			color32.a = quantizedColor.alpha;
+			return color32;
+		}
 	
 	    public byte red
 	    {

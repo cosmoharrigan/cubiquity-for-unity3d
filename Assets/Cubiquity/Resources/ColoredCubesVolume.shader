@@ -24,10 +24,10 @@ Shader "ColoredCubesVolume"
       void vert (inout appdata_full v, out Input o)
       {
       	UNITY_INITIALIZE_OUTPUT(Input,o);
-      	float4 unpackedPosition = float4(unpackPosition(v.vertex.x), 1.0f);
-      	float4 unpackedColor = float4(unpackColor(v.vertex.y), 1.0f);
+      	//float4 unpackedPosition = float4(unpackPosition(v.vertex.x), 1.0f);
+      	//float4 unpackedColor = float4(unpackColor(v.vertex.y), 1.0f);
       	
-      	v.vertex = unpackedPosition;
+      	//v.vertex = unpackedPosition;
       	
       	v.normal = float3 (0.0f, 0.0f, 1.0f);
 
@@ -38,7 +38,7 @@ Shader "ColoredCubesVolume"
           
           //o.customColor = float3(0.0, v.texcoord.x, 0.0);
           //o.customColor = floatToRGB(v.texcoord.x);
-          o.customColor = unpackedColor.xyz;
+          //o.customColor = unpackedColor.xyz;
       }
       
       void surf (Input IN, inout SurfaceOutput o)
@@ -49,7 +49,7 @@ Shader "ColoredCubesVolume"
 	    //Add noise
 	    float noise = positionBasedNoise(float4(IN.modelPos.xyz, 0.1));
         
-        o.Albedo = IN.customColor + noise;
+        o.Albedo = IN.color + noise;
         o.Normal = surfaceNormal;
       }
       ENDCG
