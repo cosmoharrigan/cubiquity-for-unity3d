@@ -27,7 +27,12 @@ namespace Cubiquity
 		private static int selectedBrush = 0;
 		private static int selectedTexture = 0;
 		
+		private static Vector3 csgBrushScale = new Vector3(10.0f, 10.0f, 10.0f);
+		
 		Texture[] brushTextures;
+		
+		private GameObject cubeBrushMarker;
+		
 	
 		public void OnEnable()
 		{
@@ -39,6 +44,22 @@ namespace Cubiquity
 			brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
 			brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
 			brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
+			
+			cubeBrushMarker = GameObject.Find("CubeBrushMarker");
+			if(cubeBrushMarker == null)
+			{
+				cubeBrushMarker = GameObject.CreatePrimitive(PrimitiveType.Cube);
+				cubeBrushMarker.name = "CubeBrushMarker";
+			}
+
+			cubeBrushMarker.transform.localScale = csgBrushScale;
+			cubeBrushMarker.renderer.castShadows = false;
+			cubeBrushMarker.renderer.receiveShadows = false;
+		}
+		
+		public void OnDisable()
+		{
+			GameObject.DestroyImmediate(cubeBrushMarker);
 		}
 		
 		public override void OnInspectorGUI()
@@ -122,7 +143,7 @@ namespace Cubiquity
 				
 			DrawMaterialSelector();
 			
-			DrawBrushSettings(10.0f, 1.0f);
+			DrawCSGBrushSettings(10.0f);
 		}
 		
 		private void DrawSmoothControls()
@@ -206,6 +227,18 @@ namespace Cubiquity
 			EditorGUILayout.Space();
 		}
 		
+		private void DrawCSGBrushSettings(float maxBrushRadius)
+		{
+			EditorGUILayout.LabelField("Brush settings", EditorStyles.boldLabel);
+			
+			EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField("X:", GUILayout.Width(50));
+				csgBrushScale.x = GUILayout.HorizontalSlider(csgBrushScale.x, 0.0f, maxBrushRadius);
+			EditorGUILayout.EndHorizontal();
+			
+			EditorGUILayout.Space();
+		}
+		
 		private int DrawTextureSelectionGrid(int selected, Texture[] images, int xCount, int thumbnailSize)
 		{
 			// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
@@ -258,6 +291,9 @@ namespace Cubiquity
 				terrainVolume.brushMarker.outerRadius = brushOuterRadius;
 				terrainVolume.brushMarker.opacity = brushOpacity;
 				terrainVolume.brushMarker.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f);
+				
+				cubeBrushMarker.transform.position = new Vector3(resultX, resultY, resultZ);
+				cubeBrushMarker.transform.localScale = csgBrushScale;
 				
 				if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 				{
