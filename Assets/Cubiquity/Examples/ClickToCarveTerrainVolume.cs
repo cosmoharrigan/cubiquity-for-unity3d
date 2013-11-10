@@ -52,7 +52,7 @@ public class ClickToCarveTerrainVolume : MonoBehaviour
 				// If we hit a solid voxel then create an explosion at this point.
 				if(hit)
 				{					
-					int range = 10;
+					int range = 5;
 					DestroyVoxels((int)resultX, (int)resultY, (int)resultZ, range);
 				}
 				
@@ -99,5 +99,11 @@ public class ClickToCarveTerrainVolume : MonoBehaviour
 				}
 			}
 		}
+		
+		range += 2;
+		
+		TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, new Region(xPos - range, yPos - range, zPos - range, xPos + range, yPos + range, zPos + range));
+		//TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, new Region(xPos - range, yPos - range, zPos - range, xPos + range, yPos + range, zPos + range));
+		//TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, new Region(xPos - range, yPos - range, zPos - range, xPos + range, yPos + range, zPos + range));
 	}
 }

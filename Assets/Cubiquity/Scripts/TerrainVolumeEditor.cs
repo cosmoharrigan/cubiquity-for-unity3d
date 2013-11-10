@@ -16,6 +16,11 @@ namespace Cubiquity
 			CubiquityDLL.BlurTerrainVolume((uint)volume.data.volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount);
 		}
 		
+		public static void BlurTerrainVolume(TerrainVolume volume, Region region)
+		{
+			CubiquityDLL.BlurTerrainVolumeRegion((uint)volume.data.volumeHandle, region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z, region.upperCorner.x, region.upperCorner.y, region.upperCorner.z);
+		}
+		
 		public static void PaintTerrainVolume(TerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex)
 		{
 			CubiquityDLL.PaintTerrainVolume((uint)volume.data.volumeHandle, centerX, centerY, centerZ, brushInnerRadius, brushOuterRadius, amount, materialIndex);

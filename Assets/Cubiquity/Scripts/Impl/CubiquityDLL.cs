@@ -447,6 +447,13 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
+		private static extern int cuBlurTerrainVolumeRegion(uint volumeHandle, int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ);
+		public static void BlurTerrainVolumeRegion(uint volumeHandle, int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ)
+		{
+			Validate(cuBlurTerrainVolumeRegion(volumeHandle, lowerX, lowerY, lowerZ, upperX, upperY, upperZ));
+		}
+		
+		[DllImport ("CubiquityC")]
 		private static extern int cuPaintTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex);
 		public static void PaintTerrainVolume(uint volumeHandle, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount, uint materialIndex)
 		{
