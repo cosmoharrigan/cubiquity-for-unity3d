@@ -19,7 +19,6 @@ namespace Cubiquity
 		private static float brushOpacity = 1.0f;
 		
 		private static bool sculptPressed = true;
-		private static bool csgPressed = false;
 		private static bool smoothPressed = false;
 		private static bool paintPressed = false;
 		private static bool settingPressed = false;
@@ -27,11 +26,7 @@ namespace Cubiquity
 		private static int selectedBrush = 0;
 		private static int selectedTexture = 0;
 		
-		private static Vector3 csgBrushScale = new Vector3(10.0f, 10.0f, 10.0f);
-		
 		Texture[] brushTextures;
-		
-		private GameObject cubeBrushMarker;
 		
 	
 		public void OnEnable()
@@ -44,22 +39,6 @@ namespace Cubiquity
 			brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
 			brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
 			brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
-			
-			cubeBrushMarker = GameObject.Find("CubeBrushMarker");
-			if(cubeBrushMarker == null)
-			{
-				cubeBrushMarker = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				cubeBrushMarker.name = "CubeBrushMarker";
-			}
-
-			cubeBrushMarker.transform.localScale = csgBrushScale;
-			cubeBrushMarker.renderer.castShadows = false;
-			cubeBrushMarker.renderer.receiveShadows = false;
-		}
-		
-		public void OnDisable()
-		{
-			GameObject.DestroyImmediate(cubeBrushMarker);
 		}
 		
 		public override void OnInspectorGUI()
@@ -68,15 +47,6 @@ namespace Cubiquity
 			if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
 				sculptPressed = true;
-				csgPressed = false;
-				smoothPressed = false;
-				paintPressed = false;
-				settingPressed = false;
-			}
-			if(GUILayout.Toggle(csgPressed, "CSG", EditorStyles.miniButtonMid, GUILayout.Height(24)))
-			{
-				sculptPressed = false;
-				csgPressed = true;
 				smoothPressed = false;
 				paintPressed = false;
 				settingPressed = false;
@@ -84,7 +54,6 @@ namespace Cubiquity
 			if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
-				csgPressed = false;
 				smoothPressed = true;
 				paintPressed = false;
 				settingPressed = false;
@@ -92,7 +61,6 @@ namespace Cubiquity
 			if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
-				csgPressed = false;
 				smoothPressed = false;
 				paintPressed = true;
 				settingPressed = false;
@@ -100,7 +68,6 @@ namespace Cubiquity
 			if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
-				csgPressed = false;
 				smoothPressed = false;
 				paintPressed = false;
 				settingPressed = true;
@@ -110,11 +77,6 @@ namespace Cubiquity
 			if(sculptPressed)
 			{
 				DrawSculptControls();
-			}
-			
-			if(csgPressed)
-			{
-				DrawCSGControls();
 			}
 			
 			if(smoothPressed)
@@ -135,15 +97,6 @@ namespace Cubiquity
 			DrawBrushSelector();
 			
 			DrawBrushSettings(10.0f, 1.0f);
-		}
-		
-		private void DrawCSGControls()
-		{		
-			DrawInstructions("CSG instructions here...");
-				
-			DrawMaterialSelector();
-			
-			DrawCSGBrushSettings(10.0f);
 		}
 		
 		private void DrawSmoothControls()
@@ -227,18 +180,6 @@ namespace Cubiquity
 			EditorGUILayout.Space();
 		}
 		
-		private void DrawCSGBrushSettings(float maxBrushRadius)
-		{
-			EditorGUILayout.LabelField("Brush settings", EditorStyles.boldLabel);
-			
-			EditorGUILayout.BeginHorizontal();
-				EditorGUILayout.LabelField("X:", GUILayout.Width(50));
-				csgBrushScale.x = GUILayout.HorizontalSlider(csgBrushScale.x, 0.0f, maxBrushRadius);
-			EditorGUILayout.EndHorizontal();
-			
-			EditorGUILayout.Space();
-		}
-		
 		private int DrawTextureSelectionGrid(int selected, Texture[] images, int xCount, int thumbnailSize)
 		{
 			// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
@@ -257,7 +198,7 @@ namespace Cubiquity
 		}
 		
 		public void OnSceneGUI()
-		{
+		{			
 			//Debug.Log ("ColoredCubesVolumeEditor.OnSceneGUI()");
 			Event e = Event.current;
 			
@@ -275,15 +216,6 @@ namespace Cubiquity
 				float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
 				// Use this value to compute the inner radius as a proportion of the outer radius.
 				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
-					
-				/*List<string> keywords = new List<string>();
-				keywords.Add("BRUSH_MARKER_ON");
-				terrainVolume.material.shaderKeywords = keywords.ToArray();
-				//Shader.DisableKeyword("SHOW_BRUSH");
-				//Shader.EnableKeyword("HIDE_BRUSH");
-				terrainVolume.material.SetVector("_BrushCenter", new Vector4(resultX, resultY, resultZ, 0.0f));				
-				terrainVolume.material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, opacity, 0.0f));
-				terrainVolume.material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));*/
 				
 				terrainVolume.brushMarker.isVisible = true;
 				terrainVolume.brushMarker.center = new Vector3(resultX, resultY, resultZ);
@@ -291,9 +223,6 @@ namespace Cubiquity
 				terrainVolume.brushMarker.outerRadius = brushOuterRadius;
 				terrainVolume.brushMarker.opacity = brushOpacity;
 				terrainVolume.brushMarker.color = new Vector4(0.0f, 0.5f, 1.0f, 1.0f);
-				
-				cubeBrushMarker.transform.position = new Vector3(resultX, resultY, resultZ);
-				cubeBrushMarker.transform.localScale = csgBrushScale;
 				
 				if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 				{
@@ -305,15 +234,6 @@ namespace Cubiquity
 							multiplier  = -1.0f;
 						}
 						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity * multiplier);
-					}
-					else if(csgPressed && (e.type != EventType.MouseDrag))
-					{
-						Region region = new Region((int)resultX - 50, (int)resultY - 50, (int)resultZ - 50, (int)resultX + 50, (int)resultY + 50, (int)resultZ + 50);
-						
-						MaterialSet materialSet = new MaterialSet();							
-						materialSet.weights[1] = 255;
-						
-						TerrainVolumeEditor.CreateCuboid(terrainVolume, region, materialSet);
 					}
 					else if(smoothPressed)
 					{
