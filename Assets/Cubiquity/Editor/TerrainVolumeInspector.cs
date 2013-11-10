@@ -205,7 +205,7 @@ namespace Cubiquity
 			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 			Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 			
-			// Perform the raycasting. If there's a hit the position will be stored in these ints.
+			// Perform the raycasting. If there's a hit the position will be stored in these floats.
 			float resultX, resultY, resultZ;
 			bool hit = TerrainVolumePicking.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 			
