@@ -217,7 +217,7 @@ namespace Cubiquity
 				// Use this value to compute the inner radius as a proportion of the outer radius.
 				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 				
-				terrainVolume.brushMarker.isVisible = true;
+				terrainVolume.brushMarker.enabled = true;
 				terrainVolume.brushMarker.center = new Vector3(resultX, resultY, resultZ);
 				terrainVolume.brushMarker.innerRadius = brushInnerRadius;
 				terrainVolume.brushMarker.outerRadius = brushOuterRadius;
@@ -247,7 +247,7 @@ namespace Cubiquity
 			}
 			else
 			{
-				terrainVolume.brushMarker.isVisible = false;
+				terrainVolume.brushMarker.enabled = false;
 			}
 			
 			if ( e.type == EventType.Layout )

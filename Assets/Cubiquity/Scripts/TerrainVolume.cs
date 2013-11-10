@@ -98,7 +98,7 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
-			List<string> keywords = new List<string> { brushMarker.isVisible ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF"};
+			List<string> keywords = new List<string> { brushMarker.enabled ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF"};
 			material.shaderKeywords = keywords.ToArray();
 			material.SetVector("_BrushCenter", brushMarker.center);				
 			material.SetVector("_BrushSettings", new Vector4(brushMarker.innerRadius, brushMarker.outerRadius, brushMarker.opacity, 0.0f));
@@ -145,11 +145,11 @@ namespace Cubiquity
 			material = new Material(shader);
 			
 			// I think it's easiest if we ensure a brush always exists, and allow
-			// the user to hide it be setting the isVisible property to false.
+			// the user to hide it be setting the enabled property to false.
 			if(brushMarker == null)
 			{
 				brushMarker = new TerrainVolumeBrushMarker();
-				brushMarker.isVisible = false; // Hide it by default.
+				brushMarker.enabled = false; // Hide it by default.
 			}
 		}
 		
