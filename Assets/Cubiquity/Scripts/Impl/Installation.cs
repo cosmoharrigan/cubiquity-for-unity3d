@@ -9,6 +9,8 @@ namespace Cubiquity
 	{
 		public static void ValidateAndFix()
 		{
+			Debug.LogWarning("This version of Cubiquity is for non-commercial and evaluation use only. Please see LICENSE.txt for further details");
+			
 			if( (Application.platform != RuntimePlatform.WindowsEditor) &&
 				(Application.platform != RuntimePlatform.WindowsPlayer) )
 			{
