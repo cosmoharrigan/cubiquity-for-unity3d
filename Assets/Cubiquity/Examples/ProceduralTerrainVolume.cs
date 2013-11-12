@@ -24,13 +24,16 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		MaterialSet materialSet = new MaterialSet();
 		
-		float scaleX = 10.0f;
-		float scaleY = 10.0f;
-		float scaleZ = 10.0f;
+		float scaleX = 32.0f;
+		float scaleY = 32.0f;
+		float scaleZ = 32.0f;
 		
 		float invScaleX = 1.0f / scaleX;
 		float invScaleY = 1.0f / scaleY;
 		float invScaleZ = 1.0f / scaleZ;
+		
+		float minVal = 1000000.0f;
+		float maxVal = -1000000.0f;
 		
 		for(int z = 0; z < depth; z++)
 		{
@@ -38,22 +41,62 @@ public class ProceduralTerrainVolume : MonoBehaviour
 			{
 				for(int x = 0; x < width; x++)
 				{		
+					float altitude = (float)(y + 1) / (float)height;
+					
 					materialSet.weights[0] = 0;
 					
 					float sampleX = (float)x * invScaleX;
 					float sampleY = (float)y * invScaleY;
 					float sampleZ = (float)z * invScaleZ;
 					
-					float val = SimplexNoise.Noise.Generate(sampleX, sampleY, sampleZ);
+					float val = 0.0f;
+					int noOfOctaves = 1;
+					float octaveScale = 1.0f;
+					float rangeCounter = 0.0f;
+					for(int octave = 0; octave < noOfOctaves; octave++)
+					{
+						rangeCounter += octaveScale;
+						val += octaveScale * SimplexNoise.Noise.Generate(sampleX / octaveScale, sampleY / octaveScale, sampleZ / octaveScale);
+						
+						octaveScale *= 0.5f;
+					}
 					
-					float scaledVal = (val * 1000.0f + 127.5f);
+					//float val = 0.5f;
+					
+					minVal = Mathf.Min(minVal, val);
+					maxVal = Mathf.Max(maxVal, val);
+					
+					//val *= (1.0f - altitude);
+					
+					//float scaledVal = (val * 10.0f + 127.5f);
+					
+					float scaledVal = (val / rangeCounter) + 0.5f;
+					
+					//altitude = altitude * altitude;
+					
+					altitude = Mathf.Sqrt(altitude);
+					
+					scaledVal *= (1.0f - altitude);
+					
+					scaledVal *= 255;
+					
+					//scaledVal *= (1.0f - altitude);
+					
 					scaledVal = Mathf.Clamp(scaledVal, 0.0f, 255.0f);
 					
 					materialSet.weights[0] = (byte)scaledVal;
+					
+					if(y < 1)
+					{
+						materialSet.weights[0] = 255;
+					}
 					
 					data.SetVoxel(x, y, z, materialSet);
 				}
 			}
 		}
+		
+		Debug.Log("Min = " + minVal);
+		Debug.Log("Max = " + maxVal);
 	}
 }
