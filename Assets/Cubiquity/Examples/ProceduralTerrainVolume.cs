@@ -48,9 +48,12 @@ public class ProceduralTerrainVolume : MonoBehaviour
 			{
 				for(int x = 0; x < width; x++)
 				{		
-					float altitude = (float)(y + 0) / (float)height;
+					float altitude = (float)(y + 1) / (float)height;
 					altitude = Mathf.Clamp(altitude, 0.0f, 1.0f);
-					altitude = Mathf.Sqrt(altitude);
+					altitude *= 2.0f;
+					altitude -= 1.0f;
+					
+					//altitude = Mathf.Sqrt(altitude);
 					
 					
 					materialSet.weights[0] = 0;
@@ -89,6 +92,8 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					scaledVal *= (1.0f - altitude);
 					
+					//scaledVal -= altitude;
+					
 					scaledVal -= 0.5f;
 					scaledVal *= 5.0f;
 					scaledVal += 0.5f;
@@ -106,19 +111,19 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					materialSet.weights[0] = (byte)scaledVal;
 					
+					byte excess = (byte)(255 - materialSet.weights[0]);
+					
 					if(y < 5)
-					{
-						//MaterialSet temp = data.GetVoxel(x, y+1, z);
-						
-						materialSet.weights[0] = 0;
-						materialSet.weights[1] = 255;
-						materialSet.weights[2] = 0;
+					{						
+						//materialSet.weights[0] = 0;
+						materialSet.weights[1] = excess;
+						//materialSet.weights[2] = 0;
 					}
 					else if(y < 6)
 					{
-						materialSet.weights[0] = 0;
-						materialSet.weights[1] = 0;
-						materialSet.weights[2] = 255;
+						//materialSet.weights[0] = 0;
+						//materialSet.weights[1] = 0;
+						materialSet.weights[2] = excess;
 					}
 					
 					data.SetVoxel(x, y, z, materialSet);
