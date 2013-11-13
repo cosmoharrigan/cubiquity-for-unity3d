@@ -21,6 +21,8 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		data.materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;
 		
+		data.materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
+		
 		TerrainVolume.CreateGameObject(data);
 			
 		// Create some ground in the terrain so it shows up in the editor.
@@ -42,15 +44,18 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		for(int z = 0; z < depth; z++)
 		{
-			for(int y = 0; y < height; y++)
+			for(int y = height-1; y > 0; y--)
 			{
 				for(int x = 0; x < width; x++)
 				{		
 					float altitude = (float)(y + 0) / (float)height;
 					altitude = Mathf.Clamp(altitude, 0.0f, 1.0f);
+					altitude = Mathf.Sqrt(altitude);
+					
 					
 					materialSet.weights[0] = 0;
 					materialSet.weights[1] = 0;
+					materialSet.weights[2] = 0;
 					
 					float sampleX = (float)x * invScaleX;
 					float sampleY = (float)y * invScaleY;
@@ -79,11 +84,14 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					float scaledVal = (val / rangeCounter) + 0.5f;
 					
-					//altitude = altitude * altitude;
+					//altitude = altitude * altitude;					
 					
-					altitude = Mathf.Sqrt(altitude);
 					
 					scaledVal *= (1.0f - altitude);
+					
+					scaledVal -= 0.5f;
+					scaledVal *= 5.0f;
+					scaledVal += 0.5f;
 					
 					scaledVal *= 255;
 					
@@ -91,12 +99,26 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					scaledVal = Mathf.Clamp(scaledVal, 0.0f, 255.0f);
 					
+					/*if(scaledVal < 100.0f)
+					{
+						scaledVal = 0.0f;
+					}*/
+					
 					materialSet.weights[0] = (byte)scaledVal;
 					
 					if(y < 5)
 					{
+						//MaterialSet temp = data.GetVoxel(x, y+1, z);
+						
 						materialSet.weights[0] = 0;
 						materialSet.weights[1] = 255;
+						materialSet.weights[2] = 0;
+					}
+					else if(y < 6)
+					{
+						materialSet.weights[0] = 0;
+						materialSet.weights[1] = 0;
+						materialSet.weights[2] = 255;
 					}
 					
 					data.SetVoxel(x, y, z, materialSet);
