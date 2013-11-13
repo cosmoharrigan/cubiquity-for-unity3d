@@ -8,9 +8,9 @@ public class ProceduralTerrainVolume : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		int width = 128;
+		int width = 256;
 		int height = 32;
-		int depth = 128;
+		int depth = 256;
 		
 		// FIXME - Where should we delete this?
 		TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
@@ -49,9 +49,14 @@ public class ProceduralTerrainVolume : MonoBehaviour
 				for(int x = 0; x < width; x++)
 				{		
 					float altitude = (float)(y + 1) / (float)height;
+					
+					//altitude += 0.1f;
+					
 					altitude = Mathf.Clamp(altitude, 0.0f, 1.0f);
-					altitude *= 2.0f;
-					altitude -= 1.0f;
+					
+					altitude -= 0.5f;
+					altitude *= 2.2f;
+					
 					
 					//altitude = Mathf.Sqrt(altitude);
 					
@@ -90,15 +95,17 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					//altitude = altitude * altitude;					
 					
 					
-					scaledVal *= (1.0f - altitude);
+					//scaledVal *= (1.0f - altitude);
 					
-					//scaledVal -= altitude;
+					scaledVal -= altitude;
 					
 					scaledVal -= 0.5f;
 					scaledVal *= 5.0f;
 					scaledVal += 0.5f;
 					
 					scaledVal *= 255;
+					
+					//scaledVal -= 100.0f;
 					
 					//scaledVal *= (1.0f - altitude);
 					
@@ -113,13 +120,13 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					byte excess = (byte)(255 - materialSet.weights[0]);
 					
-					if(y < 5)
+					if(y < 9)
 					{						
 						//materialSet.weights[0] = 0;
 						materialSet.weights[1] = excess;
 						//materialSet.weights[2] = 0;
 					}
-					else if(y < 6)
+					else if(y < 12)
 					{
 						//materialSet.weights[0] = 0;
 						//materialSet.weights[1] = 0;
