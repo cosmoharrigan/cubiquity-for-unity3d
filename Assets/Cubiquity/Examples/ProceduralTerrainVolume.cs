@@ -16,6 +16,11 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
 		data.Init(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
+		data.materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
+		data.materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);
+		
+		data.materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;
+		
 		TerrainVolume.CreateGameObject(data);
 			
 		// Create some ground in the terrain so it shows up in the editor.
@@ -41,9 +46,11 @@ public class ProceduralTerrainVolume : MonoBehaviour
 			{
 				for(int x = 0; x < width; x++)
 				{		
-					float altitude = (float)(y + 1) / (float)height;
+					float altitude = (float)(y + 0) / (float)height;
+					altitude = Mathf.Clamp(altitude, 0.0f, 1.0f);
 					
 					materialSet.weights[0] = 0;
+					materialSet.weights[1] = 0;
 					
 					float sampleX = (float)x * invScaleX;
 					float sampleY = (float)y * invScaleY;
@@ -86,9 +93,10 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					materialSet.weights[0] = (byte)scaledVal;
 					
-					if(y < 1)
+					if(y < 5)
 					{
-						materialSet.weights[0] = 255;
+						materialSet.weights[0] = 0;
+						materialSet.weights[1] = 255;
 					}
 					
 					data.SetVoxel(x, y, z, materialSet);
