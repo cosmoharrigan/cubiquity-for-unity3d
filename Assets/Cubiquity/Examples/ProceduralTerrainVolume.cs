@@ -41,68 +41,47 @@ public class ProceduralTerrainVolume : MonoBehaviour
 			for(int y = height-1; y > 0; y--)
 			{
 				for(int x = 0; x < width; x++)
-				{		
-				
-					float altitude = (float)(y + 1) / (float)height;
-					
-					//altitude += 0.1f;
-					
-					altitude = Mathf.Clamp(altitude, 0.0f, 1.0f);
-					
-					altitude -= 0.5f;
-					altitude *= 2.0f;
-					
-					
-					//altitude = Mathf.Sqrt(altitude);
-					
-					
+				{
+					// Make sure we don't have anything left in here from the previous voxel
 					materialSet.weights[0] = 0;
 					materialSet.weights[1] = 0;
 					materialSet.weights[2] = 0;
 					
+					// Simplex noise is quite high frequency. We scale the sample position to reduce this.
 					float sampleX = (float)x * invRockScale;
 					float sampleY = (float)y * invRockScale;
 					float sampleZ = (float)z * invRockScale;
 					
-					float val = 0.0f;
-					int noOfOctaves = 1;
-					float octaveScale = 1.0f;
-					float rangeCounter = 0.0f;
-					for(int octave = 0; octave < noOfOctaves; octave++)
-					{
-						rangeCounter += octaveScale;
-						val += octaveScale * SimplexNoise.Noise.Generate(sampleX / octaveScale, sampleY / octaveScale, sampleZ / octaveScale);
-						
-						octaveScale *= 0.5f;
-					}
+					// Get the noise value for the current position.
+					// Returned value should be in the range -1 to +1.
+					float simplexNoiseValue = SimplexNoise.Noise.Generate(sampleX, sampleY, sampleZ);
+
+					// Scale noise to the range 0 to +1.
+					simplexNoiseValue = (simplexNoiseValue * 0.5f) + 0.5f;
 					
-					float scaledVal = (val / rangeCounter) + 0.5f;
+					float altitude = (float)(y + 1) / (float)height;					
+					altitude -= 0.5f;
 					
-					//altitude = altitude * altitude;					
+					simplexNoiseValue -= altitude;
 					
+					simplexNoiseValue -= 0.5f;
+					simplexNoiseValue *= 5.0f;
+					simplexNoiseValue += 0.5f;
 					
-					//scaledVal *= (1.0f - altitude);
-					
-					scaledVal -= altitude;
-					
-					scaledVal -= 0.5f;
-					scaledVal *= 5.0f;
-					scaledVal += 0.5f;
-					
-					scaledVal *= 255;
+					simplexNoiseValue *= 255;
 					
 					//scaledVal -= 100.0f;
 					
 					//scaledVal *= (1.0f - altitude);
 					
-					scaledVal = Mathf.Clamp(scaledVal, 0.0f, 255.0f);
+					simplexNoiseValue = Mathf.Clamp(simplexNoiseValue, 0.0f, 255.0f);
 					
 					/*if(scaledVal < 100.0f)
 					{
 						scaledVal = 0.0f;
 					}*/
 					
-					materialSet.weights[0] = (byte)scaledVal;
+					materialSet.weights[0] = (byte)simplexNoiseValue;
 					
 					byte excess = (byte)(255 - materialSet.weights[0]);
 					
