@@ -59,9 +59,14 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					// Scale noise to the range 0 to +1.
 					simplexNoiseValue = (simplexNoiseValue * 0.5f) + 0.5f;
 					
-					float altitude = (float)(y + 1) / (float)height;					
-					altitude -= 0.5f;
+					// We want to fade off the noise towards the top of the volume (so that the rocks don't go
+					// up to the sky) adn add extra material near the bottom of the volume (to create a floor).
+					// This altitude value is initially in the range from 0 to +1.
+					float altitude = (float)(y + 1) / (float)height;
 					
+					// Map the altitude to the range -0.5 to +0.5 and subtract it from the
+					// noise. This add material near the ground and subtracts it higher up.
+					altitude -= 0.5f;
 					simplexNoiseValue -= altitude;
 					
 					simplexNoiseValue -= 0.5f;
@@ -70,31 +75,18 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					
 					simplexNoiseValue *= 255;
 					
-					//scaledVal -= 100.0f;
-					
-					//scaledVal *= (1.0f - altitude);
-					
 					simplexNoiseValue = Mathf.Clamp(simplexNoiseValue, 0.0f, 255.0f);
-					
-					/*if(scaledVal < 100.0f)
-					{
-						scaledVal = 0.0f;
-					}*/
 					
 					materialSet.weights[0] = (byte)simplexNoiseValue;
 					
 					byte excess = (byte)(255 - materialSet.weights[0]);
 					
 					if(y < 9)
-					{						
-						//materialSet.weights[0] = 0;
+					{
 						materialSet.weights[1] = excess;
-						//materialSet.weights[2] = 0;
 					}
 					else if(y < 12)
 					{
-						//materialSet.weights[0] = 0;
-						//materialSet.weights[1] = 0;
 						materialSet.weights[2] = excess;
 					}
 					
