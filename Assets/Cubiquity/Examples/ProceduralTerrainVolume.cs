@@ -3,11 +3,17 @@ using System.Collections;
 
 using Cubiquity;
 
+/**
+ * This class serves as an example of how to generate a TerrainVolume from code. The exact operation
+ * of the noise function(s) is not particularly important here as you will want to implement your own
+ * approach for your game, but you should focus on understanding how data is written into the volume.
+ */
 public class ProceduralTerrainVolume : MonoBehaviour
 {
 	// Use this for initialization
 	void Start ()
 	{
+		// The size of the volume we will generate
 		int width = 256;
 		int height = 32;
 		int depth = 256;
@@ -16,38 +22,27 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
 		data.Init(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
+		// Set up our textures in the appropriate material slots.
 		data.materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
-		data.materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);
-		
-		data.materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;
-		
+		data.materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
+		data.materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
 		data.materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
 		
-		TerrainVolume.CreateGameObject(data);
-			
-		// Create some ground in the terrain so it shows up in the editor.
-		// Soil as a base (mat 0) and then a couple of layers of grass (mat 1).
-		//TerrainVolumeGenerator.GenerateFloor(data, 6, (uint)0, 8, (uint)1);
+		// This scale factor comtrols the size of the rocks which are generated.
+		float rockScale = 32.0f;		
+		float invRockScale = 1.0f / rockScale;
 		
+		// Let's keep the allocation outside of the loop.
 		MaterialSet materialSet = new MaterialSet();
 		
-		float scaleX = 32.0f;
-		float scaleY = 32.0f;
-		float scaleZ = 32.0f;
-		
-		float invScaleX = 1.0f / scaleX;
-		float invScaleY = 1.0f / scaleY;
-		float invScaleZ = 1.0f / scaleZ;
-		
-		float minVal = 1000000.0f;
-		float maxVal = -1000000.0f;
-		
+		// Iterate over every voxel of our volume
 		for(int z = 0; z < depth; z++)
 		{
 			for(int y = height-1; y > 0; y--)
 			{
 				for(int x = 0; x < width; x++)
 				{		
+				
 					float altitude = (float)(y + 1) / (float)height;
 					
 					//altitude += 0.1f;
@@ -55,7 +50,7 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					altitude = Mathf.Clamp(altitude, 0.0f, 1.0f);
 					
 					altitude -= 0.5f;
-					altitude *= 2.2f;
+					altitude *= 2.0f;
 					
 					
 					//altitude = Mathf.Sqrt(altitude);
@@ -65,9 +60,9 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					materialSet.weights[1] = 0;
 					materialSet.weights[2] = 0;
 					
-					float sampleX = (float)x * invScaleX;
-					float sampleY = (float)y * invScaleY;
-					float sampleZ = (float)z * invScaleZ;
+					float sampleX = (float)x * invRockScale;
+					float sampleY = (float)y * invRockScale;
+					float sampleZ = (float)z * invRockScale;
 					
 					float val = 0.0f;
 					int noOfOctaves = 1;
@@ -80,15 +75,6 @@ public class ProceduralTerrainVolume : MonoBehaviour
 						
 						octaveScale *= 0.5f;
 					}
-					
-					//float val = 0.5f;
-					
-					minVal = Mathf.Min(minVal, val);
-					maxVal = Mathf.Max(maxVal, val);
-					
-					//val *= (1.0f - altitude);
-					
-					//float scaledVal = (val * 10.0f + 127.5f);
 					
 					float scaledVal = (val / rangeCounter) + 0.5f;
 					
@@ -138,7 +124,6 @@ public class ProceduralTerrainVolume : MonoBehaviour
 			}
 		}
 		
-		Debug.Log("Min = " + minVal);
-		Debug.Log("Max = " + maxVal);
+		TerrainVolume.CreateGameObject(data);
 	}
 }
