@@ -78,30 +78,45 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					// obtain smooth shading. By scaling by a large number and then clamping we achieve this effect
 					// of making most voxels fully solid or fully empty except near the surface..
 					simplexNoiseValue *= 5.0f;
+					simplexNoiseValue = Mathf.Clamp(simplexNoiseValue, -0.5f, 0.5f);
+					
+					// Go back to the range 0.0 to 1.0;
 					simplexNoiseValue += 0.5f;
 					
+					// And then to 0 to 255, ready to convert into a byte.
 					simplexNoiseValue *= 255;
 					
-					simplexNoiseValue = Mathf.Clamp(simplexNoiseValue, 0.0f, 255.0f);
-					
+					// Write the final value value into the first material channel (the one with the rock texture).
+					// The value being written is usually 0 (empty) or 255 (solid) except around the transition.
 					materialSet.weights[0] = (byte)simplexNoiseValue;
 					
-					byte excess = (byte)(255 - materialSet.weights[0]);
 					
-					if(y < 9)
+					// Lastly we write soil or grass voxels into the volume to create a level floor between the rocks.
+					// This means we want to set the sum of the materials to 255 if the voxel is below the floor height.
+					// We don't want to interfere with the rocks on the transition between the material so we work out
+					// how much extra we have to add to get to 255 and then add that to eith soil or grass.
+					byte excess = (byte)(255 - materialSet.weights[0]);					
+					if(y < 8)
 					{
+						// Add to soil material channel.
 						materialSet.weights[1] = excess;
 					}
-					else if(y < 12)
+					else if(y < 9)
 					{
+						// Add to grass material channel.
 						materialSet.weights[2] = excess;
 					}
 					
+					// We can now write out computed voxel value into the volume.
 					data.SetVoxel(x, y, z, materialSet);
 				}
 			}
 		}
 		
-		TerrainVolume.CreateGameObject(data);
+		// Finally we take the TerrainVolumeData we have just generated and build a TerrainVolume from it.
+		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
+		GameObject terrain = TerrainVolume.CreateGameObject(data);
+		terrain.name = "Procedurally Generated Terrain";
+		terrain.transform.parent = transform;
 	}
 }
