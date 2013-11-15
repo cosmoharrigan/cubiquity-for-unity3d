@@ -21,16 +21,31 @@ namespace Cubiquity
 			int height = 32;
 			int depth = 128;
 			
-			//TerrainVolumeData data = new TerrainVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), path);
-			
 			TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
 			data.Init(new Region(0, 0, 0, width-1, height-1, depth-1));
 			
-			TerrainVolume.CreateGameObject(data);
+			// Set up our textures in the appropriate material slots.
+			data.materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
+			data.materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
+			data.materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
+			data.materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
+			
+			// It's possible the textures won't actually be found, as they are just examples and the
+			// user might have decided not to include them when importing Cubiquity. This doesn't
+			// matter and just means the uer will have to set up their own textures.
+			if((data.materials[0].diffuseMap == null) || (data.materials[1].diffuseMap == null) ||
+				(data.materials[2].diffuseMap == null))
+			{
+				Debug.LogWarning("Failed to set up the default Cubiquity terrain textures. This is probably " +
+					"because you chose not to import the examples when importing Cubiquity? It doesn't matter, " +
+					"it just means you have to configure your own textures through the inspector.");
+			}
 			
 			// Create some ground in the terrain so it shows up in the editor.
-			// Soil as a base (mat 0) and then a couple of layers of grass (mat 1).
-			TerrainVolumeGenerator.GenerateFloor(data, 6, (uint)0, 8, (uint)1);
+			// Soil as a base (mat 1) and then a couple of layers of grass (mat 2).
+			TerrainVolumeGenerator.GenerateFloor(data, 6, (uint)1, 8, (uint)2);
+			
+			TerrainVolume.CreateGameObject(data);
 		}
 		
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
