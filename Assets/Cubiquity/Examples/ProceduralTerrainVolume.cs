@@ -96,12 +96,12 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					// We don't want to interfere with the rocks on the transition between the material so we work out
 					// how much extra we have to add to get to 255 and then add that to eith soil or grass.
 					byte excess = (byte)(255 - materialSet.weights[0]);					
-					if(y < 8)
+					if(y < 11)
 					{
 						// Add to soil material channel.
 						materialSet.weights[1] = excess;
 					}
-					else if(y < 9)
+					else if(y < 12)
 					{
 						// Add to grass material channel.
 						materialSet.weights[2] = excess;
