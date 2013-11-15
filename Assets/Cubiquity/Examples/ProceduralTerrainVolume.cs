@@ -7,6 +7,9 @@ using Cubiquity;
  * This class serves as an example of how to generate a TerrainVolume from code. The exact operation
  * of the noise function(s) is not particularly important here as you will want to implement your own
  * approach for your game, but you should focus on understanding how data is written into the volume.
+ * Please note, most of the 'magic numbers' in this code are simply found by trial and error as there
+ * is a lot of experimentation required to generate procedural terrains. Feel free to change them and
+ * see what happens!
  */
 public class ProceduralTerrainVolume : MonoBehaviour
 {
@@ -55,21 +58,25 @@ public class ProceduralTerrainVolume : MonoBehaviour
 					// Get the noise value for the current position.
 					// Returned value should be in the range -1 to +1.
 					float simplexNoiseValue = SimplexNoise.Noise.Generate(sampleX, sampleY, sampleZ);
-
-					// Scale noise to the range 0 to +1.
-					simplexNoiseValue = (simplexNoiseValue * 0.5f) + 0.5f;
 					
 					// We want to fade off the noise towards the top of the volume (so that the rocks don't go
 					// up to the sky) adn add extra material near the bottom of the volume (to create a floor).
 					// This altitude value is initially in the range from 0 to +1.
 					float altitude = (float)(y + 1) / (float)height;
 					
-					// Map the altitude to the range -0.5 to +0.5 and subtract it from the
-					// noise. This add material near the ground and subtracts it higher up.
-					altitude -= 0.5f;
+					// Map the altitude to the range -1.0 to +1.0...
+					altitude = (altitude * 2.0f) - 1.0f;
+					
+					// Subtract the altitude from the noise. This adds
+					// material near the ground and subtracts it higher up.					
 					simplexNoiseValue -= altitude;
 					
-					simplexNoiseValue -= 0.5f;
+					// After combining our noise value and our altitude we now have values between -2.0 and 2.0.
+					// Cubiquity renders anything below the threshold as empty and anythng above as solid, but
+					// in general it is easiest if empty space is completly empty and solid space is completly
+					// solid. The exception to this is the region near our surface, where a gentle transition helps
+					// obtain smooth shading. By scaling by a large number and then clamping we achieve this effect
+					// of making most voxels fully solid or fully empty except near the surface..
 					simplexNoiseValue *= 5.0f;
 					simplexNoiseValue += 0.5f;
 					
