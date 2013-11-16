@@ -68,6 +68,34 @@ public class ClickToDestroy : MonoBehaviour
 		}
 	}
 	
+	public bool IsSurfaceVoxel(int x, int y, int z)
+	{
+		QuantizedColor quantizedColor;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x, y, z);
+		if(quantizedColor.alpha < 127) return false;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x + 1, y, z);
+		if(quantizedColor.alpha < 127) return true;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x - 1, y, z);
+		if(quantizedColor.alpha < 127) return true;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x, y + 1, z);
+		if(quantizedColor.alpha < 127) return true;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x, y - 1, z);
+		if(quantizedColor.alpha < 127) return true;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x, y, z + 1);
+		if(quantizedColor.alpha < 127) return true;
+		
+		quantizedColor = coloredCubesVolume.data.GetVoxel(x, y, z - 1);
+		if(quantizedColor.alpha < 127) return true;
+		
+		return false;
+	}
+	
 	void DestroyVoxels(int xPos, int yPos, int zPos, int range)
 	{
 		// Initialise outside the loop, but we'll use it later.
@@ -105,43 +133,41 @@ public class ClickToDestroy : MonoBehaviour
 						
 						// Check the alpha to determine whether the voxel is visible. 
 						if(color.alpha > 127)
-						{
-							/*bool isSurfaceVoxel = coloredCubesVolume.IsSurfaceVoxel(x, y, z);
-							
+						{							
 							Vector3i voxel = new Vector3i(x, y, z);
 							voxelsToDelete.Add(voxel);
 
-								if(isSurfaceVoxel)
-								{
-									GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-									cube.AddComponent<Rigidbody>();
-									cube.AddComponent<FadeOutGameObject>();
-									cube.transform.position = new Vector3(x, y, z);
-									cube.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-									cube.renderer.material.color = color;
-									
-									Vector3 explosionForce = cube.transform.position - pos;
-									
-									// These are basically random values found through experimentation.
-									// They just add a bit of twist as the cubes explode which looks nice
-									float xTorque = (x * 1436523.4f) % 56.0f;
-									float yTorque = (y * 56143.4f) % 43.0f;
-									float zTorque = (z * 22873.4f) % 38.0f;
-									
-									Vector3 up = new Vector3(0.0f, 2.0f, 0.0f);
-									
-									cube.rigidbody.AddTorque(xTorque, yTorque, zTorque);
-									cube.rigidbody.AddForce((explosionForce.normalized + up) * 100.0f);
-								}*/
+							if(IsSurfaceVoxel(x, y, z))
+							{
+								GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+								cube.AddComponent<Rigidbody>();
+								cube.AddComponent<FadeOutGameObject>();
+								cube.transform.position = new Vector3(x, y, z);
+								cube.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+								cube.renderer.material.color = (Color32)color;
+								
+								Vector3 explosionForce = cube.transform.position - pos;
+								
+								// These are basically random values found through experimentation.
+								// They just add a bit of twist as the cubes explode which looks nice
+								float xTorque = (x * 1436523.4f) % 56.0f;
+								float yTorque = (y * 56143.4f) % 43.0f;
+								float zTorque = (z * 22873.4f) % 38.0f;
+								
+								Vector3 up = new Vector3(0.0f, 2.0f, 0.0f);
+								
+								cube.rigidbody.AddTorque(xTorque, yTorque, zTorque);
+								cube.rigidbody.AddForce((explosionForce.normalized + up) * 100.0f);
+							}
 						}
 					}
 				}
 			}
 		}
 		
-		/*foreach (Vector3i voxel in voxelsToDelete) // Loop through List with foreach
+		foreach (Vector3i voxel in voxelsToDelete) // Loop through List with foreach
 		{
-		    coloredCubesVolume.SetVoxel(voxel.x, voxel.y, voxel.z, new QuantizedColor(0,0,0,0));
-		}*/
+		    coloredCubesVolume.data.SetVoxel(voxel.x, voxel.y, voxel.z, new QuantizedColor(0,0,0,0));
+		}
 	}
 }
