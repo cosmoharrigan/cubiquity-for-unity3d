@@ -70,13 +70,6 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuGetVoxel(uint volumeHandle, int x, int y, int z, out byte red, out byte green, out byte blue, out byte alpha);	
-		public static void GetVoxel(uint volumeHandle, int x, int y, int z, out byte red, out byte green, out byte blue, out byte alpha)
-		{		
-			Validate(cuGetVoxel(volumeHandle, x, y, z, out red, out green, out blue, out alpha));
-		}
-		
-		[DllImport ("CubiquityC")]
 		private static extern int cuSetVoxelNew(uint volumeHandle, int x, int y, int z, QuantizedColor color);
 		public static void SetVoxelNew(uint volumeHandle, int x, int y, int z, QuantizedColor color)
 		{
@@ -88,13 +81,6 @@ namespace Cubiquity
 		public static void GetVoxelNew(uint volumeHandle, int x, int y, int z, out QuantizedColor color)
 		{		
 			Validate(cuGetVoxelNew(volumeHandle, x, y, z, out color));
-		}
-		
-		[DllImport ("CubiquityC")]
-		private static extern int cuSetVoxel(uint volumeHandle, int x, int y, int z, byte red, byte green, byte blue, byte alpha);
-		public static void SetVoxel(uint volumeHandle, int x, int y, int z, byte red, byte green, byte blue, byte alpha)
-		{
-			Validate(cuSetVoxel(volumeHandle, x, y, z, red, green, blue, alpha));
 		}
 		
 		[DllImport ("CubiquityC")]
@@ -141,20 +127,6 @@ namespace Cubiquity
 		public static void GetEnclosingRegionMC(uint volumeHandle, out int lowerX, out int lowerY, out int lowerZ, out int upperX, out int upperY, out int upperZ)
 		{		
 			Validate(cuGetEnclosingRegionMC(volumeHandle, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ));
-		}
-		
-		[DllImport ("CubiquityC")]
-		private static extern int cuGetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, out byte value);	
-		public static void GetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, out byte value)
-		{		
-			Validate(cuGetVoxelMC(volumeHandle, x, y, z, index, out value));
-		}
-		
-		[DllImport ("CubiquityC")]
-		private static extern int cuSetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, byte value);
-		public static void SetVoxelMC(uint volumeHandle, int x, int y, int z, uint index, byte value)
-		{
-			Validate(cuSetVoxelMC(volumeHandle, x, y, z, index, value));
 		}
 		
 		[DllImport ("CubiquityC")]

@@ -50,10 +50,15 @@ namespace Cubiquity
 		
 		public QuantizedColor GetVoxel(int x, int y, int z)
 		{
-			QuantizedColor result = new QuantizedColor(); // Maybe shouldn't use new here.
+			QuantizedColor result;
 			if(volumeHandle.HasValue)
 			{
 				CubiquityDLL.GetVoxelNew(volumeHandle.Value, x, y, z, out result);
+			}
+			else
+			{
+				//Should maybe throw instead.
+				result = new QuantizedColor();
 			}
 			return result;
 		}

@@ -50,14 +50,19 @@ namespace Cubiquity
 			InitializeCubiquityVolume();
 		}
 		
-		public byte GetVoxel(int x, int y, int z, uint materialIndex)
+		public MaterialSet GetVoxel(int x, int y, int z)
 		{
-			byte materialStrength = 0;
+			MaterialSet materialSet;
 			if(volumeHandle.HasValue)
 			{
-				CubiquityDLL.GetVoxelMC(volumeHandle.Value, x, y, z, materialIndex, out materialStrength);
+				CubiquityDLL.GetVoxelMCNew(volumeHandle.Value, x, y, z, out materialSet);
 			}
-			return materialStrength;
+			else
+			{
+				// Should maybe throw instead?
+				materialSet = new MaterialSet();
+			}
+			return materialSet;
 		}
 		
 		public void SetVoxel(int x, int y, int z, MaterialSet materialSet)

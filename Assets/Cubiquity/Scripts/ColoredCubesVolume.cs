@@ -64,7 +64,7 @@ namespace Cubiquity
 			// Make sure the Cubiquity library is installed.
 			Installation.ValidateAndFix();
 			
-			GameObject VoxelTerrainRoot = new GameObject("Terrain Volume");
+			GameObject VoxelTerrainRoot = new GameObject("Colored Cubes Volume");
 			VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 			
 			ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
