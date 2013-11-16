@@ -5,7 +5,7 @@ using System.Collections;
 namespace Cubiquity
 {
 	[CustomEditor (typeof(ColoredCubesVolume))]
-	public class ColoredCubesVolumeEditModeEditor : Editor
+	public class ColoredCubesVolumeInspector : Editor
 	{
 		ColoredCubesVolume coloredCubesVolume;
 		
