@@ -55,10 +55,15 @@ namespace Cubiquity
 			int height = 64;
 			int depth = 256;
 			
-			string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
+			ColoredCubesVolumeData data = ScriptableObject.CreateInstance<ColoredCubesVolumeData>();
+			data.Init(new Region(0, 0, 0, width-1, height-1, depth-1));
+			
+			ColoredCubesVolume.CreateGameObject(data);
+			
+			/*string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
 			
 			GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), path);
-			ColoredCubesVolume coloredCubesVolume = voxelGameObject.GetComponent<ColoredCubesVolume>();
+			ColoredCubesVolume coloredCubesVolume = voxelGameObject.GetComponent<ColoredCubesVolume>();*/
 			
 			// Call Initialize so we can start drawing into the volume right away.
 			
@@ -71,7 +76,7 @@ namespace Cubiquity
 				{
 					for(int x = 0; x <= width-1; x++)
 					{
-						coloredCubesVolume.SetVoxel(x, y, z, floorColor);
+						data.SetVoxel(x, y, z, floorColor);
 					}
 				}
 			}

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.IO;
-
+/*
 namespace Cubiquity
 {
 	public class CreateProceduralColoredCubesVolumeWizard : CreateVolumeWizard
@@ -69,12 +69,7 @@ namespace Cubiquity
 					
 					int seaLevel = (int)(height * 0.4f);
 					int snowLevel = (int)(height * 0.6f);
-					
-					/*if(terrainHeight < minTerrainHeight)
-					{
-						terrainHeight = minTerrainHeight;
-					}*/
-					
+
 					for(int y = 0; y <= height-1; y++)
 					{
 						if(y < terrainHeight)
@@ -98,3 +93,4 @@ namespace Cubiquity
 		}
 	}
 }
+*/

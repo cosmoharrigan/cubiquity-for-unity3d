@@ -21,32 +21,61 @@ namespace Cubiquity
 	
 	[ExecuteInEditMode]
 	public class ColoredCubesVolume : MonoBehaviour
-	{		
+	{	
 		// The name of the dataset to load from disk.
-		public string datasetName = null;
+		[SerializeField]
+		private ColoredCubesVolumeData mData = null;
+		public ColoredCubesVolumeData data
+	    {
+	        get { return this.mData; }
+	    }
+		
+		// The name of the dataset to load from disk.
+		//public string datasetName = null;
 		
 		// The side length of an extracted mesh for the most detailed LOD.
 		// Bigger values mean fewer batches but slower surface extraction.
 		// For some reason Unity won't serialize uints so it's stored as int.
-		public int baseNodeSize = 0;
+		//public int baseNodeSize = 0;
 		
 		// Determines whether collision data is generated as well as a
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
 		
 		// The extents (dimensions in voxels) of the volume.
-		public Region region = null;
+		//public Region region = null;
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
-		[System.NonSerialized]
-		internal uint? volumeHandle = null;
+		//[System.NonSerialized]
+		//internal uint? volumeHandle = null;
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
 		
 		private int maxNodeSyncsPerFrame = 4;
 		private int nodeSyncsThisFrame = 0;
+		
+		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
+		{
+			// Warn about license restrictions.			
+			Debug.LogWarning("This version of Cubiquity is for non-commercial and evaluation use only. Please see LICENSE.txt for further details.");
+			
+			// Make sure the Cubiquity library is installed.
+			Installation.ValidateAndFix();
+			
+			GameObject VoxelTerrainRoot = new GameObject("Terrain Volume");
+			VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
+			
+			ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
+			//terrainVolume.baseNodeSize = DefaultBaseNodeSize;
+			
+			coloredCubesVolume.mData = data;
+			
+			//terrainVolume.data.Initialize();
+			
+			return VoxelTerrainRoot;
+		}
 		
 		// It seems that we need to implement this function in order to make the volume pickable in the editor.
 		// It's actually the gizmo which get's picked which is often bigger than than the volume (unless all
@@ -55,9 +84,9 @@ namespace Cubiquity
 		void OnDrawGizmos()
 		{
 			// Compute the size of the volume.
-			int width = (region.upperCorner.x - region.lowerCorner.x) + 1;
-			int height = (region.upperCorner.y - region.lowerCorner.y) + 1;
-			int depth = (region.upperCorner.z - region.lowerCorner.z) + 1;
+			int width = (data.region.upperCorner.x - data.region.lowerCorner.x) + 1;
+			int height = (data.region.upperCorner.y - data.region.lowerCorner.y) + 1;
+			int depth = (data.region.upperCorner.z - data.region.lowerCorner.z) + 1;
 			float offsetX = width / 2;
 			float offsetY = height / 2;
 			float offsetZ = depth / 2;
@@ -70,7 +99,7 @@ namespace Cubiquity
 			Gizmos.DrawCube (transform.position - halfVoxelOffset + new Vector3(offsetX, offsetY, offsetZ), new Vector3 (width, height, depth));
 	    }
 		
-		internal void Initialize()
+		/*internal void Initialize()
 		{	
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
@@ -117,19 +146,19 @@ namespace Cubiquity
 				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
 				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
 			}
-		}
+		}*/
 		
 		public void Synchronize()
 		{
 			nodeSyncsThisFrame = 0;
 			
-			if(volumeHandle.HasValue)
+			if(data.volumeHandle.HasValue)
 			{
-				CubiquityDLL.UpdateVolume(volumeHandle.Value);
+				CubiquityDLL.UpdateVolume(data.volumeHandle.Value);
 				
-				if(CubiquityDLL.HasRootOctreeNode(volumeHandle.Value) == 1)
+				if(CubiquityDLL.HasRootOctreeNode(data.volumeHandle.Value) == 1)
 				{		
-					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNode(volumeHandle.Value);
+					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNode(data.volumeHandle.Value);
 				
 					if(rootGameObject == null)
 					{					
@@ -140,7 +169,7 @@ namespace Cubiquity
 			}
 		}
 		
-		public void Shutdown(bool saveChanges)
+		/*public void Shutdown(bool saveChanges)
 		{
 			Debug.Log("In ColoredCubesVolume.Shutdown()");
 			
@@ -160,12 +189,12 @@ namespace Cubiquity
 				// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
 				DestroyImmediate(rootGameObject);
 			}
-		}
+		}*/
 		
 		void OnEnable()
 		{
 			Debug.Log ("ColoredCubesVolume.OnEnable()");
-			Initialize();
+			//Initialize();
 		}
 		
 		// Use this for initialization
@@ -184,13 +213,18 @@ namespace Cubiquity
 		{
 			Debug.Log ("ColoredCubesVolume.OnDisable()");
 			
-			// We only save if we are in editor mode, not if we are playing.
-			bool saveChanges = !Application.isPlaying;
+			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
+			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
+			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
+			DestroyImmediate(rootGameObject);
 			
-			Shutdown(saveChanges);
+			// We only save if we are in editor mode, not if we are playing.
+			//bool saveChanges = !Application.isPlaying;
+			
+			//Shutdown(saveChanges);
 		}
 		
-		public Color32 GetVoxel(int x, int y, int z)
+		/*public Color32 GetVoxel(int x, int y, int z)
 		{
 			Color32 color = new Color32();
 			if(volumeHandle.HasValue)
@@ -198,9 +232,9 @@ namespace Cubiquity
 				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z, out color.r, out color.g, out color.b, out color.a);
 			}
 			return color;
-		}
+		}*/
 		
-		public bool IsSurfaceVoxel(int x, int y, int z)
+		/*public bool IsSurfaceVoxel(int x, int y, int z)
 		{
 			if(volumeHandle.HasValue)
 			{
@@ -229,9 +263,9 @@ namespace Cubiquity
 			}
 			
 			return false;
-		}
+		}*/
 		
-		public void SetVoxel(int x, int y, int z, QuantizedColor color)
+		/*public void SetVoxel(int x, int y, int z, QuantizedColor color)
 		{
 			if(volumeHandle.HasValue)
 			{
@@ -241,7 +275,7 @@ namespace Cubiquity
 					CubiquityDLL.SetVoxelNew(volumeHandle.Value, x, y, z, color);
 				}
 			}
-		}
+		}*/
 		
 		public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
 		{

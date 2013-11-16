@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-namespace Cubiquity
+/*namespace Cubiquity
 {
 	public class ColoredCubesVolumeFactory
 	{
@@ -75,4 +75,4 @@ namespace Cubiquity
 			return VoxelTerrainRoot;
 		}
 	}
-}
+}*/

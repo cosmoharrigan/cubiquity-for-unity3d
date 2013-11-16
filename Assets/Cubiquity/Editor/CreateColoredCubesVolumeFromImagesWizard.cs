@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace Cubiquity
+/*namespace Cubiquity
 {
 	public class CreateColoredCubesVolumeFromImagesWizard : CreateVolumeWizard
 	{		
@@ -59,4 +59,4 @@ namespace Cubiquity
 			ColoredCubesVolumeFactory.CreateVolumeFromVolDat("Voxel Terrain", imageFolder, datasetName);
 		}
 	}
-}
+}*/

@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace Cubiquity
+/*namespace Cubiquity
 {
 	public class CreateEmptyColoredCubesVolumeWizard : CreateVolumeWizard
 	{	
@@ -89,3 +89,4 @@ namespace Cubiquity
 		}
 	}
 }
+*/

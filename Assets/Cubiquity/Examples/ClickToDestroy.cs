@@ -101,12 +101,12 @@ public class ClickToDestroy : MonoBehaviour
 					if(distSquared < rangeSquared)
 					{	
 						// Get the current color of the voxel
-						Color32 color = coloredCubesVolume.GetVoxel(x, y, z);				
+						QuantizedColor color = coloredCubesVolume.data.GetVoxel(x, y, z);				
 						
 						// Check the alpha to determine whether the voxel is visible. 
-						if(color.a > 127)
+						if(color.alpha > 127)
 						{
-							bool isSurfaceVoxel = coloredCubesVolume.IsSurfaceVoxel(x, y, z);
+							/*bool isSurfaceVoxel = coloredCubesVolume.IsSurfaceVoxel(x, y, z);
 							
 							Vector3i voxel = new Vector3i(x, y, z);
 							voxelsToDelete.Add(voxel);
@@ -132,16 +132,16 @@ public class ClickToDestroy : MonoBehaviour
 									
 									cube.rigidbody.AddTorque(xTorque, yTorque, zTorque);
 									cube.rigidbody.AddForce((explosionForce.normalized + up) * 100.0f);
-								}
+								}*/
 						}
 					}
 				}
 			}
 		}
 		
-		foreach (Vector3i voxel in voxelsToDelete) // Loop through List with foreach
+		/*foreach (Vector3i voxel in voxelsToDelete) // Loop through List with foreach
 		{
 		    coloredCubesVolume.SetVoxel(voxel.x, voxel.y, voxel.z, new QuantizedColor(0,0,0,0));
-		}
+		}*/
 	}
 }
