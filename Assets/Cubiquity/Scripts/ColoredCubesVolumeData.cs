@@ -53,7 +53,7 @@ namespace Cubiquity
 			QuantizedColor result;
 			if(volumeHandle.HasValue)
 			{
-				CubiquityDLL.GetVoxelNew(volumeHandle.Value, x, y, z, out result);
+				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z, out result);
 			}
 			else
 			{
@@ -70,7 +70,7 @@ namespace Cubiquity
 				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
 					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z)
 				{						
-					CubiquityDLL.SetVoxelNew(volumeHandle.Value, x, y, z, quantizedColor);
+					CubiquityDLL.SetVoxel(volumeHandle.Value, x, y, z, quantizedColor);
 				}
 			}
 		}

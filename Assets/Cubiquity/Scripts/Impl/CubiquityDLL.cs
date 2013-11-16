@@ -70,17 +70,17 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuSetVoxelNew(uint volumeHandle, int x, int y, int z, QuantizedColor color);
-		public static void SetVoxelNew(uint volumeHandle, int x, int y, int z, QuantizedColor color)
+		private static extern int cuSetVoxel(uint volumeHandle, int x, int y, int z, QuantizedColor color);
+		public static void SetVoxel(uint volumeHandle, int x, int y, int z, QuantizedColor color)
 		{
-			Validate(cuSetVoxelNew(volumeHandle, x, y, z, color));
+			Validate(cuSetVoxel(volumeHandle, x, y, z, color));
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuGetVoxelNew(uint volumeHandle, int x, int y, int z, out QuantizedColor color);	
-		public static void GetVoxelNew(uint volumeHandle, int x, int y, int z, out QuantizedColor color)
+		private static extern int cuGetVoxel(uint volumeHandle, int x, int y, int z, out QuantizedColor color);	
+		public static void GetVoxel(uint volumeHandle, int x, int y, int z, out QuantizedColor color)
 		{		
-			Validate(cuGetVoxelNew(volumeHandle, x, y, z, out color));
+			Validate(cuGetVoxel(volumeHandle, x, y, z, out color));
 		}
 		
 		[DllImport ("CubiquityC")]
@@ -130,17 +130,17 @@ namespace Cubiquity
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuGetVoxelMCNew(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet);	
-		public static void GetVoxelMCNew(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet)
+		private static extern int cuGetVoxelMC(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet);	
+		public static void GetVoxelMC(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet)
 		{		
-			Validate(cuGetVoxelMCNew(volumeHandle, x, y, z, out materialSet));
+			Validate(cuGetVoxelMC(volumeHandle, x, y, z, out materialSet));
 		}
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuSetVoxelMCNew(uint volumeHandle, int x, int y, int z, MaterialSet materialSet);
-		public static void SetVoxelMCNew(uint volumeHandle, int x, int y, int z, MaterialSet materialSet)
+		private static extern int cuSetVoxelMC(uint volumeHandle, int x, int y, int z, MaterialSet materialSet);
+		public static void SetVoxelMC(uint volumeHandle, int x, int y, int z, MaterialSet materialSet)
 		{
-			Validate(cuSetVoxelMCNew(volumeHandle, x, y, z, materialSet));
+			Validate(cuSetVoxelMC(volumeHandle, x, y, z, materialSet));
 		}
 		
 		[DllImport ("CubiquityC")]

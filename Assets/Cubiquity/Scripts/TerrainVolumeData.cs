@@ -55,7 +55,7 @@ namespace Cubiquity
 			MaterialSet materialSet;
 			if(volumeHandle.HasValue)
 			{
-				CubiquityDLL.GetVoxelMCNew(volumeHandle.Value, x, y, z, out materialSet);
+				CubiquityDLL.GetVoxelMC(volumeHandle.Value, x, y, z, out materialSet);
 			}
 			else
 			{
@@ -72,7 +72,7 @@ namespace Cubiquity
 				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
 					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z)
 				{						
-					CubiquityDLL.SetVoxelMCNew(volumeHandle.Value, x, y, z, materialSet);
+					CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialSet);
 				}
 			}
 		}
