@@ -224,59 +224,6 @@ namespace Cubiquity
 			//Shutdown(saveChanges);
 		}
 		
-		/*public Color32 GetVoxel(int x, int y, int z)
-		{
-			Color32 color = new Color32();
-			if(volumeHandle.HasValue)
-			{
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z, out color.r, out color.g, out color.b, out color.a);
-			}
-			return color;
-		}*/
-		
-		/*public bool IsSurfaceVoxel(int x, int y, int z)
-		{
-			if(volumeHandle.HasValue)
-			{
-				Color32 color = new Color32();
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return false;
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x + 1, y, z, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return true;
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x - 1, y, z, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return true;
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y + 1, z, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return true;
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y - 1, z, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return true;
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z + 1, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return true;
-				
-				CubiquityDLL.GetVoxel(volumeHandle.Value, x, y, z - 1, out color.r, out color.g, out color.b, out color.a);
-				if(color.a < 127) return true;
-			}
-			
-			return false;
-		}*/
-		
-		/*public void SetVoxel(int x, int y, int z, QuantizedColor color)
-		{
-			if(volumeHandle.HasValue)
-			{
-				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
-					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z) // FIX THESE VALUES!
-				{
-					CubiquityDLL.SetVoxelNew(volumeHandle.Value, x, y, z, color);
-				}
-			}
-		}*/
-		
 		public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
 		{
 			if(nodeSyncsThisFrame >= maxNodeSyncsPerFrame)
