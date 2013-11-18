@@ -34,6 +34,34 @@ namespace Cubiquity
 		// and client code could potentially create a number of volumes on quick sucession.  
 		protected static System.Random randomIntGenerator = new System.Random();
 		
+		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(Region region, string pathToVoxelDatabase) where VolumeDataType : VolumeData
+		{
+			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
+			volumeData._region = region;
+			volumeData.pathToVoxelDatabase = pathToVoxelDatabase;
+			
+			volumeData.InitializeCubiquityVolume();
+			
+			return volumeData;
+		}
+		
+		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
+		{
+			string pathToCreateVoxelDatabase = GeneratePathToVoxelDatabase();
+			return CreateEmptyVolumeData<VolumeDataType>(region, pathToCreateVoxelDatabase);
+		}
+		
+		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string pathToCreateVoxelDatabase) where VolumeDataType : VolumeData
+		{
+			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
+			volumeData._region = region;
+			volumeData.pathToVoxelDatabase = pathToCreateVoxelDatabase;
+			
+			volumeData.InitializeCubiquityVolume();
+			
+			return volumeData;
+		}
+		
 		private void OnEnable()
 		{			
 			InitializeCubiquityVolume();

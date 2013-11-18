@@ -11,45 +11,18 @@ namespace Cubiquity
 	{
 		public static TerrainVolumeData CreateFromVoxelDatabase(Region region, string pathToVoxelDatabase)
 		{
-			TerrainVolumeData terrainVolumeData = ScriptableObject.CreateInstance<TerrainVolumeData>();
-			terrainVolumeData._region = region;
-			terrainVolumeData.pathToVoxelDatabase = pathToVoxelDatabase;
-			
-			terrainVolumeData.InitializeCubiquityVolume();
-			
-			return terrainVolumeData;
+			return CreateFromVoxelDatabase<TerrainVolumeData>(region, pathToVoxelDatabase);
 		}
 		
-		public static TerrainVolumeData CreateEmptyVolume(Region region)
+		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
 		{
-			string pathToCreateVoxelDatabase = TerrainVolumeData.GeneratePathToVoxelDatabase();
-			return CreateEmptyVolume(region, pathToCreateVoxelDatabase);
+			return CreateEmptyVolumeData<TerrainVolumeData>(region);
 		}
 		
-		public static TerrainVolumeData CreateEmptyVolume(Region region, string pathToCreateVoxelDatabase)
+		public static TerrainVolumeData CreateEmptyVolumeData(Region region, string pathToCreateVoxelDatabase)
 		{
-			TerrainVolumeData terrainVolumeData = ScriptableObject.CreateInstance<TerrainVolumeData>();
-			terrainVolumeData._region = region;
-			terrainVolumeData.pathToVoxelDatabase = pathToCreateVoxelDatabase;
-			
-			terrainVolumeData.InitializeCubiquityVolume();
-			
-			return terrainVolumeData;
+			return CreateEmptyVolumeData<TerrainVolumeData>(region, pathToCreateVoxelDatabase);
 		}
-		
-		// Ideally we will get rid of this function in the future. It is needed at the moment because the Region cannot be
-		// specified via the constructor as this class is created with ScriptableObject.CreateInstance(). However, Init() get
-		// called after OnEnable() (which will have failed to create the Cubiquity volume due to not having the Region) so we
-		// have to try and create the cubiquity volume again.
-		//
-		// This should improve once we remove the concept of Cubiquity volumes needing a region.
-		/*public void Init(Region region)
-		{
-			this._region = region;
-			this.pathToVoxelDatabase = GeneratePathToVoxelDatabase();
-			
-			InitializeCubiquityVolume();
-		}*/
 		
 		public MaterialSet GetVoxel(int x, int y, int z)
 		{

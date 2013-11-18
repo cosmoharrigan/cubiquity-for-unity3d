@@ -22,7 +22,7 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		int depth = 256;
 		
 		// FIXME - Where should we delete this?
-		TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolume(new Region(0, 0, 0, width-1, height-1, depth-1));
+		TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
 		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
 		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.

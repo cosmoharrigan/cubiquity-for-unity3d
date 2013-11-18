@@ -9,18 +9,19 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class ColoredCubesVolumeData : VolumeData
 	{		
-		// Ideally we will get rid of this function in the future. It is needed at the moment because the Region cannot be
-		// specified via the constructor as this class is created with ScriptableObject.CreateInstance(). However, Init() get
-		// called after OnEnable() (which will have failed to create the Cubiquity volume due to not having the Region) so we
-		// have to try and create the cubiquity volume again.
-		//
-		// This should improve once we remove the concept of Cubiquity volumes needing a region.
-		public void Init(Region region)
+		public static ColoredCubesVolumeData CreateFromVoxelDatabase(Region region, string pathToVoxelDatabase)
 		{
-			this._region = region;
-			this.pathToVoxelDatabase = GeneratePathToVoxelDatabase();
-			
-			InitializeCubiquityVolume();
+			return CreateFromVoxelDatabase<ColoredCubesVolumeData>(region, pathToVoxelDatabase);
+		}
+		
+		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region)
+		{
+			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region);
+		}
+		
+		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region, string pathToCreateVoxelDatabase)
+		{
+			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region, pathToCreateVoxelDatabase);
 		}
 		
 		public QuantizedColor GetVoxel(int x, int y, int z)
