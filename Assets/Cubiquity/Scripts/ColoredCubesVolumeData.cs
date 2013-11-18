@@ -18,7 +18,7 @@ namespace Cubiquity
 		public void Init(Region region)
 		{
 			this._region = region;
-			this.pathToVoxels = GeneratePathToVoxels();
+			this.pathToVoxelDatabase = GeneratePathToVoxelDatabase();
 			
 			InitializeCubiquityVolume();
 		}
@@ -61,7 +61,7 @@ namespace Cubiquity
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
 		

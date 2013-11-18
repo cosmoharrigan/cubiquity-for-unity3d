@@ -24,7 +24,7 @@ namespace Cubiquity
 		internal uint? volumeHandle = null;
 		
 		[SerializeField]
-		protected string pathToVoxels;
+		protected string pathToVoxelDatabase;
 		
 		// Don't really like having this defined here. The base node size should be a rendering property rather than a
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
@@ -47,7 +47,7 @@ namespace Cubiquity
 		protected abstract void InitializeCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
 		
-		protected string GeneratePathToVoxels()
+		protected string GeneratePathToVoxelDatabase()
 		{
 			// Generate a random filename from an integer
 			string filename = randomIntGenerator.Next().ToString("X8") + ".vol";
