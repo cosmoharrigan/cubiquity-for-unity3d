@@ -44,10 +44,15 @@ namespace Cubiquity
 			ShutdownCubiquityVolume();
 		}
 		
+		private void OnDestroy()
+		{
+			ShutdownCubiquityVolume();
+		}
+		
 		protected abstract void InitializeCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
 		
-		protected string GeneratePathToVoxelDatabase()
+		protected static string GeneratePathToVoxelDatabase()
 		{
 			// Generate a random filename from an integer
 			string filename = randomIntGenerator.Next().ToString("X8") + ".vol";
