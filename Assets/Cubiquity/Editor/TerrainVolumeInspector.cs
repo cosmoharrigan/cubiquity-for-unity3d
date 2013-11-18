@@ -117,11 +117,6 @@ namespace Cubiquity
 			DrawMaterialSelector();
 			
 			DrawBrushSettings(10.0f, 1.0f);
-			
-			/*for(int ct = 0; ct < License.MaxNoOfMaterials; ct++)
-			{
-				terrainVolume.materials[ct].diffuseMap = EditorGUILayout.ObjectField(terrainVolume.materials[ct].diffuseMap,typeof(Texture),false, GUILayout.Width(80), GUILayout.Height(80)) as Texture2D;
-			}*/
 		}
 		
 		private void DrawSettingsControls()
@@ -146,10 +141,10 @@ namespace Cubiquity
 		{
 			EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 			
-			Texture2D[] diffuseMaps = new Texture2D[terrainVolume.data.materials.Length];
-			for(int i = 0; i < terrainVolume.data.materials.Length; i++)
+			Texture2D[] diffuseMaps = new Texture2D[terrainVolume.materials.Length];
+			for(int i = 0; i < terrainVolume.materials.Length; i++)
 			{
-				diffuseMaps[i] = terrainVolume.data.materials[i].diffuseMap;
+				diffuseMaps[i] = terrainVolume.materials[i].diffuseMap;
 			}
 			selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
 			
@@ -157,7 +152,7 @@ namespace Cubiquity
 			
 			if(GUILayout.Button("Edit selected material..."))
 			{			
-				TerrainMaterialEditorWindow.EditMaterial(terrainVolume.data.materials[selectedTexture]);
+				TerrainMaterialEditorWindow.EditMaterial(terrainVolume.materials[selectedTexture]);
 			}
 			
 			EditorGUILayout.Space();

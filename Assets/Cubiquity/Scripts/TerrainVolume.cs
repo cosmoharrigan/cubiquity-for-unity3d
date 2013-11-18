@@ -48,6 +48,9 @@ namespace Cubiquity
 		[System.NonSerialized]
 		public TerrainVolumeBrushMarker brushMarker;
 		
+		// Probably we should get rid of this and just use the Unity material class directly?
+		public TerrainMaterial[] materials;
+		
 		public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
@@ -126,17 +129,17 @@ namespace Cubiquity
 				
 				// We syncronise all the material properties every time. If we find this has some
 				// performance overhead then we could add an 'isModified' flag to each terrain material.
-				for(int i = 0; i < data.materials.Length; i++)
+				for(int i = 0; i < materials.Length; i++)
 				{
-					material.SetTexture("_Tex" + i, data.materials[i].diffuseMap);
+					material.SetTexture("_Tex" + i, materials[i].diffuseMap);
 					
 					Vector3 invScale;
-					invScale.x = 1.0f / data.materials[i].scale.x;
-					invScale.y = 1.0f / data.materials[i].scale.y;
-					invScale.z = 1.0f / data.materials[i].scale.z;
+					invScale.x = 1.0f / materials[i].scale.x;
+					invScale.y = 1.0f / materials[i].scale.y;
+					invScale.z = 1.0f / materials[i].scale.z;
 					material.SetVector("_TexInvScale" + i, invScale);
 					
-					material.SetVector("_TexOffset" + i, data.materials[i].offset);
+					material.SetVector("_TexOffset" + i, materials[i].offset);
 				}
 			}
 		}
@@ -146,6 +149,19 @@ namespace Cubiquity
 			Debug.Log ("TerrainVolume.OnEnable()");
 			Shader shader = Shader.Find("TerrainVolume");
 			material = new Material(shader);
+			
+			if(materials == null)
+			{
+				materials = new TerrainMaterial[License.MaxNoOfMaterials];
+			}
+			
+			for(int i = 0; i < materials.Length; i++)
+			{
+				if(materials[i] == null)
+				{
+					materials[i] = new TerrainMaterial();
+				}
+			}
 			
 			// I think it's easiest if we ensure a brush always exists, and allow
 			// the user to hide it be setting the enabled property to false.
@@ -201,14 +217,6 @@ namespace Cubiquity
 					
 					mr.material = material;
 					mr.sharedMaterial = material;
-					/*for(int i = 0; i < materials.Length; i++)
-					{
-						if(materials[i] != null)
-						{
-							string texName = "_Tex" + i;
-							material.SetTexture(texName, materials[i].diffuseMap);
-						}
-					}*/
 					
 					if(UseCollisionMesh && Application.isPlaying)
 					{

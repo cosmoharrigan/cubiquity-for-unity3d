@@ -9,8 +9,6 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
 	{		
-		public TerrainMaterial[] materials;
-		
 		// Ideally we will get rid of this function in the future. It is needed at the moment because the Region cannot be
 		// specified via the constructor as this class is created with ScriptableObject.CreateInstance(). However, Init() get
 		// called after OnEnable() (which will have failed to create the Cubiquity volume due to not having the Region) so we
@@ -54,19 +52,6 @@ namespace Cubiquity
 		
 		private void OnEnable()
 		{
-			if(materials == null)
-			{
-				materials = new TerrainMaterial[License.MaxNoOfMaterials];
-			}
-			
-			for(int i = 0; i < materials.Length; i++)
-			{
-				if(materials[i] == null)
-				{
-					materials[i] = new TerrainMaterial();
-				}
-			}
-			
 			InitializeCubiquityVolume();
 		}
 		

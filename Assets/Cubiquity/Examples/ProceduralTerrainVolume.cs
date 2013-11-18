@@ -25,11 +25,20 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		TerrainVolumeData data = ScriptableObject.CreateInstance<TerrainVolumeData>();
 		data.Init(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
+		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
+		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
+		GameObject terrain = TerrainVolume.CreateGameObject(data);
+		terrain.name = "Procedurally Generated Terrain";
+		terrain.transform.parent = transform;
+		
 		// Set up our textures in the appropriate material slots.
-		data.materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
-		data.materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
-		data.materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
-		data.materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
+		terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
+		terrain.GetComponent<TerrainVolume>().materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
+		terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
+		terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
+		
+		// At this point our volume is set up and ready to use. The remaining code is responsible
+		// for iterating over all the voxels and filling them according to our noise functions.
 		
 		// This scale factor comtrols the size of the rocks which are generated.
 		float rockScale = 32.0f;		
@@ -112,11 +121,5 @@ public class ProceduralTerrainVolume : MonoBehaviour
 				}
 			}
 		}
-		
-		// Finally we take the TerrainVolumeData we have just generated and build a TerrainVolume from it.
-		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
-		GameObject terrain = TerrainVolume.CreateGameObject(data);
-		terrain.name = "Procedurally Generated Terrain";
-		terrain.transform.parent = transform;
 	}
 }
