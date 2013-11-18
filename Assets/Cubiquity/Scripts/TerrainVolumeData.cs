@@ -49,13 +49,23 @@ namespace Cubiquity
 				}
 			}
 		}
-		
-		private void OnEnable()
-		{
-			InitializeCubiquityVolume();
+
+		protected override void InitializeCubiquityVolume()
+		{	
+			// Make sure the Cubiquity library is installed.
+			Installation.ValidateAndFix();
+			
+			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
+			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
+			if((volumeHandle == null) && (_region != null))
+			{
+				// Create an empty region of the desired size.
+				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 0, 0);
+			}
 		}
 		
-		private void OnDisable()
+		protected override void ShutdownCubiquityVolume()
 		{
 			if(volumeHandle.HasValue)
 			{
@@ -70,21 +80,6 @@ namespace Cubiquity
 				
 				CubiquityDLL.DeleteTerrainVolume(volumeHandle.Value);
 				volumeHandle = null;
-			}
-		}
-
-		private void InitializeCubiquityVolume()
-		{	
-			// Make sure the Cubiquity library is installed.
-			Installation.ValidateAndFix();
-			
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if((volumeHandle == null) && (_region != null))
-			{
-				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxels, DefaultBaseNodeSize, 0, 0);
 			}
 		}
 	}

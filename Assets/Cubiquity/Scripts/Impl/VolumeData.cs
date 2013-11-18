@@ -7,7 +7,7 @@ using System.Collections;
 namespace Cubiquity
 {
 	[System.Serializable]
-	public class VolumeData : ScriptableObject
+	public abstract class VolumeData : ScriptableObject
 	{		
 		// We need to explicitly serialize the private field because
 		// Unity3D doesn't automatically serialize the public property
@@ -33,6 +33,19 @@ namespace Cubiquity
 		// We use a static Random for making filenames, as Randoms are seeded by timestamp
 		// and client code could potentially create a number of volumes on quick sucession.  
 		protected static System.Random randomIntGenerator = new System.Random();
+		
+		private void OnEnable()
+		{			
+			InitializeCubiquityVolume();
+		}
+		
+		private void OnDisable()
+		{
+			ShutdownCubiquityVolume();
+		}
+		
+		protected abstract void InitializeCubiquityVolume();
+		protected abstract void ShutdownCubiquityVolume();
 		
 		protected string GeneratePathToVoxels()
 		{
