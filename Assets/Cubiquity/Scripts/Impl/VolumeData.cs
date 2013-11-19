@@ -36,6 +36,11 @@ namespace Cubiquity
 		
 		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(Region region, string pathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
+			if(!File.Exists(pathToVoxelDatabase))
+			{
+				throw new FileNotFoundException("Voxel database '" + pathToVoxelDatabase + "' does not exist (or you do not have the required permissions)");
+			}
+			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData._region = region;
 			volumeData.pathToVoxelDatabase = pathToVoxelDatabase;
@@ -53,6 +58,11 @@ namespace Cubiquity
 		
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string pathToCreateVoxelDatabase) where VolumeDataType : VolumeData
 		{
+			if(File.Exists(pathToCreateVoxelDatabase))
+			{
+				throw new FileNotFoundException("Voxel database '" + pathToCreateVoxelDatabase + "' already exists. Please choose a different filename.");
+			}
+			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData._region = region;
 			volumeData.pathToVoxelDatabase = pathToCreateVoxelDatabase;
