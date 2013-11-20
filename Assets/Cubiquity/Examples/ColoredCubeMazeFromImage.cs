@@ -27,28 +27,58 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 		terrain.name = "Maze Volume";
 		terrain.transform.parent = transform;
 		
-		// Iterate over every pixel of our mae image
+		QuantizedColor red = new QuantizedColor(255, 0, 0, 255);
+		QuantizedColor blue = new QuantizedColor(0, 0, 255, 255);
+		QuantizedColor gray = new QuantizedColor(127, 127, 127, 255);
+		QuantizedColor white = new QuantizedColor(255, 255, 255, 255);
+		
+		// Iterate over every pixel of our maze image
 		for(int z = 0; z < depth; z++)
 		{
 			for(int x = 0; x < width; x++)			
 			{
-				//For each pixel of the maze image we check it's color to detemine the height of the floor.
-				int floorHeight;
-				if(mazeImage.GetPixel(x, z).r > 0.5)
+				QuantizedColor tileColor;
+				int tileSize = 4;
+				int tileXOffset = 2;
+				int tileZOffset = 2;
+				int tileXPos = (x + tileXOffset) / tileSize;
+				int tileZPos = (z + tileZOffset) / tileSize;
+				if((tileXPos + tileZPos) % 2 == 1)
 				{
-					floorHeight = 5;
+					tileColor = blue;
 				}
 				else
 				{
-					floorHeight = 20;
+					tileColor = white;
 				}
 					
+				// For each pixel of the maze image we check it's color to determine the height of the floor.
+				int floorHeight = 5;
+				int wallHeight = 20;
+				bool isWall = mazeImage.GetPixel(x, z).r < 0.5; // A black pixel represent a wall					
 				for(int y = height-1; y > 0; y--)
 				{
-					QuantizedColor red = new QuantizedColor(255, 0, 0, 255);
-					if(y < floorHeight)
+					if(isWall)
 					{
-						data.SetVoxel(x, y, z, red);
+						if(y < wallHeight)
+						{
+							data.SetVoxel(x, y, z, gray);
+						}
+						else if(y == wallHeight)
+						{
+							data.SetVoxel(x, y, z, red);
+						}
+					}
+					else // Not wall so just the floor
+					{
+						if(y < floorHeight)
+						{
+							data.SetVoxel(x, y, z, gray);
+						}
+						else if(y == floorHeight)
+						{
+							data.SetVoxel(x, y, z, tileColor);
+						}
 					}
 				}
 			}
