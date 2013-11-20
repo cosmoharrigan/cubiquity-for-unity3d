@@ -14,11 +14,13 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 		// the 'Texture Type' to 'Advanced' and then check the 'Read/Write Enabled' checkbox.
 		Texture2D mazeImage = Resources.Load("Images/Maze") as Texture2D;
 		
-		// The size of the volume we will generate
+		// The size of the volume we will generate. Note that our source image cn be considered
+		// to have x and y axes,  but we map these to x and z because in Unity3D the y axis is up.
 		int width = mazeImage.width;
 		int height = 32;
 		int depth = mazeImage.height;
 		
+		// Start with some empty volume data and we'll write our maze into this..
 		ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
 		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
@@ -27,16 +29,21 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 		terrain.name = "Maze Volume";
 		terrain.transform.parent = transform;
 		
+		// At this point we have a volume created and can now start writting our maze data into it.
+		
+		// It's best to create these outside of the loop.
 		QuantizedColor red = new QuantizedColor(255, 0, 0, 255);
 		QuantizedColor blue = new QuantizedColor(0, 0, 255, 255);
 		QuantizedColor gray = new QuantizedColor(127, 127, 127, 255);
 		QuantizedColor white = new QuantizedColor(255, 255, 255, 255);
 		
-		// Iterate over every pixel of our maze image
+		// Iterate over every pixel of our maze image.
 		for(int z = 0; z < depth; z++)
 		{
 			for(int x = 0; x < width; x++)			
 			{
+				// The exact logic here isn't important for the purpose of the example, but basically we decide which
+				// tile a voxel is part of based on it's position. You can tweak the values to get an dea of what they do.
 				QuantizedColor tileColor;
 				int tileSize = 4;
 				int tileXOffset = 2;
@@ -52,12 +59,18 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 					tileColor = white;
 				}
 					
-				// For each pixel of the maze image we check it's color to determine the height of the floor.
+				// For each pixel of the maze image determine whether it is a wall or empty space.
+				bool isWall = mazeImage.GetPixel(x, z).r < 0.5; // A black pixel represents a wall	
+				
+				// Height of the wall and floor in our maze.
 				int floorHeight = 5;
 				int wallHeight = 20;
-				bool isWall = mazeImage.GetPixel(x, z).r < 0.5; // A black pixel represent a wall					
+				
+				// Iterate over every voxel in the current column.
 				for(int y = height-1; y > 0; y--)
 				{
+					// If the current column is a wall then we set every voxel
+					// to gray except for the top one (which we set to red).
 					if(isWall)
 					{
 						if(y < wallHeight)
@@ -69,7 +82,7 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 							data.SetVoxel(x, y, z, red);
 						}
 					}
-					else // Not wall so just the floor
+					else // Floor is also gray underneath but the top voxel is set to the tile color.
 					{
 						if(y < floorHeight)
 						{
