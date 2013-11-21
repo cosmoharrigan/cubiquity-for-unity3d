@@ -7,13 +7,7 @@ using System.IO;
 namespace Cubiquity
 {
 	public class MainMenuEntries : MonoBehaviour
-	{
-		static string RandomString()
-		{
-			int randomVal = Random.Range(0, 1000000000);
-			return randomVal.ToString();
-		}
-		
+	{		
 		[MenuItem ("GameObject/Create Other/Terrain Volume")]
 		static void CreateTerrainVolume()
 		{
@@ -29,6 +23,9 @@ namespace Cubiquity
 			
 			// Now create the terrain game object from the data.
 			GameObject terrain = TerrainVolume.CreateGameObject(data);
+			
+			// And select it, so the user can get straight on with editing.
+			Selection.activeGameObject = terrain;
 			
 			// Set up our textures in the appropriate material slots.
 			terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
@@ -58,12 +55,10 @@ namespace Cubiquity
 			
 			ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
 			
-			ColoredCubesVolume.CreateGameObject(data);
+			GameObject coloredCubesGameObject = ColoredCubesVolume.CreateGameObject(data);
 			
-			/*string path = Application.streamingAssetsPath + Path.DirectorySeparatorChar + RandomString() + ".vol";
-			
-			GameObject voxelGameObject = ColoredCubesVolumeFactory.CreateVolume("Voxel Terrain", new Region(0, 0, 0, width-1, height-1, depth-1), path);
-			ColoredCubesVolume coloredCubesVolume = voxelGameObject.GetComponent<ColoredCubesVolume>();*/
+			// And select it, so the user can get straight on with editing.
+			Selection.activeGameObject = coloredCubesGameObject;
 			
 			// Call Initialize so we can start drawing into the volume right away.
 			
