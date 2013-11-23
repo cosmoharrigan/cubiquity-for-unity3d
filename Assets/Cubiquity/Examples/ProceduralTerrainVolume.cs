@@ -27,9 +27,11 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
 		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
+		// Lastly, the 'DontSave' flag is set because we simply regenerate the volume when switching to play mode.
 		GameObject terrain = TerrainVolume.CreateGameObject(data);
 		terrain.name = "Procedurally Generated Terrain";
 		terrain.transform.parent = transform;
+		terrain.hideFlags = HideFlags.DontSave;
 		
 		// Set up our textures in the appropriate material slots.
 		terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
