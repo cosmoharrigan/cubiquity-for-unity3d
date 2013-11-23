@@ -7,7 +7,7 @@ using Cubiquity;
 public class ColoredCubeMazeFromImage : MonoBehaviour
 {
 	// Use this for initialization
-	void Start ()
+	void OnEnable ()
 	{
 		// We will load our texture from the supplied maze image. If you wish to supply your own image then please
 		// note that in Unity 4 you have to set the 'Read/Write Enabled flag' in the texture import properties.

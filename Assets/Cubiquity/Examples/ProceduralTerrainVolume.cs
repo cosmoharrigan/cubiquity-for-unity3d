@@ -15,7 +15,7 @@ using Cubiquity;
 public class ProceduralTerrainVolume : MonoBehaviour
 {
 	// Use this for initialization
-	void Start ()
+	void OnEnable()
 	{
 		// The size of the volume we will generate
 		int width = 256;
