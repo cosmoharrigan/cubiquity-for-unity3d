@@ -11,6 +11,7 @@ using Cubiquity;
  * is a lot of experimentation required to generate procedural terrains. Feel free to change them and
  * see what happens!
  */
+[ExecuteInEditMode]
 public class ProceduralTerrainVolume : MonoBehaviour
 {
 	// Use this for initialization
