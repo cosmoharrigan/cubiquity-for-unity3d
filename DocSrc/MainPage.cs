@@ -1,10 +1,8 @@
-/*! \mainpage
+/** \mainpage
  *
  * Congratulations! If you are reading this user manual then you have discovered %Cubiquity for Unity3D, and are about to take a step into the exciting world of voxels. Over the coming pages we will show you how voxel-based worlds can enhance your games or virtual environments, and make sure you have the knowledge required to use %Cubiquity for Unity3D to its maximum potential. You can start by reading one of the sections listed below.
  *
- * \section secQuickStart Quick Start
- *
- * We can't blame you for wanting to get started quickly, and often the best way to learn is by experimentation. This section will just give you the basic knowledge you need to create your first voxel environments. You can then read other sections of this manual when you want more details of a specific topic.
+ * \subpage pageQuickStart "Quick Start" We can't blame you for wanting to get started quickly, and often the best way to learn is by experimentation. This section will just give you the basic knowledge you need to create your first voxel environments. You can then read other sections of this manual when you want more details of a specific topic.
  *
  * \section secArchitecture Architecture
  *
@@ -18,5 +16,4 @@
  *
  * %Cubiquity for Unity3D provides a clean and elegant API for working with volumes. You can use this API to create volumes procedurally or import them from external sources, modify your volumes in response to in-game events (such as explosions), or implement custom editing tools for your players to use. This section describes the general design and usage principles, as well as linking to the API reference for specific implementation details.
  *
- * etc...
  */
