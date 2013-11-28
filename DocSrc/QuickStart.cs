@@ -30,6 +30,23 @@
  *
  * Picture of tools here...
  *
- * Take some time to experiment with the editing tools which are available. After you have created a simple terrain you can also try importing one of the standard Unity character controllers so that you can walk around your terrain in play mode. Be aware that it can take a few seconds for the terrain to generate after you press the play button, so for this reason you should set your character to start a hundred units or so above the terrain. This way the terrain will have time to load before the character reaches ground level.
+ * Take some time to experiment with the editing tools which are available. After you have created a simple terrain you can also try importing one of the standard Unity character controllers so that you can walk around your terrain in play mode. Be aware that it can take a few seconds for the terrain to generate after you press the play button, so for this reason you should set your character to start a hundred units or so above the terrain. This way the terrain will have time to load before the character reaches ground level (there are better approaches, but this is fine for quick-start purposes).
+ *
+ * \section secFirstColoredCubesVolume Creating your first colored cubes volume
+ *
+ * The TerrainVolume presented in the previous section is intended for creating real-world terrain with realistic textures and materials applied. But Cubiquity for Unity3D also supports a second type of voxel environment in which the world is built out of millions of colored cubes. This is not so realistic, but is an increasingly popular approach which has a strong stylistic appeal. Almost any kind of world can be built in this way, and it again provides opportunities for editing the world in response to player actions or game-play events.
+ *
+ * To see this in action you should begin by deleting the terrain volume which you currently have in the scene from the previous section. You can then create a *Colored Cubes Volume* by going to the main menu and selecting `GameObject -> Create Other -> Colored Cubes Volume`. The initial volume should look like that shown below:
+ *
+ * Picture here...
+ *
+ * As with the Terrain Volume, the Colored Cubes Volume comes with a custom inspector which is shown whenever it is selected (see the image below). However, the editing facilities of this are currently very limited, and only allow you to create single cubes at a time by left-clicking on the volume. We will probably add more advanced editing in the future, but you should also consider creating your Colored Cubes Volumes in an external application and or generating them procedurally. This is described further in later sections of this user manual.
+ *
+ * Picture here...
+ *
+ * We will now give a quick demonstration of how the volume can be modified during gameplay. Create a new scene and add only a Colored Cubes Volume, a light, and a camera. Feel free to make some basic changes to the Colored Cube Volume if you wish, using the limited editing tools which are provided. Lastly, go to the XXX folder and add the following example scripts to the scene:
+ *
+ * - Add a XXX script to the camera so that you are able to fly around once you enter play mode.
+ * - Add a 'ClickToDestroy' script to the volume. This will allow us to create a small explosion which breaks off the cubes in the area near to where the play clicks.
  *
  */
