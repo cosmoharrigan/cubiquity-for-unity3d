@@ -24,6 +24,8 @@
  * 
  * Picture here...
  *
+ * \subsection secEditing Editing the voxel terrain
+ *
  * Your new terrain should be automatically selected, and if you move your mouse cursor over it you should see a light-blue *brush marker* following your cursor position. This indicates where any terrain modification operations will be performed. You can click with the left mouse button to begin adding material into the terrain, thereby creating hills and ridges.
  *
  * Then the terrain is selected you will see the editing controls displayed in the Unity3D inspector panel (see picture below). These control the tools which you can use to modify the shape of your terrain or to apply materials to it. You can choose an tool to apply (sculpt, smooth, etc) by selecting one of the buttons at the top of the inspector, and then choose your desired brush options and/or materials. Left-clicking on the terrain will then apply the tool.
@@ -44,9 +46,15 @@
  *
  * Picture here...
  *
+ * \subsection secRuntimeModifications Modifying the volume at run-time
+ *
  * We will now give a quick demonstration of how the volume can be modified during gameplay. Create a new scene and add only a Colored Cubes Volume, a light, and a camera. Feel free to make some basic changes to the Colored Cube Volume if you wish, using the limited editing tools which are provided. Lastly, go to the XXX folder and add the following example scripts to the scene:
  *
  * - Add a XXX script to the camera so that you are able to fly around once you enter play mode.
- * - Add a 'ClickToDestroy' script to the volume. This will allow us to create a small explosion which breaks off the cubes in the area near to where the play clicks.
+ * - Add a 'ClickToDestroy' script to the volume as an example of runtime modification.
+ *
+ * When you press play you should find you are able to fly around the scene, and that if you left-click on the volume it will create a small explosion which breaks off the cubes in the area surrounding the click. The separated cubes then fall under gravity and can bounce around the scene. This is simply an example of the kind of functionality we can achieve, and you can learn more by reading the 'Working with volumes from code'[LINK] section later in this user manual, and/or by looking at the code in ClickToDestroy.cs.
+ *
+ * Picture of runtime destruction here...
  *
  */
