@@ -4,9 +4,7 @@
  *
  * \subpage pageQuickStart "Quick Start" We can't blame you for wanting to get started quickly, and often the best way to learn is by experimentation. This section will just give you the basic knowledge you need to create your first voxel environments. You can then read other sections of this manual when you want more details of a specific topic.
  *
- * \section secArchitecture Architecture
- *
- * To make the most of %Cubiquity for Unity3D you will want an understanding of the different components of the system and how they fit together. This section provides a discussion of the key concepts behind %Cubiquity for Unity3D and presents the different classes you will be working with. A good understanding of this section will be important to make effective use of our system, particularly if you want to make a lot of use of it from code.
+ * \subpage pagePrinciples "Principles behind Cubiquity for Unity3D" To make the most of %Cubiquity for Unity3D you will want an understanding of the different components of the system and how they fit together. This section provides a discussion of the key concepts behind %Cubiquity for Unity3D and presents the different classes you will be working with. A good understanding of this section will be important to make effective use of our system, particularly if you want to make a lot of use of it from code.
  *
  * \section secInterface Using the Visual Interface
  *

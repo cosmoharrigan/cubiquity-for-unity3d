@@ -57,4 +57,6 @@
  *
  * Picture of runtime destruction here...
  *
+ * That wraps up the quick start, so feel free to play around with the system some more and move on to the oter chapters when you feel ready.
+ *
  */
