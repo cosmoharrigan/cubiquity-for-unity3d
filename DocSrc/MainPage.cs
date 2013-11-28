@@ -1,6 +1,6 @@
 /*! \mainpage
  *
- * Congratulations! If you are reading this user manual then you have discovered Cubiquity for Unity3D, and are about to take a step into the exciting world of voxels. Over the coming pages we will show you how voxel-based worlds can enhance your games or virtual environments, and make sure you have the knowledge required to use Cubiquity for Unity3D to its maximum potential. You can start by reading one of the sections listed below.
+ * Congratulations! If you are reading this user manual then you have discovered %Cubiquity for Unity3D, and are about to take a step into the exciting world of voxels. Over the coming pages we will show you how voxel-based worlds can enhance your games or virtual environments, and make sure you have the knowledge required to use %Cubiquity for Unity3D to its maximum potential. You can start by reading one of the sections listed below.
  *
  * \section secQuickStart Quick Start
  *
@@ -8,7 +8,7 @@
  *
  * \section secArchitecture Architecture
  *
- * To make the most of Cubiquity for Unity3D you will want an understanding of the different components of the system and how they fit together. This section provides a discussion of the key concepts behind Cubiquity for Unity3D and presents the different classes you will be working with. A good understanding of this section will be important to make effective use of our system, particularly if you want to make a lot of use of it from code.
+ * To make the most of %Cubiquity for Unity3D you will want an understanding of the different components of the system and how they fit together. This section provides a discussion of the key concepts behind %Cubiquity for Unity3D and presents the different classes you will be working with. A good understanding of this section will be important to make effective use of our system, particularly if you want to make a lot of use of it from code.
  *
  * \section secInterface Using the Visual Interface
  *
@@ -16,7 +16,7 @@
  *
  * \section secUsingCode Working with volumes from code
  *
- * Cubiquity for Unity3D provides a clean and elegant API for working with volumes. You can use this API to create volumes procedurally or import them from external sources, modify your volumes in response to in-game events (such as explosions), or implement custom editing tools for your players to use. This section describes the general design and usage principles, as well as linking to the API reference for specific implementation details.
+ * %Cubiquity for Unity3D provides a clean and elegant API for working with volumes. You can use this API to create volumes procedurally or import them from external sources, modify your volumes in response to in-game events (such as explosions), or implement custom editing tools for your players to use. This section describes the general design and usage principles, as well as linking to the API reference for specific implementation details.
  *
  * etc...
  */
