@@ -107,11 +107,11 @@ namespace Cubiquity
 		//--------------------------------------------------------------------------------
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuNewTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, uint createFloor, uint floorDepth, out uint result);
-		public static uint NewTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize, uint createFloor, uint floorDepth)
+		private static extern int cuNewTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
+		public static uint NewTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
 		{
 			uint result;
-			Validate(cuNewTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, createFloor, floorDepth, out result));
+			Validate(cuNewTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
 			return result;
 		}
 		

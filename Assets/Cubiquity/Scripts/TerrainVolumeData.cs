@@ -62,7 +62,7 @@ namespace Cubiquity
 			{
 				// Create an empty region of the desired size.
 				volumeHandle = CubiquityDLL.NewTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxelDatabase, DefaultBaseNodeSize, 0, 0);
+					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
 		
