@@ -45,7 +45,7 @@ namespace Cubiquity
 			volumeData._region = region;
 			volumeData.pathToVoxelDatabase = pathToVoxelDatabase;
 			
-			volumeData.InitializeCubiquityVolume();
+			volumeData.InitializeExistingCubiquityVolume();
 			
 			return volumeData;
 		}
@@ -67,14 +67,14 @@ namespace Cubiquity
 			volumeData._region = region;
 			volumeData.pathToVoxelDatabase = pathToCreateVoxelDatabase;
 			
-			volumeData.InitializeCubiquityVolume();
+			volumeData.InitializeEmptyCubiquityVolume();
 			
 			return volumeData;
 		}
 		
 		private void OnEnable()
 		{			
-			InitializeCubiquityVolume();
+			InitializeExistingCubiquityVolume();
 		}
 		
 		private void OnDisable()
@@ -87,7 +87,8 @@ namespace Cubiquity
 			ShutdownCubiquityVolume();
 		}
 		
-		protected abstract void InitializeCubiquityVolume();
+		protected abstract void InitializeEmptyCubiquityVolume();
+		protected abstract void InitializeExistingCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
 		
 		protected static string GeneratePathToVoxelDatabase()

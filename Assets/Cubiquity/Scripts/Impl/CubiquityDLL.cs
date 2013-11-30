@@ -29,11 +29,20 @@ namespace Cubiquity
 		// Volume functions
 		////////////////////////////////////////////////////////////////////////////////
 		[DllImport ("CubiquityC")]
-		private static extern int cuNewColoredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
-		public static uint NewColoredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
+		private static extern int cuNewEmptyColoredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
+		public static uint NewEmptyColoredCubesVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
 		{
 			uint result;
-			Validate(cuNewColoredCubesVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+			Validate(cuNewEmptyColoredCubesVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+			return result;
+		}
+		
+		[DllImport ("CubiquityC")]
+		private static extern int cuNewColoredCubesVolumeFromVDB(StringBuilder datasetName, uint baseNodeSize, out uint result);
+		public static uint NewColoredCubesVolumeFromVDB(string datasetName, uint baseNodeSize)
+		{
+			uint result;
+			Validate(cuNewColoredCubesVolumeFromVDB(new StringBuilder(datasetName), baseNodeSize, out result));
 			return result;
 		}
 		
@@ -107,11 +116,20 @@ namespace Cubiquity
 		//--------------------------------------------------------------------------------
 		
 		[DllImport ("CubiquityC")]
-		private static extern int cuNewTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
-		public static uint NewTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
+		private static extern int cuNewEmptyTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, StringBuilder datasetName, uint baseNodeSize, out uint result);
+		public static uint NewEmptyTerrainVolume(int lowerX, int lowerY, int lowerZ, int upperX, int upperY, int upperZ, string datasetName, uint baseNodeSize)
 		{
 			uint result;
-			Validate(cuNewTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+			Validate(cuNewEmptyTerrainVolume(lowerX, lowerY, lowerZ, upperX, upperY, upperZ, new StringBuilder(datasetName), baseNodeSize, out result));
+			return result;
+		}
+		
+		[DllImport ("CubiquityC")]
+		private static extern int cuNewTerrainVolumeFromVDB(StringBuilder datasetName, uint baseNodeSize, out uint result);
+		public static uint NewTerrainVolumeFromVDB(string datasetName, uint baseNodeSize)
+		{
+			uint result;
+			Validate(cuNewTerrainVolumeFromVDB(new StringBuilder(datasetName), baseNodeSize, out result));
 			return result;
 		}
 		
