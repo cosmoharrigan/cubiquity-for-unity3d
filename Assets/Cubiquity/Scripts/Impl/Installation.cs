@@ -14,6 +14,9 @@ namespace Cubiquity
 			{
 				Debug.LogError("We're sorry, but Cubiquity for Unity3D is currently only supported on Windows. We hope to support more platfors in the future.");
 			}
+#if UNITY_EDITOR
+			return;
+#endif
 			
 			string fileName = "CubiquityC.dll";
 	        string sourcePath = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity");
