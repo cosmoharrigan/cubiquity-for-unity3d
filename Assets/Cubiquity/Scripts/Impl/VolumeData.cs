@@ -72,6 +72,15 @@ namespace Cubiquity
 			return volumeData;
 		}
 		
+		private void Awake()
+		{
+			// Warn about license restrictions.			
+			Debug.LogWarning("This version of Cubiquity is for non-commercial and evaluation use only. Please see LICENSE.txt for further details.");
+			
+			// Make sure the Cubiquity library is installed.
+			Installation.ValidateAndFix();
+		}
+		
 		private void OnEnable()
 		{			
 			InitializeExistingCubiquityVolume();

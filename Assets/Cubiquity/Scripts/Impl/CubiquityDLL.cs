@@ -19,8 +19,7 @@ namespace Cubiquity
 		// being found. We need to look into this further.
 		static CubiquityDLL()
 		{
-			//Debug.LogError("In CubiquityDLL()");
-			//Installation.ValidateAndFix();
+			Installation.ValidateAndFix();
 		}
 		
 		private static void Validate(int returnCode)

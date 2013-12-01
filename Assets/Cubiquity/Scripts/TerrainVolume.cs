@@ -60,13 +60,7 @@ namespace Cubiquity
 		private int nodeSyncsThisFrame = 0;
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
-		{
-			// Warn about license restrictions.			
-			Debug.LogWarning("This version of Cubiquity is for non-commercial and evaluation use only. Please see LICENSE.txt for further details.");
-			
-			// Make sure the Cubiquity library is installed.
-			Installation.ValidateAndFix();
-			
+		{			
 			GameObject VoxelTerrainRoot = new GameObject("Terrain Volume");
 			VoxelTerrainRoot.AddComponent<TerrainVolume>();
 			

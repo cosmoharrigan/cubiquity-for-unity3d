@@ -52,10 +52,7 @@ namespace Cubiquity
 		}
 		
 		protected override void InitializeEmptyCubiquityVolume()
-		{	
-			// Make sure the Cubiquity library is installed.
-			Installation.ValidateAndFix();
-			
+		{				
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
 			if((volumeHandle == null) && (_region != null))
@@ -67,10 +64,7 @@ namespace Cubiquity
 		}
 
 		protected override void InitializeExistingCubiquityVolume()
-		{	
-			// Make sure the Cubiquity library is installed.
-			Installation.ValidateAndFix();
-			
+		{				
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
 			if((volumeHandle == null) && (_region != null))
