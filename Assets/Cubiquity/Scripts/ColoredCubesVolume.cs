@@ -31,25 +31,9 @@ namespace Cubiquity
 			set {this.mData = value; }
 	    }
 		
-		// The name of the dataset to load from disk.
-		//public string datasetName = null;
-		
-		// The side length of an extracted mesh for the most detailed LOD.
-		// Bigger values mean fewer batches but slower surface extraction.
-		// For some reason Unity won't serialize uints so it's stored as int.
-		//public int baseNodeSize = 0;
-		
 		// Determines whether collision data is generated as well as a
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
-		
-		// The extents (dimensions in voxels) of the volume.
-		//public Region region = null;
-		
-		// If set, this identifies the volume to the Cubiquity DLL. It can
-		// be tested against null to find if the volume is currently valid.
-		//[System.NonSerialized]
-		//internal uint? volumeHandle = null;
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
@@ -63,11 +47,8 @@ namespace Cubiquity
 			VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
 			
 			ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
-			//terrainVolume.baseNodeSize = DefaultBaseNodeSize;
 			
 			coloredCubesVolume.mData = data;
-			
-			//terrainVolume.data.Initialize();
 			
 			return VoxelTerrainRoot;
 		}
@@ -94,55 +75,6 @@ namespace Cubiquity
 			Gizmos.DrawCube (transform.position - halfVoxelOffset + new Vector3(offsetX, offsetY, offsetZ), new Vector3 (width, height, depth));
 	    }
 		
-		/*internal void Initialize()
-		{	
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(volumeHandle == null)
-			{				
-				if(region != null)
-				{
-					// Create an empty region of the desired size.
-					volumeHandle = CubiquityDLL.NewColoredCubesVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-						region.upperCorner.x, region.upperCorner.y, region.upperCorner.z,  datasetName, (uint)baseNodeSize);
-				}
-			}
-		}
-		
-		internal void InitializeFromHeightmap(string heightmapFileName, string colormapFileName)
-		{
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(volumeHandle == null)
-			{
-				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromHeightmap(heightmapFileName, colormapFileName, datasetName, (uint)baseNodeSize);
-				
-				// The user didn't specify a region as this is determined by the size of
-				// the VolDat data, so we have to pull this information back from Cubiquity.
-				int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
-				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
-				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
-			}
-		}
-		
-		internal void InitializeFromVoldat(string voldatFolder)
-		{
-			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
-			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
-			if(volumeHandle == null)
-			{
-				// Ask Cubiquity to create a volume from the VolDat data.
-				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVolDat(voldatFolder, datasetName, (uint)baseNodeSize);
-				
-				// The user didn't specify a region as this is determined by the size of
-				// the VolDat data, so we have to pull this information back from Cubiquity.
-				int lowerX, lowerY, lowerZ, upperX, upperY, upperZ;
-				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ);
-				region = new Region(lowerX, lowerY, lowerZ, upperX, upperY, upperZ);
-			}
-		}*/
-		
 		public void Synchronize()
 		{
 			nodeSyncsThisFrame = 0;
@@ -164,39 +96,10 @@ namespace Cubiquity
 			}
 		}
 		
-		/*public void Shutdown(bool saveChanges)
-		{
-			Debug.Log("In ColoredCubesVolume.Shutdown()");
-			
-			if(volumeHandle.HasValue)
-			{			
-				if(saveChanges)
-				{
-					CubiquityDLL.AcceptOverrideBlocks(volumeHandle.Value);
-				}
-				CubiquityDLL.DiscardOverrideBlocks(volumeHandle.Value);
-				
-				CubiquityDLL.DeleteColoredCubesVolume(volumeHandle.Value);
-				volumeHandle = null;
-				
-				// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
-				// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
-				// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
-				DestroyImmediate(rootGameObject);
-			}
-		}*/
-		
 		void OnEnable()
 		{
 			Debug.Log ("ColoredCubesVolume.OnEnable()");
-			//Initialize();
 		}
-		
-		// Use this for initialization
-		/*void Start()
-		{		
-			
-		}*/
 		
 		// Update is called once per frame
 		void Update()
@@ -212,11 +115,6 @@ namespace Cubiquity
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
 			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
 			DestroyImmediate(rootGameObject);
-			
-			// We only save if we are in editor mode, not if we are playing.
-			//bool saveChanges = !Application.isPlaying;
-			
-			//Shutdown(saveChanges);
 		}
 		
 		public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
