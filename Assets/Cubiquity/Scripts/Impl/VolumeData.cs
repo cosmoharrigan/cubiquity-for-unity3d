@@ -8,9 +8,7 @@ namespace Cubiquity
 {
 	[System.Serializable]
 	public abstract class VolumeData : ScriptableObject
-	{		
-		// We need to explicitly serialize the private field because
-		// Unity3D doesn't automatically serialize the public property
+	{
 		private Region cachedEnclosingRegion;
 	    public Region enclosingRegion
 	    {
@@ -28,13 +26,13 @@ namespace Cubiquity
 			}
 	    }
 		
+		[SerializeField]
+		protected string pathToVoxelDatabase;
+		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
 		[System.NonSerialized] // Internal variables aren't serialized anyway?
 		internal uint? volumeHandle = null;
-		
-		[SerializeField]
-		protected string pathToVoxelDatabase;
 		
 		// Don't really like having this defined here. The base node size should be a rendering property rather than a
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
