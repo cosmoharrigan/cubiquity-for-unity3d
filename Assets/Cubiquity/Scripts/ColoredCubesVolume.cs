@@ -28,6 +28,7 @@ namespace Cubiquity
 		public ColoredCubesVolumeData data
 	    {
 	        get { return this.mData; }
+			set {this.mData = value; }
 	    }
 		
 		// The name of the dataset to load from disk.

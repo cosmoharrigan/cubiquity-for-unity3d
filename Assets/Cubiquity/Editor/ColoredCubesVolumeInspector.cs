@@ -44,6 +44,15 @@ namespace Cubiquity
 			}
 			
 			paintColor = EditorGUILayout.ColorField(paintColor, GUILayout.Width(200));
+			
+			if(GUILayout.Button("Load Voxel Database..."))
+			{			
+				string selectedVDB = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Application.streamingAssetsPath, "vdb");
+				
+				ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateFromVoxelDatabase(selectedVDB);
+				
+				coloredCubesVolume.data = data;
+			}
 		}
 		
 		public void OnSceneGUI()
