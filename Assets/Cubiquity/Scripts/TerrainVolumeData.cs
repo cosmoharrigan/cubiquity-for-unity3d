@@ -9,9 +9,9 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
 	{
-		public static TerrainVolumeData CreateFromVoxelDatabase(Region region, string pathToVoxelDatabase)
+		public static TerrainVolumeData CreateFromVoxelDatabase(string pathToVoxelDatabase)
 		{
-			return CreateFromVoxelDatabase<TerrainVolumeData>(region, pathToVoxelDatabase);
+			return CreateFromVoxelDatabase<TerrainVolumeData>(pathToVoxelDatabase);
 		}
 		
 		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
@@ -43,8 +43,8 @@ namespace Cubiquity
 		{
 			if(volumeHandle.HasValue)
 			{
-				if(x >= region.lowerCorner.x && y >= region.lowerCorner.y && z >= region.lowerCorner.z
-					&& x <= region.upperCorner.x && y <= region.upperCorner.y && z <= region.upperCorner.z)
+				if(x >= enclosingRegion.lowerCorner.x && y >= enclosingRegion.lowerCorner.y && z >= enclosingRegion.lowerCorner.z
+					&& x <= enclosingRegion.upperCorner.x && y <= enclosingRegion.upperCorner.y && z <= enclosingRegion.upperCorner.z)
 				{						
 					CubiquityDLL.SetVoxelMC(volumeHandle.Value, x, y, z, materialSet);
 				}
@@ -58,8 +58,8 @@ namespace Cubiquity
 			if((volumeHandle == null) && (_region != null))
 			{
 				// Create an empty region of the desired size.
-				volumeHandle = CubiquityDLL.NewEmptyTerrainVolume(region.lowerCorner.x, region.lowerCorner.y, region.lowerCorner.z,
-					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, pathToVoxelDatabase, DefaultBaseNodeSize);
+				volumeHandle = CubiquityDLL.NewEmptyTerrainVolume(enclosingRegion.lowerCorner.x, enclosingRegion.lowerCorner.y, enclosingRegion.lowerCorner.z,
+					enclosingRegion.upperCorner.x, enclosingRegion.upperCorner.y, enclosingRegion.upperCorner.z, pathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
 

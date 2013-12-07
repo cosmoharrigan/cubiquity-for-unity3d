@@ -13,7 +13,7 @@ namespace Cubiquity
 		// Unity3D doesn't automatically serialize the public property
 		[SerializeField]
 		protected Region _region;
-	    public Region region
+	    public Region enclosingRegion
 	    {
 	        get { return this._region; }
 	    }
@@ -34,7 +34,7 @@ namespace Cubiquity
 		// and client code could potentially create a number of volumes on quick sucession.  
 		protected static System.Random randomIntGenerator = new System.Random();
 		
-		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(Region region, string pathToVoxelDatabase) where VolumeDataType : VolumeData
+		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string pathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
 			if(!File.Exists(pathToVoxelDatabase))
 			{
@@ -42,7 +42,6 @@ namespace Cubiquity
 			}
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData._region = region;
 			volumeData.pathToVoxelDatabase = pathToVoxelDatabase;
 			
 			volumeData.InitializeExistingCubiquityVolume();

@@ -78,9 +78,9 @@ namespace Cubiquity
 		void OnDrawGizmos()
 		{
 			// Compute the size of the volume.
-			int width = (data.region.upperCorner.x - data.region.lowerCorner.x) + 1;
-			int height = (data.region.upperCorner.y - data.region.lowerCorner.y) + 1;
-			int depth = (data.region.upperCorner.z - data.region.lowerCorner.z) + 1;
+			int width = (data.enclosingRegion.upperCorner.x - data.enclosingRegion.lowerCorner.x) + 1;
+			int height = (data.enclosingRegion.upperCorner.y - data.enclosingRegion.lowerCorner.y) + 1;
+			int depth = (data.enclosingRegion.upperCorner.z - data.enclosingRegion.lowerCorner.z) + 1;
 			float offsetX = width / 2;
 			float offsetY = height / 2;
 			float offsetZ = depth / 2;
