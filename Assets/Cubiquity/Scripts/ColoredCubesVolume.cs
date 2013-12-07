@@ -39,7 +39,6 @@ namespace Cubiquity
 		private GameObject rootGameObject;
 		
 		private int maxNodeSyncsPerFrame = 4;
-		private int nodeSyncsThisFrame = 0;
 		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
 		{			
@@ -76,9 +75,7 @@ namespace Cubiquity
 	    }
 		
 		public void Synchronize()
-		{
-			nodeSyncsThisFrame = 0;
-			
+		{			
 			if(data.volumeHandle.HasValue)
 			{
 				CubiquityDLL.UpdateVolume(data.volumeHandle.Value);
@@ -93,7 +90,7 @@ namespace Cubiquity
 					}
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
-					rootOctreeNode.syncNode();
+					rootOctreeNode.syncNode(maxNodeSyncsPerFrame);
 				}
 			}
 		}

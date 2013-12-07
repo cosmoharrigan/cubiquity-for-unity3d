@@ -51,12 +51,14 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		public void syncNode()
+		public void syncNode(int availableNodeSyncs)
 		{
-			/*if(nodeSyncsThisFrame >= maxNodeSyncsPerFrame)
+			//Debug.Log ("availableNodeSyncs = " + availableNodeSyncs);
+			if(availableNodeSyncs <= 0)
 			{
+				//Debug.Log ("Returning");
 				return;
-			}*/
+			}
 			
 			uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdated(nodeHandle);		
 			//OctreeNode octreeNode = (OctreeNode)(gameObjectToSync.GetComponent<OctreeNode>());
@@ -91,8 +93,7 @@ namespace Cubiquity
 				
 				uint currentTime = CubiquityDLL.GetCurrentTime();
 				meshLastSyncronised = (int)(currentTime);
-				
-				//nodeSyncsThisFrame++;
+				availableNodeSyncs--;
 			}		
 			
 			//Now syncronise any children
@@ -119,7 +120,7 @@ namespace Cubiquity
 							//syncNode(childNodeHandle, childGameObject);
 							
 							OctreeNode childOctreeNode = childGameObject.GetComponent<OctreeNode>();
-							childOctreeNode.syncNode();
+							childOctreeNode.syncNode(availableNodeSyncs);
 						}
 					}
 				}
