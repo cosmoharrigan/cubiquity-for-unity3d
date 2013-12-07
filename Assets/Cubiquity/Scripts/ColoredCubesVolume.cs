@@ -28,7 +28,7 @@ namespace Cubiquity
 		public ColoredCubesVolumeData data
 	    {
 	        get { return this.mData; }
-			set {this.mData = value; }
+			set { this.mData = value; }
 	    }
 		
 		// Determines whether collision data is generated as well as a
@@ -125,9 +125,9 @@ namespace Cubiquity
 			}
 			
 			uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdated(nodeHandle);		
-			OctreeNodeData octreeNodeData = (OctreeNodeData)(gameObjectToSync.GetComponent<OctreeNodeData>());
+			OctreeNode octreeNode = (OctreeNode)(gameObjectToSync.GetComponent<OctreeNode>());
 			
-			if(octreeNodeData.meshLastSyncronised < meshLastUpdated)
+			if(octreeNode.meshLastSyncronised < meshLastUpdated)
 			{			
 				if(CubiquityDLL.NodeHasMesh(nodeHandle) == 1)
 				{				
@@ -156,7 +156,7 @@ namespace Cubiquity
 				}
 				
 				uint currentTime = CubiquityDLL.GetCurrentTime();
-				octreeNodeData.meshLastSyncronised = (int)(currentTime);
+				octreeNode.meshLastSyncronised = (int)(currentTime);
 				
 				nodeSyncsThisFrame++;
 			}		
@@ -173,13 +173,13 @@ namespace Cubiquity
 						
 							uint childNodeHandle = CubiquityDLL.GetChildNode(nodeHandle, x, y, z);					
 							
-							GameObject childGameObject = octreeNodeData.GetChild(x,y,z);
+							GameObject childGameObject = octreeNode.GetChild(x,y,z);
 							
 							if(childGameObject == null)
 							{							
 								childGameObject = BuildGameObjectFromNodeHandle(childNodeHandle, gameObjectToSync);
 								
-								octreeNodeData.SetChild(x, y, z, childGameObject);
+								octreeNode.SetChild(x, y, z, childGameObject);
 							}
 							
 							syncNode(childNodeHandle, childGameObject);
@@ -198,24 +198,24 @@ namespace Cubiquity
 			StringBuilder name = new StringBuilder("(" + xPos + ", " + yPos + ", " + zPos + ")");
 			
 			GameObject newGameObject = new GameObject(name.ToString ());
-			newGameObject.AddComponent<OctreeNodeData>();
+			newGameObject.AddComponent<OctreeNode>();
 			newGameObject.AddComponent<MeshFilter>();
 			newGameObject.AddComponent<MeshRenderer>();
 			newGameObject.AddComponent<MeshCollider>();
 			
-			OctreeNodeData octreeNodeData = newGameObject.GetComponent<OctreeNodeData>();
-			octreeNodeData.lowerCorner = new Vector3(xPos, yPos, zPos);
+			OctreeNode octreeNode = newGameObject.GetComponent<OctreeNode>();
+			octreeNode.lowerCorner = new Vector3(xPos, yPos, zPos);
 			
 			if(parentGameObject)
 			{
 				newGameObject.transform.parent = parentGameObject.transform;
 				
-				Vector3 parentLowerCorner = parentGameObject.GetComponent<OctreeNodeData>().lowerCorner;
-				newGameObject.transform.localPosition = octreeNodeData.lowerCorner - parentLowerCorner;
+				Vector3 parentLowerCorner = parentGameObject.GetComponent<OctreeNode>().lowerCorner;
+				newGameObject.transform.localPosition = octreeNode.lowerCorner - parentLowerCorner;
 			}
 			else
 			{
-				newGameObject.transform.localPosition = octreeNodeData.lowerCorner;
+				newGameObject.transform.localPosition = octreeNode.lowerCorner;
 			}
 			
 			newGameObject.hideFlags = HideFlags.HideAndDontSave;
