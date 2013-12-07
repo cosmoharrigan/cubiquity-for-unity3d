@@ -11,11 +11,21 @@ namespace Cubiquity
 	{		
 		// We need to explicitly serialize the private field because
 		// Unity3D doesn't automatically serialize the public property
-		[SerializeField]
-		protected Region _region;
+		private Region cachedEnclosingRegion;
 	    public Region enclosingRegion
 	    {
-	        get { return this._region; }
+	        get
+			{
+				if(cachedEnclosingRegion == null)
+				{
+					cachedEnclosingRegion = new Region(0, 0, 0, 0, 0, 0);
+					CubiquityDLL.GetEnclosingRegion(volumeHandle.Value,
+						out cachedEnclosingRegion.lowerCorner.x, out cachedEnclosingRegion.lowerCorner.y, out cachedEnclosingRegion.lowerCorner.z,
+						out cachedEnclosingRegion.upperCorner.x, out cachedEnclosingRegion.upperCorner.y, out cachedEnclosingRegion.upperCorner.z);
+				}
+				
+				return cachedEnclosingRegion;
+			}
 	    }
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
@@ -63,7 +73,7 @@ namespace Cubiquity
 			}
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData._region = region;
+			volumeData.cachedEnclosingRegion = region;
 			volumeData.pathToVoxelDatabase = pathToCreateVoxelDatabase;
 			
 			volumeData.InitializeEmptyCubiquityVolume();

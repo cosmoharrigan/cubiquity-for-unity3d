@@ -146,13 +146,6 @@ namespace Cubiquity
 		}
 		
 		[DllImport (pathToCubiquitySDK + "/CubiquityC")]
-		private static extern int cuGetEnclosingRegionMC(uint volumeHandle, out int lowerX, out int lowerY, out int lowerZ, out int upperX, out int upperY, out int upperZ);	
-		public static void GetEnclosingRegionMC(uint volumeHandle, out int lowerX, out int lowerY, out int lowerZ, out int upperX, out int upperY, out int upperZ)
-		{		
-			Validate(cuGetEnclosingRegionMC(volumeHandle, out lowerX, out lowerY, out lowerZ, out upperX, out upperY, out upperZ));
-		}
-		
-		[DllImport (pathToCubiquitySDK + "/CubiquityC")]
 		private static extern int cuGetVoxelMC(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet);	
 		public static void GetVoxelMC(uint volumeHandle, int x, int y, int z, out MaterialSet materialSet)
 		{		
