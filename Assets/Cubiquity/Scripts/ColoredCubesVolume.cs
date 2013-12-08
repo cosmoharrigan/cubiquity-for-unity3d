@@ -28,7 +28,11 @@ namespace Cubiquity
 		public ColoredCubesVolumeData data
 	    {
 	        get { return this.mData; }
-			set { this.mData = value; }
+			set
+			{
+				this.mData = value;
+				DestroyImmediate(rootGameObject);
+			}
 	    }
 		
 		// Determines whether collision data is generated as well as a
