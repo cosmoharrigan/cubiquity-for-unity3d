@@ -51,7 +51,7 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		public void syncNode(int availableNodeSyncs)
+		public void syncNode(int availableNodeSyncs, bool UseCollisionMesh)
 		{
 			//Debug.Log ("availableNodeSyncs = " + availableNodeSyncs);
 			if(availableNodeSyncs <= 0)
@@ -70,7 +70,7 @@ namespace Cubiquity
 					Mesh renderingMesh;
 					Mesh physicsMesh;
 					
-					BuildMeshFromNodeHandle(out renderingMesh, out physicsMesh);
+					BuildMeshFromNodeHandle(out renderingMesh, out physicsMesh, UseCollisionMesh);
 			
 			        MeshFilter mf = (MeshFilter)gameObject.GetComponent(typeof(MeshFilter));
 			        MeshRenderer mr = (MeshRenderer)gameObject.GetComponent(typeof(MeshRenderer));
@@ -84,7 +84,7 @@ namespace Cubiquity
 					
 					mr.material = new Material(Shader.Find("ColoredCubesVolume"));
 					
-					//if(UseCollisionMesh)
+					if(UseCollisionMesh)
 					{
 						MeshCollider mc = (MeshCollider)gameObject.GetComponent(typeof(MeshCollider));
 						mc.sharedMesh = physicsMesh;
@@ -120,21 +120,20 @@ namespace Cubiquity
 							//syncNode(childNodeHandle, childGameObject);
 							
 							OctreeNode childOctreeNode = childGameObject.GetComponent<OctreeNode>();
-							childOctreeNode.syncNode(availableNodeSyncs);
+							childOctreeNode.syncNode(availableNodeSyncs, UseCollisionMesh);
 						}
 					}
 				}
 			}
 		}
 		
-		void BuildMeshFromNodeHandle(out Mesh renderingMesh, out Mesh physicsMesh)
+		void BuildMeshFromNodeHandle(out Mesh renderingMesh, out Mesh physicsMesh, bool UseCollisionMesh)
 		{
 			// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C
 			
 			// Create rendering and possible collision meshes.
 			renderingMesh = new Mesh();		
-			//physicsMesh = UseCollisionMesh ? new Mesh() : null;
-			physicsMesh = new Mesh();
+			physicsMesh = UseCollisionMesh ? new Mesh() : null;
 			
 			// Get the data from Cubiquity.
 			int[] indices = CubiquityDLL.GetIndices(nodeHandle);		
@@ -143,8 +142,7 @@ namespace Cubiquity
 			// Create the arrays which we'll copy the data to.
 	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];	
 			Color32[] renderingColors = new Color32[cubiquityVertices.Length];
-			//Vector3[] physicsVertices = UseCollisionMesh ? new Vector3[cubiquityVertices.Length] : null;
-			Vector3[] physicsVertices = new Vector3[cubiquityVertices.Length];
+			Vector3[] physicsVertices = UseCollisionMesh ? new Vector3[cubiquityVertices.Length] : null;
 			
 			for(int ct = 0; ct < cubiquityVertices.Length; ct++)
 			{
@@ -156,7 +154,7 @@ namespace Cubiquity
 				renderingVertices[ct] = position;
 				renderingColors[ct] = (Color32)color;
 				
-				//if(UseCollisionMesh)
+				if(UseCollisionMesh)
 				{
 					physicsVertices[ct] = position;
 				}
