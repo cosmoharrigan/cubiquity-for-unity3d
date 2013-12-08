@@ -37,6 +37,9 @@ namespace Cubiquity
 			if(parentGameObject)
 			{
 				newGameObject.transform.parent = parentGameObject.transform;
+				newGameObject.transform.localPosition = new Vector3();
+				newGameObject.transform.localRotation = new Quaternion();
+				newGameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 				
 				OctreeNode parentOctreeNode = parentGameObject.GetComponent<OctreeNode>();
 				
@@ -55,7 +58,7 @@ namespace Cubiquity
 				newGameObject.transform.localPosition = octreeNode.lowerCorner;
 			}
 			
-			newGameObject.hideFlags = HideFlags.HideAndDontSave;
+			newGameObject.hideFlags = HideFlags.DontSave;
 			
 			return newGameObject;
 		}

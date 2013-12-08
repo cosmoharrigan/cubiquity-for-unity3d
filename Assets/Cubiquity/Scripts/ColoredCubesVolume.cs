@@ -32,6 +32,7 @@ namespace Cubiquity
 			{
 				this.mData = value;
 				DestroyImmediate(rootGameObject);
+				rootGameObject = null;
 			}
 	    }
 		
