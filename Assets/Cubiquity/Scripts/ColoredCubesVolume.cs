@@ -90,7 +90,8 @@ namespace Cubiquity
 					}
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
-					rootOctreeNode.syncNode(maxNodeSyncsPerFrame, UseCollisionMesh);
+					int i = maxNodeSyncsPerFrame;
+					rootOctreeNode.syncNode(ref i, UseCollisionMesh);
 				}
 			}
 		}
