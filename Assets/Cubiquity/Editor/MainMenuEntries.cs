@@ -50,9 +50,9 @@ namespace Cubiquity
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
 		static void CreateColoredCubesVolume()
 		{
-			int width = 128;
-			int height = 32;
-			int depth = 128;
+			int width = 512;
+			int height = 64;
+			int depth = 512;
 			
 			ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
 			
