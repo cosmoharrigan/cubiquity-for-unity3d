@@ -38,8 +38,17 @@ namespace Cubiquity
 			{
 				newGameObject.transform.parent = parentGameObject.transform;
 				
-				Vector3 parentLowerCorner = parentGameObject.GetComponent<OctreeNode>().lowerCorner;
-				newGameObject.transform.localPosition = octreeNode.lowerCorner - parentLowerCorner;
+				OctreeNode parentOctreeNode = parentGameObject.GetComponent<OctreeNode>();
+				
+				if(parentOctreeNode != null)
+				{
+					Vector3 parentLowerCorner = parentOctreeNode.lowerCorner;
+					newGameObject.transform.localPosition = octreeNode.lowerCorner - parentLowerCorner;
+				}
+				else
+				{
+					newGameObject.transform.localPosition = octreeNode.lowerCorner;
+				}
 			}
 			else
 			{
@@ -53,15 +62,12 @@ namespace Cubiquity
 		
 		public void syncNode(ref int availableNodeSyncs, bool UseCollisionMesh)
 		{
-			//Debug.Log ("availableNodeSyncs = " + availableNodeSyncs);
 			if(availableNodeSyncs <= 0)
 			{
-				//Debug.Log ("Returning");
 				return;
 			}
 			
 			uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdated(nodeHandle);		
-			//OctreeNode octreeNode = (OctreeNode)(gameObjectToSync.GetComponent<OctreeNode>());
 			
 			if(meshLastSyncronised < meshLastUpdated)
 			{			
