@@ -31,8 +31,7 @@ namespace Cubiquity
 			set
 			{
 				this.mData = value;
-				DestroyImmediate(rootGameObject);
-				rootGameObject = null;
+				//OnDisable();
 			}
 	    }
 		
@@ -42,6 +41,7 @@ namespace Cubiquity
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
+		private GameObject ghostGameObject;
 		
 		private int maxNodeSyncsPerFrame = 4;
 		
@@ -89,9 +89,15 @@ namespace Cubiquity
 				{		
 					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNode(data.volumeHandle.Value);
 				
+					if(ghostGameObject == null)
+					{				
+						ghostGameObject = new GameObject("Ghost");
+						ghostGameObject.hideFlags = HideFlags.DontSave;
+					}
+					
 					if(rootGameObject == null)
-					{					
-						rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, this.gameObject);	
+					{
+						rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, ghostGameObject);	
 					}
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
@@ -110,16 +116,27 @@ namespace Cubiquity
 		void Update()
 		{
 			Synchronize();
+			
+			ghostGameObject.transform.localPosition = transform.localPosition;
+			ghostGameObject.transform.localRotation = transform.localRotation;
+			ghostGameObject.transform.localScale = transform.localScale;
 		}
 		
 		public void OnDisable()
 		{
 			Debug.Log ("ColoredCubesVolume.OnDisable()");
 			
+			
+		}
+		
+		public void OnDestroy()
+		{
+			Debug.Log ("ColoredCubesVolume.OnDestroy()");
+			
 			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
 			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
-			DestroyImmediate(rootGameObject);
+			DestroyImmediate(ghostGameObject);
 		}
 	}
 }

@@ -205,5 +205,16 @@ namespace Cubiquity
 			
 			children[x, y, z] = gameObject;
 		}
+		
+		/*public void OnDisable()
+		{
+			Debug.Log ("OctreeNode.OnDisable()");
+			gameObject.transform.parent = null;
+		}
+		
+		public void OnDestroy()
+		{
+			gameObject.transform.parent = null;
+		}*/
 	}
 }
