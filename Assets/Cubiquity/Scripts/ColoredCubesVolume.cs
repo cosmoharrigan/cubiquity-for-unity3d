@@ -92,7 +92,7 @@ namespace Cubiquity
 					if(ghostGameObject == null)
 					{				
 						ghostGameObject = new GameObject("Ghost");
-						ghostGameObject.hideFlags = HideFlags.DontSave;
+						ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 					}
 					
 					if(rootGameObject == null)
