@@ -142,7 +142,9 @@ public class ClickToDestroy : MonoBehaviour
 								GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 								cube.AddComponent<Rigidbody>();
 								cube.AddComponent<FadeOutGameObject>();
-								cube.transform.position = new Vector3(x, y, z);
+								cube.transform.parent = coloredCubesVolume.transform;
+								cube.transform.localPosition = new Vector3(x, y, z);
+								cube.transform.localRotation = Quaternion.identity;
 								cube.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
 								cube.renderer.material.color = (Color32)color;
 								
