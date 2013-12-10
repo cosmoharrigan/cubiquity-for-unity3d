@@ -136,6 +136,82 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &635022759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5f88e7471b13f45ada3ae20cb9f09d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathToVoxelDatabase: C:/Code/cubiquity-for-unity3d/Assets/StreamingAssets\22F5EF27.vdb
+--- !u!114 &707450539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5f88e7471b13f45ada3ae20cb9f09d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathToVoxelDatabase: C:/Code/cubiquity-for-unity3d/Assets/StreamingAssets\18465CA3.vdb
+--- !u!1 &888044851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 888044853}
+  - 114: {fileID: 888044852}
+  - 114: {fileID: 888044854}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &888044852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 888044851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 707450539}
+  UseCollisionMesh: 1
+--- !u!4 &888044853
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 888044851}
+  m_LocalRotation: {x: -.382683486, y: 0, z: 0, w: .923879564}
+  m_LocalPosition: {x: 0, y: -180, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &888044854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 888044851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1690653741
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,3 +307,55 @@ MonoBehaviour:
   mouseSensitivity: 15
   lookUpLimit: 60
   lookDownLimit: -60
+--- !u!1 &2123825125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2123825127}
+  - 114: {fileID: 2123825126}
+  - 114: {fileID: 2123825128}
+  m_Layer: 0
+  m_Name: Colored Cubes Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2123825126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2123825125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a2f374dab8c1140bbc2e9f918cba37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mData: {fileID: 635022759}
+  UseCollisionMesh: 1
+--- !u!4 &2123825127
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2123825125}
+  m_LocalRotation: {x: .453990489, y: 0, z: 0, w: .891006529}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &2123825128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2123825125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5900edbdf9683c4ab627147343d83a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
