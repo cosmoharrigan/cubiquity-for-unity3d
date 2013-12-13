@@ -9,6 +9,8 @@ namespace Cubiquity
 	[System.Serializable]
 	public abstract class VolumeData : ScriptableObject
 	{
+		public enum Paths { StreamingAssets, TemporaryCache };
+		
 		private Region cachedEnclosingRegion;
 	    public Region enclosingRegion
 	    {
@@ -27,7 +29,31 @@ namespace Cubiquity
 	    }
 		
 		[SerializeField]
-		protected string pathToVoxelDatabase;
+		private Paths basePath;
+		
+		[SerializeField]
+		private string relativePathToVoxelDatabase;
+		
+		protected string fullPathToVoxelDatabase
+		{
+			get
+			{
+				string basePathString = null;
+				switch(basePath)
+				{
+				case Paths.StreamingAssets:
+					basePathString = Application.streamingAssetsPath;
+					break;
+				case Paths.TemporaryCache:
+					basePathString = Application.temporaryCachePath;
+					break;
+				}
+				return basePathString + Path.DirectorySeparatorChar + relativePathToVoxelDatabase;
+			}
+		}
+		
+		[SerializeField]
+		protected bool readyForInitialization = false;
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
@@ -42,15 +68,32 @@ namespace Cubiquity
 		// and client code could potentially create a number of volumes on quick sucession.  
 		protected static System.Random randomIntGenerator = new System.Random();
 		
-		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string pathToVoxelDatabase) where VolumeDataType : VolumeData
+		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
-			if(!File.Exists(pathToVoxelDatabase))
+			//this.basePath = basePath;
+			//this.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
+			
+			/*if(!File.Exists(fullPathToVoxelDatabase))
 			{
-				throw new FileNotFoundException("Voxel database '" + pathToVoxelDatabase + "' does not exist (or you do not have the required permissions)");
-			}
+				throw new FileNotFoundException("Voxel database '" + fullPathToVoxelDatabase + "' does not exist (or you do not have the required permissions)");
+			}*/
+			
+			/*if(!IsFileSomewhereInFolder(pathToVoxelDatabase, Application.streamingAssetsPath))
+			{
+				//FIXME - Better exception type
+				throw new Exception("The voxel database must be inside the StreamingAssets folder");
+			}*/
+			
+			/*Uri uriToVoxelDatabase = new Uri(pathToVoxelDatabase);	
+			Uri uriToStreamingAssets = new Uri(Application.streamingAssetsPath);			
+			Uri relativeUri = uriToStreamingAssets.MakeRelativeUri(uriToVoxelDatabase);			
+			string relativePathToVoxelDatabase = relativeUri.ToString();*/
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.pathToVoxelDatabase = pathToVoxelDatabase;
+			volumeData.basePath = basePath;
+			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
+			
+			volumeData.readyForInitialization = true;
 			
 			volumeData.InitializeExistingCubiquityVolume();
 			
@@ -60,19 +103,24 @@ namespace Cubiquity
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
 		{
 			string pathToCreateVoxelDatabase = GeneratePathToVoxelDatabase();
-			return CreateEmptyVolumeData<VolumeDataType>(region, pathToCreateVoxelDatabase);
+			return CreateEmptyVolumeData<VolumeDataType>(region, Paths.TemporaryCache, pathToCreateVoxelDatabase);
 		}
 		
-		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string pathToCreateVoxelDatabase) where VolumeDataType : VolumeData
+		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
-			if(File.Exists(pathToCreateVoxelDatabase))
+			//this.basePath = basePath;
+			
+			/*if(File.Exists(pathToCreateVoxelDatabase))
 			{
 				throw new FileNotFoundException("Voxel database '" + pathToCreateVoxelDatabase + "' already exists. Please choose a different filename.");
-			}
+			}*/
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.cachedEnclosingRegion = region;
-			volumeData.pathToVoxelDatabase = pathToCreateVoxelDatabase;
+			volumeData.basePath = basePath;
+			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
+			
+			volumeData.readyForInitialization = true;
 			
 			volumeData.InitializeEmptyCubiquityVolume();
 			
@@ -107,11 +155,55 @@ namespace Cubiquity
 		protected abstract void InitializeExistingCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
 		
-		protected static string GeneratePathToVoxelDatabase()
+		public static string GeneratePathToVoxelDatabase()
 		{
 			// Generate a random filename from an integer
-			string filename = randomIntGenerator.Next().ToString("X8") + ".vdb";
-			return Application.streamingAssetsPath + Path.DirectorySeparatorChar + filename;
+			return randomIntGenerator.Next().ToString("X8") + ".vdb";
 		}
+		
+		private static bool IsInsideStreamingAssets(string pathToVoxelDatabase)
+		{
+			string pathToContainingFolder = Path.GetDirectoryName(pathToVoxelDatabase);
+			return IsSubfolder(Application.streamingAssetsPath, pathToContainingFolder);
+		}
+		
+		// Based on http://stackoverflow.com/a/7710620
+		private static bool IsSubfolder(string parentPath, string childPath)
+	    {
+	        Uri parentUri = new Uri( parentPath ) ;
+	
+	        DirectoryInfo childUri = new DirectoryInfo( childPath ).Parent ;
+	
+	        while( childUri != null )
+	        {
+	            if( new Uri( childUri.FullName ) == parentUri )
+	            {
+	                return true ;
+	            }
+	
+	            childUri = childUri.Parent ;
+	        }
+	
+	        return false ;
+	    }
+		
+		private static bool IsFileSomewhereInFolder(string fileToFind, string folderToSearch)
+	    {
+	        Uri parentUri = new Uri( folderToSearch ) ;
+	
+	        DirectoryInfo childUri = new DirectoryInfo( fileToFind ).Parent ;
+	
+	        while( childUri != null )
+	        {
+	            if( new Uri( childUri.FullName ) == parentUri )
+	            {
+	                return true ;
+	            }
+	
+	            childUri = childUri.Parent ;
+	        }
+	
+	        return false ;
+	    }
 	}
 }

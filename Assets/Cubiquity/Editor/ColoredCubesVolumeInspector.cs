@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEditor;
+
+using System;
+using System.IO;
 using System.Collections;
  
 namespace Cubiquity
@@ -47,11 +50,24 @@ namespace Cubiquity
 			
 			if(GUILayout.Button("Load Voxel Database..."))
 			{			
-				string selectedVDB = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Application.streamingAssetsPath, "vdb");
+				string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Application.streamingAssetsPath, "vdb");
 				
-				ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateFromVoxelDatabase(selectedVDB);
+				/*Uri uriToVoxelDatabase = new Uri(pathToVoxelDatabase);	
+				Uri uriToStreamingAssets = new Uri(Application.streamingAssetsPath + Path.PathSeparator);			
+				Uri relativeUri = uriToStreamingAssets.MakeRelativeUri(uriToVoxelDatabase);			
+				string relativePathToVoxelDatabase = relativeUri.ToString();*/
+				
+				string relativePathToVoxelDatabase = MakeRelativePath(Application.streamingAssetsPath + Path.DirectorySeparatorChar, pathToVoxelDatabase);
+				
+				ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateFromVoxelDatabase(VolumeData.Paths.StreamingAssets, relativePathToVoxelDatabase);
 				
 				coloredCubesVolume.data = data;
+				
+				/*string pathToVoxelDatabase = "C:/Code/cubiquity-for-unity3d/Assets/StreamingAssets/0D2705DA.vdb";
+				string streamingAssetsPath = "C:/Code/cubiquity-for-unity3d/Assets/StreamingAssets" + Path.DirectorySeparatorChar;
+				
+				string relativePath = MakeRelativePath(streamingAssetsPath, pathToVoxelDatabase);
+				Debug.Log(relativePath);*/
 			}
 		}
 		
@@ -102,5 +118,26 @@ namespace Cubiquity
 			
 			coloredCubesVolume.Synchronize();
 		}
+		
+		public static String MakeRelativePath(String fromPath, String toPath)
+	    {
+	        if (String.IsNullOrEmpty(fromPath)) throw new ArgumentNullException("fromPath");
+	        if (String.IsNullOrEmpty(toPath))   throw new ArgumentNullException("toPath");
+	
+	        Uri fromUri = new Uri(fromPath);
+	        Uri toUri = new Uri(toPath);
+	
+	        if (fromUri.Scheme != toUri.Scheme) { return toPath; } // path can't be made relative.
+	
+	        Uri relativeUri = fromUri.MakeRelativeUri(toUri);
+	        String relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+	
+	        if (toUri.Scheme.ToUpperInvariant() == "FILE")
+	        {
+	            relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+	        }
+	
+	        return relativePath;
+	    }
 	}
 }
