@@ -54,7 +54,7 @@ namespace Cubiquity
 			int height = 64;
 			int depth = 512;
 			
-			ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
+			ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), VolumeData.Paths.StreamingAssets, VolumeData.GeneratePathToVoxelDatabase());
 			
 			GameObject coloredCubesGameObject = ColoredCubesVolume.CreateGameObject(data);
 			
