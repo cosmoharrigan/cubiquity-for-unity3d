@@ -52,9 +52,6 @@ namespace Cubiquity
 			}
 		}
 		
-		[SerializeField]
-		protected bool readyForInitialization = false;
-		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
 		[System.NonSerialized] // Internal variables aren't serialized anyway?
@@ -93,8 +90,6 @@ namespace Cubiquity
 			volumeData.basePath = basePath;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
-			volumeData.readyForInitialization = true;
-			
 			volumeData.InitializeExistingCubiquityVolume();
 			
 			return volumeData;
@@ -120,8 +115,6 @@ namespace Cubiquity
 			volumeData.basePath = basePath;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
-			volumeData.readyForInitialization = true;
-			
 			volumeData.InitializeEmptyCubiquityVolume();
 			
 			return volumeData;
@@ -138,7 +131,10 @@ namespace Cubiquity
 		
 		private void OnEnable()
 		{			
-			InitializeExistingCubiquityVolume();
+			if(relativePathToVoxelDatabase != null)
+			{
+				InitializeExistingCubiquityVolume();
+			}
 		}
 		
 		private void OnDisable()
