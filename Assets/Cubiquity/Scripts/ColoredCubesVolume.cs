@@ -117,9 +117,13 @@ namespace Cubiquity
 		{
 			Synchronize();
 			
-			ghostGameObject.transform.localPosition = transform.localPosition;
-			ghostGameObject.transform.localRotation = transform.localRotation;
-			ghostGameObject.transform.localScale = transform.localScale;
+			if(transform.hasChanged)
+			{
+				ghostGameObject.transform.localPosition = transform.localPosition;
+				ghostGameObject.transform.localRotation = transform.localRotation;
+				ghostGameObject.transform.localScale = transform.localScale;
+				transform.hasChanged = false;
+			}
 		}
 		
 		public void OnDisable()
