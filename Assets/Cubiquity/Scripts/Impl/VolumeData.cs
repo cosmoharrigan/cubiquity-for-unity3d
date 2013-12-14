@@ -142,11 +142,6 @@ namespace Cubiquity
 			ShutdownCubiquityVolume();
 		}
 		
-		private void OnDestroy()
-		{
-			ShutdownCubiquityVolume();
-		}
-		
 		protected abstract void InitializeEmptyCubiquityVolume();
 		protected abstract void InitializeExistingCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
