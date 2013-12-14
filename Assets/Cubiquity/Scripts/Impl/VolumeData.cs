@@ -105,6 +105,8 @@ namespace Cubiquity
 		
 		private void OnEnable()
 		{			
+			// This OnEnable() function is called as soon as the VolumeData is instantiated, but at this point it has not yet
+			// been initilized with the path and so in this case we cannot yet initialize the underlying Cubiquity volume.
 			if(relativePathToVoxelDatabase != null)
 			{
 				InitializeExistingCubiquityVolume();
