@@ -66,26 +66,7 @@ namespace Cubiquity
 		protected static System.Random randomIntGenerator = new System.Random();
 		
 		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
-		{
-			//this.basePath = basePath;
-			//this.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
-			
-			/*if(!File.Exists(fullPathToVoxelDatabase))
-			{
-				throw new FileNotFoundException("Voxel database '" + fullPathToVoxelDatabase + "' does not exist (or you do not have the required permissions)");
-			}*/
-			
-			/*if(!IsFileSomewhereInFolder(pathToVoxelDatabase, Application.streamingAssetsPath))
-			{
-				//FIXME - Better exception type
-				throw new Exception("The voxel database must be inside the StreamingAssets folder");
-			}*/
-			
-			/*Uri uriToVoxelDatabase = new Uri(pathToVoxelDatabase);	
-			Uri uriToStreamingAssets = new Uri(Application.streamingAssetsPath);			
-			Uri relativeUri = uriToStreamingAssets.MakeRelativeUri(uriToVoxelDatabase);			
-			string relativePathToVoxelDatabase = relativeUri.ToString();*/
-			
+		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.basePath = basePath;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
@@ -102,14 +83,7 @@ namespace Cubiquity
 		}
 		
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
-		{
-			//this.basePath = basePath;
-			
-			/*if(File.Exists(pathToCreateVoxelDatabase))
-			{
-				throw new FileNotFoundException("Voxel database '" + pathToCreateVoxelDatabase + "' already exists. Please choose a different filename.");
-			}*/
-			
+		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.cachedEnclosingRegion = region;
 			volumeData.basePath = basePath;
@@ -151,50 +125,5 @@ namespace Cubiquity
 			// Generate a random filename from an integer
 			return randomIntGenerator.Next().ToString("X8") + ".vdb";
 		}
-		
-		private static bool IsInsideStreamingAssets(string pathToVoxelDatabase)
-		{
-			string pathToContainingFolder = Path.GetDirectoryName(pathToVoxelDatabase);
-			return IsSubfolder(Application.streamingAssetsPath, pathToContainingFolder);
-		}
-		
-		// Based on http://stackoverflow.com/a/7710620
-		private static bool IsSubfolder(string parentPath, string childPath)
-	    {
-	        Uri parentUri = new Uri( parentPath ) ;
-	
-	        DirectoryInfo childUri = new DirectoryInfo( childPath ).Parent ;
-	
-	        while( childUri != null )
-	        {
-	            if( new Uri( childUri.FullName ) == parentUri )
-	            {
-	                return true ;
-	            }
-	
-	            childUri = childUri.Parent ;
-	        }
-	
-	        return false ;
-	    }
-		
-		private static bool IsFileSomewhereInFolder(string fileToFind, string folderToSearch)
-	    {
-	        Uri parentUri = new Uri( folderToSearch ) ;
-	
-	        DirectoryInfo childUri = new DirectoryInfo( fileToFind ).Parent ;
-	
-	        while( childUri != null )
-	        {
-	            if( new Uri( childUri.FullName ) == parentUri )
-	            {
-	                return true ;
-	            }
-	
-	            childUri = childUri.Parent ;
-	        }
-	
-	        return false ;
-	    }
 	}
 }
