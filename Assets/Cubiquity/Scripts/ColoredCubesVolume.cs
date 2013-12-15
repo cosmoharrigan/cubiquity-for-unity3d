@@ -31,7 +31,7 @@ namespace Cubiquity
 			set
 			{
 				this.mData = value;
-				//OnDisable();
+				DestroyImmediate(ghostGameObject);
 			}
 	    }
 		
