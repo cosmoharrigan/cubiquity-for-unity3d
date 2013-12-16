@@ -51,7 +51,14 @@ namespace Cubiquity
 		// Probably we should get rid of this and just use the Unity material class directly?
 		public TerrainMaterial[] materials;
 		
-		public Material material; //FIXME - should probably be internal? Visible to the editor so it can set the brush params
+		public Material material //FIXME - should probably be internal? Visible to the editor so it can set the brush params
+		{
+			get
+			{
+				TerrainVolumeRenderer terrainVolumeRenderer = ghostGameObject.GetComponent<TerrainVolumeRenderer>();
+				return terrainVolumeRenderer.material;
+			}
+		}
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
@@ -146,14 +153,27 @@ namespace Cubiquity
 					
 					material.SetVector("_TexOffset" + i, materials[i].offset);
 				}
+				
+				//TerrainVolumeRenderer terrainVolumeRenderer = ghostGameObject.GetComponent<TerrainVolumeRenderer>();
+				//terrainVolumeRenderer.material = material;
 			}
 		}
 		
 		void OnEnable()
 		{
 			Debug.Log ("TerrainVolume.OnEnable()");
+			
+			if(ghostGameObject == null)
+			{				
+				ghostGameObject = new GameObject("Ghost");
+				ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+				ghostGameObject.AddComponent<TerrainVolumeRenderer>();
+			}
+			
 			Shader shader = Shader.Find("TerrainVolume");
-			material = new Material(shader);
+			//material = new Material(shader);
+			TerrainVolumeRenderer terrainVolumeRenderer = ghostGameObject.GetComponent<TerrainVolumeRenderer>();
+			terrainVolumeRenderer.material = new Material(shader);
 			
 			if(materials == null)
 			{

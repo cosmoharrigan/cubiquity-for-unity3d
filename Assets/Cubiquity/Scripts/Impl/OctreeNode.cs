@@ -94,7 +94,9 @@ namespace Cubiquity
 					
 			        mf.sharedMesh = renderingMesh;				
 					
-					mr.material = new Material(Shader.Find("ColoredCubesVolume"));
+					//mr.material = new Material(Shader.Find("ColoredCubesVolume"));
+					
+					mr.material = volumeRenderer.material;
 					
 					if(UseCollisionMesh)
 					{

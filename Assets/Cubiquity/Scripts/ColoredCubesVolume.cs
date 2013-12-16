@@ -94,6 +94,9 @@ namespace Cubiquity
 						ghostGameObject = new GameObject("Ghost");
 						ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 						ghostGameObject.AddComponent<ColoredCubesVolumeRenderer>();
+						
+						ColoredCubesVolumeRenderer coloredCubesVolumeRenderer= ghostGameObject.GetComponent<ColoredCubesVolumeRenderer>();
+						coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
 					}
 					
 					if(rootGameObject == null)
