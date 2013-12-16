@@ -55,6 +55,7 @@ namespace Cubiquity
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
+		private GameObject ghostGameObject;
 		
 		private int maxNodeSyncsPerFrame = 4;
 		private int nodeSyncsThisFrame = 0;
@@ -114,11 +115,21 @@ namespace Cubiquity
 				{		
 					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(data.volumeHandle.Value);
 				
-					if(rootGameObject == null)
-					{					
-						rootGameObject = BuildGameObjectFromNodeHandle(rootNodeHandle, null);	
+					if(ghostGameObject == null)
+					{				
+						ghostGameObject = new GameObject("Ghost");
+						ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+						ghostGameObject.AddComponent<TerrainVolumeRenderer>();
 					}
-					syncNode(rootNodeHandle, rootGameObject);
+					
+					if(rootGameObject == null)
+					{
+						rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, ghostGameObject);	
+					}
+					
+					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
+					int i = maxNodeSyncsPerFrame;
+					rootOctreeNode.syncNode(ref i, UseCollisionMesh);
 				}
 				
 				// We syncronise all the material properties every time. If we find this has some
@@ -180,7 +191,7 @@ namespace Cubiquity
 			DestroyImmediate(rootGameObject);
 		}
 		
-		public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
+		/*public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
 		{
 			if(nodeSyncsThisFrame >= maxNodeSyncsPerFrame)
 			{
@@ -285,9 +296,9 @@ namespace Cubiquity
 			newGameObject.hideFlags = HideFlags.HideAndDontSave;
 			
 			return newGameObject;
-		}
+		}*/
 		
-		void BuildMeshFromNodeHandle(uint nodeHandle, out Mesh renderingMesh, out Mesh physicsMesh)
+		/*void BuildMeshFromNodeHandle(uint nodeHandle, out Mesh renderingMesh, out Mesh physicsMesh)
 		{
 			// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C
 			
@@ -341,6 +352,6 @@ namespace Cubiquity
 				physicsMesh.vertices = physicsVertices;
 				physicsMesh.triangles = indices;
 			}
-		}
+		}*/
 	}
 }
