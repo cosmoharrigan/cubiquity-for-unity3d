@@ -49,16 +49,16 @@ namespace Cubiquity
 		public TerrainVolumeBrushMarker brushMarker;
 		
 		// Probably we should get rid of this and just use the Unity material class directly?
-		public TerrainMaterial[] materials;
+		//public TerrainMaterial[] materials;
 		
-		public Material material //FIXME - should probably be internal? Visible to the editor so it can set the brush params
+		/*public Material material //FIXME - should probably be internal? Visible to the editor so it can set the brush params
 		{
 			get
 			{
-				TerrainVolumeRenderer terrainVolumeRenderer = ghostGameObject.GetComponent<TerrainVolumeRenderer>();
+				TerrainVolumeRenderer terrainVolumeRenderer = gameObject.GetComponent<TerrainVolumeRenderer>();
 				return terrainVolumeRenderer.material;
 			}
-		}
+		}*/
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
@@ -78,6 +78,11 @@ namespace Cubiquity
 			terrainVolume.mData = data;
 			
 			//terrainVolume.data.Initialize();
+			
+			// Now create the corresponding ghost object.
+			/*ghostGameObject = new GameObject("Ghost");
+			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+			ghostGameObject.AddComponent<TerrainVolumeRenderer>();*/
 			
 			return VoxelTerrainRoot;
 		}
@@ -106,6 +111,7 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
+			Material material = gameObject.GetComponent<TerrainVolumeRenderer>().material;
 			List<string> keywords = new List<string> { brushMarker.enabled ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF"};
 			material.shaderKeywords = keywords.ToArray();
 			material.SetVector("_BrushCenter", brushMarker.center);				
@@ -127,6 +133,8 @@ namespace Cubiquity
 			// lucky, pehaps it just works on our platform, or perhaps it is actually valid for some other reason. Just be aware.
 			material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
 			
+			ghostGameObject.GetComponent<TerrainVolumeRenderer>().material = material;
+			
 			nodeSyncsThisFrame = 0;
 			
 			if(data.volumeHandle.HasValue)
@@ -136,13 +144,6 @@ namespace Cubiquity
 				if(CubiquityDLL.HasRootOctreeNodeMC(data.volumeHandle.Value) == 1)
 				{		
 					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(data.volumeHandle.Value);
-				
-					if(ghostGameObject == null)
-					{				
-						ghostGameObject = new GameObject("Ghost");
-						ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
-						ghostGameObject.AddComponent<TerrainVolumeRenderer>();
-					}
 					
 					if(rootGameObject == null)
 					{
@@ -153,24 +154,6 @@ namespace Cubiquity
 					int i = maxNodeSyncsPerFrame;
 					rootOctreeNode.syncNode(ref i, UseCollisionMesh);
 				}
-				
-				// We syncronise all the material properties every time. If we find this has some
-				// performance overhead then we could add an 'isModified' flag to each terrain material.
-				for(int i = 0; i < materials.Length; i++)
-				{
-					material.SetTexture("_Tex" + i, materials[i].diffuseMap);
-					
-					Vector3 invScale;
-					invScale.x = 1.0f / materials[i].scale.x;
-					invScale.y = 1.0f / materials[i].scale.y;
-					invScale.z = 1.0f / materials[i].scale.z;
-					material.SetVector("_TexInvScale" + i, invScale);
-					
-					material.SetVector("_TexOffset" + i, materials[i].offset);
-				}
-				
-				//TerrainVolumeRenderer terrainVolumeRenderer = ghostGameObject.GetComponent<TerrainVolumeRenderer>();
-				//terrainVolumeRenderer.material = material;
 			}
 		}
 		
@@ -185,12 +168,13 @@ namespace Cubiquity
 				ghostGameObject.AddComponent<TerrainVolumeRenderer>();
 			}
 			
-			Shader shader = Shader.Find("TerrainVolume");
+			//Shader shader = Shader.Find("TerrainVolume");
+			//gameObject.AddComponent<TerrainVolumeRenderer>();
 			//material = new Material(shader);
-			TerrainVolumeRenderer terrainVolumeRenderer = ghostGameObject.GetComponent<TerrainVolumeRenderer>();
-			terrainVolumeRenderer.material = new Material(shader);
+			//TerrainVolumeRenderer terrainVolumeRenderer = GetComponent<TerrainVolumeRenderer>();
+			//terrainVolumeRenderer.material = new Material(shader);
 			
-			if(materials == null)
+			/*if(materials == null)
 			{
 				materials = new TerrainMaterial[License.MaxNoOfMaterials];
 			}
@@ -201,7 +185,7 @@ namespace Cubiquity
 				{
 					materials[i] = new TerrainMaterial();
 				}
-			}
+			}*/
 			
 			// I think it's easiest if we ensure a brush always exists, and allow
 			// the user to hide it be setting the enabled property to false.

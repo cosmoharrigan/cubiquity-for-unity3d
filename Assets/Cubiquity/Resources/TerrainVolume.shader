@@ -20,15 +20,20 @@
 		sampler2D _Tex2;
 		sampler2D _Tex3;
 		
-		float3 _TexInvScale0;
-		float3 _TexInvScale1;
-		float3 _TexInvScale2;
-		float3 _TexInvScale3;
+		float4 _Tex0_ST;
+		float4 _Tex1_ST;
+		float4 _Tex2_ST;
+		float4 _Tex3_ST;
 		
-		float3 _TexOffset0;
-		float3 _TexOffset1;
-		float3 _TexOffset2;
-		float3 _TexOffset3;
+		//float3 _TexInvScale0;
+		//float3 _TexInvScale1;
+		//float3 _TexInvScale2;
+		//float3 _TexInvScale3;
+		
+		//float3 _TexOffset0;
+		//float3 _TexOffset1;
+		//float3 _TexOffset2;
+		//float3 _TexOffset3;
 		
 #if BRUSH_MARKER_ON
 		float4 _BrushCenter;
@@ -57,7 +62,7 @@
 			o.volumeNormal = v.normal;
 		}
 		
-		half4 texTriplanar(sampler2D tex, float3 coords, float3 dx, float3 dy, float3 triplanarBlendWeights)
+		half4 texTriplanar(sampler2D tex, float3 coords, float4 texST, float3 dx, float3 dy, float3 triplanarBlendWeights)
 		{						
 			// Used to avoid sampling a texture unless it
 			// signicantly contributes to the final color.
@@ -67,15 +72,15 @@
 			half4 triplanarSample = 0.0;
 			if(triplanarBlendWeights.z > blendWeightThreshold)
 			{
-				triplanarSample += tex2Dgrad(tex, coords.xy, dx.xy, dy.xy) * triplanarBlendWeights.z;
+				triplanarSample += tex2Dgrad(tex, coords.xy * texST.xy + texST.zw, dx.xy * texST.xy, dy.xy * texST.xy) * triplanarBlendWeights.z;
 			}
 			if(triplanarBlendWeights.x > blendWeightThreshold)
 			{
-				triplanarSample += tex2Dgrad(tex, coords.yz, dx.yz, dy.yz) * triplanarBlendWeights.x;
+				triplanarSample += tex2Dgrad(tex, coords.yz * texST.xy + texST.zw, dx.yz * texST.xy, dy.yz * texST.xy) * triplanarBlendWeights.x;
 			}
 			if(triplanarBlendWeights.y > blendWeightThreshold)
 			{
-				triplanarSample += tex2Dgrad(tex, coords.xz, dx.xz, dy.xz) * triplanarBlendWeights.y;
+				triplanarSample += tex2Dgrad(tex, coords.xz * texST.xy + texST.zw, dx.xz * texST.xy, dy.xz * texST.xy) * triplanarBlendWeights.y;
 			}
 					
 			// Return the combined result.
@@ -114,10 +119,10 @@
 			// Sample each of the four textures using triplanar texturing, and
 			// additively blend the results using the factors in materialStrengths.
 			half4 diffuse = 0.0;
-			diffuse += texTriplanar(_Tex0, texCoords * _TexInvScale0 + _TexOffset0, dx * _TexInvScale0, dy * _TexInvScale0, triplanarBlendWeights * materialStrengths.r);
-			diffuse += texTriplanar(_Tex1, texCoords * _TexInvScale1 + _TexOffset1, dx * _TexInvScale1, dy * _TexInvScale1, triplanarBlendWeights * materialStrengths.g);
-			diffuse += texTriplanar(_Tex2, texCoords * _TexInvScale2 + _TexOffset2, dx * _TexInvScale2, dy * _TexInvScale2, triplanarBlendWeights * materialStrengths.b);
-			diffuse += texTriplanar(_Tex3, texCoords * _TexInvScale3 + _TexOffset3, dx * _TexInvScale3, dy * _TexInvScale3, triplanarBlendWeights * materialStrengths.a);
+			diffuse += texTriplanar(_Tex0, texCoords, _Tex0_ST, dx, dy, triplanarBlendWeights * materialStrengths.r);
+			diffuse += texTriplanar(_Tex1, texCoords, _Tex1_ST, dx, dy, triplanarBlendWeights * materialStrengths.g);
+			diffuse += texTriplanar(_Tex2, texCoords, _Tex2_ST, dx, dy, triplanarBlendWeights * materialStrengths.b);
+			diffuse += texTriplanar(_Tex3, texCoords, _Tex3_ST, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
 #if BRUSH_MARKER_ON
 			float brushStrength = 0.0f;

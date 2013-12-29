@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Cubiquity
 {
-	public class TerrainMaterialEditorWindow : EditorWindow
+	/*public class TerrainMaterialEditorWindow : EditorWindow
 	{
 		private TerrainMaterial material;
 			
@@ -58,5 +58,5 @@ namespace Cubiquity
 			
 			return result;
 		}
-	}
+	}*/
 }

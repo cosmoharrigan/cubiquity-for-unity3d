@@ -28,23 +28,43 @@ namespace Cubiquity
 			Selection.activeGameObject = terrain;
 			
 			// Set up our textures in the appropriate material slots.
-			terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
+			/*terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
 			terrain.GetComponent<TerrainVolume>().materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
 			terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
 			terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
-			terrain.GetComponent<TerrainVolume>().materials[2].scale = new Vector3(1.0f, 1.0f, 1.0f);
+			terrain.GetComponent<TerrainVolume>().materials[2].scale = new Vector3(1.0f, 1.0f, 1.0f);*/
+			
+			Shader shader = Shader.Find("TerrainVolume");
+			Material material = new Material(shader);
+			material.name = "Test String";
+			
+			material.SetTexture("_Tex0", Resources.Load("Textures/Rock") as Texture2D);
+			//material.SetVector("_TexInvScale0", new Vector3(1.0f/16.0f, 1.0f/16.0f, 1.0f/16.0f));
+			//material.SetVector("_TexOffset0", new Vector3(0.0f, 0.0f, 0.0f));
+			
+			material.SetTexture("_Tex1", Resources.Load("Textures/Soil") as Texture2D);
+			//material.SetVector("_TexInvScale1", new Vector3(1.0f/16.0f, 1.0f/16.0f, 1.0f/16.0f));
+			//material.SetVector("_TexOffset1", new Vector3(0.0f, 0.0f, 0.0f));
+			
+			material.SetTexture("_Tex2", Resources.Load("Textures/Grass") as Texture2D);
+			material.SetTextureScale("_Tex2", new Vector2(0.1f, 0.1f));
+			//material.SetVector("_TexInvScale2", new Vector3(1.0f/16.0f, 1.0f/16.0f, 1.0f/16.0f));
+			//material.SetVector("_TexOffset2", new Vector3(0.0f, 0.0f, 0.0f));
+			
+			terrain.AddComponent<TerrainVolumeRenderer>();
+			terrain.GetComponent<TerrainVolumeRenderer>().material = material;
 			
 			// It's possible the textures won't actually be found, as they are just examples and the
 			// user might have decided not to include them when importing Cubiquity. This doesn't
 			// matter and just means the uer will have to set up their own textures.
-			if((terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap == null) ||
+			/*if((terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap == null) ||
 				(terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap == null) ||
 				(terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap == null))
 			{
 				Debug.LogWarning("Failed to set up the default Cubiquity terrain textures. This is probably " +
 					"because you chose not to import the examples when importing Cubiquity? It doesn't matter, " +
 					"it just means you have to configure your own textures through the inspector.");
-			}
+			}*/
 		}
 		
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]

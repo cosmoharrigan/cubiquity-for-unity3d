@@ -34,11 +34,11 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		terrain.hideFlags = HideFlags.DontSave;
 		
 		// Set up our textures in the appropriate material slots.
-		terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
+		/*terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
 		terrain.GetComponent<TerrainVolume>().materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
 		terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
 		terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
-		terrain.GetComponent<TerrainVolume>().materials[2].scale = new Vector3(1.0f, 1.0f, 1.0f);
+		terrain.GetComponent<TerrainVolume>().materials[2].scale = new Vector3(1.0f, 1.0f, 1.0f);*/
 		
 		// At this point our volume is set up and ready to use. The remaining code is responsible
 		// for iterating over all the voxels and filling them according to our noise functions.
