@@ -112,6 +112,10 @@ namespace Cubiquity
 			material.SetVector("_BrushSettings", new Vector4(brushMarker.innerRadius, brushMarker.outerRadius, brushMarker.opacity, 0.0f));
 			material.SetVector("_BrushColor", brushMarker.color);
 			
+			// NOTE - THIS IS EXPLICITLY FORBIDDEN BY THE UNITY DOCS! SHOULD USE
+			// renderer.worldToLocalMatrix INSTEAD BUT WE DON'T HAVE ONE. TO BE CONSIDERED...
+			material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
+			
 			nodeSyncsThisFrame = 0;
 			
 			if(data.volumeHandle.HasValue)
