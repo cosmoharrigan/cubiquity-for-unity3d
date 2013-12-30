@@ -55,11 +55,6 @@ namespace Cubiquity
 			
 			//terrainVolume.data.Initialize();
 			
-			// Now create the corresponding ghost object.
-			/*ghostGameObject = new GameObject("Ghost");
-			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
-			ghostGameObject.AddComponent<TerrainVolumeRenderer>();*/
-			
 			return VoxelTerrainRoot;
 		}
 		
@@ -137,27 +132,7 @@ namespace Cubiquity
 				ghostGameObject = new GameObject("Ghost");
 				ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 				ghostGameObject.AddComponent<TerrainVolumeRenderer>();
-			}
-			
-			//Shader shader = Shader.Find("TerrainVolume");
-			//gameObject.AddComponent<TerrainVolumeRenderer>();
-			//material = new Material(shader);
-			//TerrainVolumeRenderer terrainVolumeRenderer = GetComponent<TerrainVolumeRenderer>();
-			//terrainVolumeRenderer.material = new Material(shader);
-			
-			/*if(materials == null)
-			{
-				materials = new TerrainMaterial[License.MaxNoOfMaterials];
-			}
-			
-			for(int i = 0; i < materials.Length; i++)
-			{
-				if(materials[i] == null)
-				{
-					materials[i] = new TerrainMaterial();
-				}
-			}*/
-			
+			}			
 		}
 		
 		// Update is called once per frame
@@ -181,168 +156,5 @@ namespace Cubiquity
 			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
 			DestroyImmediate(rootGameObject);
 		}
-		
-		/*public void syncNode(uint nodeHandle, GameObject gameObjectToSync)
-		{
-			if(nodeSyncsThisFrame >= maxNodeSyncsPerFrame)
-			{
-				return;
-			}
-			
-			uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdatedMC(nodeHandle);		
-			OctreeNodeData octreeNodeData = (OctreeNodeData)(gameObjectToSync.GetComponent<OctreeNodeData>());
-			
-			if(octreeNodeData.meshLastSyncronised < meshLastUpdated)
-			{			
-				if(CubiquityDLL.NodeHasMeshMC(nodeHandle) == 1)
-				{				
-					Mesh renderingMesh;
-					Mesh physicsMesh;
-					
-					BuildMeshFromNodeHandle(nodeHandle, out renderingMesh, out physicsMesh);
-			
-			        MeshFilter mf = (MeshFilter)gameObjectToSync.GetComponent(typeof(MeshFilter));
-			        MeshRenderer mr = (MeshRenderer)gameObjectToSync.GetComponent(typeof(MeshRenderer));
-					
-					if(mf.sharedMesh != null)
-					{
-						DestroyImmediate(mf.sharedMesh);
-					}
-					
-			        mf.sharedMesh = renderingMesh;				
-					
-					mr.material = material;
-					mr.sharedMaterial = material;
-					
-					if(UseCollisionMesh && Application.isPlaying)
-					{
-						MeshCollider mc = (MeshCollider)gameObjectToSync.GetComponent(typeof(MeshCollider));
-						mc.sharedMesh = physicsMesh;
-					}
-				}
-				
-				uint currentTime = CubiquityDLL.GetCurrentTime();
-				octreeNodeData.meshLastSyncronised = (int)(currentTime);
-				
-				nodeSyncsThisFrame++;
-			}		
-			
-			//Now syncronise any children
-			for(uint z = 0; z < 2; z++)
-			{
-				for(uint y = 0; y < 2; y++)
-				{
-					for(uint x = 0; x < 2; x++)
-					{
-						if(CubiquityDLL.HasChildNodeMC(nodeHandle, x, y, z) == 1)
-						{					
-						
-							uint childNodeHandle = CubiquityDLL.GetChildNodeMC(nodeHandle, x, y, z);					
-							
-							GameObject childGameObject = octreeNodeData.GetChild(x,y,z);
-							
-							if(childGameObject == null)
-							{							
-								childGameObject = BuildGameObjectFromNodeHandle(childNodeHandle, gameObjectToSync);
-								
-								octreeNodeData.SetChild(x, y, z, childGameObject);
-							}
-							
-							syncNode(childNodeHandle, childGameObject);
-						}
-					}
-				}
-			}
-		}
-		
-		GameObject BuildGameObjectFromNodeHandle(uint nodeHandle, GameObject parentGameObject)
-		{
-			int xPos, yPos, zPos;
-			CubiquityDLL.GetNodePositionMC(nodeHandle, out xPos, out yPos, out zPos);
-			
-			StringBuilder name = new StringBuilder("(" + xPos + ", " + yPos + ", " + zPos + ")");
-			
-			GameObject newGameObject = new GameObject(name.ToString ());
-			newGameObject.AddComponent<OctreeNodeData>();
-			//FIXME - Should we really add these here? Or once we determine we actually have meshes?
-			newGameObject.AddComponent<MeshFilter>();
-			newGameObject.AddComponent<MeshRenderer>();
-			newGameObject.AddComponent<MeshCollider>();
-			
-			OctreeNodeData octreeNodeData = newGameObject.GetComponent<OctreeNodeData>();
-			octreeNodeData.lowerCorner = new Vector3(xPos, yPos, zPos);
-			
-			if(parentGameObject)
-			{
-				newGameObject.transform.parent = parentGameObject.transform;
-				
-				Vector3 parentLowerCorner = parentGameObject.GetComponent<OctreeNodeData>().lowerCorner;
-				newGameObject.transform.localPosition = octreeNodeData.lowerCorner - parentLowerCorner;
-			}
-			else
-			{
-				newGameObject.transform.localPosition = octreeNodeData.lowerCorner;
-			}
-			
-			newGameObject.hideFlags = HideFlags.HideAndDontSave;
-			
-			return newGameObject;
-		}*/
-		
-		/*void BuildMeshFromNodeHandle(uint nodeHandle, out Mesh renderingMesh, out Mesh physicsMesh)
-		{
-			// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C
-			
-			// Create rendering and possible collision meshes.
-			renderingMesh = new Mesh();		
-			physicsMesh = UseCollisionMesh && Application.isPlaying ? new Mesh() : null;
-			
-			// Get the data from Cubiquity.
-			int[] indices = CubiquityDLL.GetIndicesMC(nodeHandle);		
-			CubiquitySmoothVertex[] cubiquityVertices = CubiquityDLL.GetVerticesMC(nodeHandle);			
-			
-			// Create the arrays which we'll copy the data to.
-	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
-			Vector3[] renderingNormals = new Vector3[cubiquityVertices.Length];		
-			Color32[] renderingColors = new Color32[cubiquityVertices.Length];		
-			Vector3[] physicsVertices = UseCollisionMesh && Application.isPlaying ? new Vector3[cubiquityVertices.Length] : null;
-			
-			for(int ct = 0; ct < cubiquityVertices.Length; ct++)
-			{
-				// Get the vertex data from Cubiquity.
-				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
-				Vector3 normal = new Vector3(cubiquityVertices[ct].nx, cubiquityVertices[ct].ny, cubiquityVertices[ct].nz);
-				Color32 color = new Color32(cubiquityVertices[ct].m0, cubiquityVertices[ct].m1, cubiquityVertices[ct].m2, cubiquityVertices[ct].m3);
-				//UInt32 color = cubiquityVertices[ct].color;
-				
-				// Pack it for efficient vertex buffer usage.
-				//float packedPosition = packPosition(position);
-				//float packedColor = packColor(color);
-					
-				// Copy it to the arrays.
-				renderingVertices[ct] = position;	
-				renderingNormals[ct] = normal;
-				renderingColors[ct] = color;
-				if(UseCollisionMesh && Application.isPlaying)
-				{
-					physicsVertices[ct] = position;
-				}
-			}
-			
-			// Assign vertex data to the meshes.
-			renderingMesh.vertices = renderingVertices; 
-			renderingMesh.normals = renderingNormals;
-			renderingMesh.colors32 = renderingColors;
-			renderingMesh.triangles = indices;
-			
-			// FIXME - Get proper bounds
-			renderingMesh.bounds = new Bounds(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(500.0f, 500.0f, 500.0f));
-			
-			if(UseCollisionMesh && Application.isPlaying)
-			{
-				physicsMesh.vertices = physicsVertices;
-				physicsMesh.triangles = indices;
-			}
-		}*/
 	}
 }
