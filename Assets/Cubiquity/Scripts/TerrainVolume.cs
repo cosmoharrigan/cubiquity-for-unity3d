@@ -23,8 +23,6 @@ namespace Cubiquity
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
 		
-		[System.NonSerialized]
-		public TerrainVolumeBrushMarker brushMarker;
 		
 		// Probably we should get rid of this and just use the Unity material class directly?
 		//public TerrainMaterial[] materials;
@@ -90,11 +88,6 @@ namespace Cubiquity
 		public void Synchronize()
 		{
 			Material material = gameObject.GetComponent<TerrainVolumeRenderer>().material;
-			List<string> keywords = new List<string> { brushMarker.enabled ? "BRUSH_MARKER_ON" : "BRUSH_MARKER_OFF"};
-			material.shaderKeywords = keywords.ToArray();
-			material.SetVector("_BrushCenter", brushMarker.center);				
-			material.SetVector("_BrushSettings", new Vector4(brushMarker.innerRadius, brushMarker.outerRadius, brushMarker.opacity, 0.0f));
-			material.SetVector("_BrushColor", brushMarker.color);
 			
 			// NOTE - The following line passes transform.worldToLocalMatrix as a shader parameter. This is explicitly
 			// forbidden by the Unity docs which say:
@@ -165,13 +158,6 @@ namespace Cubiquity
 				}
 			}*/
 			
-			// I think it's easiest if we ensure a brush always exists, and allow
-			// the user to hide it be setting the enabled property to false.
-			if(brushMarker == null)
-			{
-				brushMarker = new TerrainVolumeBrushMarker();
-				brushMarker.enabled = false; // Hide it by default.
-			}
 		}
 		
 		// Update is called once per frame
