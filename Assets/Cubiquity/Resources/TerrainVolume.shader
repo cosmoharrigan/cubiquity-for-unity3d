@@ -46,15 +46,14 @@
 		struct Input
 		{
 			float4 color : COLOR;
+			float3 worldPos : POSITION;
 			float3 volumeNormal;
 			float4 volumePos;
-			float3 worldNormal;
-			float3 worldPos;
 		};
 		
 		void vert (inout appdata_full v, out Input o)
 		{
-			UNITY_INITIALIZE_OUTPUT(Input,o);  
+			UNITY_INITIALIZE_OUTPUT(Input,o);
 			
 			// Volume-space positions and normals are used for triplanar texturing
 			float4 worldPos = mul(_Object2World, v.vertex);
@@ -93,7 +92,6 @@
 			//half invTexScale = 1.0 / texScale;
 			
 			// Interpolation can cause the normal vector to become denomalised.
-			IN.worldNormal = normalize(IN.worldNormal);
 			IN.volumeNormal = normalize(IN.volumeNormal);
 			
 			// Vertex colors coming out of Cubiquity don't actually sum to one
