@@ -27,31 +27,17 @@ namespace Cubiquity
 			// And select it, so the user can get straight on with editing.
 			Selection.activeGameObject = terrain;
 			
-			// Set up our textures in the appropriate material slots.
-			/*terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
-			terrain.GetComponent<TerrainVolume>().materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
-			terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
-			terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
-			terrain.GetComponent<TerrainVolume>().materials[2].scale = new Vector3(1.0f, 1.0f, 1.0f);*/
-			
+			// Set up our material	
 			Shader shader = Shader.Find("TerrainVolume");
 			Material material = new Material(shader);
-			material.name = "Test String";
 			
 			material.SetTexture("_Tex0", Resources.Load("Textures/Rock") as Texture2D);
-			//material.SetVector("_TexInvScale0", new Vector3(1.0f/16.0f, 1.0f/16.0f, 1.0f/16.0f));
-			//material.SetVector("_TexOffset0", new Vector3(0.0f, 0.0f, 0.0f));
-			
+			material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));
 			material.SetTexture("_Tex1", Resources.Load("Textures/Soil") as Texture2D);
-			//material.SetVector("_TexInvScale1", new Vector3(1.0f/16.0f, 1.0f/16.0f, 1.0f/16.0f));
-			//material.SetVector("_TexOffset1", new Vector3(0.0f, 0.0f, 0.0f));
-			
+			material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));			
 			material.SetTexture("_Tex2", Resources.Load("Textures/Grass") as Texture2D);
-			material.SetTextureScale("_Tex2", new Vector2(0.1f, 0.1f));
-			//material.SetVector("_TexInvScale2", new Vector3(1.0f/16.0f, 1.0f/16.0f, 1.0f/16.0f));
-			//material.SetVector("_TexOffset2", new Vector3(0.0f, 0.0f, 0.0f));
+			material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
 			
-			terrain.AddComponent<TerrainVolumeRenderer>();
 			terrain.GetComponent<TerrainVolumeRenderer>().material = material;
 			
 			// It's possible the textures won't actually be found, as they are just examples and the

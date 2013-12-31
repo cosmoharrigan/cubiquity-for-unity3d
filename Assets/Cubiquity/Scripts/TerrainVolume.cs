@@ -23,19 +23,6 @@ namespace Cubiquity
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
 		
-		
-		// Probably we should get rid of this and just use the Unity material class directly?
-		//public TerrainMaterial[] materials;
-		
-		/*public Material material //FIXME - should probably be internal? Visible to the editor so it can set the brush params
-		{
-			get
-			{
-				TerrainVolumeRenderer terrainVolumeRenderer = gameObject.GetComponent<TerrainVolumeRenderer>();
-				return terrainVolumeRenderer.material;
-			}
-		}*/
-		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		private GameObject rootGameObject;
 		private GameObject ghostGameObject;
@@ -45,17 +32,16 @@ namespace Cubiquity
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
 		{			
-			GameObject VoxelTerrainRoot = new GameObject("Terrain Volume");
-			VoxelTerrainRoot.AddComponent<TerrainVolume>();
+			GameObject terrainVolumeGameObject = new GameObject("Terrain Volume");
 			
-			TerrainVolume terrainVolume = VoxelTerrainRoot.GetComponent<TerrainVolume>();
-			//terrainVolume.baseNodeSize = DefaultBaseNodeSize;
+			terrainVolumeGameObject.AddComponent<TerrainVolume>();
+			terrainVolumeGameObject.AddComponent<TerrainVolumeRenderer>();
+			
+			TerrainVolume terrainVolume = terrainVolumeGameObject.GetComponent<TerrainVolume>();
 			
 			terrainVolume.mData = data;
 			
-			//terrainVolume.data.Initialize();
-			
-			return VoxelTerrainRoot;
+			return terrainVolumeGameObject;
 		}
 		
 		// It seems that we need to implement this function in order to make the volume pickable in the editor.
