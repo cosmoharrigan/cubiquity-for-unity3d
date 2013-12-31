@@ -9,7 +9,7 @@ using System.Text;
 namespace Cubiquity
 {	
 	[ExecuteInEditMode]
-	public class TerrainVolume : MonoBehaviour
+	public class TerrainVolume : Volume
 	{		
 		// The name of the dataset to load from disk.
 		[SerializeField]
@@ -22,10 +22,6 @@ namespace Cubiquity
 		// Determines whether collision data is generated as well as a
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
-		
-		// This corresponds to the root OctreeNode in Cubiquity.
-		private GameObject rootGameObject;
-		private GameObject ghostGameObject;
 		
 		private int maxNodeSyncsPerFrame = 4;
 		private int nodeSyncsThisFrame = 0;
