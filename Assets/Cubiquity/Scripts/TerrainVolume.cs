@@ -61,23 +61,9 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{
-			Material material = gameObject.GetComponent<TerrainVolumeRenderer>().material;
+			base.Synchronize();
 			
-			// NOTE - The following line passes transform.worldToLocalMatrix as a shader parameter. This is explicitly
-			// forbidden by the Unity docs which say:
-			//
-			//   IMPORTANT: If you're setting shader parameters you MUST use Renderer.worldToLocalMatrix instead.
-			//
-			// However, we don't have a renderer on this game object as the rendering is handled by the child OctreeNodes.
-			// The Unity doc's do not say why this is the case, but my best guess is that it is related to secret scaling 
-			// which Unity may perform before sending data to the GPU (probably to avoid precision problems). See here:
-			//
-			//   http://forum.unity3d.com/threads/153328-How-to-reproduce-_Object2World
-			//
-			// It seems to work in our case, even with non-uniform scaling applied to the volume. Perhaps we are just geting
-			// lucky, pehaps it just works on our platform, or perhaps it is actually valid for some other reason. Just be aware.
-			material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
-			
+			// Syncronize the mesh data.
 			if(data.volumeHandle.HasValue)
 			{
 				CubiquityDLL.UpdateVolumeMC(data.volumeHandle.Value);
@@ -102,14 +88,6 @@ namespace Cubiquity
 		void Update()
 		{		
 			Synchronize();
-			
-			if(transform.hasChanged)
-			{
-				ghostGameObject.transform.localPosition = transform.localPosition;
-				ghostGameObject.transform.localRotation = transform.localRotation;
-				ghostGameObject.transform.localScale = transform.localScale;
-				transform.hasChanged = false;
-			}
 		}
 	}
 }

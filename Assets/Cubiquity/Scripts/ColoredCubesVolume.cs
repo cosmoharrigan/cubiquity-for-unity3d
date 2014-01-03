@@ -64,6 +64,9 @@ namespace Cubiquity
 		
 		public void Synchronize()
 		{			
+			base.Synchronize();
+			
+			// Syncronize the mesh data.
 			if(data.volumeHandle.HasValue)
 			{
 				CubiquityDLL.UpdateVolume(data.volumeHandle.Value);
@@ -88,14 +91,6 @@ namespace Cubiquity
 		void Update()
 		{
 			Synchronize();
-			
-			if(transform.hasChanged)
-			{
-				ghostGameObject.transform.localPosition = transform.localPosition;
-				ghostGameObject.transform.localRotation = transform.localRotation;
-				ghostGameObject.transform.localScale = transform.localScale;
-				transform.hasChanged = false;
-			}
 		}
 	}
 }
