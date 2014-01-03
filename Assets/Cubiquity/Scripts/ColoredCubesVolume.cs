@@ -34,15 +34,18 @@ namespace Cubiquity
 			ghostGameObject = new GameObject("Ghost");
 			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 			ghostGameObject.AddComponent<ColoredCubesVolumeRenderer>();
+			ghostGameObject.AddComponent<GhostObjectSource>();
+			ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject = gameObject;
 			
-			ColoredCubesVolumeRenderer coloredCubesVolumeRenderer= ghostGameObject.GetComponent<ColoredCubesVolumeRenderer>();
-			coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
+			//ColoredCubesVolumeRenderer coloredCubesVolumeRenderer= ghostGameObject.GetComponent<ColoredCubesVolumeRenderer>();
+			//coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
 		}
 		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
 		{			
 			GameObject VoxelTerrainRoot = new GameObject("Colored Cubes Volume");
 			VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
+			VoxelTerrainRoot.AddComponent<ColoredCubesVolumeRenderer>();
 			
 			ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
 			

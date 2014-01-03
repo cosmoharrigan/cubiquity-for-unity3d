@@ -31,6 +31,8 @@ namespace Cubiquity
 			ghostGameObject = new GameObject("Ghost");
 			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 			ghostGameObject.AddComponent<TerrainVolumeRenderer>();
+			ghostGameObject.AddComponent<GhostObjectSource>();
+			ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject = gameObject;
 		}
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)

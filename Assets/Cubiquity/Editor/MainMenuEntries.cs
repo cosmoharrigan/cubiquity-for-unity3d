@@ -67,6 +67,11 @@ namespace Cubiquity
 			// And select it, so the user can get straight on with editing.
 			Selection.activeGameObject = coloredCubesGameObject;
 			
+			// Set up our material	
+			Shader shader = Shader.Find("ColoredCubesVolume");
+			Material material = new Material(shader);
+			coloredCubesGameObject.GetComponent<ColoredCubesVolumeRenderer>().material = material;
+			
 			// Call Initialize so we can start drawing into the volume right away.
 			
 			int floorThickness = 8;
