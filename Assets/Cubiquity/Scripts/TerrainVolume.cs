@@ -26,6 +26,13 @@ namespace Cubiquity
 		private int maxNodeSyncsPerFrame = 4;
 		private int nodeSyncsThisFrame = 0;
 		
+		private void Awake()
+		{
+			ghostGameObject = new GameObject("Ghost");
+			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+			ghostGameObject.AddComponent<TerrainVolumeRenderer>();
+		}
+		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
 		{			
 			GameObject terrainVolumeGameObject = new GameObject("Terrain Volume");
@@ -105,18 +112,6 @@ namespace Cubiquity
 			}
 		}
 		
-		void OnEnable()
-		{
-			Debug.Log ("TerrainVolume.OnEnable()");
-			
-			if(ghostGameObject == null)
-			{				
-				ghostGameObject = new GameObject("Ghost");
-				ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
-				ghostGameObject.AddComponent<TerrainVolumeRenderer>();
-			}			
-		}
-		
 		// Update is called once per frame
 		void Update()
 		{		
@@ -131,12 +126,14 @@ namespace Cubiquity
 			}
 		}
 		
-		public void OnDisable()
+		private void OnDestroy()
 		{
+			Debug.Log ("TerrainVolume.OnDestroy()");
+			
 			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
 			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
-			DestroyImmediate(rootGameObject);
+			DestroyImmediate(ghostGameObject);
 		}
 	}
 }

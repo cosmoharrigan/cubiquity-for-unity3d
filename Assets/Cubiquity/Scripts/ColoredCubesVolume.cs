@@ -29,6 +29,16 @@ namespace Cubiquity
 		
 		private int maxNodeSyncsPerFrame = 4;
 		
+		private void Awake()
+		{
+			ghostGameObject = new GameObject("Ghost");
+			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+			ghostGameObject.AddComponent<ColoredCubesVolumeRenderer>();
+			
+			ColoredCubesVolumeRenderer coloredCubesVolumeRenderer= ghostGameObject.GetComponent<ColoredCubesVolumeRenderer>();
+			coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
+		}
+		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
 		{			
 			GameObject VoxelTerrainRoot = new GameObject("Colored Cubes Volume");
@@ -72,16 +82,6 @@ namespace Cubiquity
 				if(CubiquityDLL.HasRootOctreeNode(data.volumeHandle.Value) == 1)
 				{		
 					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNode(data.volumeHandle.Value);
-				
-					if(ghostGameObject == null)
-					{				
-						ghostGameObject = new GameObject("Ghost");
-						ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
-						ghostGameObject.AddComponent<ColoredCubesVolumeRenderer>();
-						
-						ColoredCubesVolumeRenderer coloredCubesVolumeRenderer= ghostGameObject.GetComponent<ColoredCubesVolumeRenderer>();
-						coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
-					}
 					
 					if(rootGameObject == null)
 					{
@@ -93,11 +93,6 @@ namespace Cubiquity
 					rootOctreeNode.syncNode(ref i, UseCollisionMesh);
 				}
 			}
-		}
-		
-		void OnEnable()
-		{
-			Debug.Log ("ColoredCubesVolume.OnEnable()");
 		}
 		
 		// Update is called once per frame
@@ -114,16 +109,9 @@ namespace Cubiquity
 			}
 		}
 		
-		public void OnDisable()
-		{
-			Debug.Log ("ColoredCubesVolume.OnDisable()");
-			
-			
-		}
-		
-		public void OnDestroy()
-		{
-			Debug.Log ("ColoredCubesVolume.OnDestroy()");
+		private void OnDestroy()
+		{		
+			Debug.Log ("TerrainVolume.OnDestroy()");
 			
 			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
