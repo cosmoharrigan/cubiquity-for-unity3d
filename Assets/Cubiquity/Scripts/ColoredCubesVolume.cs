@@ -31,6 +31,7 @@ namespace Cubiquity
 		{			
 			GameObject VoxelTerrainRoot = new GameObject("Colored Cubes Volume");
 			VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
+			VoxelTerrainRoot.AddComponent<ColoredCubesVolumeCollider>();
 			VoxelTerrainRoot.AddComponent<ColoredCubesVolumeRenderer>();
 			
 			ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();

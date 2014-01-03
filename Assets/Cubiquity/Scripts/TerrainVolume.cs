@@ -29,6 +29,7 @@ namespace Cubiquity
 			
 			terrainVolumeGameObject.AddComponent<TerrainVolume>();
 			terrainVolumeGameObject.AddComponent<TerrainVolumeRenderer>();
+			terrainVolumeGameObject.AddComponent<TerrainVolumeCollider>();
 			
 			TerrainVolume terrainVolume = terrainVolumeGameObject.GetComponent<TerrainVolume>();
 			

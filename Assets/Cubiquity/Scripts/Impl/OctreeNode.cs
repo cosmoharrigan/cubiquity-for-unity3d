@@ -104,8 +104,11 @@ namespace Cubiquity
 					
 					mr.material = volumeRenderer.material;
 					
-					if(UseCollisionMesh)
+					VolumeCollider volumeCollider = sourceGameObject.GetComponent<VolumeCollider>();
+					
+					//if(UseCollisionMesh)
 					{
+						physicsMesh = volumeCollider.BuildMeshFromNodeHandle(nodeHandle);
 						MeshCollider mc = (MeshCollider)gameObject.GetComponent(typeof(MeshCollider));
 						mc.sharedMesh = physicsMesh;
 					}
