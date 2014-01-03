@@ -28,29 +28,32 @@ namespace Cubiquity
 			Selection.activeGameObject = terrain;
 			
 			// Set up our material	
-			Shader shader = Shader.Find("TerrainVolume");
-			Material material = new Material(shader);
-			
-			material.SetTexture("_Tex0", Resources.Load("Textures/Rock") as Texture2D);
-			material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));
-			material.SetTexture("_Tex1", Resources.Load("Textures/Soil") as Texture2D);
-			material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));			
-			material.SetTexture("_Tex2", Resources.Load("Textures/Grass") as Texture2D);
-			material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
-			
+			Material material = new Material(Shader.Find("TerrainVolume"));
 			terrain.GetComponent<TerrainVolumeRenderer>().material = material;
+			
+			// Set up the default textures
+			Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
+			Texture2D soilTexture = Resources.Load("Textures/Soil") as Texture2D;
+			Texture2D grassTexture = Resources.Load("Textures/Grass") as Texture2D;
 			
 			// It's possible the textures won't actually be found, as they are just examples and the
 			// user might have decided not to include them when importing Cubiquity. This doesn't
 			// matter and just means the uer will have to set up their own textures.
-			/*if((terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap == null) ||
-				(terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap == null) ||
-				(terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap == null))
+			if(rockTexture != null && soilTexture != null && grassTexture != null)
+			{
+				material.SetTexture("_Tex0", rockTexture);
+				material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));
+				material.SetTexture("_Tex1", soilTexture);
+				material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));			
+				material.SetTexture("_Tex2", grassTexture);
+				material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
+			}
+			else
 			{
 				Debug.LogWarning("Failed to set up the default Cubiquity terrain textures. This is probably " +
 					"because you chose not to import the examples when importing Cubiquity? It doesn't matter, " +
 					"it just means you have to configure your own textures through the inspector.");
-			}*/
+			}
 		}
 		
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
@@ -71,8 +74,6 @@ namespace Cubiquity
 			Shader shader = Shader.Find("ColoredCubesVolume");
 			Material material = new Material(shader);
 			coloredCubesGameObject.GetComponent<ColoredCubesVolumeRenderer>().material = material;
-			
-			// Call Initialize so we can start drawing into the volume right away.
 			
 			int floorThickness = 8;
 			QuantizedColor floorColor = new QuantizedColor(192, 192, 192, 255);

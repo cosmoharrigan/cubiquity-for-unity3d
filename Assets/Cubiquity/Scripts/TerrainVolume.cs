@@ -24,7 +24,6 @@ namespace Cubiquity
 		public bool UseCollisionMesh = true;
 		
 		private int maxNodeSyncsPerFrame = 4;
-		private int nodeSyncsThisFrame = 0;
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
 		{			
@@ -80,8 +79,6 @@ namespace Cubiquity
 			// It seems to work in our case, even with non-uniform scaling applied to the volume. Perhaps we are just geting
 			// lucky, pehaps it just works on our platform, or perhaps it is actually valid for some other reason. Just be aware.
 			material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
-			
-			nodeSyncsThisFrame = 0;
 			
 			if(data.volumeHandle.HasValue)
 			{
