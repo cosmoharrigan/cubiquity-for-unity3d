@@ -30,7 +30,6 @@ namespace Cubiquity
 		{
 			ghostGameObject = new GameObject("Ghost");
 			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
-			ghostGameObject.AddComponent<TerrainVolumeRenderer>();
 			ghostGameObject.AddComponent<GhostObjectSource>();
 			ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject = gameObject;
 		}
@@ -89,8 +88,6 @@ namespace Cubiquity
 			// It seems to work in our case, even with non-uniform scaling applied to the volume. Perhaps we are just geting
 			// lucky, pehaps it just works on our platform, or perhaps it is actually valid for some other reason. Just be aware.
 			material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
-			
-			ghostGameObject.GetComponent<TerrainVolumeRenderer>().material = material;
 			
 			nodeSyncsThisFrame = 0;
 			
