@@ -27,8 +27,6 @@ namespace Cubiquity
 		// renderable mesh. This does not apply when in the Unity editor.
 		public bool UseCollisionMesh = true;
 		
-		private int maxNodeSyncsPerFrame = 4;
-		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
 		{			
 			GameObject VoxelTerrainRoot = new GameObject("Colored Cubes Volume");
@@ -80,8 +78,8 @@ namespace Cubiquity
 					}
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
-					int i = maxNodeSyncsPerFrame;
-					rootOctreeNode.syncNode(ref i, UseCollisionMesh);
+					int copyOfMaxNodePerSync = maxNodesPerSync;
+					rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, UseCollisionMesh);
 				}
 			}
 		}

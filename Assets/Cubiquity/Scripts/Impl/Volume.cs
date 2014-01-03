@@ -5,6 +5,8 @@ namespace Cubiquity
 {
 	public class Volume : MonoBehaviour
 	{
+		public int maxNodesPerSync = 4;
+		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		protected GameObject rootGameObject;
 		protected GameObject ghostGameObject;
