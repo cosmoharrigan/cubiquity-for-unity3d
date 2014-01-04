@@ -27,7 +27,7 @@ namespace Cubiquity
 			DestroyImmediate(ghostGameObject);
 		}
 		
-		public void Synchronize()
+		public virtual void Synchronize()
 		{
 			// NOTE - The following line passes transform.worldToLocalMatrix as a shader parameter. This is explicitly
 			// forbidden by the Unity docs which say:

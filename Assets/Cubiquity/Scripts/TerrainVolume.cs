@@ -56,7 +56,7 @@ namespace Cubiquity
 			Gizmos.DrawCube (transform.position - halfVoxelOffset + new Vector3(offsetX, offsetY, offsetZ), new Vector3 (width, height, depth));
 	    }
 		
-		public void Synchronize()
+		public override void Synchronize()
 		{
 			base.Synchronize();
 			
