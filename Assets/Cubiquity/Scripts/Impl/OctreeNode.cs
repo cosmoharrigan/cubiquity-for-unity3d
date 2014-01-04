@@ -75,42 +75,42 @@ namespace Cubiquity
 			if(meshLastSyncronised < meshLastUpdated)
 			{			
 				if(CubiquityDLL.NodeHasMesh(nodeHandle) == 1)
-				{				
-					Mesh renderingMesh;
-					Mesh physicsMesh;
-					
+				{						
+					// Find the main volume game object (should we just pass this down?).
 					GameObject ghostGameObject = gameObject;
 					do
 					{
 						ghostGameObject = ghostGameObject.transform.parent.gameObject;
 						
-					}while(ghostGameObject.GetComponent<GhostObjectSource>() == null);
-						
+					}while(ghostGameObject.GetComponent<GhostObjectSource>() == null);						
 					GameObject sourceGameObject = ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject;
-					VolumeRenderer volumeRenderer = sourceGameObject.GetComponent<VolumeRenderer>();
-					renderingMesh = volumeRenderer.BuildMeshFromNodeHandle(nodeHandle);
-			
-			        MeshFilter mf = (MeshFilter)gameObject.GetComponent(typeof(MeshFilter));
-			        MeshRenderer mr = (MeshRenderer)gameObject.GetComponent(typeof(MeshRenderer));
 					
-					if(mf.sharedMesh != null)
+					// Set up the rendering mesh
+					VolumeRenderer volumeRenderer = sourceGameObject.GetComponent<VolumeRenderer>();
+					if(volumeRenderer != null)
 					{
-						DestroyImmediate(mf.sharedMesh);
+						Mesh renderingMesh = volumeRenderer.BuildMeshFromNodeHandle(nodeHandle);
+				
+				        MeshFilter mf = (MeshFilter)gameObject.GetComponent(typeof(MeshFilter));
+				        MeshRenderer mr = (MeshRenderer)gameObject.GetComponent(typeof(MeshRenderer));
+						
+						if(mf.sharedMesh != null)
+						{
+							DestroyImmediate(mf.sharedMesh);
+						}
+						
+				        mf.sharedMesh = renderingMesh;				
+						
+						mr.material = volumeRenderer.material;
 					}
 					
-			        mf.sharedMesh = renderingMesh;				
-					
-					//mr.material = new Material(Shader.Find("ColoredCubesVolume"));
-					
-					mr.material = volumeRenderer.material;
-					
-					VolumeCollider volumeCollider = sourceGameObject.GetComponent<VolumeCollider>();
-					
-					//if(UseCollisionMesh)
+					// Set up the collision mesh
+					VolumeCollider volumeCollider = sourceGameObject.GetComponent<VolumeCollider>();					
+					if((volumeCollider != null) && (Application.isPlaying))
 					{
-						physicsMesh = volumeCollider.BuildMeshFromNodeHandle(nodeHandle);
+						Mesh collisionMesh = volumeCollider.BuildMeshFromNodeHandle(nodeHandle);
 						MeshCollider mc = (MeshCollider)gameObject.GetComponent(typeof(MeshCollider));
-						mc.sharedMesh = physicsMesh;
+						mc.sharedMesh = collisionMesh;
 					}
 				}
 				
