@@ -88,7 +88,7 @@ namespace Cubiquity
 						
 					GameObject sourceGameObject = ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject;
 					VolumeRenderer volumeRenderer = sourceGameObject.GetComponent<VolumeRenderer>();
-					volumeRenderer.BuildMeshFromNodeHandle(nodeHandle, out renderingMesh, out physicsMesh, UseCollisionMesh);
+					renderingMesh = volumeRenderer.BuildMeshFromNodeHandle(nodeHandle);
 			
 			        MeshFilter mf = (MeshFilter)gameObject.GetComponent(typeof(MeshFilter));
 			        MeshRenderer mr = (MeshRenderer)gameObject.GetComponent(typeof(MeshRenderer));
