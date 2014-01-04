@@ -19,10 +19,6 @@ namespace Cubiquity
 	        get { return this.mData; }
 	    }
 		
-		// Determines whether collision data is generated as well as a
-		// renderable mesh. This does not apply when in the Unity editor.
-		public bool UseCollisionMesh = true;
-		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
 		{			
 			GameObject terrainVolumeGameObject = new GameObject("Terrain Volume");
@@ -80,7 +76,7 @@ namespace Cubiquity
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
 					int copyOfMaxNodePerSync = maxNodesPerSync;
-					rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, UseCollisionMesh);
+					rootOctreeNode.syncNode(ref copyOfMaxNodePerSync);
 				}
 			}
 		}

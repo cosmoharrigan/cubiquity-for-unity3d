@@ -60,7 +60,7 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		public void syncNode(ref int availableNodeSyncs, bool UseCollisionMesh)
+		public void syncNode(ref int availableNodeSyncs)
 		{
 			if(availableNodeSyncs <= 0)
 			{
@@ -161,7 +161,7 @@ namespace Cubiquity
 							//syncNode(childNodeHandle, childGameObject);
 							
 							OctreeNode childOctreeNode = childGameObject.GetComponent<OctreeNode>();
-							childOctreeNode.syncNode(ref availableNodeSyncs, UseCollisionMesh);
+							childOctreeNode.syncNode(ref availableNodeSyncs);
 						}
 					}
 				}
