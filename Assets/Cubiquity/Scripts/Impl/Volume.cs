@@ -15,8 +15,6 @@ namespace Cubiquity
 		{
 			ghostGameObject = new GameObject("Ghost");
 			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
-			ghostGameObject.AddComponent<GhostObjectSource>();
-			ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject = gameObject;
 		}
 		
 		protected void OnDestroy()

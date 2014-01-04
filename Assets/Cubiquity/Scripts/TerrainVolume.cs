@@ -76,7 +76,7 @@ namespace Cubiquity
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
 					int copyOfMaxNodePerSync = maxNodesPerSync;
-					rootOctreeNode.syncNode(ref copyOfMaxNodePerSync);
+					rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, gameObject);
 				}
 			}
 		}

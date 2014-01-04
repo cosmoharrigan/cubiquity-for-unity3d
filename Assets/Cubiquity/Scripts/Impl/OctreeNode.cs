@@ -60,7 +60,7 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		public void syncNode(ref int availableNodeSyncs)
+		public void syncNode(ref int availableNodeSyncs, GameObject voxelTerrainGameObject)
 		{
 			if(availableNodeSyncs <= 0)
 			{
@@ -72,18 +72,9 @@ namespace Cubiquity
 			if(meshLastSyncronised < meshLastUpdated)
 			{			
 				if(CubiquityDLL.NodeHasMesh(nodeHandle) == 1)
-				{						
-					// Find the main volume game object (should we just pass this down?).
-					GameObject ghostGameObject = gameObject;
-					do
-					{
-						ghostGameObject = ghostGameObject.transform.parent.gameObject;
-						
-					}while(ghostGameObject.GetComponent<GhostObjectSource>() == null);						
-					GameObject sourceGameObject = ghostGameObject.GetComponent<GhostObjectSource>().sourceGameObject;
-					
+				{					
 					// Set up the rendering mesh
-					VolumeRenderer volumeRenderer = sourceGameObject.GetComponent<VolumeRenderer>();
+					VolumeRenderer volumeRenderer = voxelTerrainGameObject.GetComponent<VolumeRenderer>();
 					if(volumeRenderer != null)
 					{						
 						Mesh renderingMesh = volumeRenderer.BuildMeshFromNodeHandle(nodeHandle);
@@ -102,7 +93,7 @@ namespace Cubiquity
 					}
 					
 					// Set up the collision mesh
-					VolumeCollider volumeCollider = sourceGameObject.GetComponent<VolumeCollider>();					
+					VolumeCollider volumeCollider = voxelTerrainGameObject.GetComponent<VolumeCollider>();					
 					if((volumeCollider != null) && (Application.isPlaying))
 					{
 						Mesh collisionMesh = volumeCollider.BuildMeshFromNodeHandle(nodeHandle);
@@ -161,7 +152,7 @@ namespace Cubiquity
 							//syncNode(childNodeHandle, childGameObject);
 							
 							OctreeNode childOctreeNode = childGameObject.GetComponent<OctreeNode>();
-							childOctreeNode.syncNode(ref availableNodeSyncs);
+							childOctreeNode.syncNode(ref availableNodeSyncs, voxelTerrainGameObject);
 						}
 					}
 				}
