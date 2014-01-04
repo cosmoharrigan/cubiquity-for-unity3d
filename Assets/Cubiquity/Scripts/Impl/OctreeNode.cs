@@ -26,9 +26,6 @@ namespace Cubiquity
 			
 			GameObject newGameObject = new GameObject(name.ToString ());
 			newGameObject.AddComponent<OctreeNode>();
-			newGameObject.AddComponent<MeshFilter>();
-			newGameObject.AddComponent<MeshRenderer>();
-			newGameObject.AddComponent<MeshCollider>();
 			
 			OctreeNode octreeNode = newGameObject.GetComponent<OctreeNode>();
 			octreeNode.lowerCorner = new Vector3(xPos, yPos, zPos);
@@ -88,20 +85,20 @@ namespace Cubiquity
 					// Set up the rendering mesh
 					VolumeRenderer volumeRenderer = sourceGameObject.GetComponent<VolumeRenderer>();
 					if(volumeRenderer != null)
-					{
+					{						
 						Mesh renderingMesh = volumeRenderer.BuildMeshFromNodeHandle(nodeHandle);
 				
-				        MeshFilter mf = (MeshFilter)gameObject.GetComponent(typeof(MeshFilter));
-				        MeshRenderer mr = (MeshRenderer)gameObject.GetComponent(typeof(MeshRenderer));
+				        MeshFilter meshFilter = gameObject.GetOrAddComponent<MeshFilter>() as MeshFilter;
+				        MeshRenderer meshRenderer = gameObject.GetOrAddComponent<MeshRenderer>() as MeshRenderer;
 						
-						if(mf.sharedMesh != null)
+						if(meshFilter.sharedMesh != null)
 						{
-							DestroyImmediate(mf.sharedMesh);
+							DestroyImmediate(meshFilter.sharedMesh);
 						}
 						
-				        mf.sharedMesh = renderingMesh;				
+				        meshFilter.sharedMesh = renderingMesh;				
 						
-						mr.material = volumeRenderer.material;
+						meshRenderer.material = volumeRenderer.material;
 					}
 					
 					// Set up the collision mesh
@@ -109,8 +106,8 @@ namespace Cubiquity
 					if((volumeCollider != null) && (Application.isPlaying))
 					{
 						Mesh collisionMesh = volumeCollider.BuildMeshFromNodeHandle(nodeHandle);
-						MeshCollider mc = (MeshCollider)gameObject.GetComponent(typeof(MeshCollider));
-						mc.sharedMesh = collisionMesh;
+						MeshCollider meshCollider = gameObject.GetOrAddComponent<MeshCollider>() as MeshCollider;
+						meshCollider.sharedMesh = collisionMesh;
 					}
 				}
 				
