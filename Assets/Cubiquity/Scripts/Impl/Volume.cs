@@ -47,6 +47,7 @@ namespace Cubiquity
 			// Update the transform on the ghost game object to match the real game object.
 			if(transform.hasChanged)
 			{
+				ghostGameObject.transform.parent = transform.parent;
 				ghostGameObject.transform.localPosition = transform.localPosition;
 				ghostGameObject.transform.localRotation = transform.localRotation;
 				ghostGameObject.transform.localScale = transform.localScale;
