@@ -110,6 +110,27 @@ namespace Cubiquity
 						meshCollider.sharedMesh = collisionMesh;
 					}
 				}
+				// If there is no mesh in Cubiquity then we make sure there isn't on in Unity.
+				else
+				{
+					MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>() as MeshCollider;
+					if(meshCollider)
+					{
+						DestroyImmediate(meshCollider);
+					}
+					
+					MeshRenderer meshRenderer = gameObject.GetComponent<MeshRenderer>() as MeshRenderer;
+					if(meshRenderer)
+					{
+						DestroyImmediate(meshRenderer);
+					}
+					
+					MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>() as MeshFilter;
+					if(meshFilter)
+					{
+						DestroyImmediate(meshFilter);
+					}
+				}
 				
 				uint currentTime = CubiquityDLL.GetCurrentTime();
 				meshLastSyncronised = (int)(currentTime);
