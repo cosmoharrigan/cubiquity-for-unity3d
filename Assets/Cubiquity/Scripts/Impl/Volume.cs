@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Cubiquity
 {
 	public class Volume : MonoBehaviour
 	{
+		public static List<Volume> all = new List<Volume>();
+		
 		public int maxNodesPerSync = 4;
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
@@ -13,6 +16,7 @@ namespace Cubiquity
 		
 		protected void Awake()
 		{
+			all.Add(this);
 			ghostGameObject = new GameObject("Ghost");
 			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 		}
@@ -25,6 +29,11 @@ namespace Cubiquity
 			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
 			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
 			DestroyImmediate(ghostGameObject);
+			
+			if(!all.Remove(this))
+			{
+				Debug.LogWarning("Failed to remove volume from volume list");
+			}
 		}
 		
 		public virtual void Synchronize()
