@@ -17,7 +17,6 @@ namespace Cubiquity
 		{
 			all.Add(this);			
 			DestroyImmediate(rootGameObject);
-			//rootGameObject.hideFlags = HideFlags.HideAndDontSave;
 		}
 		
 		protected void OnDestroy()

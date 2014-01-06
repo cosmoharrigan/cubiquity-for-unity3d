@@ -55,7 +55,7 @@ namespace Cubiquity
 				newGameObject.transform.localPosition = octreeNode.lowerCorner;
 			}
 			
-			//newGameObject.hideFlags = HideFlags.HideAndDontSave;
+			newGameObject.hideFlags = HideFlags.HideInHierarchy;
 			
 			return newGameObject;
 		}
