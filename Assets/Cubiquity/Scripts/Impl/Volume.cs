@@ -11,14 +11,20 @@ namespace Cubiquity
 		public int maxNodesPerSync = 4;
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
-		protected GameObject rootGameObject;
-		protected GameObject ghostGameObject;
+		public GameObject rootGameObject;
+		public GameObject ghostGameObject;
 		
 		protected void Awake()
 		{
 			all.Add(this);
+			if(rootGameObject != null)
+			{
+				DestroyOctree();
+			}
+			
+			DestroyImmediate(ghostGameObject);
 			ghostGameObject = new GameObject("Ghost");
-			ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+			//ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
 		}
 		
 		protected void OnDestroy()
@@ -34,6 +40,11 @@ namespace Cubiquity
 			{
 				Debug.LogWarning("Failed to remove volume from volume list");
 			}
+		}
+		
+		public void DestroyOctree()
+		{
+			OctreeNode.DestroyOctreeNode(rootGameObject);
 		}
 		
 		public virtual void Synchronize()
