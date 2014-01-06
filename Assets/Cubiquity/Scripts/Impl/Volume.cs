@@ -12,24 +12,17 @@ namespace Cubiquity
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
 		public GameObject rootGameObject;
-		public GameObject ghostGameObject;
 		
 		protected void Awake()
 		{
 			all.Add(this);			
-			DestroyImmediate(ghostGameObject);
-			ghostGameObject = new GameObject("Ghost");
-			//ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
+			DestroyImmediate(rootGameObject);
+			//rootGameObject.hideFlags = HideFlags.HideAndDontSave;
 		}
 		
 		protected void OnDestroy()
 		{		
 			Debug.Log ("Volume.OnDestroy()");
-			
-			// Game objects in our tree are created with the 'DontSave' flag set, and according to the Unity docs this means
-			// we have to destroy them manually. In the case of 'Destroy' the Unity docs explicitally say that it will destroy
-			// transform children as well, so I'm assuming DestroyImmediate has the same behaviour.
-			DestroyImmediate(ghostGameObject);
 			
 			if(!all.Remove(this))
 			{
@@ -53,16 +46,6 @@ namespace Cubiquity
 			// It seems to work in our case, even with non-uniform scaling applied to the volume. Perhaps we are just geting
 			// lucky, pehaps it just works on our platform, or perhaps it is actually valid for some other reason. Just be aware.
 			gameObject.GetComponent<VolumeRenderer>().material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
-			
-			// Update the transform on the ghost game object to match the real game object.
-			if(transform.hasChanged)
-			{
-				ghostGameObject.transform.parent = transform.parent;
-				ghostGameObject.transform.localPosition = transform.localPosition;
-				ghostGameObject.transform.localRotation = transform.localRotation;
-				ghostGameObject.transform.localScale = transform.localScale;
-				transform.hasChanged = false;
-			}
 		}
 	}
 }

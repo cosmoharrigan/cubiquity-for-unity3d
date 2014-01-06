@@ -19,7 +19,7 @@ namespace Cubiquity
 			set
 			{
 				this.mData = value;
-				DestroyImmediate(ghostGameObject);
+				DestroyImmediate(rootGameObject);
 			}
 	    }
 		
@@ -74,7 +74,7 @@ namespace Cubiquity
 					
 					if(rootGameObject == null)
 					{
-						rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, ghostGameObject);	
+						rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, gameObject);	
 					}
 					
 					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
