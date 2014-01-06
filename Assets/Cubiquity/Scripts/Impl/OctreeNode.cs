@@ -60,31 +60,6 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		public static void DestroyOctreeNode(GameObject octreeNodeGameObject)
-		{
-			for(uint z = 0; z < 2; z++)
-			{
-				for(uint y = 0; y < 2; y++)
-				{
-					for(uint x = 0; x < 2; x++)
-					{						
-						OctreeNode octreeNode = octreeNodeGameObject.GetComponent<OctreeNode>();
-						
-						GameObject childOctreeNodeGameObject = octreeNode.GetChild(x,y,z);
-						
-						if(childOctreeNodeGameObject != null)
-						{
-							DestroyOctreeNode(childOctreeNodeGameObject);
-						}
-					}
-				}
-			}
-			
-			DestroyImmediate(octreeNodeGameObject.GetComponent<MeshCollider>());
-			DestroyImmediate(octreeNodeGameObject.GetComponent<MeshRenderer>());
-			DestroyImmediate(octreeNodeGameObject.GetComponent<MeshFilter>());
-		}
-		
 		public void syncNode(ref int availableNodeSyncs, GameObject voxelTerrainGameObject)
 		{
 			if(availableNodeSyncs <= 0)

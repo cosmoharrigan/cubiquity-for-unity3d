@@ -16,12 +16,7 @@ namespace Cubiquity
 		
 		protected void Awake()
 		{
-			all.Add(this);
-			if(rootGameObject != null)
-			{
-				DestroyOctree();
-			}
-			
+			all.Add(this);			
 			DestroyImmediate(ghostGameObject);
 			ghostGameObject = new GameObject("Ghost");
 			//ghostGameObject.hideFlags = HideFlags.HideAndDontSave;
@@ -40,11 +35,6 @@ namespace Cubiquity
 			{
 				Debug.LogWarning("Failed to remove volume from volume list");
 			}
-		}
-		
-		public void DestroyOctree()
-		{
-			OctreeNode.DestroyOctreeNode(rootGameObject);
 		}
 		
 		public virtual void Synchronize()
