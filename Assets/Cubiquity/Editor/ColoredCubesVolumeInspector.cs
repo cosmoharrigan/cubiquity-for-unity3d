@@ -115,8 +115,6 @@ namespace Cubiquity
 		       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
 		       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
 		    }
-			
-			coloredCubesVolume.Synchronize();
 		}
 		
 		public static String MakeRelativePath(String fromPath, String toPath)
