@@ -15,18 +15,19 @@ namespace Cubiquity
 		
 		protected void Awake()
 		{
-			all.Add(this);			
-			DestroyImmediate(rootGameObject);
+			Debug.Log("In Volume.Awake()");
+			all.Add(this);
+			if(rootGameObject != null)
+			{
+				Debug.LogWarning("Root octree node is already set.");
+				DestroyImmediate(rootGameObject);
+			}
 		}
 		
 		protected void OnDestroy()
 		{		
 			Debug.Log ("Volume.OnDestroy()");
-			
-			if(!all.Remove(this))
-			{
-				Debug.LogWarning("Failed to remove volume from volume list");
-			}
+			all.Remove(this);
 		}
 		
 		public virtual void Synchronize()
