@@ -61,30 +61,33 @@ namespace Cubiquity
 			base.Synchronize();
 			
 			// Syncronize the mesh data.
-			if(data.volumeHandle.HasValue)
+			if(data != null)
 			{
-				CubiquityDLL.UpdateVolumeMC(data.volumeHandle.Value);
-				
-				if(CubiquityDLL.HasRootOctreeNodeMC(data.volumeHandle.Value) == 1)
-				{		
-					uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(data.volumeHandle.Value);
+				if(data.volumeHandle.HasValue)
+				{
+					CubiquityDLL.UpdateVolumeMC(data.volumeHandle.Value);
 					
-					if(rootGameObject == null)
-					{
-						rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, gameObject);	
+					if(CubiquityDLL.HasRootOctreeNodeMC(data.volumeHandle.Value) == 1)
+					{		
+						uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(data.volumeHandle.Value);
+						
+						if(rootGameObject == null)
+						{
+							rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, gameObject);	
+						}
+						
+						OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
+						int copyOfMaxNodePerSync = maxNodesPerSync;
+						rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, gameObject);
 					}
-					
-					OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
-					int copyOfMaxNodePerSync = maxNodesPerSync;
-					rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, gameObject);
 				}
 			}
 		}
 		
 		// Update is called once per frame
-		void Update()
+		/*void Update()
 		{		
 			Synchronize();
-		}
+		}*/
 	}
 }

@@ -7,7 +7,7 @@ namespace Cubiquity
 	public class OctreeNode : MonoBehaviour
 	{
 		[System.NonSerialized]
-		public int meshLastSyncronised;
+		public uint meshLastSyncronised;
 		[System.NonSerialized]
 		public Vector3 lowerCorner;
 		[System.NonSerialized]
@@ -123,8 +123,7 @@ namespace Cubiquity
 					}
 				}
 				
-				uint currentTime = CubiquityDLL.GetCurrentTime();
-				meshLastSyncronised = (int)(currentTime);
+				meshLastSyncronised = CubiquityDLL.GetCurrentTime();
 				availableNodeSyncs--;
 			}		
 			

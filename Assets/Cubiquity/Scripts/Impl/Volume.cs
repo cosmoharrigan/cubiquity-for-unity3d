@@ -22,12 +22,36 @@ namespace Cubiquity
 				Debug.LogWarning("Root octree node is already set.");
 				DestroyImmediate(rootGameObject);
 			}
+			
+			Debug.Log("Starting Coroutine");
+			StartCoroutine("SynchronizationCoroutine");
+		}
+		
+		void OnEnable()
+		{
+			Debug.Log("Starting Coroutine");
+			StartCoroutine("SynchronizationCoroutine");
+		}
+		
+		void OnDisable()
+		{
+			Debug.Log("Stoping Coroutine");
+			StopCoroutine("SynchronizationCoroutine");
 		}
 		
 		protected void OnDestroy()
 		{		
 			Debug.Log ("Volume.OnDestroy()");
 			all.Remove(this);
+		}
+		
+		IEnumerator SynchronizationCoroutine()
+		{
+			while(true)
+			{
+				Synchronize();
+				yield return null;
+			}
 		}
 		
 		public virtual void Synchronize()
@@ -45,7 +69,14 @@ namespace Cubiquity
 			//
 			// It seems to work in our case, even with non-uniform scaling applied to the volume. Perhaps we are just geting
 			// lucky, pehaps it just works on our platform, or perhaps it is actually valid for some other reason. Just be aware.
-			gameObject.GetComponent<VolumeRenderer>().material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
+			VolumeRenderer volumeRenderer = gameObject.GetComponent<VolumeRenderer>();
+			if(volumeRenderer != null)
+			{
+				if(volumeRenderer.material != null)
+				{
+					volumeRenderer.material.SetMatrix("_World2Volume", transform.worldToLocalMatrix);
+				}
+			}
 		}
 	}
 }
