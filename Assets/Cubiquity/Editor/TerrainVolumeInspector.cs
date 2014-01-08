@@ -252,6 +252,10 @@ namespace Cubiquity
 		       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
 		       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
 		    }
+			
+			// We need to repaint so that the brush marker follows
+			// the mouse even when a mouse button is not pressed.
+			HandleUtility.Repaint();
 		}
 	}
 }
