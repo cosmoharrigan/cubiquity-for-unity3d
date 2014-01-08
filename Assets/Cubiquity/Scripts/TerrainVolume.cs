@@ -83,11 +83,5 @@ namespace Cubiquity
 				}
 			}
 		}
-		
-		// Update is called once per frame
-		/*void Update()
-		{		
-			Synchronize();
-		}*/
 	}
 }

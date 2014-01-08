@@ -23,20 +23,7 @@ namespace Cubiquity
 				DestroyImmediate(rootGameObject);
 			}
 			
-			Debug.Log("Starting Coroutine");
-			StartCoroutine("SynchronizationCoroutine");
-		}
-		
-		void OnEnable()
-		{
-			Debug.Log("Starting Coroutine");
-			StartCoroutine("SynchronizationCoroutine");
-		}
-		
-		void OnDisable()
-		{
-			Debug.Log("Stoping Coroutine");
-			StopCoroutine("SynchronizationCoroutine");
+			StartCoroutine(Synchronization());
 		}
 		
 		protected void OnDestroy()
@@ -45,7 +32,7 @@ namespace Cubiquity
 			all.Remove(this);
 		}
 		
-		IEnumerator SynchronizationCoroutine()
+		IEnumerator Synchronization()
 		{
 			while(true)
 			{

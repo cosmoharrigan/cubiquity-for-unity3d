@@ -6,11 +6,8 @@ namespace Cubiquity
 	[InitializeOnLoad]
 	class UpdateAllVolumes
 	{
-		static public bool syncVolumes;
-		
 	    static UpdateAllVolumes()
 	    {
-			syncVolumes = true;
 	        EditorApplication.update += Update;
 	    }
 	 
