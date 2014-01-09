@@ -16,12 +16,14 @@ namespace Cubiquity
 			Debug.Log("OnPlaymodeStateChanged()");
 			if(!EditorApplication.isPlaying)
 			{
-				foreach(Volume volume in Volume.all)
+				//foreach(Volume volume in Volume.allEnabled)
+				Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
+				foreach(Object volume in volumes)
 				{
 					Debug.Log("Deleting root node");
-					volume.StopCoroutine("SynchronizationCoroutine");
-					Object.DestroyImmediate(volume.rootGameObject);
-					volume.rootGameObject = null;
+					((Volume)volume).StopCoroutine("SynchronizationCoroutine");
+					Object.DestroyImmediate(((Volume)volume).rootGameObject);
+					((Volume)volume).rootGameObject = null;
 					//volume.syncOnUpdate = false;
 					//UpdateAllVolumes.syncVolumes = false;
 				}

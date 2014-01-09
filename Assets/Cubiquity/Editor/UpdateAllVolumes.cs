@@ -17,9 +17,10 @@ namespace Cubiquity
 			{
 				// Although the volume can be set to execute in edit mode, the update function is then only called when an
 				// event such as a mouse movement occurs. But for progressive loading of the volume we want continuous events.
-				foreach(Volume volume in Volume.all)
+				Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
+				foreach(Object volume in volumes)
 				{
-					volume.Synchronize();
+					((Volume)volume).Synchronize();
 				}
 			}
 	    }

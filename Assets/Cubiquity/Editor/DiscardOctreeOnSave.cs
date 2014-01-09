@@ -10,10 +10,10 @@ namespace Cubiquity
 	    {
 			Debug.Log("In OnWillSaveAssets()");
 			
-			foreach(Volume volume in Volume.all)
+			foreach(Volume volume in Volume.allEnabled)
 			{
 				Debug.Log ("  Discarding Octree");
-				Object.DestroyImmediate(volume.rootGameObject);
+				Object.DestroyImmediate(((Volume)volume).rootGameObject);
 			}
 	    }
 	}

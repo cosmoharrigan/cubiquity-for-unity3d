@@ -6,7 +6,7 @@ namespace Cubiquity
 {
 	public class Volume : MonoBehaviour
 	{
-		public static List<Volume> all = new List<Volume>();
+		public static HashSet<Volume> allEnabled = new HashSet<Volume>();
 		
 		public int maxNodesPerSync = 4;
 		
@@ -16,7 +16,6 @@ namespace Cubiquity
 		protected void Awake()
 		{
 			Debug.Log("In Volume.Awake()");
-			all.Add(this);
 			if(rootGameObject != null)
 			{
 				Debug.LogWarning("Root octree node is already set.");
@@ -26,10 +25,9 @@ namespace Cubiquity
 			StartCoroutine(Synchronization());
 		}
 		
-		protected void OnDestroy()
-		{		
-			Debug.Log ("Volume.OnDestroy()");
-			all.Remove(this);
+		void OnEnable()
+		{
+			allEnabled.Add(this);
 		}
 		
 		IEnumerator Synchronization()
