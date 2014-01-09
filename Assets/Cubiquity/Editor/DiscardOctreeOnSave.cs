@@ -10,7 +10,8 @@ namespace Cubiquity
 	    {
 			Debug.Log("In OnWillSaveAssets()");
 			
-			foreach(Volume volume in Volume.allEnabled)
+			Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
+			foreach(Object volume in volumes)
 			{
 				Debug.Log ("  Discarding Octree");
 				Object.DestroyImmediate(((Volume)volume).rootGameObject);

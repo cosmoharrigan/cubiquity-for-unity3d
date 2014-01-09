@@ -6,8 +6,6 @@ namespace Cubiquity
 {
 	public class Volume : MonoBehaviour
 	{
-		public static HashSet<Volume> allEnabled = new HashSet<Volume>();
-		
 		public int maxNodesPerSync = 4;
 		
 		// This corresponds to the root OctreeNode in Cubiquity.
@@ -23,11 +21,6 @@ namespace Cubiquity
 			}
 			
 			StartCoroutine(Synchronization());
-		}
-		
-		void OnEnable()
-		{
-			allEnabled.Add(this);
 		}
 		
 		IEnumerator Synchronization()
