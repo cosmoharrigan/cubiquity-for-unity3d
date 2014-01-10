@@ -20,10 +20,10 @@ namespace Cubiquity
 		
 		protected void Awake()
 		{
-			Debug.Log("In Volume.Awake()");
 			if(rootGameObject != null)
 			{
-				Debug.LogWarning("Root octree node is already set.");
+				// This should not happen because the rootGameObject should have been set to null before being serialized.
+				Debug.LogWarning("Root octree node is already set. This is probably a bug in Cubiquity for Unity3D, but it is not serious.");
 				DestroyImmediate(rootGameObject);
 			}
 			
