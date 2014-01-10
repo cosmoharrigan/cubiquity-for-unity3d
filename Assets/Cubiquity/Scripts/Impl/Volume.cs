@@ -8,17 +8,17 @@ namespace Cubiquity
 	{
 		public int maxNodesPerSync = 4;
 		
-		protected GameObject rootGameObject;
+		protected GameObject rootOctreeNodeGameObject;
 		
 		private bool flushRequested;
 		
 		protected void Awake()
 		{
-			if(rootGameObject != null)
+			if(rootOctreeNodeGameObject != null)
 			{
-				// This should not happen because the rootGameObject should have been set to null before being serialized.
+				// This should not happen because the rootOctreeNodeGameObject should have been set to null before being serialized.
 				Debug.LogWarning("Root octree node is already set. This is probably a bug in Cubiquity for Unity3D, but it is not serious.");
-				DestroyImmediate(rootGameObject);
+				FlushInternalData();
 			}
 			
 			StartCoroutine(Synchronization());
@@ -47,10 +47,10 @@ namespace Cubiquity
 		// switching from edit mode to play mode (which includes implicit serialzation), or when changing and recompiling scripts.
 		//
 		// To handle thee scenarios we need the ability to explititly destroy the root node, rather than just not serializing it.
-		public void DiscardOctree()
+		public void FlushInternalData()
 		{
-			DestroyImmediate(rootGameObject);
-			rootGameObject = null;
+			DestroyImmediate(rootOctreeNodeGameObject);
+			rootOctreeNodeGameObject = null;
 		}
 		
 		IEnumerator Synchronization()
@@ -66,7 +66,7 @@ namespace Cubiquity
 		{
 			if(flushRequested)
 			{
-				DiscardOctree();
+				FlushInternalData();
 				flushRequested = false;
 			}
 			

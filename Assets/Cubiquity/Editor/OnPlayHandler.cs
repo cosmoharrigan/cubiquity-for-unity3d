@@ -9,9 +9,9 @@ namespace Cubiquity
 	// the DontSave flag we instead tap into the serialisation code and discard the octree before saving occurs. This
 	// means both when really saving the scene to disk but also when simply switching between edit mode and play mode.
 	[InitializeOnLoad]
-	class DiscardOctreeOnPlay
+	class OnPlayHandler
 	{
-	    static DiscardOctreeOnPlay()
+	    static OnPlayHandler()
 	    {
 			// Catch the event which occurs when switching modes.
 	        EditorApplication.playmodeStateChanged += OnPlaymodeStateChanged;
@@ -27,7 +27,7 @@ namespace Cubiquity
 				Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
 				foreach(Object volume in volumes)
 				{
-					((Volume)volume).DiscardOctree();
+					((Volume)volume).FlushInternalData();
 				}
 			}
 	    }

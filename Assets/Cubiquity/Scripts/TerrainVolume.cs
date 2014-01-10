@@ -71,12 +71,12 @@ namespace Cubiquity
 					{		
 						uint rootNodeHandle = CubiquityDLL.GetRootOctreeNodeMC(data.volumeHandle.Value);
 						
-						if(rootGameObject == null)
+						if(rootOctreeNodeGameObject == null)
 						{
-							rootGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, gameObject);	
+							rootOctreeNodeGameObject = OctreeNode.CreateOctreeNode(rootNodeHandle, gameObject);	
 						}
 						
-						OctreeNode rootOctreeNode = rootGameObject.GetComponent<OctreeNode>();
+						OctreeNode rootOctreeNode = rootOctreeNodeGameObject.GetComponent<OctreeNode>();
 						int copyOfMaxNodePerSync = maxNodesPerSync;
 						rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, gameObject);
 					}

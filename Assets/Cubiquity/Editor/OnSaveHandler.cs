@@ -9,14 +9,14 @@ namespace Cubiquity
 	// the DontSave flag we instead tap into the serialisation code and discard the octree before saving occurs. This
 	// means both when really saving the scene to disk but also when simply switching between edit mode and play mode.
 	[ExecuteInEditMode]
-	public class DiscardOctreeOnSave : UnityEditor.AssetModificationProcessor
+	public class OnSaveHandler : UnityEditor.AssetModificationProcessor
 	{
 	    public static void OnWillSaveAssets( string[] assets )
 	    {
 			Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
 			foreach(Object volume in volumes)
 			{
-				((Volume)volume).DiscardOctree();
+				((Volume)volume).FlushInternalData();
 			}
 	    }
 	}
