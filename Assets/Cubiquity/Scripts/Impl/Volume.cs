@@ -15,7 +15,6 @@ namespace Cubiquity
 		//
 		// See also this issue () but be aware it is slightly different, as that refers to not serializing components with
 		// 'DontSave' whereas here we are talking about not serializing the game object by making it private/[[NonSerialzed].
-		[SerializeField]
 		protected GameObject rootGameObject;
 		
 		protected void Awake()
