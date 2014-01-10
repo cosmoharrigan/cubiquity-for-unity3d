@@ -8,13 +8,6 @@ namespace Cubiquity
 	{
 		public int maxNodesPerSync = 4;
 		
-		// We are currently serializing the rootGameObject and then just discarding it on load. It's already set to null,
-		// but we've seen warnings about leaking resources if we don't serialize it. We should come back to this - I suspect
-		// it may fix itself once we tidy some other aspects of the system. Ideally we just wouldn't serialize this object
-		// and that would remove all the discarding octree nonsense we have going on.
-		//
-		// See also this issue () but be aware it is slightly different, as that refers to not serializing components with
-		// 'DontSave' whereas here we are talking about not serializing the game object by making it private/[[NonSerialzed].
 		protected GameObject rootGameObject;
 		
 		private bool flushRequested;
@@ -33,6 +26,13 @@ namespace Cubiquity
 		
 		void OnEnable()
 		{
+			// When switching to MonoDevelop, editing code, and then switching back to Unity, some kind of scene reload is performed.
+			// It's actually a bit unclear, but it results in a new octree being built without the old one being destroyed first. It
+			// seems Awake/OnDestroy() are not called as part of this process, and we are not allowed to modify the scene graph from
+			//OnEnable()/OnDisable(). Therefore we just set a flag to say that the root node shot be deleted at the next update cycle.
+			//
+			// We set the flag here (rather than OnDisable() where it might make more sense) because the flag doesn't survive the
+			// script reload, and we don't really wnt to serialize it.
 			RequestFlushInternalData();
 		}
 		
@@ -41,9 +41,12 @@ namespace Cubiquity
 			flushRequested = true;
 		}
 		
-		// I don't understand why we need to do this. In the pst we've seen a Unity bug with the DontSave flag but this is
-		// different in that the [System.NonSerialized] flag is what should be preventing the saving. However, a whole bunch
-		// of mesh data gets saved to disk unless we call this before serialization.
+		// We do not serialize the root octree node but in practice we have still seen some issues. It seems that Unity does
+		// still serialize other data (meshes, etc) in the scene even though the root game object which they are a child of
+		// is not serialize. Actually this needs more investigation. Problematic scenarios include when saving the scene, 
+		// switching from edit mode to play mode (which includes implicit serialzation), or when changing and recompiling scripts.
+		//
+		// To handle thee scenarios we need the ability to explititly destroy the root node, rather than just not serializing it.
 		public void DiscardOctree()
 		{
 			DestroyImmediate(rootGameObject);
