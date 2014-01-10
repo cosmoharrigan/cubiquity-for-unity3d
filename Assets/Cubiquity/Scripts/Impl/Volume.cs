@@ -8,8 +8,15 @@ namespace Cubiquity
 	{
 		public int maxNodesPerSync = 4;
 		
-		// This corresponds to the root OctreeNode in Cubiquity.
-		public GameObject rootGameObject;
+		// We are currently serializing the rootGameObject and then just discarding it on load. It's already set to null,
+		// but we've seen warnings about leaking resources if we don't serialize it. We should come back to this - I suspect
+		// it may fix itself once we tidy some other aspects of the system. Ideally we just wouldn't serialize this object
+		// and that would remove all the discarding octree nonsense we have going on.
+		//
+		// See also this issue () but be aware it is slightly different, as that refers to not serializing components with
+		// 'DontSave' whereas here we are talking about not serializing the game object by making it private/[[NonSerialzed].
+		[SerializeField]
+		protected GameObject rootGameObject;
 		
 		protected void Awake()
 		{
@@ -21,6 +28,15 @@ namespace Cubiquity
 			}
 			
 			StartCoroutine(Synchronization());
+		}
+		
+		// I don't understand why we need to do this. In the pst we've seen a Unity bug with the DontSave flag but this is
+		// different in that the [System.NonSerialized] flag is what should be preventing the saving. However, a whole bunch
+		// of mesh data gets saved to disk unless we call this before serialization.
+		public void DiscardOctree()
+		{
+			DestroyImmediate(rootGameObject);
+			rootGameObject = null;
 		}
 		
 		IEnumerator Synchronization()

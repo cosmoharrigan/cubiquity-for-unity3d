@@ -27,8 +27,7 @@ namespace Cubiquity
 				Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
 				foreach(Object volume in volumes)
 				{
-					Object.DestroyImmediate(((Volume)volume).rootGameObject);
-					((Volume)volume).rootGameObject = null;
+					((Volume)volume).DiscardOctree();
 				}
 			}
 	    }
