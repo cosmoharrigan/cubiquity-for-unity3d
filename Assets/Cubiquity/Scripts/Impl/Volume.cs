@@ -17,6 +17,8 @@ namespace Cubiquity
 		// 'DontSave' whereas here we are talking about not serializing the game object by making it private/[[NonSerialzed].
 		protected GameObject rootGameObject;
 		
+		private bool flushRequested;
+		
 		protected void Awake()
 		{
 			if(rootGameObject != null)
@@ -27,6 +29,16 @@ namespace Cubiquity
 			}
 			
 			StartCoroutine(Synchronization());
+		}
+		
+		void OnEnable()
+		{
+			RequestFlushInternalData();
+		}
+		
+		public void RequestFlushInternalData()
+		{
+			flushRequested = true;
 		}
 		
 		// I don't understand why we need to do this. In the pst we've seen a Unity bug with the DontSave flag but this is
@@ -49,6 +61,12 @@ namespace Cubiquity
 		
 		public virtual void Synchronize()
 		{
+			if(flushRequested)
+			{
+				DiscardOctree();
+				flushRequested = false;
+			}
+			
 			// NOTE - The following line passes transform.worldToLocalMatrix as a shader parameter. This is explicitly
 			// forbidden by the Unity docs which say:
 			//
