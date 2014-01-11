@@ -26,10 +26,14 @@ namespace Cubiquity
 			
 			direction *= distance;
 			
+			Vector3 target = origin + direction;
+			
 			Transform volumeTransform = volume.transform;
 			
 			origin = volumeTransform.InverseTransformPoint(origin);
-			direction = volumeTransform.InverseTransformPoint(direction);
+			target = volumeTransform.InverseTransformPoint(target);
+			
+			direction = target - origin;
 			
 			pickResult = new PickResult();
 			uint hit = CubiquityDLL.PickTerrainSurface((uint)volume.data.volumeHandle,
