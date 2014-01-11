@@ -125,7 +125,7 @@
 #if BRUSH_MARKER_ON
 			float brushStrength = 0.0f;
 			
-			float distToBrushCenter = length(IN.worldPos.xyz - _BrushCenter.xyz);
+			float distToBrushCenter = length(IN.volumePos.xyz - _BrushCenter.xyz);
 			if(distToBrushCenter < _BrushSettings.x)
 			{
 				brushStrength = 1.0;
