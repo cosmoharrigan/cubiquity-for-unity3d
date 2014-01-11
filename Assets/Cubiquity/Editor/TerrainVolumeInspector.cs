@@ -198,7 +198,6 @@ namespace Cubiquity
 			Event e = Event.current;
 			
 			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
-			Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 			
 			// Perform the raycasting.
 			PickResult pickResult;
