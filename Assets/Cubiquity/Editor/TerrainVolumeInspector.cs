@@ -200,15 +200,9 @@ namespace Cubiquity
 			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 			Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 			
-			// Perform the raycasting. If there's a hit the position will be stored in these floats.
-			//float resultX, resultY, resultZ;
+			// Perform the raycasting.
 			PickResult pickResult;
 			bool hit = Picking.PickSurface(terrainVolume, ray.origin, ray.direction, 1000.0f, out pickResult);
-			//bool hit = TerrainVolumePicking.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
-			
-			float resultX = pickResult.volumeSpacePos.x;
-			float resultY = pickResult.volumeSpacePos.y;
-			float resultZ = pickResult.volumeSpacePos.z;
 			
 			if(hit)
 			{		
@@ -221,7 +215,7 @@ namespace Cubiquity
 				Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
 				List<string> keywords = new List<string> { "BRUSH_MARKER_ON" };
 				material.shaderKeywords = keywords.ToArray();
-				material.SetVector("_BrushCenter", new Vector3(resultX, resultY, resultZ));				
+				material.SetVector("_BrushCenter", pickResult.volumeSpacePos);				
 				material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
 				material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
 				
@@ -234,15 +228,15 @@ namespace Cubiquity
 						{
 							multiplier  = -1.0f;
 						}
-						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity * multiplier);
+						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity * multiplier);
 					}
 					else if(smoothPressed)
 					{
-						TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity);
+						TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity);
 					}
 					else if(paintPressed)
 					{
-						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, resultX, resultY, resultZ, brushInnerRadius, brushOuterRadius, brushOpacity, (uint)selectedTexture);
+						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity, (uint)selectedTexture);
 					}
 				}
 			}

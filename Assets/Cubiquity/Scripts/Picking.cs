@@ -11,8 +11,19 @@ namespace Cubiquity
 	
 	public static class Picking
 	{
+		public static bool PickSurface(TerrainVolume volume, Ray ray, float distance, out PickResult pickResult)
+		{
+			return PickSurface(volume, ray.origin, ray.direction, distance, out pickResult);
+		}
+		
 		public static bool PickSurface(TerrainVolume volume, Vector3 origin, Vector3 direction, float distance, out PickResult pickResult)
 		{
+			const float distanceLimit = 10000.0f;
+			if(distance > distanceLimit)
+			{
+				Debug.LogWarning("Provided picking distance of " + distance + "is very large and may cause performance problems");
+			}
+			
 			direction *= distance;
 			
 			Transform volumeTransform = volume.transform;
