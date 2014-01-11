@@ -201,8 +201,14 @@ namespace Cubiquity
 			Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 			
 			// Perform the raycasting. If there's a hit the position will be stored in these floats.
-			float resultX, resultY, resultZ;
-			bool hit = TerrainVolumePicking.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+			//float resultX, resultY, resultZ;
+			PickResult pickResult;
+			bool hit = Picking.PickSurface(terrainVolume, ray.origin, ray.direction, 1000.0f, out pickResult);
+			//bool hit = TerrainVolumePicking.PickTerrainSurface(terrainVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+			
+			float resultX = pickResult.volumeSpacePos.x;
+			float resultY = pickResult.volumeSpacePos.y;
+			float resultZ = pickResult.volumeSpacePos.z;
 			
 			if(hit)
 			{		
