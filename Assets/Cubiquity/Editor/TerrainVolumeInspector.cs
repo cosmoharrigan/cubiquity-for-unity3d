@@ -200,7 +200,7 @@ namespace Cubiquity
 			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 			
 			// Perform the raycasting.
-			PickResult pickResult;
+			PickSurfaceResult pickResult;
 			bool hit = Picking.PickSurface(terrainVolume, ray.origin, ray.direction, 1000.0f, out pickResult);
 			
 			if(hit)

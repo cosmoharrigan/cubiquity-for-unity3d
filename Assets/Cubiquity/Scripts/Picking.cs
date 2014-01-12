@@ -8,7 +8,7 @@ namespace Cubiquity
 	 * coordinates of the picked voxel and always consists of integer values. However, the volume could have some arbitrary
 	 * transform applied to it and so the world space position consists of floating point values.
 	 */
-	public struct VoxelPickResult
+	public struct PickVoxelResult
 	{
 		public Vector3i volumeSpacePos;
 		public Vector3 worldSpacePos;
@@ -19,7 +19,7 @@ namespace Cubiquity
 	 * voxels. The voxels themselves are always on integer positions in volume space, but the generated surface usually
 	 * passes *between* voxels. Therefore both the volume space and world space positions are provided as floating point values.
 	 */
-	public struct PickResult
+	public struct PickSurfaceResult
 	{
 		public Vector3 volumeSpacePos;
 		public Vector3 worldSpacePos;
@@ -38,12 +38,12 @@ namespace Cubiquity
 			}
 		}
 		
-		public static bool PickSurface(TerrainVolume volume, Ray ray, float distance, out PickResult pickResult)
+		public static bool PickSurface(TerrainVolume volume, Ray ray, float distance, out PickSurfaceResult pickResult)
 		{
 			return PickSurface(volume, ray.origin, ray.direction, distance, out pickResult);
 		}
 		
-		public static bool PickSurface(TerrainVolume volume, Vector3 origin, Vector3 direction, float distance, out PickResult pickResult)
+		public static bool PickSurface(TerrainVolume volume, Vector3 origin, Vector3 direction, float distance, out PickSurfaceResult pickResult)
 		{
 			validateDistance(distance);
 			
@@ -59,7 +59,7 @@ namespace Cubiquity
 			direction = target - origin;
 			
 			// Now call through to the Cubiquity dll to do the actual picking.
-			pickResult = new PickResult();
+			pickResult = new PickSurfaceResult();
 			uint hit = CubiquityDLL.PickTerrainSurface((uint)volume.data.volumeHandle,
 				origin.x, origin.y, origin.z,
 				direction.x, direction.y, direction.z,
@@ -75,16 +75,16 @@ namespace Cubiquity
 		
 		// This funcion should be implemented to find the point where the ray
 		// pierces the mesh, between the last empty voxel and the first solid voxel.
-		/*public static bool PickSurface(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, PickResult pickResult)
+		/*public static bool PickSurface(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, PickSurfaceResult pickResult)
 		{
 		}*/
 		
-		public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, Ray ray, float distance, out VoxelPickResult pickResult)
+		public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, Ray ray, float distance, out PickVoxelResult pickResult)
 		{
 			return PickFirstSolidVoxel(volume, ray.origin, ray.direction, distance, out pickResult);
 		}
 		
-		public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, out VoxelPickResult pickResult)
+		public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, out PickVoxelResult pickResult)
 		{			
 			validateDistance(distance);
 			
@@ -104,7 +104,7 @@ namespace Cubiquity
 			int resultZ;
 			
 			// Now call through to the Cubiquity dll to do the actual picking.
-			pickResult = new VoxelPickResult();
+			pickResult = new PickVoxelResult();
 			uint hit = CubiquityDLL.PickFirstSolidVoxel((uint)volume.data.volumeHandle,
 				origin.x, origin.y, origin.z,
 				direction.x, direction.y, direction.z,

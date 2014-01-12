@@ -44,7 +44,7 @@ public class ClickToCarveTerrainVolume : MonoBehaviour
 				Ray ray = Camera.main.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, 0));				
 				
 				// Perform the raycasting.
-				PickResult pickResult;
+				PickSurfaceResult pickResult;
 				bool hit = Picking.PickSurface(terrainVolume, ray, 1000.0f, out pickResult);
 				
 				// If we hit a solid voxel then create an explosion at this point.

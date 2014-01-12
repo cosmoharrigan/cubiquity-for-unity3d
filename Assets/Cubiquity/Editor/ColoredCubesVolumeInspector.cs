@@ -93,7 +93,7 @@ namespace Cubiquity
 				}
 				else if(deleteMode)
 				{
-					VoxelPickResult pickResult;
+					PickVoxelResult pickResult;
 					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{
@@ -102,7 +102,7 @@ namespace Cubiquity
 				}
 				else if(paintMode)
 				{
-					VoxelPickResult pickResult;
+					PickVoxelResult pickResult;
 					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{
