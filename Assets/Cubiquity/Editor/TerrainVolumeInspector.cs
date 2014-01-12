@@ -44,33 +44,33 @@ namespace Cubiquity
 		public override void OnInspectorGUI()
 		{
 			EditorGUILayout.BeginHorizontal();
-			if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
+			if(sculptPressed = GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
-				sculptPressed = true;
+				//sculptPressed = !sculptPressed;
 				smoothPressed = false;
 				paintPressed = false;
 				settingPressed = false;
 			}
-			if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
+			if(smoothPressed = GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
-				smoothPressed = true;
+				//smoothPressed = true;
 				paintPressed = false;
 				settingPressed = false;
 			}
-			if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
+			if(paintPressed = GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = false;
-				paintPressed = true;
+				//paintPressed = true;
 				settingPressed = false;
 			}
-			if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
+			if(settingPressed = GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = false;
 				paintPressed = false;
-				settingPressed = true;
+				//settingPressed = true;
 			}
 			EditorGUILayout.EndHorizontal();
 				
@@ -193,68 +193,67 @@ namespace Cubiquity
 		}
 		
 		public void OnSceneGUI()
-		{			
-			//Debug.Log ("ColoredCubesVolumeEditor.OnSceneGUI()");
-			Event e = Event.current;
+		{		
+			Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
+			List<string> keywords = new List<string> { "BRUSH_MARKER_OFF" };
 			
-			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
-			
-			// Perform the raycasting.
-			PickSurfaceResult pickResult;
-			bool hit = Picking.PickSurface(terrainVolume, ray.origin, ray.direction, 1000.0f, out pickResult);
-			
-			if(hit)
-			{		
-				//Debug.Log("Hit");
-				// Selected brush is in the range 0 to NoOfBrushes - 1. Convert this to a 0 to 1 range.
-				float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
-				// Use this value to compute the inner radius as a proportion of the outer radius.
-				float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
+			if(sculptPressed || smoothPressed || paintPressed)
+			{
+				Event e = Event.current;
 				
-				Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
-				List<string> keywords = new List<string> { "BRUSH_MARKER_ON" };
-				material.shaderKeywords = keywords.ToArray();
-				material.SetVector("_BrushCenter", pickResult.volumeSpacePos);				
-				material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
-				material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+				Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
 				
-				if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
-				{
-					if(sculptPressed)
+				// Perform the raycasting.
+				PickSurfaceResult pickResult;
+				bool hit = Picking.PickSurface(terrainVolume, ray.origin, ray.direction, 1000.0f, out pickResult);
+				
+				if(hit)
+				{		
+					//Debug.Log("Hit");
+					// Selected brush is in the range 0 to NoOfBrushes - 1. Convert this to a 0 to 1 range.
+					float brushInnerScaleFactor = (float)selectedBrush / ((float)(NoOfBrushes - 1));
+					// Use this value to compute the inner radius as a proportion of the outer radius.
+					float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
+					
+					keywords = new List<string> { "BRUSH_MARKER_ON" };
+					material.SetVector("_BrushCenter", pickResult.volumeSpacePos);				
+					material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
+					material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+					
+					if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 					{
-						float multiplier = 1.0f;
-						if(e.modifiers == EventModifiers.Shift)
+						if(sculptPressed)
 						{
-							multiplier  = -1.0f;
+							float multiplier = 1.0f;
+							if(e.modifiers == EventModifiers.Shift)
+							{
+								multiplier  = -1.0f;
+							}
+							TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity * multiplier);
 						}
-						TerrainVolumeEditor.SculptTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity * multiplier);
-					}
-					else if(smoothPressed)
-					{
-						TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity);
-					}
-					else if(paintPressed)
-					{
-						TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity, (uint)selectedTexture);
+						else if(smoothPressed)
+						{
+							TerrainVolumeEditor.BlurTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity);
+						}
+						else if(paintPressed)
+						{
+							TerrainVolumeEditor.PaintTerrainVolume(terrainVolume, pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, brushInnerRadius, brushOuterRadius, brushOpacity, (uint)selectedTexture);
+						}
 					}
 				}
-			}
-			else
-			{
-				Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
-				List<string> keywords = new List<string> { "BRUSH_MARKER_OFF" };
-				material.shaderKeywords = keywords.ToArray();
+				
+				if ( e.type == EventType.Layout )
+			    {
+			       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
+			       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
+			    }
+				
+				// We need to repaint so that the brush marker follows
+				// the mouse even when a mouse button is not pressed.
+				HandleUtility.Repaint();
 			}
 			
-			if ( e.type == EventType.Layout )
-		    {
-		       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
-		       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
-		    }
-			
-			// We need to repaint so that the brush marker follows
-			// the mouse even when a mouse button is not pressed.
-			HandleUtility.Repaint();
+			material.shaderKeywords = keywords.ToArray();
 		}
 	}
 }
