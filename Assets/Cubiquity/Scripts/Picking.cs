@@ -18,31 +18,37 @@ namespace Cubiquity
 		
 		public static bool PickSurface(TerrainVolume volume, Vector3 origin, Vector3 direction, float distance, out PickResult pickResult)
 		{
+			// If the user attemps to cast a long ray then this can be a
+			// slow process, as the ray moves forward one voxel at a time.
 			const float distanceLimit = 10000.0f;
 			if(distance > distanceLimit)
 			{
 				Debug.LogWarning("Provided picking distance of " + distance + "is very large and may cause performance problems");
 			}
 			
-			direction *= distance;
-			
-			Vector3 target = origin + direction;
-			
-			Transform volumeTransform = volume.transform;
-			
-			origin = volumeTransform.InverseTransformPoint(origin);
-			target = volumeTransform.InverseTransformPoint(target);
-			
+			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
+			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's
+			// volume-to-world transform to the ray, to bring it from world space into volume space.
+			//
+			// Note that we do this by transforming the start and end points of the ray (rather than the direction
+			// of the ray) as Unity's Transform.InverseTransformDirection method does not handle scaling.
+			Vector3 target = origin + direction * distance;				
+			origin = volume.transform.InverseTransformPoint(origin);
+			target = volume.transform.InverseTransformPoint(target);			
 			direction = target - origin;
 			
+			// Now call through to the Cubiquity dll to do the actual picking.
 			pickResult = new PickResult();
 			uint hit = CubiquityDLL.PickTerrainSurface((uint)volume.data.volumeHandle,
 				origin.x, origin.y, origin.z,
 				direction.x, direction.y, direction.z,
 				out pickResult.volumeSpacePos.x, out pickResult.volumeSpacePos.y, out pickResult.volumeSpacePos.z);
 			
-			pickResult.worldSpacePos = volumeTransform.TransformPoint(pickResult.volumeSpacePos);
+			// The result is in volume space, but again it is more convienient for Unity users to have the result
+			// in world space. Therefore we apply the volume's volume-to-world transform to the volume space position.
+			pickResult.worldSpacePos = volume.transform.TransformPoint(pickResult.volumeSpacePos);
 			
+			// Return true if we hit a surface.
 			return hit == 1;
 		}
 		
