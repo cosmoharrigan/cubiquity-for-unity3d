@@ -3,6 +3,22 @@ using System.Collections;
 
 namespace Cubiquity
 {
+	/**
+	 * This structure is used to return the result of picking a specific voxel. That is, the voxel space position is the
+	 * coordinates of the picked voxel and always consists of integer values. However, the volume could have some arbitrary
+	 * transform applied to it and so the world space position consists of floating point values.
+	 */
+	public struct VoxelPickResult
+	{
+		public Vector3i volumeSpacePos;
+		public Vector3 worldSpacePos;
+	}
+	
+	/**
+	 * This structure is used to return the result of picking the surface of the volume, rather than picking the underlying
+	 * voxels. The voxels themselves are always on integer positions in volume space, but the generated surface usually
+	 * passes *between* voxels. Therefore both the volume space and world space positions are provided as floating point values.
+	 */
 	public struct PickResult
 	{
 		public Vector3 volumeSpacePos;
@@ -11,12 +27,7 @@ namespace Cubiquity
 	
 	public static class Picking
 	{
-		public static bool PickSurface(TerrainVolume volume, Ray ray, float distance, out PickResult pickResult)
-		{
-			return PickSurface(volume, ray.origin, ray.direction, distance, out pickResult);
-		}
-		
-		public static bool PickSurface(TerrainVolume volume, Vector3 origin, Vector3 direction, float distance, out PickResult pickResult)
+		private static void validateDistance(float distance)
 		{
 			// If the user attemps to cast a long ray then this can be a
 			// slow process, as the ray moves forward one voxel at a time.
@@ -25,6 +36,16 @@ namespace Cubiquity
 			{
 				Debug.LogWarning("Provided picking distance of " + distance + "is very large and may cause performance problems");
 			}
+		}
+		
+		public static bool PickSurface(TerrainVolume volume, Ray ray, float distance, out PickResult pickResult)
+		{
+			return PickSurface(volume, ray.origin, ray.direction, distance, out pickResult);
+		}
+		
+		public static bool PickSurface(TerrainVolume volume, Vector3 origin, Vector3 direction, float distance, out PickResult pickResult)
+		{
+			validateDistance(distance);
 			
 			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
 			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's
@@ -57,5 +78,71 @@ namespace Cubiquity
 		/*public static bool PickSurface(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, PickResult pickResult)
 		{
 		}*/
+		
+		public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, Ray ray, float distance, out VoxelPickResult pickResult)
+		{
+			return PickFirstSolidVoxel(volume, ray.origin, ray.direction, distance, out pickResult);
+		}
+		
+		public static bool PickFirstSolidVoxel(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, out VoxelPickResult pickResult)
+		{			
+			validateDistance(distance);
+			
+			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
+			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's
+			// volume-to-world transform to the ray, to bring it from world space into volume space.
+			//
+			// Note that we do this by transforming the start and end points of the ray (rather than the direction
+			// of the ray) as Unity's Transform.InverseTransformDirection method does not handle scaling.
+			Vector3 target = origin + direction * distance;				
+			origin = volume.transform.InverseTransformPoint(origin);
+			target = volume.transform.InverseTransformPoint(target);			
+			direction = target - origin;
+			
+			int resultX;
+			int resultY;
+			int resultZ;
+			
+			// Now call through to the Cubiquity dll to do the actual picking.
+			pickResult = new VoxelPickResult();
+			uint hit = CubiquityDLL.PickFirstSolidVoxel((uint)volume.data.volumeHandle,
+				origin.x, origin.y, origin.z,
+				direction.x, direction.y, direction.z,
+				out resultX, out resultY, out resultZ);
+			
+			pickResult.volumeSpacePos.x = resultX;
+			pickResult.volumeSpacePos.y = resultY;
+			pickResult.volumeSpacePos.z = resultZ;
+			
+			// The result is in volume space, but again it is more convienient for Unity users to have the result
+			// in world space. Therefore we apply the volume's volume-to-world transform to the volume space position.
+			//pickResult.worldSpacePos = volume.transform.TransformPoint(pickResult.volumeSpacePos);
+			
+			// Return true if we hit a surface.
+			return hit == 1;
+		}
+		
+		public static bool PickLastEmptyVoxel(ColoredCubesVolume volume, float rayStartX, float rayStartY, float rayStartZ, float rayDirX, float rayDirY, float rayDirZ, out int resultX, out int resultY, out int resultZ)
+		{
+			Transform volumeTransform = volume.transform;
+			
+			Vector3 start = new Vector3(rayStartX, rayStartY, rayStartZ);
+			Vector3 direction = new Vector3(rayDirX, rayDirY, rayDirZ);
+			
+			start = volumeTransform.InverseTransformPoint(start);
+			direction = volumeTransform.InverseTransformDirection(direction);
+			
+			rayStartX = start.x;
+			rayStartY = start.y;
+			rayStartZ = start.z;
+			
+			rayDirX = direction.x;
+			rayDirY = direction.y;
+			rayDirZ = direction.z;
+			
+			uint hit = CubiquityDLL.PickLastEmptyVoxel((uint)volume.data.volumeHandle, rayStartX, rayStartY, rayStartZ, rayDirX, rayDirY, rayDirZ, out resultX, out resultY, out resultZ);
+			
+			return hit == 1;
+		}
 	}
 }

@@ -47,14 +47,14 @@ public class ClickToDestroy : MonoBehaviour
 				
 				
 				// Perform the raycasting. If there's a hit the position will be stored in these ints.
-				int resultX, resultY, resultZ;
-				bool hit = ColoredCubesVolumePicking.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+				VoxelPickResult pickResult;
+				bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 				
 				// If we hit a solid voxel then create an explosion at this point.
 				if(hit)
 				{					
 					int range = 5;
-					DestroyVoxels(resultX, resultY, resultZ, range);
+					DestroyVoxels(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, range);
 				}
 				
 				// Set this flag so the click won't be processed again next frame.

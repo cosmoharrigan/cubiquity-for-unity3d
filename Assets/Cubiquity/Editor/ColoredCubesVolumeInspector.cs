@@ -85,7 +85,7 @@ namespace Cubiquity
 				int resultX, resultY, resultZ;
 				if(addMode)
 				{
-					bool hit = ColoredCubesVolumePicking.PickLastEmptyVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+					bool hit = Picking.PickLastEmptyVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
 					if(hit)
 					{
 						coloredCubesVolume.data.SetVoxel(resultX, resultY, resultZ, (QuantizedColor)paintColor);
@@ -93,18 +93,20 @@ namespace Cubiquity
 				}
 				else if(deleteMode)
 				{
-					bool hit = ColoredCubesVolumePicking.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+					VoxelPickResult pickResult;
+					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{
-						coloredCubesVolume.data.SetVoxel(resultX, resultY, resultZ, new QuantizedColor(0,0,0,0));
+						coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, new QuantizedColor(0,0,0,0));
 					}
 				}
 				else if(paintMode)
 				{
-					bool hit = ColoredCubesVolumePicking.PickFirstSolidVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+					VoxelPickResult pickResult;
+					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{
-						coloredCubesVolume.data.SetVoxel(resultX, resultY, resultZ, (QuantizedColor)paintColor);
+						coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, (QuantizedColor)paintColor);
 					}
 				}
 				
