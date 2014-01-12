@@ -82,18 +82,17 @@ namespace Cubiquity
 			if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 			{
 				// Perform the raycasting. If there's a hit the position will be stored in these ints.
-				int resultX, resultY, resultZ;
+				PickVoxelResult pickResult;
 				if(addMode)
 				{
-					bool hit = Picking.PickLastEmptyVoxel(coloredCubesVolume, ray.origin.x, ray.origin.y, ray.origin.z, dir.x, dir.y, dir.z, out resultX, out resultY, out resultZ);
+					bool hit = Picking.PickLastEmptyVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{
-						coloredCubesVolume.data.SetVoxel(resultX, resultY, resultZ, (QuantizedColor)paintColor);
+						coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, (QuantizedColor)paintColor);
 					}
 				}
 				else if(deleteMode)
-				{
-					PickVoxelResult pickResult;
+				{					
 					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{
@@ -102,7 +101,6 @@ namespace Cubiquity
 				}
 				else if(paintMode)
 				{
-					PickVoxelResult pickResult;
 					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
 					if(hit)
 					{

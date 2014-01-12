@@ -99,20 +99,12 @@ namespace Cubiquity
 			target = volume.transform.InverseTransformPoint(target);			
 			direction = target - origin;
 			
-			int resultX;
-			int resultY;
-			int resultZ;
-			
 			// Now call through to the Cubiquity dll to do the actual picking.
 			pickResult = new PickVoxelResult();
 			uint hit = CubiquityDLL.PickFirstSolidVoxel((uint)volume.data.volumeHandle,
 				origin.x, origin.y, origin.z,
 				direction.x, direction.y, direction.z,
-				out resultX, out resultY, out resultZ);
-			
-			pickResult.volumeSpacePos.x = resultX;
-			pickResult.volumeSpacePos.y = resultY;
-			pickResult.volumeSpacePos.z = resultZ;
+				out pickResult.volumeSpacePos.x, out pickResult.volumeSpacePos.y, out pickResult.volumeSpacePos.z);
 			
 			// The result is in volume space, but again it is more convienient for Unity users to have the result
 			// in world space. Therefore we apply the volume's volume-to-world transform to the volume space position.
@@ -122,26 +114,38 @@ namespace Cubiquity
 			return hit == 1;
 		}
 		
-		public static bool PickLastEmptyVoxel(ColoredCubesVolume volume, float rayStartX, float rayStartY, float rayStartZ, float rayDirX, float rayDirY, float rayDirZ, out int resultX, out int resultY, out int resultZ)
+		public static bool PickLastEmptyVoxel(ColoredCubesVolume volume, Ray ray, float distance, out PickVoxelResult pickResult)
 		{
-			Transform volumeTransform = volume.transform;
+			return PickLastEmptyVoxel(volume, ray.origin, ray.direction, distance, out pickResult);
+		}
+		
+		public static bool PickLastEmptyVoxel(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, out PickVoxelResult pickResult)
+		{
+			validateDistance(distance);
 			
-			Vector3 start = new Vector3(rayStartX, rayStartY, rayStartZ);
-			Vector3 direction = new Vector3(rayDirX, rayDirY, rayDirZ);
+			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
+			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's
+			// volume-to-world transform to the ray, to bring it from world space into volume space.
+			//
+			// Note that we do this by transforming the start and end points of the ray (rather than the direction
+			// of the ray) as Unity's Transform.InverseTransformDirection method does not handle scaling.
+			Vector3 target = origin + direction * distance;				
+			origin = volume.transform.InverseTransformPoint(origin);
+			target = volume.transform.InverseTransformPoint(target);			
+			direction = target - origin;
 			
-			start = volumeTransform.InverseTransformPoint(start);
-			direction = volumeTransform.InverseTransformDirection(direction);
+			// Now call through to the Cubiquity dll to do the actual picking.
+			pickResult = new PickVoxelResult();
+			uint hit = CubiquityDLL.PickLastEmptyVoxel((uint)volume.data.volumeHandle,
+				origin.x, origin.y, origin.z,
+				direction.x, direction.y, direction.z,
+				out pickResult.volumeSpacePos.x, out pickResult.volumeSpacePos.y, out pickResult.volumeSpacePos.z);
 			
-			rayStartX = start.x;
-			rayStartY = start.y;
-			rayStartZ = start.z;
+			// The result is in volume space, but again it is more convienient for Unity users to have the result
+			// in world space. Therefore we apply the volume's volume-to-world transform to the volume space position.
+			pickResult.worldSpacePos = volume.transform.TransformPoint((Vector3)(pickResult.volumeSpacePos));
 			
-			rayDirX = direction.x;
-			rayDirY = direction.y;
-			rayDirZ = direction.z;
-			
-			uint hit = CubiquityDLL.PickLastEmptyVoxel((uint)volume.data.volumeHandle, rayStartX, rayStartY, rayStartZ, rayDirX, rayDirY, rayDirZ, out resultX, out resultY, out resultZ);
-			
+			// Return true if we hit a surface.
 			return hit == 1;
 		}
 	}
