@@ -116,7 +116,7 @@ namespace Cubiquity
 			
 			// The result is in volume space, but again it is more convienient for Unity users to have the result
 			// in world space. Therefore we apply the volume's volume-to-world transform to the volume space position.
-			//pickResult.worldSpacePos = volume.transform.TransformPoint(pickResult.volumeSpacePos);
+			pickResult.worldSpacePos = volume.transform.TransformPoint((Vector3)(pickResult.volumeSpacePos));
 			
 			// Return true if we hit a surface.
 			return hit == 1;
