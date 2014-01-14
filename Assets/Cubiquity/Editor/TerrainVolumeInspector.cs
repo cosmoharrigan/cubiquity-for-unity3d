@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace Cubiquity
 {
+	//public enum TerrainTools { None, Sculpt, Smooth, Paint, Settings };
+	
 	[CustomEditor (typeof(TerrainVolume))]
 	public class TerrainVolumeInspector : Editor
 	{
@@ -12,16 +14,45 @@ namespace Cubiquity
 		
 		private const int NoOfBrushes = 5;
 		
+		private static Tool lastTool = Tool.None;
+		
 		// Making these static lets the values persist when switching away from the volume
 		// and then back to it. Actually I though serialization would be the solution here,
 		// but serializing properties of an inspector doesn't seem to work.
 		private static float brushOuterRadius = 5.0f;
 		private static float brushOpacity = 1.0f;
 		
-		private static bool sculptPressed = true;
-		private static bool smoothPressed = false;
-		private static bool paintPressed = false;
-		private static bool settingPressed = false;
+		private static bool mSculptPressed = true;
+		private static bool mSmoothPressed = false;
+		private static bool mPaintPressed = false;
+		private static bool mSettingPressed = false;
+		
+		private static bool sculptPressed
+		{
+			get { return mSculptPressed; }
+			set { if(mSculptPressed != value) { mSculptPressed = value; OnTerrainToolChanged(); } }
+		}
+		
+		private static bool smoothPressed
+		{
+			get { return mSmoothPressed; }
+			set { if(mSmoothPressed != value) { mSmoothPressed = value; OnTerrainToolChanged(); } }
+		}
+		
+		private static bool paintPressed
+		{
+			get { return mPaintPressed; }
+			set { if(mPaintPressed != value) { mPaintPressed = value; OnTerrainToolChanged(); } }
+		}
+		
+		private static bool settingPressed
+		{
+			get { return mSettingPressed; }
+			set { if(mSettingPressed != value) { mSettingPressed = value; OnTerrainToolChanged(); } }
+		}
+		
+		//TerrainTools currentTerrainTool = TerrainTools.None;
+		//TerrainTools lastTerrainTool = TerrainTools.None;
 		
 		private static int selectedBrush = 0;
 		private static int selectedTexture = 0;
@@ -254,6 +285,29 @@ namespace Cubiquity
 			}
 			
 			material.shaderKeywords = keywords.ToArray();
+		}
+		
+		private static void OnTerrainToolChanged()
+		{
+			if(sculptPressed || smoothPressed || paintPressed)
+			{
+				HideTools();
+			}
+			else
+			{
+				ShowTools();
+			}
+		}
+		
+		private static void HideTools()
+		{
+			TerrainVolumeInspector.lastTool = Tools.current;
+    		Tools.current = Tool.None;
+		}
+		
+		private static void ShowTools()
+		{
+			Tools.current = TerrainVolumeInspector.lastTool;
 		}
 	}
 }
