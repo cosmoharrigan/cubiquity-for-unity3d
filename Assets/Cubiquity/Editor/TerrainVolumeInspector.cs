@@ -14,7 +14,7 @@ namespace Cubiquity
 		
 		private const int NoOfBrushes = 5;
 		
-		private static Tool lastTool = Tool.None;
+		public static Tool lastTool = Tool.None;
 		
 		// Making these static lets the values persist when switching away from the volume
 		// and then back to it. Actually I though serialization would be the solution here,
@@ -62,6 +62,16 @@ namespace Cubiquity
 	
 		public void OnEnable()
 		{
+			Debug.Log ("OnEnable");
+			
+			if(Tools.current != Tool.None)
+			{
+				mSculptPressed = false;
+				mSmoothPressed = false;
+				mPaintPressed = false;
+				settingPressed = false;
+			}
+				
 		    terrainVolume = target as TerrainVolume;
 			
 			brushTextures = new Texture[NoOfBrushes];
@@ -75,33 +85,33 @@ namespace Cubiquity
 		public override void OnInspectorGUI()
 		{
 			EditorGUILayout.BeginHorizontal();
-			if(sculptPressed = GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
+			if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
-				//sculptPressed = !sculptPressed;
+				sculptPressed = true;
 				smoothPressed = false;
 				paintPressed = false;
 				settingPressed = false;
 			}
-			if(smoothPressed = GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
+			if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
-				//smoothPressed = true;
+				smoothPressed = true;
 				paintPressed = false;
 				settingPressed = false;
 			}
-			if(paintPressed = GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
+			if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = false;
-				//paintPressed = true;
+				paintPressed = true;
 				settingPressed = false;
 			}
-			if(settingPressed = GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
+			if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = false;
 				paintPressed = false;
-				//settingPressed = true;
+				settingPressed = true;
 			}
 			EditorGUILayout.EndHorizontal();
 				
@@ -225,6 +235,11 @@ namespace Cubiquity
 		
 		public void OnSceneGUI()
 		{		
+			if(TerrainVolumeInspector.lastTool != Tools.current)
+			{
+				OnTransformToolChanged();
+			}
+			
 			Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
 			List<string> keywords = new List<string> { "BRUSH_MARKER_OFF" };
 			
@@ -289,25 +304,37 @@ namespace Cubiquity
 		
 		private static void OnTerrainToolChanged()
 		{
-			if(sculptPressed || smoothPressed || paintPressed)
+			HideTools();
+			/*if(sculptPressed || smoothPressed || paintPressed)
 			{
 				HideTools();
 			}
 			else
 			{
 				ShowTools();
-			}
+			}*/
+		}
+		
+		private static void OnTransformToolChanged()
+		{
+			mSculptPressed = false;
+			mSmoothPressed = false;
+			mPaintPressed = false;
+			mSettingPressed = false;
 		}
 		
 		private static void HideTools()
 		{
-			TerrainVolumeInspector.lastTool = Tools.current;
-    		Tools.current = Tool.None;
+			if(Tools.current != Tool.None)
+			{
+				//TerrainVolumeInspector.lastTool = Tools.current;
+    			Tools.current = Tool.None;
+			}
 		}
 		
 		private static void ShowTools()
 		{
-			Tools.current = TerrainVolumeInspector.lastTool;
+			//Tools.current = TerrainVolumeInspector.lastTool;
 		}
 	}
 }
