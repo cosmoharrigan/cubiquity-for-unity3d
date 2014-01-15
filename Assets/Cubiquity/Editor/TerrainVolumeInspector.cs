@@ -25,7 +25,7 @@ namespace Cubiquity
 		private static bool mSculptPressed = true;
 		private static bool mSmoothPressed = false;
 		private static bool mPaintPressed = false;
-		private static bool mSettingPressed = false;
+		private static bool mSettingsPressed = false;
 		
 		private static bool sculptPressed
 		{
@@ -45,14 +45,11 @@ namespace Cubiquity
 			set { if(mPaintPressed != value) { mPaintPressed = value; OnTerrainToolChanged(); } }
 		}
 		
-		private static bool settingPressed
+		private static bool settingsPressed
 		{
-			get { return mSettingPressed; }
-			set { if(mSettingPressed != value) { mSettingPressed = value; OnTerrainToolChanged(); } }
+			get { return mSettingsPressed; }
+			set { if(mSettingsPressed != value) { mSettingsPressed = value; OnTerrainToolChanged(); } }
 		}
-		
-		//TerrainTools currentTerrainTool = TerrainTools.None;
-		//TerrainTools lastTerrainTool = TerrainTools.None;
 		
 		private static int selectedBrush = 0;
 		private static int selectedTexture = 0;
@@ -62,16 +59,6 @@ namespace Cubiquity
 	
 		public void OnEnable()
 		{
-			Debug.Log ("OnEnable");
-			
-			if(Tools.current != Tool.None)
-			{
-				mSculptPressed = false;
-				mSmoothPressed = false;
-				mPaintPressed = false;
-				settingPressed = false;
-			}
-				
 		    terrainVolume = target as TerrainVolume;
 			
 			brushTextures = new Texture[NoOfBrushes];
@@ -100,28 +87,28 @@ namespace Cubiquity
 				sculptPressed = true;
 				smoothPressed = false;
 				paintPressed = false;
-				settingPressed = false;
+				settingsPressed = false;
 			}
 			if(GUILayout.Toggle(smoothPressed, "Smooth", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = true;
 				paintPressed = false;
-				settingPressed = false;
+				settingsPressed = false;
 			}
 			if(GUILayout.Toggle(paintPressed, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = false;
 				paintPressed = true;
-				settingPressed = false;
+				settingsPressed = false;
 			}
-			if(GUILayout.Toggle(settingPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
+			if(GUILayout.Toggle(settingsPressed, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 			{
 				sculptPressed = false;
 				smoothPressed = false;
 				paintPressed = false;
-				settingPressed = true;
+				settingsPressed = true;
 			}
 			EditorGUILayout.EndHorizontal();
 				
@@ -313,7 +300,7 @@ namespace Cubiquity
 			// are disabled. Otherwise the user can end up moving the terrain around while they are editing it.
 			// Note that we include the 'settings' toll in the test below... technically we could have this one active
 			// and still allow terrain transforms but it feels more consistent if we disable them in this case too.
-			if(sculptPressed || smoothPressed || paintPressed || settingPressed)
+			if(sculptPressed || smoothPressed || paintPressed || settingsPressed)
 			{
 				Tools.current = Tool.None;
 			}
@@ -329,7 +316,7 @@ namespace Cubiquity
 				mSculptPressed = false;
 				mSmoothPressed = false;
 				mPaintPressed = false;
-				mSettingPressed = false;
+				mSettingsPressed = false;
 			}
 		}
 	}
