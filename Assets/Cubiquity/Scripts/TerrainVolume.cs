@@ -17,6 +17,7 @@ namespace Cubiquity
 		public TerrainVolumeData data
 	    {
 	        get { return this.mData; }
+			set { this.mData = value; RequestFlushInternalData(); }
 	    }
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
