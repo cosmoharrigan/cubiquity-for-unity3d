@@ -84,6 +84,12 @@ namespace Cubiquity
 		
 		public override void OnInspectorGUI()
 		{
+			if(TerrainVolumeInspector.lastTool != Tools.current)
+			{
+				OnTransformToolChanged();				
+				TerrainVolumeInspector.lastTool = Tools.current;
+			}
+			
 			EditorGUILayout.BeginHorizontal();
 			if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
@@ -234,12 +240,7 @@ namespace Cubiquity
 		}
 		
 		public void OnSceneGUI()
-		{		
-			if(TerrainVolumeInspector.lastTool != Tools.current)
-			{
-				OnTransformToolChanged();
-			}
-			
+		{
 			Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
 			List<string> keywords = new List<string> { "BRUSH_MARKER_OFF" };
 			
@@ -304,15 +305,8 @@ namespace Cubiquity
 		
 		private static void OnTerrainToolChanged()
 		{
-			HideTools();
-			/*if(sculptPressed || smoothPressed || paintPressed)
-			{
-				HideTools();
-			}
-			else
-			{
-				ShowTools();
-			}*/
+			Tools.current = Tool.None;
+			TerrainVolumeInspector.lastTool = Tool.None;
 		}
 		
 		private static void OnTransformToolChanged()
@@ -321,20 +315,6 @@ namespace Cubiquity
 			mSmoothPressed = false;
 			mPaintPressed = false;
 			mSettingPressed = false;
-		}
-		
-		private static void HideTools()
-		{
-			if(Tools.current != Tool.None)
-			{
-				//TerrainVolumeInspector.lastTool = Tools.current;
-    			Tools.current = Tool.None;
-			}
-		}
-		
-		private static void ShowTools()
-		{
-			//Tools.current = TerrainVolumeInspector.lastTool;
 		}
 	}
 }
