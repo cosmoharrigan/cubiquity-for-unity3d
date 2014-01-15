@@ -304,13 +304,11 @@ namespace Cubiquity
 			{
 				Tools.current = Tool.None;
 			}
-			
-			// Clear the last tool as well, otherwise our system will detect the above change of transform tool 
-			//TerrainVolumeInspector.lastTool = Tool.None;
 		}
 		
 		private static void OnTransformToolChanged()
 		{
+			// Deselect our editor tools if the user has selected a transform tool
 			if(Tools.current != Tool.None)
 			{
 				mSculptPressed = false;

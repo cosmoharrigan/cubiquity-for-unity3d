@@ -12,9 +12,29 @@ namespace Cubiquity
 	{
 		ColoredCubesVolume coloredCubesVolume;
 		
-		private bool addMode = true;
-		private bool deleteMode = false;
-		private bool paintMode = false;
+		public static Tool lastTool = Tool.None;
+		
+		private static bool mAddMode = false;
+		private static bool mDeleteMode = false;
+		private static bool mPaintMode = false;
+		
+		private static bool addMode
+		{
+			get { return mAddMode; }
+			set { if(mAddMode != value) { mAddMode = value; OnEditorToolChanged(); } }
+		}
+		
+		private static bool deleteMode
+		{
+			get { return mDeleteMode; }
+			set { if(mDeleteMode != value) { mDeleteMode = value; OnEditorToolChanged(); } }
+		}
+		
+		private static bool paintMode
+		{
+			get { return mPaintMode; }
+			set { if(mPaintMode != value) { mPaintMode = value; OnEditorToolChanged(); } }
+		}
 		
 		Color paintColor = Color.white;
 		
@@ -25,6 +45,13 @@ namespace Cubiquity
 		
 		public override void OnInspectorGUI()
 		{		
+			// Check whether the selected Unity transform tool has changed.
+			if(ColoredCubesVolumeInspector.lastTool != Tools.current)
+			{
+				OnTransformToolChanged();				
+				ColoredCubesVolumeInspector.lastTool = Tools.current;
+			}
+			
 			if(EditorGUILayout.Toggle("Add cubes", addMode))
 			{
 				addMode = true;
@@ -136,5 +163,26 @@ namespace Cubiquity
 	
 	        return relativePath;
 	    }
+		
+		private static void OnEditorToolChanged()
+		{
+			// Whenever the user selects a terrain editing tool we need to make sure that Unity's transform widgets
+			// are disabled. Otherwise the user can end up moving the terrain around while they are editing it.
+			if(addMode || deleteMode || paintMode)
+			{
+				Tools.current = Tool.None;
+			}
+		}
+		
+		private static void OnTransformToolChanged()
+		{
+			// Deselect our editor tools if the user has selected a transform tool
+			if(Tools.current != Tool.None)
+			{
+				mAddMode = false;
+				mDeleteMode = false;
+				mPaintMode = false;
+			}
+		}
 	}
 }
