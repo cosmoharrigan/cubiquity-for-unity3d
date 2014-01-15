@@ -28,7 +28,7 @@ namespace Cubiquity
 			Selection.activeGameObject = terrain;
 			
 			// Set up our material	
-			Material material = new Material(Shader.Find("TerrainVolume"));
+			Material material = new Material(Shader.Find("TriplanarTexturing"));
 			terrain.GetComponent<TerrainVolumeRenderer>().material = material;
 			
 			// Set up the default textures

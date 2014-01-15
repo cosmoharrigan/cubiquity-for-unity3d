@@ -1,4 +1,4 @@
-﻿Shader "TerrainVolume" {
+﻿Shader "TriplanarTexturing" {
 	Properties {
 		_Tex0 ("Base (RGB)", 2D) = "white" {}
 		_Tex1 ("Base (RGB)", 2D) = "white" {}
