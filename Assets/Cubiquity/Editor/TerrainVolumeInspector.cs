@@ -84,12 +84,16 @@ namespace Cubiquity
 		
 		public override void OnInspectorGUI()
 		{
+			// Check whether the selected Unity transform tool has changed.
 			if(TerrainVolumeInspector.lastTool != Tools.current)
 			{
 				OnTransformToolChanged();				
 				TerrainVolumeInspector.lastTool = Tools.current;
 			}
 			
+			// This group of toggle buttons mimics Unity's built-in terrain editor. Note that there is no way to unselect
+			// a button by clicking on them (this could be implemented but felt strange), but you can get no button selected
+			// by activating one of the Unity transform tools.
 			EditorGUILayout.BeginHorizontal();
 			if(GUILayout.Toggle(sculptPressed, "Sculpt", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
@@ -305,16 +309,28 @@ namespace Cubiquity
 		
 		private static void OnTerrainToolChanged()
 		{
-			Tools.current = Tool.None;
-			TerrainVolumeInspector.lastTool = Tool.None;
+			// Whenever the user selects a terrain editing tool we need to make sure that Unity's transform widgets
+			// are disabled. Otherwise the user can end up moving the terrain around while they are editing it.
+			// Note that we include the 'settings' toll in the test below... technically we could have this one active
+			// and still allow terrain transforms but it feels more consistent if we disable them in this case too.
+			if(sculptPressed || smoothPressed || paintPressed || settingPressed)
+			{
+				Tools.current = Tool.None;
+			}
+			
+			// Clear the last tool as well, otherwise our system will detect the above change of transform tool 
+			//TerrainVolumeInspector.lastTool = Tool.None;
 		}
 		
 		private static void OnTransformToolChanged()
 		{
-			mSculptPressed = false;
-			mSmoothPressed = false;
-			mPaintPressed = false;
-			mSettingPressed = false;
+			if(Tools.current != Tool.None)
+			{
+				mSculptPressed = false;
+				mSmoothPressed = false;
+				mPaintPressed = false;
+				mSettingPressed = false;
+			}
 		}
 	}
 }
