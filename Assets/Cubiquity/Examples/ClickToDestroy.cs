@@ -43,7 +43,6 @@ public class ClickToDestroy : MonoBehaviour
 				// Build a ray based on the current mouse position
 				Vector2 mousePos = Input.mousePosition;
 				Ray ray = Camera.main.ScreenPointToRay(new Vector3(mousePos.x, mousePos.y, 0));
-				Vector3 dir = ray.direction * 1000.0f; //The maximum distance our ray will be cast.
 				
 				
 				// Perform the raycasting. If there's a hit the position will be stored in these ints.

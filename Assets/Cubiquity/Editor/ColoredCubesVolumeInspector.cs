@@ -77,7 +77,6 @@ namespace Cubiquity
 			Event e = Event.current;
 			
 			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
-			Vector3 dir = ray.direction * 1000.0f; //The maximum distance out ray will be cast.
 			
 			if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 			{
