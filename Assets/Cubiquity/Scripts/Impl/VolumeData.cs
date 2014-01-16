@@ -11,20 +11,16 @@ namespace Cubiquity
 	{
 		public enum Paths { StreamingAssets, TemporaryCache };
 		
-		private Region cachedEnclosingRegion;
 	    public Region enclosingRegion
 	    {
 	        get
 			{
-				if(cachedEnclosingRegion == null)
-				{
-					cachedEnclosingRegion = new Region(0, 0, 0, 0, 0, 0);
-					CubiquityDLL.GetEnclosingRegion(volumeHandle.Value,
-						out cachedEnclosingRegion.lowerCorner.x, out cachedEnclosingRegion.lowerCorner.y, out cachedEnclosingRegion.lowerCorner.z,
-						out cachedEnclosingRegion.upperCorner.x, out cachedEnclosingRegion.upperCorner.y, out cachedEnclosingRegion.upperCorner.z);
-				}
+				Region result = new Region(0, 0, 0, 0, 0, 0);
+				CubiquityDLL.GetEnclosingRegion(volumeHandle.Value,
+					out result.lowerCorner.x, out result.lowerCorner.y, out result.lowerCorner.z,
+					out result.upperCorner.x, out result.upperCorner.y, out result.upperCorner.z);
 				
-				return cachedEnclosingRegion;
+				return result;
 			}
 	    }
 		
@@ -85,11 +81,10 @@ namespace Cubiquity
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.cachedEnclosingRegion = region;
 			volumeData.basePath = basePath;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
-			volumeData.InitializeEmptyCubiquityVolume();
+			volumeData.InitializeEmptyCubiquityVolume(region);
 			
 			return volumeData;
 		}
@@ -118,7 +113,7 @@ namespace Cubiquity
 			ShutdownCubiquityVolume();
 		}
 		
-		protected abstract void InitializeEmptyCubiquityVolume();
+		protected abstract void InitializeEmptyCubiquityVolume(Region region);
 		protected abstract void InitializeExistingCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
 		

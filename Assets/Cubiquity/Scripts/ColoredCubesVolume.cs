@@ -16,11 +16,7 @@ namespace Cubiquity
 		public ColoredCubesVolumeData data
 	    {
 	        get { return this.mData; }
-			set
-			{
-				this.mData = value;
-				DestroyImmediate(rootOctreeNodeGameObject);
-			}
+			set { this.mData = value; RequestFlushInternalData(); }
 	    }
 		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
