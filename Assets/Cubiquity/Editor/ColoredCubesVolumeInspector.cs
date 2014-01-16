@@ -52,26 +52,31 @@ namespace Cubiquity
 				ColoredCubesVolumeInspector.lastTool = Tools.current;
 			}
 			
-			if(EditorGUILayout.Toggle("Add cubes", addMode))
+			EditorGUILayout.LabelField("To modify the volume, please choose");
+			EditorGUILayout.LabelField("a tool from the options below");
+			
+			EditorGUILayout.BeginHorizontal();
+			if(GUILayout.Toggle(addMode, "Add cubes", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
 				addMode = true;
 				deleteMode = false;
 				paintMode = false;
 			}
 			
-			if(EditorGUILayout.Toggle("Delete cubes", deleteMode))
+			if(GUILayout.Toggle(deleteMode, "Delete cubes", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				addMode = false;
 				deleteMode = true;
 				paintMode = false;
 			}
 			
-			if(EditorGUILayout.Toggle("Paint cubes", paintMode))
+			if(GUILayout.Toggle(paintMode, "Paint cubes", EditorStyles.miniButtonRight, GUILayout.Height(24)))
 			{
 				addMode = false;
 				deleteMode = false;
 				paintMode = true;
 			}
+			EditorGUILayout.EndHorizontal();
 			
 			paintColor = EditorGUILayout.ColorField(paintColor, GUILayout.Width(200));
 			
@@ -100,47 +105,50 @@ namespace Cubiquity
 		
 		public void OnSceneGUI()
 		{
-			//Debug.Log ("ColoredCubesVolumeEditor.OnSceneGUI()");
-			Event e = Event.current;
-			
-			Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
-			
-			if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
+			if(addMode || deleteMode || paintMode)
 			{
-				// Perform the raycasting. If there's a hit the position will be stored in these ints.
-				PickVoxelResult pickResult;
-				if(addMode)
-				{
-					bool hit = Picking.PickLastEmptyVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
-					if(hit)
-					{
-						coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, (QuantizedColor)paintColor);
-					}
-				}
-				else if(deleteMode)
-				{					
-					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
-					if(hit)
-					{
-						coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, new QuantizedColor(0,0,0,0));
-					}
-				}
-				else if(paintMode)
-				{
-					bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
-					if(hit)
-					{
-						coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, (QuantizedColor)paintColor);
-					}
-				}
+				//Debug.Log ("ColoredCubesVolumeEditor.OnSceneGUI()");
+				Event e = Event.current;
 				
-				Selection.activeGameObject = coloredCubesVolume.gameObject;
+				Ray ray = Camera.current.ScreenPointToRay(new Vector3(e.mousePosition.x, -e.mousePosition.y + Camera.current.pixelHeight));
+				
+				if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
+				{
+					// Perform the raycasting. If there's a hit the position will be stored in these ints.
+					PickVoxelResult pickResult;
+					if(addMode)
+					{
+						bool hit = Picking.PickLastEmptyVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
+						if(hit)
+						{
+							coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, (QuantizedColor)paintColor);
+						}
+					}
+					else if(deleteMode)
+					{					
+						bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
+						if(hit)
+						{
+							coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, new QuantizedColor(0,0,0,0));
+						}
+					}
+					else if(paintMode)
+					{
+						bool hit = Picking.PickFirstSolidVoxel(coloredCubesVolume, ray, 1000.0f, out pickResult);
+						if(hit)
+						{
+							coloredCubesVolume.data.SetVoxel(pickResult.volumeSpacePos.x, pickResult.volumeSpacePos.y, pickResult.volumeSpacePos.z, (QuantizedColor)paintColor);
+						}
+					}
+					
+					Selection.activeGameObject = coloredCubesVolume.gameObject;
+				}
+				else if ( e.type == EventType.Layout )
+			    {
+			       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
+			       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
+			    }
 			}
-			else if ( e.type == EventType.Layout )
-		    {
-		       // See: http://answers.unity3d.com/questions/303248/how-to-paint-objects-in-the-editor.html
-		       HandleUtility.AddDefaultControl( GUIUtility.GetControlID( GetHashCode(), FocusType.Passive ) );
-		    }
 		}
 		
 		public static String MakeRelativePath(String fromPath, String toPath)
