@@ -14,7 +14,7 @@ namespace Cubiquity
 		
 		public static Tool lastTool = Tool.None;
 		
-		private static bool mAddMode = false;
+		private static bool mAddMode = true;
 		private static bool mDeleteMode = false;
 		private static bool mPaintMode = false;
 		
