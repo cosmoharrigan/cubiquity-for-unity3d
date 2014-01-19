@@ -6,8 +6,6 @@
 		
 		CGPROGRAM
 		#pragma surface surf Lambert vertex:vert addshadow
-		#pragma target 3.0
-		#pragma only_renderers d3d9
 
 		struct Input
 		{
