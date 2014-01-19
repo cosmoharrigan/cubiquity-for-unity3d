@@ -16,6 +16,9 @@ namespace CubiquityExamples
 			TerrainVolume volume = GetComponent<TerrainVolume>();
 			TerrainVolumeRenderer volumeRenderer = GetComponent<TerrainVolumeRenderer>();
 			
+			Material material = new Material(Shader.Find("MaterialSetDebug"));
+			volumeRenderer.material = material;
+			
 			int earthRadius = 30;
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
 			TerrainVolumeData result = TerrainVolumeData.CreateEmptyVolumeData(volumeBounds, VolumeData.Paths.TemporaryCache, VolumeData.GeneratePathToVoxelDatabase());
@@ -25,7 +28,6 @@ namespace CubiquityExamples
 			int earthRadiusSquared = earthRadius * earthRadius;
 			MaterialSet space = new MaterialSet();
 			MaterialSet rock = new MaterialSet();
-			rock.weights[0] = 255;
 			for(int z = volumeBounds.lowerCorner.z; z <= volumeBounds.upperCorner.z; z++)
 			{
 				for(int y = volumeBounds.lowerCorner.y; y <= volumeBounds.upperCorner.y; y++)
@@ -33,10 +35,20 @@ namespace CubiquityExamples
 					for(int x = volumeBounds.lowerCorner.x; x <= volumeBounds.upperCorner.x; x++)
 					{
 						float distFromCenterSquared = x * x + y * y + z * z;
-						if(distFromCenterSquared < earthRadiusSquared)
-						{
-							volume.data.SetVoxel(x, y, z, rock);
-						}
+						float distFromCenter = Mathf.Sqrt(distFromCenterSquared);
+						
+						float density = 148 - distFromCenter;
+						
+						density -= 127;
+						density *= 50;
+						density += 127;
+						
+						density = Mathf.Clamp(density, 0, 255);
+						
+						rock.weights[0] = (byte)density;
+						
+						volume.data.SetVoxel(x, y, z, rock);
+						
 					}
 				}
 			}
