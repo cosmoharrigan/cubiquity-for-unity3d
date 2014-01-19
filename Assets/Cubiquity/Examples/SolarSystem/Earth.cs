@@ -16,8 +16,12 @@ namespace CubiquityExamples
 			TerrainVolume volume = GetComponent<TerrainVolume>();
 			TerrainVolumeRenderer volumeRenderer = GetComponent<TerrainVolumeRenderer>();
 			
-			Material material = new Material(Shader.Find("MaterialSetDebug"));
+			Material material = new Material(Shader.Find("Planet"));
 			volumeRenderer.material = material;
+			
+			Texture2D earthSurfaceTexture = Resources.Load("Textures/EarthSurface") as Texture2D;
+			
+			material.SetTexture("_Tex0", earthSurfaceTexture);
 			
 			int earthRadius = 30;
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
