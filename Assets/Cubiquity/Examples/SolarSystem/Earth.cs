@@ -25,8 +25,6 @@ namespace CubiquityExamples
 			
 			volume.data = result;
 			
-			int earthRadiusSquared = earthRadius * earthRadius;
-			MaterialSet space = new MaterialSet();
 			MaterialSet rock = new MaterialSet();
 			for(int z = volumeBounds.lowerCorner.z; z <= volumeBounds.upperCorner.z; z++)
 			{
@@ -47,11 +45,28 @@ namespace CubiquityExamples
 						// the right direction. We still have zero in the center, but lower (negative) values as we move out.
 						float density = -distFromCenter;
 						
+						// By adding the 'earthRadius' we now have a function which starts at 'earthRadius' and still decreases as it
+						// moves out. The function passes through zero at a distance of 'earthRadius' and then continues do decrease
+						// as it gets even further out.
 						density += earthRadius;
 						
+						// Ideally we would like our final density value to be '255' for voxels inside the earth and '0' for voxels
+						// outside the earth. At the surface there should be a transition but this should occur not too quickly and
+						// not too slowly, as both of these will result in a jagged appearance to the mesh.
+						//
+						// We probably want the transition to occur over a few voxels, whereas it currently occurs over 255 voxels
+						// because it was derived from the distance. By scaling the density field we effectivly compress the rate
+						// at which it changes at the surface. We also make the center much too high and the outside very low, but
+						// we will clamp these to the corect range later.
+						//
+						// Note: You can try commenting out or changing the value on this line to see the effect it has.
 						density *= 50;
-						density += 127;
 						
+						// Until now we've been defining our density field as if the threshold was at zero, with positive densities
+						// being solid and negative densities being empty. But actually Cubiquity operates on the range 0 to 255, and
+						// uses a threashold of 127 to decide where to place the generated surface.  Therefore we shift and clamp our
+						// density value and store it in a byte.
+						density += 127;						
 						byte densityAsByte = (byte)(Mathf.Clamp(density, 0, 255));
 						
 						rock.weights[0] = densityAsByte;

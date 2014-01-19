@@ -91,6 +91,12 @@ namespace Cubiquity
 	 * previous steps you already know what the sum should be, so you just need to decide how to distribute the values
 	 * to give this sum.
 	 * 
+	 * One additional point to keep in mind is that you may find it easier to work with floating point values with a
+	 * threshold centered at zero, rather than a unsigned byte with a theshold at 127. You are welcome to do this and
+	 * simply shift/scale/clamp the floating point values just before you write them to the voxel data. This approach 
+	 * may have some performance impact when generating, but it is more intuitive so might be a good starting point 
+	 * at least.
+	 * 
 	 * Do not that this is just a suggestion, and you may want to adopt a different workflow. It's worked for us though,
 	 * and it's generally good to break the process down into such a series of smaller steps.
 	 *
