@@ -34,18 +34,27 @@ namespace CubiquityExamples
 				{
 					for(int x = volumeBounds.lowerCorner.x; x <= volumeBounds.upperCorner.x; x++)
 					{
-						float distFromCenterSquared = x * x + y * y + z * z;
-						float distFromCenter = Mathf.Sqrt(distFromCenterSquared);
+						// We are going to compute our density value based on the distance of a voxel from the center of our earth.
+						// This is a function which (by definition) is zero at the center of the earth and has a smoothly increasing
+						// value as we move away from the center.
+						//
+						// Note: For efficiency we could probably adapt this to work with squared distances (thereby eliminating
+						// the square root operation), but we'd like to keep this example as intuitive as possible.
+						float distFromCenter = Mathf.Sqrt(x * x + y * y + z * z);
 						
-						float density = 148 - distFromCenter;
+						// We actually want our volume to have high values in the center and low values as we move out, because our
+						// eath should be a solid sphere surrounded by empty space. If we invert the distance then this is a step in
+						// the right direction. We still have zero in the center, but lower (negative) values as we move out.
+						float density = -distFromCenter;
 						
-						density -= 127;
+						density += earthRadius;
+						
 						density *= 50;
 						density += 127;
 						
-						density = Mathf.Clamp(density, 0, 255);
+						byte densityAsByte = (byte)(Mathf.Clamp(density, 0, 255));
 						
-						rock.weights[0] = (byte)density;
+						rock.weights[0] = densityAsByte;
 						
 						volume.data.SetVoxel(x, y, z, rock);
 						
