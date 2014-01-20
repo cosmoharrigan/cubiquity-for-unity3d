@@ -40,8 +40,9 @@
 		{
 			IN.volumeNormal = normalize(IN.volumeNormal);
 			
+			// Unity's cubemap functionality is intended for reflection maps rather than wrapping 
+			// textures around a sphere. As a result they show up backwards uness we invert them here.
 			IN.volumeNormal.x = -IN.volumeNormal.x;
-			//IN.volumeNormal.z = -IN.volumeNormal.z;
 			
 			// Vertex colors coming out of Cubiquity don't actually sum to one
 			// (roughly 0.5 as that's where the isosurface is). Make them sum
