@@ -8,8 +8,12 @@ namespace CubiquityExamples
 {
 	public class Earth : MonoBehaviour
 	{
+		GameObject earthOrbitPoint;
+		
 		void Start()
 		{
+			earthOrbitPoint = transform.parent.gameObject;
+			
 			gameObject.AddComponent<TerrainVolume>();
 			gameObject.AddComponent<TerrainVolumeRenderer>();
 			
@@ -80,6 +84,12 @@ namespace CubiquityExamples
 					}
 				}
 			}
+		}
+		
+		void Update()
+		{
+			earthOrbitPoint.transform.Rotate(new Vector3(0,1,0), 0.02f);
+			transform.Rotate(new Vector3(0,1,0), 0.1f);
 		}
 	}
 }
