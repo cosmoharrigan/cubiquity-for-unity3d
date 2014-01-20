@@ -19,7 +19,7 @@ namespace CubiquityExamples
 			Material material = new Material(Shader.Find("Planet"));
 			volumeRenderer.material = material;
 			
-			Texture2D earthSurfaceTexture = Resources.Load("Textures/EarthSurface") as Texture2D;
+			Cubemap earthSurfaceTexture = Resources.Load("Textures/EarthSurface") as Cubemap;			
 			
 			material.SetTexture("_Tex0", earthSurfaceTexture);
 			

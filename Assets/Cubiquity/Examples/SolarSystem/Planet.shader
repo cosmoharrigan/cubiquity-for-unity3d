@@ -2,7 +2,7 @@
 {
 	Properties
 	{
-		_Tex0 ("Base (RGB)", 2D) = "white" {}
+		_Tex0 ("Base (RGB)", CUBE) = "white" {}
 	}
 	SubShader
 	{
@@ -14,7 +14,7 @@
 		#pragma target 3.0
 		#pragma only_renderers d3d9
 		
-		sampler2D _Tex0;
+		samplerCUBE _Tex0;
 		
 		float4x4 _World2Volume;
 
@@ -38,6 +38,11 @@
 
 		void surf (Input IN, inout SurfaceOutput o)
 		{
+			IN.volumeNormal = normalize(IN.volumeNormal);
+			
+			IN.volumeNormal.x = -IN.volumeNormal.x;
+			//IN.volumeNormal.z = -IN.volumeNormal.z;
+			
 			// Vertex colors coming out of Cubiquity don't actually sum to one
 			// (roughly 0.5 as that's where the isosurface is). Make them sum
 			// to one, though Cubiquity should probably be changed to do this.
@@ -51,7 +56,7 @@
 			float y = IN.volumeNormal.y;
 			
 			
-			o.Albedo  = tex2D(_Tex0, float2(x, y));
+			o.Albedo  = texCUBE(_Tex0, IN.volumeNormal);
 			//o.Albedo = float3(x, 0.0, 0.0);
 
 			o.Alpha = 1.0;
