@@ -8,6 +8,9 @@ namespace CubiquityExamples
 {
 	public class Earth : MonoBehaviour
 	{
+		public float earthOrbitSpeed = 1.0f;
+		public float earthRotationSpeed = -5.0f;
+		
 		GameObject earthOrbitPoint;
 		
 		void Start()
@@ -88,8 +91,8 @@ namespace CubiquityExamples
 		
 		void Update()
 		{
-			earthOrbitPoint.transform.Rotate(new Vector3(0,1,0), 0.02f);
-			transform.Rotate(new Vector3(0,1,0), 0.1f);
+			earthOrbitPoint.transform.Rotate(new Vector3(0,1,0), Time.deltaTime * earthOrbitSpeed);
+			transform.Rotate(new Vector3(0,1,0), Time.deltaTime * earthRotationSpeed);
 		}
 	}
 }

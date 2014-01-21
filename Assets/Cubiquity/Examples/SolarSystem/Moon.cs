@@ -8,6 +8,9 @@ namespace CubiquityExamples
 {
 	public class Moon : MonoBehaviour
 	{
+		public float moonOrbitSpeed = 3.0f;
+		public float moonRotationSpeed = -10.0f;
+		
 		GameObject moonOrbitPoint;
 		
 		void Start()
@@ -88,8 +91,8 @@ namespace CubiquityExamples
 		
 		void Update()
 		{
-			moonOrbitPoint.transform.Rotate(new Vector3(0,1,0), 0.02f);
-			transform.Rotate(new Vector3(0,1,0), 0.1f);
+			moonOrbitPoint.transform.Rotate(new Vector3(0,1,0), Time.deltaTime * moonOrbitSpeed);
+			transform.Rotate(new Vector3(0,1,0), Time.deltaTime * moonRotationSpeed);
 		}
 	}
 }
