@@ -14,6 +14,8 @@
 		#pragma target 3.0
 		#pragma only_renderers d3d9
 		#pragma multi_compile BRUSH_MARKER_ON BRUSH_MARKER_OFF
+		
+		#include "TerrainVolumeUtilities.cginc"
 
 		sampler2D _Tex0;
 		sampler2D _Tex1;
@@ -59,31 +61,6 @@
 			float4 worldPos = mul(_Object2World, v.vertex);
 			o.volumePos =  mul(_World2Volume, worldPos);
 			o.volumeNormal = v.normal;
-		}
-		
-		half4 texTriplanar(sampler2D tex, float3 coords, float4 texST, float3 dx, float3 dy, float3 triplanarBlendWeights)
-		{						
-			// Used to avoid sampling a texture unless it
-			// signicantly contributes to the final color.
-			float blendWeightThreshold = 0.01;
-			
-			// Sample the texture three times (once along each axis) and combine the results.
-			half4 triplanarSample = 0.0;
-			if(triplanarBlendWeights.z > blendWeightThreshold)
-			{
-				triplanarSample += tex2Dgrad(tex, coords.xy * texST.xy + texST.zw, dx.xy * texST.xy, dy.xy * texST.xy) * triplanarBlendWeights.z;
-			}
-			if(triplanarBlendWeights.x > blendWeightThreshold)
-			{
-				triplanarSample += tex2Dgrad(tex, coords.yz * texST.xy + texST.zw, dx.yz * texST.xy, dy.yz * texST.xy) * triplanarBlendWeights.x;
-			}
-			if(triplanarBlendWeights.y > blendWeightThreshold)
-			{
-				triplanarSample += tex2Dgrad(tex, coords.xz * texST.xy + texST.zw, dx.xz * texST.xy, dy.xz * texST.xy) * triplanarBlendWeights.y;
-			}
-					
-			// Return the combined result.
-			return triplanarSample;
 		}
 
 		void surf (Input IN, inout SurfaceOutput o)
