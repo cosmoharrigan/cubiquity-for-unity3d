@@ -14,7 +14,17 @@
 		#pragma target 3.0
 		#pragma only_renderers d3d9
 		
+		#include "Assets/Cubiquity/Resources/TerrainVolumeUtilities.cginc"
+		
 		samplerCUBE _Tex0;
+		
+		sampler2D _Tex1;
+		sampler2D _Tex2;
+		sampler2D _Tex3;
+		
+		float4 _Tex1_ST;
+		float4 _Tex2_ST;
+		float4 _Tex3_ST;
 		
 		float4x4 _World2Volume;
 
@@ -42,7 +52,8 @@
 			
 			// Unity's cubemap functionality is intended for reflection maps rather than wrapping 
 			// textures around a sphere. As a result they show up backwards uness we invert them here.
-			IN.volumeNormal.x = -IN.volumeNormal.x;
+			float3 cubemapSampleDir = IN.volumeNormal;
+			cubemapSampleDir.x = -cubemapSampleDir.x;
 			
 			// Vertex colors coming out of Cubiquity don't actually sum to one
 			// (roughly 0.5 as that's where the isosurface is). Make them sum
@@ -51,14 +62,31 @@
 			half materialStrengthsSum = materialStrengths.x + materialStrengths.y + materialStrengths.z + materialStrengths.w;
 			materialStrengths /= materialStrengthsSum;
 			
-			float theta = atan(IN.volumeNormal.z/IN.volumeNormal.x);
+			// Texture coordinates are calculated from the model
+			// space position, scaled by a user-supplied factor.
+			float3 texCoords = IN.volumePos.xyz; // * invTexScale;
 			
-			float x = theta / 3.14159265359;
-			float y = IN.volumeNormal.y;
+			// Texture coordinate derivatives are explicitly calculated
+			// so that we can sample textures inside conditional logic.
+			float3 dx = ddx(texCoords);
+			float3 dy = ddy(texCoords);
+			
+			// Squaring a normalized vector makes the components sum to one. It also seems
+			// to give nicer transitions than simply dividing each component by the sum.
+			float3 triplanarBlendWeights = IN.volumeNormal * IN.volumeNormal;
+			
+			half4 diffuse = 0.0;
+			
+			diffuse += texCUBE(_Tex0, cubemapSampleDir) * materialStrengths.r;
+			
+			// Sample each of the three textures using triplanar texturing, and
+			// additively blend the results using the factors in materialStrengths.			
+			diffuse += texTriplanar(_Tex1, texCoords, _Tex1_ST, dx, dy, triplanarBlendWeights * materialStrengths.g);
+			diffuse += texTriplanar(_Tex2, texCoords, _Tex2_ST, dx, dy, triplanarBlendWeights * materialStrengths.b);
+			diffuse += texTriplanar(_Tex3, texCoords, _Tex3_ST, dx, dy, triplanarBlendWeights * materialStrengths.a);
 			
 			
-			o.Albedo  = texCUBE(_Tex0, IN.volumeNormal);
-			//o.Albedo = float3(x, 0.0, 0.0);
+			o.Albedo = diffuse;
 
 			o.Alpha = 1.0;
 		}

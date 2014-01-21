@@ -26,9 +26,11 @@ namespace CubiquityExamples
 			Material material = new Material(Shader.Find("Planet"));
 			volumeRenderer.material = material;
 			
-			Cubemap earthSurfaceTexture = Resources.Load("Textures/EarthSurface") as Cubemap;			
+			Cubemap earthSurfaceTexture = Resources.Load("Textures/EarthSurface") as Cubemap;
+			Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
 			
 			material.SetTexture("_Tex0", earthSurfaceTexture);
+			material.SetTexture("_Tex1", rockTexture);
 			
 			int earthRadius = 30;
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
@@ -80,7 +82,16 @@ namespace CubiquityExamples
 						density += 127;						
 						byte densityAsByte = (byte)(Mathf.Clamp(density, 0, 255));
 						
-						rock.weights[0] = densityAsByte;
+						if(distFromCenter > 28)
+						{
+							rock.weights[0] = densityAsByte;
+							rock.weights[1] = 0;
+						}
+						else
+						{
+							rock.weights[0] = 0;
+							rock.weights[1] = densityAsByte;
+						}
 						
 						volume.data.SetVoxel(x, y, z, rock);
 						
