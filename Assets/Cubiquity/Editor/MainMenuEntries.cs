@@ -44,7 +44,7 @@ namespace Cubiquity
 				material.SetTexture("_Tex0", rockTexture);
 				material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));
 				material.SetTexture("_Tex1", soilTexture);
-				material.SetTextureScale("_Tex0", new Vector2(0.125f, 0.125f));			
+				material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));			
 				material.SetTexture("_Tex2", grassTexture);
 				material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
 			}

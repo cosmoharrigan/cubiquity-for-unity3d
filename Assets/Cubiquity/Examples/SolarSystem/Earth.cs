@@ -31,8 +31,9 @@ namespace CubiquityExamples
 			
 			material.SetTexture("_Tex0", earthSurfaceTexture);
 			material.SetTexture("_Tex1", rockTexture);
+			material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));	
 			
-			int earthRadius = 30;
+			int earthRadius = 60;
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
 			TerrainVolumeData result = TerrainVolumeData.CreateEmptyVolumeData(volumeBounds, VolumeData.Paths.TemporaryCache, VolumeData.GeneratePathToVoxelDatabase());
 			
@@ -82,7 +83,7 @@ namespace CubiquityExamples
 						density += 127;						
 						byte densityAsByte = (byte)(Mathf.Clamp(density, 0, 255));
 						
-						if(distFromCenter > 28)
+						if(distFromCenter > 59)
 						{
 							rock.weights[0] = densityAsByte;
 							rock.weights[1] = 0;
