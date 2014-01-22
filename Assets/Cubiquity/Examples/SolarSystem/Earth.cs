@@ -28,10 +28,15 @@ namespace CubiquityExamples
 			
 			Cubemap earthSurfaceTexture = Resources.Load("Textures/EarthSurface") as Cubemap;
 			Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
+			Texture2D lavaTexture = Resources.Load("Textures/Lava") as Texture2D;
+			Texture2D coreTexture = Resources.Load("Textures/Core") as Texture2D;
 			
 			material.SetTexture("_Tex0", earthSurfaceTexture);
 			material.SetTexture("_Tex1", rockTexture);
-			material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));	
+			material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));
+			material.SetTexture("_Tex2", lavaTexture);
+			material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
+			material.SetTexture("_Tex3", coreTexture);
 			
 			int earthRadius = 60;
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
@@ -87,11 +92,29 @@ namespace CubiquityExamples
 						{
 							rock.weights[0] = densityAsByte;
 							rock.weights[1] = 0;
+							rock.weights[2] = 0;
+							rock.weights[3] = 0;
+						}
+						else if(distFromCenter > 50)
+						{
+							rock.weights[0] = 0;
+							rock.weights[1] = densityAsByte;
+							rock.weights[2] = 0;
+							rock.weights[3] = 0;
+						}
+						else if(distFromCenter > 25)
+						{
+							rock.weights[0] = 0;
+							rock.weights[1] = 0;
+							rock.weights[2] = densityAsByte;
+							rock.weights[3] = 0;
 						}
 						else
 						{
 							rock.weights[0] = 0;
-							rock.weights[1] = densityAsByte;
+							rock.weights[1] = 0;
+							rock.weights[2] = 0;
+							rock.weights[3] = densityAsByte;
 						}
 						
 						volume.data.SetVoxel(x, y, z, rock);

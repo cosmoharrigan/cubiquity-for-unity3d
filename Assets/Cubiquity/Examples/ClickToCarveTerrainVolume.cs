@@ -50,7 +50,7 @@ public class ClickToCarveTerrainVolume : MonoBehaviour
 				// If we hit a solid voxel then create an explosion at this point.
 				if(hit)
 				{					
-					int range = 5;
+					int range = 10;
 					DestroyVoxels((int)pickResult.volumeSpacePos.x, (int)pickResult.volumeSpacePos.y, (int)pickResult.volumeSpacePos.z, range);
 				}
 				
