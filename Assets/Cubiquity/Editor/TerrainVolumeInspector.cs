@@ -177,12 +177,12 @@ namespace Cubiquity
 		
 		private void DrawMaterialSelector()
 		{
-			/*EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 			
-			Texture2D[] diffuseMaps = new Texture2D[terrainVolume.materials.Length];
-			for(int i = 0; i < terrainVolume.materials.Length; i++)
+			Texture2D[] diffuseMaps = new Texture2D[4]; //HARDCODED!!
+			for(int i = 0; i < 4; i++) //HARDCODED!!
 			{
-				diffuseMaps[i] = terrainVolume.materials[i].diffuseMap;
+				diffuseMaps[i] = terrainVolume.GetComponent<TerrainVolumeRenderer>().material.GetTexture("_Tex" + i) as Texture2D;
 			}
 			selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
 			
@@ -193,7 +193,7 @@ namespace Cubiquity
 				//TerrainMaterialEditorWindow.EditMaterial(terrainVolume.materials[selectedTexture]);
 			}
 			
-			EditorGUILayout.Space();*/
+			EditorGUILayout.Space();
 		}
 		
 		private void DrawBrushSettings(float maxBrushRadius, float maxOpacity)
