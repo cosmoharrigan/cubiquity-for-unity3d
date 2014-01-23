@@ -56,6 +56,7 @@ namespace Cubiquity
 		
 		Texture[] brushTextures;
 		
+		GUIContent warningLabelContent;
 	
 		public void OnEnable()
 		{
@@ -67,6 +68,12 @@ namespace Cubiquity
 			brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
 			brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
 			brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
+			
+			Texture2D warnIcon = EditorGUIUtility.FindTexture("console.warnicon");
+			warningLabelContent = new GUIContent("This version of Cubiquity is for \n" +
+				"non-commercial and evaluation use\n" +
+				"only. Please see LICENSE.txt for\n" +
+				"further details.", warnIcon);
 		}
 		
 		public override void OnInspectorGUI()
@@ -125,7 +132,10 @@ namespace Cubiquity
 			if(paintPressed)
 			{
 				DrawPaintControls();
-			}
+			}			
+			
+			// Warn about unlicensed version.
+			EditorGUILayout.LabelField(warningLabelContent, GUILayout.Height(64));
 		}
 		
 		private void DrawSculptControls()

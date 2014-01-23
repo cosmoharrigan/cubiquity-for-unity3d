@@ -38,9 +38,17 @@ namespace Cubiquity
 		
 		Color paintColor = Color.white;
 		
+		GUIContent warningLabelContent;
+		
 		public void OnEnable()
 		{
 		    coloredCubesVolume = target as ColoredCubesVolume;
+			
+			Texture2D warnIcon = EditorGUIUtility.FindTexture("console.warnicon");
+			warningLabelContent = new GUIContent("This version of Cubiquity is for \n" +
+				"non-commercial and evaluation use\n" +
+				"only. Please see LICENSE.txt for\n" +
+				"further details.", warnIcon);
 		}
 		
 		public override void OnInspectorGUI()
@@ -101,6 +109,9 @@ namespace Cubiquity
 				string relativePath = MakeRelativePath(streamingAssetsPath, pathToVoxelDatabase);
 				Debug.Log(relativePath);*/
 			}
+			
+			// Warn about unlicensed version.
+			EditorGUILayout.LabelField(warningLabelContent, GUILayout.Height(64));
 		}
 		
 		public void OnSceneGUI()
