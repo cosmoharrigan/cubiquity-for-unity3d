@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+
 using System.Collections;
 using System.Text;
 
@@ -92,7 +96,9 @@ namespace Cubiquity
 						
 						meshRenderer.sharedMaterial = volumeRenderer.material;
 						
+						#if UNITY_EDITOR
 						EditorUtility.SetSelectedWireframeHidden(meshRenderer, true);
+						#endif
 					}
 					
 					// Set up the collision mesh
