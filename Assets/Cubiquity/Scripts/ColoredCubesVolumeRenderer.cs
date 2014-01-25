@@ -15,8 +15,15 @@ namespace Cubiquity
 		#pragma warning restore 0649
 	}
 	
+	[ExecuteInEditMode]
 	public class ColoredCubesVolumeRenderer : VolumeRenderer
 	{
+		void Awake()
+		{
+			// This shader should be appropriate in most scenarios, and makes a good default.
+			material = new Material(Shader.Find("ColoredCubesVolume"));
+		}
+		
 		public override Mesh BuildMeshFromNodeHandle(uint nodeHandle)
 		{
 			// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C

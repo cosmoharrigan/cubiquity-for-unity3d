@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace Cubiquity
 {
+	[ExecuteInEditMode]
 	public class TerrainVolumeCollider : VolumeCollider
 	{
 		public override Mesh BuildMeshFromNodeHandle(uint nodeHandle)

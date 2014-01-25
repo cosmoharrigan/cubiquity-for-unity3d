@@ -26,14 +26,11 @@ namespace Cubiquity
 			
 			//Add the requied components.
 			ColoredCubesVolume coloredCubesVolume = coloredCubesVolumeGameObject.GetOrAddComponent<ColoredCubesVolume>();
-			ColoredCubesVolumeRenderer coloredCubesVolumeRenderer = coloredCubesVolumeGameObject.GetOrAddComponent<ColoredCubesVolumeRenderer>();
+			coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeRenderer>();
 			coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeCollider>();
 			
 			// Set the provided data.
 			coloredCubesVolume.mData = data;
-			
-			// Should be a fairly good choice of default material.
-			coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
 			
 			return coloredCubesVolumeGameObject;
 		}

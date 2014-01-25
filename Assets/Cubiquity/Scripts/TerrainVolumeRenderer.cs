@@ -25,8 +25,15 @@ namespace Cubiquity
 		#pragma warning restore 0649
 	}
 	
+	[ExecuteInEditMode]
 	public class TerrainVolumeRenderer : VolumeRenderer
 	{
+		void Awake()
+		{
+			// Triplanar textuing seems like a good default material for the terrain volume.
+			material = new Material(Shader.Find("TriplanarTexturing"));
+		}
+		
 		public override Mesh BuildMeshFromNodeHandle(uint nodeHandle)
 		{
 			// At some point I should read this: http://forum.unity3d.com/threads/5687-C-plugin-pass-arrays-from-C
