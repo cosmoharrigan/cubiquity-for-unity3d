@@ -47,6 +47,16 @@ namespace Cubiquity
 		{
 			validateDistance(distance);
 			
+			// This 'out' value needs to be initialised even if we don't hit
+			// anything (in which case it will be left at it's default value).
+			pickResult = new PickSurfaceResult();
+			
+			// Can't hit it the volume if there's no data.
+			if(volume.data == null)
+			{
+				return false;
+			}
+			
 			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
 			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's
 			// volume-to-world transform to the ray, to bring it from world space into volume space.
@@ -59,7 +69,6 @@ namespace Cubiquity
 			direction = target - origin;
 			
 			// Now call through to the Cubiquity dll to do the actual picking.
-			pickResult = new PickSurfaceResult();
 			uint hit = CubiquityDLL.PickTerrainSurface((uint)volume.data.volumeHandle,
 				origin.x, origin.y, origin.z,
 				direction.x, direction.y, direction.z,
@@ -88,6 +97,16 @@ namespace Cubiquity
 		{			
 			validateDistance(distance);
 			
+			// This 'out' value needs to be initialised even if we don't hit
+			// anything (in which case it will be left at it's default value).
+			pickResult = new PickVoxelResult();
+			
+			// Can't hit it the volume if there's no data.
+			if(volume.data == null)
+			{
+				return false;
+			}
+			
 			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
 			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's
 			// volume-to-world transform to the ray, to bring it from world space into volume space.
@@ -100,7 +119,6 @@ namespace Cubiquity
 			direction = target - origin;
 			
 			// Now call through to the Cubiquity dll to do the actual picking.
-			pickResult = new PickVoxelResult();
 			uint hit = CubiquityDLL.PickFirstSolidVoxel((uint)volume.data.volumeHandle,
 				origin.x, origin.y, origin.z,
 				direction.x, direction.y, direction.z,
@@ -122,6 +140,16 @@ namespace Cubiquity
 		public static bool PickLastEmptyVoxel(ColoredCubesVolume volume, Vector3 origin, Vector3 direction, float distance, out PickVoxelResult pickResult)
 		{
 			validateDistance(distance);
+			
+			// This 'out' value needs to be initialised even if we don't hit
+			// anything (in which case it will be left at it's default value).
+			pickResult = new PickVoxelResult();
+			
+			// Can't hit it the volume if there's no data.
+			if(volume.data == null)
+			{
+				return false;
+			}
 			
 			// Cubiquity's picking code works in volume space whereas we expose an interface that works in world
 			// space (for consistancy with other Unity functions). Therefore we apply the inverse of the volume's

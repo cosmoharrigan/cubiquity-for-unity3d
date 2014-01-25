@@ -212,6 +212,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 550297957}
   - 114: {fileID: 550297958}
+  - 114: {fileID: 550297959}
+  - 114: {fileID: 550297960}
   m_Layer: 0
   m_Name: EarthPlaceholder
   m_TagString: Untagged
@@ -243,6 +245,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   earthOrbitSpeed: 1
   earthRotationSpeed: -5
+--- !u!114 &550297959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 550297956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045d67dae0d4c514a8e6add34c63a804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxNodesPerSync: 4
+  mData: {fileID: 0}
+--- !u!114 &550297960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 550297956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba582b797ce3ad14e9569c9dade105c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 1009377531}
 --- !u!1 &863727918
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +336,49 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 863727918}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &1009377531
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: TriplanarTexturing
+  m_Shader: {fileID: 4800000, guid: 1caca2db8f6a85441b19b319a7fae750, type: 3}
+  m_ShaderKeywords:
+  - BRUSH_MARKER_OFF
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _Tex0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats: {}
+    m_Colors: {}
 --- !u!1 &1100178563
 GameObject:
   m_ObjectHideFlags: 0
