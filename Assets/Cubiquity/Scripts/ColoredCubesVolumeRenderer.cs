@@ -20,8 +20,11 @@ namespace Cubiquity
 	{
 		void Awake()
 		{
-			// This shader should be appropriate in most scenarios, and makes a good default.
-			material = new Material(Shader.Find("ColoredCubesVolume"));
+			if(material == null)
+			{
+				// This shader should be appropriate in most scenarios, and makes a good default.
+				material = new Material(Shader.Find("ColoredCubesVolume"));
+			}
 		}
 		
 		public override Mesh BuildMeshFromNodeHandle(uint nodeHandle)

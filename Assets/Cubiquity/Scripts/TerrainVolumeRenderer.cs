@@ -30,8 +30,11 @@ namespace Cubiquity
 	{
 		void Awake()
 		{
-			// Triplanar textuing seems like a good default material for the terrain volume.
-			material = new Material(Shader.Find("TriplanarTexturing"));
+			if(material == null)
+			{
+				// Triplanar textuing seems like a good default material for the terrain volume.
+				material = new Material(Shader.Find("TriplanarTexturing"));
+			}
 		}
 		
 		public override Mesh BuildMeshFromNodeHandle(uint nodeHandle)
