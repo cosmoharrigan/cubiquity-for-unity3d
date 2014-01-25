@@ -17,9 +17,6 @@ namespace CubiquityExamples
 		{
 			earthOrbitPoint = transform.parent.gameObject;
 			
-			gameObject.AddComponent<TerrainVolume>();
-			gameObject.AddComponent<TerrainVolumeRenderer>();
-			
 			TerrainVolume volume = GetComponent<TerrainVolume>();
 			TerrainVolumeRenderer volumeRenderer = GetComponent<TerrainVolumeRenderer>();
 			

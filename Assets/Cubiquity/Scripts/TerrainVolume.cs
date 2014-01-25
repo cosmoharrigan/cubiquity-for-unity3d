@@ -21,16 +21,21 @@ namespace Cubiquity
 	    }
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
-		{			
+		{
+			// Create our main game object representing the volume.
 			GameObject terrainVolumeGameObject = new GameObject("Terrain Volume");
 			
-			terrainVolumeGameObject.AddComponent<TerrainVolume>();
-			terrainVolumeGameObject.AddComponent<TerrainVolumeRenderer>();
+			//Add the requied components.
+			TerrainVolume terrainVolume = terrainVolumeGameObject.GetOrAddComponent<TerrainVolume>();
+			TerrainVolumeRenderer terrainVolumeRenderer = terrainVolumeGameObject.GetOrAddComponent<TerrainVolumeRenderer>();
 			terrainVolumeGameObject.AddComponent<TerrainVolumeCollider>();
 			
-			TerrainVolume terrainVolume = terrainVolumeGameObject.GetComponent<TerrainVolume>();
-			
+			// Set the provided data.
 			terrainVolume.mData = data;
+			
+			// This isn't a very attractive default material but it's better than the pink fallback one which Unity provides.
+			// It also avoids warnings about the Unity fallback material wanting texture coordinates but not having them.
+			terrainVolumeRenderer.material = new Material(Shader.Find("MaterialSetDebug"));
 			
 			return terrainVolumeGameObject;
 		}

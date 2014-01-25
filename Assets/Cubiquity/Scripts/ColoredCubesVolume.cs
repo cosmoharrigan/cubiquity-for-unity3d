@@ -20,17 +20,22 @@ namespace Cubiquity
 	    }
 		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
-		{			
-			GameObject VoxelTerrainRoot = new GameObject("Colored Cubes Volume");
-			VoxelTerrainRoot.AddComponent<ColoredCubesVolume>();
-			VoxelTerrainRoot.AddComponent<ColoredCubesVolumeCollider>();
-			VoxelTerrainRoot.AddComponent<ColoredCubesVolumeRenderer>();
+		{
+			// Create our main game object representing the volume.
+			GameObject coloredCubesVolumeGameObject = new GameObject("Colored Cubes Volume");
 			
-			ColoredCubesVolume coloredCubesVolume = VoxelTerrainRoot.GetComponent<ColoredCubesVolume>();
+			//Add the requied components.
+			ColoredCubesVolume coloredCubesVolume = coloredCubesVolumeGameObject.GetOrAddComponent<ColoredCubesVolume>();
+			ColoredCubesVolumeRenderer coloredCubesVolumeRenderer = coloredCubesVolumeGameObject.GetOrAddComponent<ColoredCubesVolumeRenderer>();
+			coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeCollider>();
 			
+			// Set the provided data.
 			coloredCubesVolume.mData = data;
 			
-			return VoxelTerrainRoot;
+			// Should be a fairly good choice of default material.
+			coloredCubesVolumeRenderer.material = new Material(Shader.Find("ColoredCubesVolume"));
+			
+			return coloredCubesVolumeGameObject;
 		}
 		
 		// It seems that we need to implement this function in order to make the volume pickable in the editor.
