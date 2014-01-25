@@ -190,18 +190,18 @@ namespace Cubiquity
 			EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 			
 			Texture2D[] diffuseMaps = new Texture2D[4]; //HARDCODED!!
-			for(int i = 0; i < 4; i++) //HARDCODED!!
+			
+			// If we have a renderer and a material available then we can attempt
+			// to set the texture on the buttons according to what is in the material
+			if((terrainVolume.GetComponent<TerrainVolumeRenderer>()) &&
+				(terrainVolume.GetComponent<TerrainVolumeRenderer>().material))
 			{
-				diffuseMaps[i] = terrainVolume.GetComponent<TerrainVolumeRenderer>().material.GetTexture("_Tex" + i) as Texture2D;
+				for(int i = 0; i < 4; i++) //HARDCODED!!
+				{
+					diffuseMaps[i] = terrainVolume.GetComponent<TerrainVolumeRenderer>().material.GetTexture("_Tex" + i) as Texture2D;
+				}
 			}
 			selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
-			
-			EditorGUILayout.Space();
-			
-			if(GUILayout.Button("Edit selected material..."))
-			{			
-				//TerrainMaterialEditorWindow.EditMaterial(terrainVolume.materials[selectedTexture]);
-			}
 			
 			EditorGUILayout.Space();
 		}
