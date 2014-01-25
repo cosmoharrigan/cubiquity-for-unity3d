@@ -242,7 +242,16 @@ namespace Cubiquity
 		
 		public void OnSceneGUI()
 		{
-			Material material = terrainVolume.GetComponent<TerrainVolumeRenderer>().material;
+			// If we don't have a renderer then there's no terrain being
+			// displayed, and so not much we can do in this function.
+			TerrainVolumeRenderer terrainVolumeRenderer = terrainVolume.GetComponent<TerrainVolumeRenderer>();
+			if(terrainVolumeRenderer == null)
+			{
+				return;
+			}
+			
+			// By default we disable the brush marker, and only turn it on if we later find a hit.
+			Material material = terrainVolumeRenderer.material;
 			List<string> keywords = new List<string> { "BRUSH_MARKER_OFF" };
 			
 			if(sculptPressed || smoothPressed || paintPressed)
@@ -263,10 +272,13 @@ namespace Cubiquity
 					// Use this value to compute the inner radius as a proportion of the outer radius.
 					float brushInnerRadius = brushOuterRadius * brushInnerScaleFactor;
 					
-					keywords = new List<string> { "BRUSH_MARKER_ON" };
-					material.SetVector("_BrushCenter", pickResult.volumeSpacePos);				
-					material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
-					material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+					if(material != null)
+					{
+						keywords = new List<string> { "BRUSH_MARKER_ON" };
+						material.SetVector("_BrushCenter", pickResult.volumeSpacePos);				
+						material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
+						material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+					}
 					
 					if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))
 					{
@@ -301,7 +313,10 @@ namespace Cubiquity
 				HandleUtility.Repaint();
 			}
 			
-			material.shaderKeywords = keywords.ToArray();
+			if(material != null)
+			{
+				material.shaderKeywords = keywords.ToArray();
+			}
 		}
 		
 		private static void OnTerrainToolChanged()
