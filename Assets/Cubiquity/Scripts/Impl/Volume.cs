@@ -12,6 +12,8 @@ namespace Cubiquity
 		
 		private bool flushRequested;
 		
+		private int previousLayer = -1;
+		
 		protected void Awake()
 		{
 			if(rootOctreeNodeGameObject != null)
@@ -68,6 +70,14 @@ namespace Cubiquity
 			{
 				FlushInternalData();
 				flushRequested = false;
+			}
+			
+			// Check whether the gameObject has been moved to a new layer.
+			if(gameObject.layer != previousLayer)
+			{
+				// If so we update the children to match and then clear the flag.
+				gameObject.SetLayerRecursively(gameObject.layer);
+				previousLayer = gameObject.layer;
 			}
 			
 			// NOTE - The following line passes transform.worldToLocalMatrix as a shader parameter. This is explicitly
