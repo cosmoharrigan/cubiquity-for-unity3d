@@ -33,7 +33,8 @@ namespace Cubiquity
 				
 			// Create rendering and possible collision meshes.
 			Mesh renderingMesh = new Mesh();		
-			
+			renderingMesh.hideFlags = HideFlags.DontSave;
+
 			// Get the data from Cubiquity.
 			int[] indices = CubiquityDLL.GetIndices(nodeHandle);		
 			CubiquityVertex[] cubiquityVertices = CubiquityDLL.GetVertices(nodeHandle);			

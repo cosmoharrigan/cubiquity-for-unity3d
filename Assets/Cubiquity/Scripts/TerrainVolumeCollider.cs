@@ -9,7 +9,8 @@ namespace Cubiquity
 		public override Mesh BuildMeshFromNodeHandle(uint nodeHandle)
 		{
 			Mesh collisionMesh = new Mesh();
-				
+			collisionMesh.hideFlags = HideFlags.DontSave;
+
 			// Get the data from Cubiquity.
 			int[] indices = CubiquityDLL.GetIndicesMC(nodeHandle);		
 			CubiquitySmoothVertex[] cubiquityVertices = CubiquityDLL.GetVerticesMC(nodeHandle);			
