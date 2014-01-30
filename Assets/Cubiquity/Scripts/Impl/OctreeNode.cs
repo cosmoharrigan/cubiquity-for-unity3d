@@ -38,6 +38,8 @@ namespace Cubiquity
 			
 			if(parentGameObject)
 			{
+				newGameObject.layer = parentGameObject.layer;
+					
 				newGameObject.transform.parent = parentGameObject.transform;
 				newGameObject.transform.localPosition = new Vector3();
 				newGameObject.transform.localRotation = new Quaternion();
