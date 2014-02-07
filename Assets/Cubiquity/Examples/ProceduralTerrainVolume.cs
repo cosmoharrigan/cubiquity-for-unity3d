@@ -33,12 +33,22 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		terrain.transform.parent = transform;
 		terrain.hideFlags = HideFlags.DontSave;
 		
-		// Set up our textures in the appropriate material slots.
-		/*terrain.GetComponent<TerrainVolume>().materials[0].diffuseMap = Resources.Load("Textures/Rock") as Texture2D;
-		terrain.GetComponent<TerrainVolume>().materials[0].scale = new Vector3(16.0f, 16.0f, 16.0f);		
-		terrain.GetComponent<TerrainVolume>().materials[1].diffuseMap = Resources.Load("Textures/Soil") as Texture2D;		
-		terrain.GetComponent<TerrainVolume>().materials[2].diffuseMap = Resources.Load("Textures/Grass") as Texture2D;
-		terrain.GetComponent<TerrainVolume>().materials[2].scale = new Vector3(1.0f, 1.0f, 1.0f);*/
+		// Set up our material	
+		Material material = new Material(Shader.Find("TriplanarTexturing"));
+		terrain.GetComponent<TerrainVolumeRenderer>().material = material;
+		
+		// Set up the default textures
+		Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
+		Texture2D soilTexture = Resources.Load("Textures/Soil") as Texture2D;
+		Texture2D grassTexture = Resources.Load("Textures/Grass") as Texture2D;
+		
+		//Assign the textures to the appropriate material slots.
+		material.SetTexture("_Tex0", rockTexture);
+		material.SetTextureScale("_Tex0", new Vector2(0.062f, 0.062f));
+		material.SetTexture("_Tex1", soilTexture);
+		material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));			
+		material.SetTexture("_Tex2", grassTexture);
+		material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
 		
 		// At this point our volume is set up and ready to use. The remaining code is responsible
 		// for iterating over all the voxels and filling them according to our noise functions.
