@@ -27,10 +27,19 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
 		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
 		// Lastly, the 'DontSave' flag is set because we simply regenerate the volume when switching to play mode.
-		GameObject maze = ColoredCubesVolume.CreateGameObject(data);
-		maze.name = "Maze Volume";
-		maze.transform.parent = transform;
-		maze.hideFlags = HideFlags.DontSave;
+		//GameObject maze = ColoredCubesVolume.CreateGameObject(data);
+		//maze.name = "Maze Volume";
+		//maze.transform.parent = transform;
+		//maze.hideFlags = HideFlags.DontSave;
+		
+		//Add the requied components.
+		ColoredCubesVolume coloredCubesVolume = gameObject.AddComponent<ColoredCubesVolume>();
+		gameObject.AddComponent<ColoredCubesVolumeRenderer>();
+		gameObject.AddComponent<ColoredCubesVolumeCollider>();
+		
+		// Attactch the empty data we created previously
+		coloredCubesVolume.data = data;
+		
 		
 		// At this point we have a volume created and can now start writting our maze data into it.
 		
