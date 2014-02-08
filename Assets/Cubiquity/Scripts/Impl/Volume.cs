@@ -14,6 +14,11 @@ namespace Cubiquity
 		
 		private int previousLayer = -1;
 		
+		// We only keep a list of enabled volumes (rather than all volumes) because OnEnable()/OnDisable() are called after
+		// script recompilation, whereas Awake(), Start(), etc are not. For updating purposes we only need enabled ones anyway.
+		// I don't think user code should need this, so we should leave it out of the API docs.
+		public static List<Volume> allEnabledVolumes = new List<Volume>();
+		
 		protected void Awake()
 		{
 			if(rootOctreeNodeGameObject != null)
@@ -36,6 +41,13 @@ namespace Cubiquity
 			// We set the flag here (rather than OnDisable() where it might make more sense) because the flag doesn't survive the
 			// script reload, and we don't really wnt to serialize it.
 			RequestFlushInternalData();
+			
+			allEnabledVolumes.Add(this);
+		}
+		
+		void OnDisable()
+		{
+			allEnabledVolumes.Remove(this);
 		}
 		
 		public void RequestFlushInternalData()
