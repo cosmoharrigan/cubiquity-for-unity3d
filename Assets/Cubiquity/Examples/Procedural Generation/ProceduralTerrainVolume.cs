@@ -15,7 +15,7 @@ using Cubiquity;
 public class ProceduralTerrainVolume : MonoBehaviour
 {
 	// Use this for initialization
-	void OnEnable()
+	void Start()
 	{
 		// The size of the volume we will generate
 		int width = 256;
@@ -25,17 +25,14 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		// FIXME - Where should we delete this?
 		TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
-		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
-		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
-		// Lastly, the 'DontSave' flag is set because we simply regenerate the volume when switching to play mode.
-		GameObject terrain = TerrainVolume.CreateGameObject(data);
-		terrain.name = "Procedurally Generated Terrain";
-		terrain.transform.parent = transform;
-		terrain.hideFlags = HideFlags.DontSave;
+		TerrainVolume volume = GetComponent<TerrainVolume>();
+		TerrainVolumeRenderer volumeRenderer = GetComponent<TerrainVolumeRenderer>();
+		
+		volume.data = data;
 		
 		// Set up our material	
 		Material material = new Material(Shader.Find("TriplanarTexturing"));
-		terrain.GetComponent<TerrainVolumeRenderer>().material = material;
+		volumeRenderer.material = material;
 		
 		// Set up the default textures
 		Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
