@@ -7,7 +7,7 @@ using Cubiquity;
 public class ColoredCubeMazeFromImage : MonoBehaviour
 {
 	// Use this for initialization
-	void OnEnable ()
+	void Start ()
 	{
 		// We will load our texture from the supplied maze image. If you wish to supply your own image then please
 		// note that in Unity 4 you have to set the 'Read/Write Enabled flag' in the texture import properties.
@@ -24,22 +24,11 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 		// Start with some empty volume data and we'll write our maze into this..
 		ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
 		
-		// Now we take the TerrainVolumeData we have just created and build a TerrainVolume from it.
-		// We also name it and make it a child of the generator to keep things tidy, though this isn't required.
-		// Lastly, the 'DontSave' flag is set because we simply regenerate the volume when switching to play mode.
-		//GameObject maze = ColoredCubesVolume.CreateGameObject(data);
-		//maze.name = "Maze Volume";
-		//maze.transform.parent = transform;
-		//maze.hideFlags = HideFlags.DontSave;
-		
-		//Add the requied components.
-		ColoredCubesVolume coloredCubesVolume = gameObject.AddComponent<ColoredCubesVolume>();
-		gameObject.AddComponent<ColoredCubesVolumeRenderer>();
-		gameObject.AddComponent<ColoredCubesVolumeCollider>();
+		//Get the main volume component
+		ColoredCubesVolume coloredCubesVolume = gameObject.GetComponent<ColoredCubesVolume>();
 		
 		// Attactch the empty data we created previously
-		coloredCubesVolume.data = data;
-		
+		coloredCubesVolume.data = data;		
 		
 		// At this point we have a volume created and can now start writting our maze data into it.
 		
