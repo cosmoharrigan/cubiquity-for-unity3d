@@ -7,6 +7,11 @@ namespace Cubiquity
 {
 	public class Installation
 	{
+#if UNITY_STANDALONE_WIN
+		private const string fileName = "CubiquityC.dll";
+#elif UNITY_STANDALONE_LINUX
+		private const string fileName = "libCubiquityC.so";
+#endif
 		public static void ValidateAndFix()
 		{
 #if !UNITY_EDITOR
@@ -15,8 +20,7 @@ namespace Cubiquity
 			{
 				Debug.LogError("We're sorry, but Cubiquity for Unity3D is currently only supported on Windows. We hope to support more platfors in the future.");
 			}
-			
-			string fileName = "CubiquityC.dll";
+
 	        string sourcePath = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity");
 	        string destPath =  System.IO.Path.Combine(Application.dataPath, "..");
 	
