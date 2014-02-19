@@ -19,6 +19,9 @@ namespace Cubiquity
 		// being found. We need to look into this further.
 		static CubiquityDLL()
 		{
+#if !UNITY_EDITOR
+			Debug.Log ("Loading Cubiquity native code library from '" + dllToImport + "'");
+#endif
 			Installation.ValidateAndFix();
 		}
 		
