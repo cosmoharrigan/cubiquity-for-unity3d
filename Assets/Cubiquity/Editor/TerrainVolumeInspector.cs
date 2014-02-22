@@ -275,9 +275,9 @@ namespace Cubiquity
 					if(material != null)
 					{
 						keywords = new List<string> { "BRUSH_MARKER_ON" };
-						material.SetVector("_BrushCenter", pickResult.volumeSpacePos);				
-						material.SetVector("_BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
-						material.SetVector("_BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
+						material.SetVector("BrushCenter", pickResult.volumeSpacePos);				
+						material.SetVector("BrushSettings", new Vector4(brushInnerRadius, brushOuterRadius, brushOpacity, 0.0f));
+						material.SetVector("BrushColor", new Vector4(0.0f, 0.5f, 1.0f, 1.0f));
 					}
 					
 					if(((e.type == EventType.MouseDown) || (e.type == EventType.MouseDrag)) && (e.button == 0))

@@ -38,9 +38,9 @@
 		//float3 _TexOffset3;
 		
 #if BRUSH_MARKER_ON
-		float4 _BrushCenter;
-		float4 _BrushSettings;
-		float4 _BrushColor;
+		float4 BrushCenter;
+		float4 BrushSettings;
+		float4 BrushColor;
 #endif
 
 		float4x4 _World2Volume;
@@ -102,14 +102,14 @@
 #if BRUSH_MARKER_ON
 			float brushStrength = 0.0f;
 			
-			float distToBrushCenter = length(IN.volumePos.xyz - _BrushCenter.xyz);
-			if(distToBrushCenter < _BrushSettings.x)
+			float distToBrushCenter = length(IN.volumePos.xyz - BrushCenter.xyz);
+			if(distToBrushCenter < BrushSettings.x)
 			{
 				brushStrength = 1.0;
 			}
-			else if(distToBrushCenter < _BrushSettings.y)
+			else if(distToBrushCenter < BrushSettings.y)
 			{
-				float lerpFactor = (distToBrushCenter - _BrushSettings.x) / (_BrushSettings.y - _BrushSettings.x);
+				float lerpFactor = (distToBrushCenter - BrushSettings.x) / (BrushSettings.y - BrushSettings.x);
 				brushStrength = lerp(1.0f, 0.0f, lerpFactor);
 		
 				brushStrength = min(brushStrength, 1.0f);
@@ -118,9 +118,9 @@
 				//brushStrength = 1.0 - lerpFactor;
 			}
 			
-			_BrushColor.a = _BrushColor.a * brushStrength;
+			BrushColor.a = BrushColor.a * brushStrength;
 			
-			o.Albedo = diffuse.rgb * (1.0 - _BrushColor.a) + _BrushColor.rgb * _BrushColor.a;
+			o.Albedo = diffuse.rgb * (1.0 - BrushColor.a) + BrushColor.rgb * BrushColor.a;
 #else
 			o.Albedo = diffuse.rgb;
 #endif
