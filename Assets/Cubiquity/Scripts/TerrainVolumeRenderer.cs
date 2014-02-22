@@ -52,6 +52,7 @@ namespace Cubiquity
 			// Create the arrays which we'll copy the data to.
 	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
 			Vector3[] renderingNormals = new Vector3[cubiquityVertices.Length];		
+			Vector2[] renderingTexCoords = new Vector2[cubiquityVertices.Length];
 			Color32[] renderingColors = new Color32[cubiquityVertices.Length];		
 			
 			for(int ct = 0; ct < cubiquityVertices.Length; ct++)
@@ -64,12 +65,14 @@ namespace Cubiquity
 				// Copy it to the arrays.
 				renderingVertices[ct] = position;	
 				renderingNormals[ct] = normal;
+				renderingTexCoords[ct] = new Vector2(0.0f, 0.0f);
 				renderingColors[ct] = color;
 			}
 			
 			// Assign vertex data to the meshes.
 			renderingMesh.vertices = renderingVertices; 
 			renderingMesh.normals = renderingNormals;
+			renderingMesh.uv = renderingTexCoords; // FIXME - This is a tempory hack for OpenGL and should be removed if possible
 			renderingMesh.colors32 = renderingColors;
 			renderingMesh.triangles = indices;
 			

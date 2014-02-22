@@ -12,7 +12,7 @@
 		CGPROGRAM
 		#pragma surface surf Lambert vertex:vert addshadow
 		#pragma target 3.0
-		#pragma only_renderers d3d9
+		#pragma glsl
 		#pragma multi_compile BRUSH_MARKER_ON BRUSH_MARKER_OFF
 		
 		#include "TerrainVolumeUtilities.cginc"
