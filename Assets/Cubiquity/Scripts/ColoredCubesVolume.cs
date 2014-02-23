@@ -71,7 +71,7 @@ namespace Cubiquity
 				{		
 					// We compute surface normals using derivative operations in the fragment shader, but for some reason
 					// these are backwards on Linux. We can correct for this in the shader by setting the multiplier below.
-					#if UNITY_STANDALONE_LINUX
+					#if UNITY_STANDALONE_LINUX && !UNITY_EDITOR
 						float normalMultiplier = -1.0f;
 					#else
 						float normalMultiplier = 1.0f;
