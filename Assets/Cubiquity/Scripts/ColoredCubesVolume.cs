@@ -98,8 +98,11 @@ namespace Cubiquity
 						}
 						
 						OctreeNode rootOctreeNode = rootOctreeNodeGameObject.GetComponent<OctreeNode>();
-						int copyOfMaxNodePerSync = maxNodesPerSync;
-						rootOctreeNode.syncNode(ref copyOfMaxNodePerSync, gameObject);
+						int nodeSyncsPerformed = rootOctreeNode.syncNode(maxNodesPerSync, gameObject);
+						
+						// If no node were syncronized then the mesh data is up to
+						// date and we can set the flag to convey this to the user.
+						isSyncronized = (nodeSyncsPerformed == 0);
 					}
 				}
 			}

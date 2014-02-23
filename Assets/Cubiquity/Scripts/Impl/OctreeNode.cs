@@ -67,11 +67,13 @@ namespace Cubiquity
 			return newGameObject;
 		}
 		
-		public void syncNode(ref int availableNodeSyncs, GameObject voxelTerrainGameObject)
+		public int syncNode(int availableNodeSyncs, GameObject voxelTerrainGameObject)
 		{
+			int nodeSyncsPerformed = 0;
+			
 			if(availableNodeSyncs <= 0)
 			{
-				return;
+				return nodeSyncsPerformed;
 			}
 			
 			uint meshLastUpdated = CubiquityDLL.GetMeshLastUpdated(nodeHandle);		
@@ -136,6 +138,8 @@ namespace Cubiquity
 				
 				meshLastSyncronised = CubiquityDLL.GetCurrentTime();
 				availableNodeSyncs--;
+				nodeSyncsPerformed++;
+				
 			}		
 			
 			//Now syncronise any children
@@ -162,11 +166,15 @@ namespace Cubiquity
 							//syncNode(childNodeHandle, childGameObject);
 							
 							OctreeNode childOctreeNode = childGameObject.GetComponent<OctreeNode>();
-							childOctreeNode.syncNode(ref availableNodeSyncs, voxelTerrainGameObject);
+							int syncs = childOctreeNode.syncNode(availableNodeSyncs, voxelTerrainGameObject);
+							availableNodeSyncs -= syncs;
+							nodeSyncsPerformed += syncs;
 						}
 					}
 				}
 			}
+			
+			return nodeSyncsPerformed;
 		}
 		
 		public GameObject GetChild(uint x, uint y, uint z)

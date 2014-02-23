@@ -8,6 +8,21 @@ namespace Cubiquity
 	{
 		public int maxNodesPerSync = 4;
 		
+		// Indicates whether the mesh representation is currently up to date with the volume data. Note that this property may
+		// fluctuate rapidly during real-time editing as the system tries to keep up with the users modifications, and also that
+		// it may lag a few frames behind the true syncronization state.
+		public bool isSyncronized
+		{
+			get { return mIsSyncronized; }
+			protected set
+			{
+				if(mIsSyncronized != value)
+				{
+					mIsSyncronized = value;
+				}
+			}
+		} private bool mIsSyncronized = false;
+		
 		protected GameObject rootOctreeNodeGameObject;
 		
 		private bool flushRequested;
