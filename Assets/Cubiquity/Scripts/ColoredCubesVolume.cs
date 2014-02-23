@@ -64,6 +64,22 @@ namespace Cubiquity
 		{			
 			base.Synchronize();
 			
+			ColoredCubesVolumeRenderer volumeRenderer = gameObject.GetComponent<ColoredCubesVolumeRenderer>();
+			if(volumeRenderer != null)
+			{
+				if(volumeRenderer.material != null)
+				{		
+					// We compute surface normals using derivative operations in the fragment shader, but for some reason
+					// these are backwards on Linux. We can correct for this in the shader by setting the multiplier below.
+					#if UNITY_STANDALONE_LINUX
+						float normalMultiplier = -1.0f;
+					#else
+						float normalMultiplier = 1.0f;
+					#endif					
+					volumeRenderer.material.SetFloat("normalMultiplier", normalMultiplier);
+				}
+			}
+			
 			// Syncronize the mesh data.
 			if(data != null)
 			{

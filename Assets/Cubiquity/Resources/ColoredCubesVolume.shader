@@ -8,6 +8,9 @@ Shader "ColoredCubesVolume"
       #pragma target 3.0
       #pragma glsl
       
+      // Scripts can flip the computed normal by setting this to '-1.0f'.
+      float normalMultiplier;
+      
       struct Input
       {
           float4 color : COLOR;
@@ -34,8 +37,20 @@ Shader "ColoredCubesVolume"
       
       void surf (Input IN, inout SurfaceOutput o)
       {
-      	// Compute the surface normal in the fragment shader.
+      	// Compute the surface normal in the fragment shader. I believe the orientation of the vector is different
+      	// between render systems as some are left-handed and some are right handed (even though Unity corrects for
+      	// other handiness differences internally). With these render system tests the normals are correct on Windows
+      	// regardless of which render system is in use.
+#if SHADER_API_D3D9 || SHADER_API_D3D11 || SHADER_API_D3D11_9X || SHADER_API_XBOX360
       	float3 surfaceNormal = normalize(cross(ddx(IN.modelPos.xyz), ddy(IN.modelPos.xyz)));
+#else
+		float3 surfaceNormal = -normalize(cross(ddx(IN.modelPos.xyz), ddy(IN.modelPos.xyz)));
+#endif
+
+		// Despite our render system checks above, we have seen that the normals are still backwards in Linux
+      	// standalone builds. The reason is not currently clear, but the 'normalMultiplier' allow scripts to
+      	// flip the normal if required by setting the multiplier to '-1.0f'.
+		surfaceNormal *= normalMultiplier;
       	
 	    //Add noise - we use model space to prevent noise scrolling if the volume moves.
 	    float noise = positionBasedNoise(float4(IN.modelPos.xyz, 0.1));
