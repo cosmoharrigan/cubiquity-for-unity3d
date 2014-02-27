@@ -6,6 +6,17 @@ namespace Cubiquity
 {
 	public class Volume : MonoBehaviour
 	{
+		/// Sets an upper limit on the rate at which the mesh representation is updated to match the volume data.
+		/**
+		 * %Cubiquity continuously checks whether the the mesh representation (used for rendering and physics) is synchronized with the underlying
+		 * volume data. Such synchronization can be lost whenever the volume data is modified, and %Cubiquity will then regenerate the mesh. This
+		 * regeneration process can take some time, and so typically you want to spread the regeneration over a number of frames.
+		 *
+		 * Internally %Cubiquity breaks down the volume into a number regions each corresponding to an octree node, and these can be resynchronized
+		 * individually. Therefore this property controls how many of the octree nodes will be resynchronized each frame. A small value will result
+		 * in a better frame rate when modifications are being performed, but at the possible expense of the rendered mesh noticeably lagging behind 
+		 * the modifications which are being performed.
+		 */
 		public int maxNodesPerSync = 4;
 		
 		// Indicates whether the mesh representation is currently up to date with the volume data. Note that this property may
