@@ -15,7 +15,7 @@ namespace Cubiquity
 
 			// Get the data from Cubiquity.
 			int[] indices = CubiquityDLL.GetIndicesMC(nodeHandle);		
-			CubiquitySmoothVertex[] cubiquityVertices = CubiquityDLL.GetVerticesMC(nodeHandle);			
+			TerrainVertex[] cubiquityVertices = CubiquityDLL.GetVerticesMC(nodeHandle);			
 			
 			// Create the arrays which we'll copy the data to.	
 			Vector3[] vertices = new Vector3[cubiquityVertices.Length];

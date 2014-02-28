@@ -5,7 +5,7 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
-	public struct CubiquityVertex 
+	public struct ColoredCubesVertex 
 	{
 		// Disable 'Field ... is never assigned to'
 		// warnings as this structure is just for interop
@@ -39,7 +39,7 @@ namespace Cubiquity
 
 			// Get the data from Cubiquity.
 			int[] indices = CubiquityDLL.GetIndices(nodeHandle);		
-			CubiquityVertex[] cubiquityVertices = CubiquityDLL.GetVertices(nodeHandle);			
+			ColoredCubesVertex[] cubiquityVertices = CubiquityDLL.GetVertices(nodeHandle);			
 			
 			// Create the arrays which we'll copy the data to.
 	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];	
