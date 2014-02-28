@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 
 namespace Cubiquity
 {
+	namespace Impl
+	{
 		public class Installation
 		{
 			#if UNITY_STANDALONE_WIN
@@ -98,4 +100,5 @@ namespace Cubiquity
 				}
 			}
 		}
+	}
 }
