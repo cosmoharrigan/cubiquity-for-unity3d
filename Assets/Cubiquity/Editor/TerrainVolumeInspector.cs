@@ -229,7 +229,7 @@ namespace Cubiquity
 			int imageThumbnailSize = thumbnailSize;
 			int inspectorWidth = Screen.width;			
 			int widthInThumbnails = inspectorWidth / imageThumbnailSize;
-			int noOfThumbbails = (int)License.MaxNoOfMaterials;
+			int noOfThumbbails = 4;
 			int noOfRows = noOfThumbbails / widthInThumbnails;
 			if(noOfThumbbails % widthInThumbnails != 0)
 			{
