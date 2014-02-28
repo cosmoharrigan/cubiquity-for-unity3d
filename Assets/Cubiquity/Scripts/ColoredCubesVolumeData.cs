@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Collections;
 
+using Cubiquity.Impl;
+
 namespace Cubiquity
 {
 	[System.Serializable]

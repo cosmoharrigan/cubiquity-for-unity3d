@@ -2,6 +2,8 @@
 using System.Collections;
 using System.IO;
 
+using Cubiquity.Impl;
+
 namespace Cubiquity
 {
 	public static class TerrainVolumeEditor
