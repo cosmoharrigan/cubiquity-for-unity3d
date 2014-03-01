@@ -32,7 +32,9 @@ namespace Cubiquity
 			// Create the arrays which we'll copy the data to.
 	        Vector3[] renderingVertices = new Vector3[cubiquityVertices.Length];		
 			Vector3[] renderingNormals = new Vector3[cubiquityVertices.Length];		
-			Color32[] renderingColors = new Color32[cubiquityVertices.Length];		
+			Color32[] renderingColors = new Color32[cubiquityVertices.Length];	
+			Vector4[] renderingTangents = new Vector4[cubiquityVertices.Length];		
+			
 			
 			for(int ct = 0; ct < cubiquityVertices.Length; ct++)
 			{
@@ -40,17 +42,20 @@ namespace Cubiquity
 				Vector3 position = new Vector3(cubiquityVertices[ct].x, cubiquityVertices[ct].y, cubiquityVertices[ct].z);
 				Vector3 normal = new Vector3(cubiquityVertices[ct].nx, cubiquityVertices[ct].ny, cubiquityVertices[ct].nz);
 				Color32 color = new Color32(cubiquityVertices[ct].m0, cubiquityVertices[ct].m1, cubiquityVertices[ct].m2, cubiquityVertices[ct].m3);
+				Vector4 tangents = new Vector4(cubiquityVertices[ct].m4 / 255.0f, cubiquityVertices[ct].m5 / 255.0f, cubiquityVertices[ct].m6 / 255.0f, cubiquityVertices[ct].m7 / 255.0f);
 					
 				// Copy it to the arrays.
 				renderingVertices[ct] = position;	
 				renderingNormals[ct] = normal;
 				renderingColors[ct] = color;
+				renderingTangents[ct] = tangents;
 			}
 			
 			// Assign vertex data to the meshes.
 			renderingMesh.vertices = renderingVertices; 
 			renderingMesh.normals = renderingNormals;
 			renderingMesh.colors32 = renderingColors;
+			renderingMesh.tangents = renderingTangents;
 			renderingMesh.triangles = indices;
 			
 			// FIXME - Get proper bounds

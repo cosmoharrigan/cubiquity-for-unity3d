@@ -189,14 +189,14 @@ namespace Cubiquity
 		{
 			EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
 			
-			Texture2D[] diffuseMaps = new Texture2D[4]; //HARDCODED!!
+			Texture2D[] diffuseMaps = new Texture2D[8]; //HARDCODED!!
 			
 			// If we have a renderer and a material available then we can attempt
 			// to set the texture on the buttons according to what is in the material
 			if((terrainVolume.GetComponent<TerrainVolumeRenderer>()) &&
 				(terrainVolume.GetComponent<TerrainVolumeRenderer>().material))
 			{
-				for(int i = 0; i < 4; i++) //HARDCODED!!
+				for(int i = 0; i < 8; i++) //HARDCODED!!
 				{
 					diffuseMaps[i] = terrainVolume.GetComponent<TerrainVolumeRenderer>().material.GetTexture("_Tex" + i) as Texture2D;
 				}
@@ -229,7 +229,7 @@ namespace Cubiquity
 			int imageThumbnailSize = thumbnailSize;
 			int inspectorWidth = Screen.width;			
 			int widthInThumbnails = inspectorWidth / imageThumbnailSize;
-			int noOfThumbbails = 4;
+			int noOfThumbbails = 8;
 			int noOfRows = noOfThumbbails / widthInThumbnails;
 			if(noOfThumbbails % widthInThumbnails != 0)
 			{

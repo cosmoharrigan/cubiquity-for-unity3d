@@ -4,6 +4,10 @@
 		_Tex1 ("Base (RGB)", 2D) = "white" {}
 		_Tex2 ("Base (RGB)", 2D) = "white" {}
 		_Tex3 ("Base (RGB)", 2D) = "white" {}
+		_Tex4 ("Base (RGB)", 2D) = "white" {}
+		_Tex5 ("Base (RGB)", 2D) = "white" {}
+		_Tex6 ("Base (RGB)", 2D) = "white" {}
+		_Tex7 ("Base (RGB)", 2D) = "white" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -21,11 +25,19 @@
 		sampler2D _Tex1;
 		sampler2D _Tex2;
 		sampler2D _Tex3;
+		sampler2D _Tex4;
+		sampler2D _Tex5;
+		sampler2D _Tex6;
+		sampler2D _Tex7;
 		
 		float4 _Tex0_ST;
 		float4 _Tex1_ST;
 		float4 _Tex2_ST;
 		float4 _Tex3_ST;
+		float4 _Tex4_ST;
+		float4 _Tex5_ST;
+		float4 _Tex6_ST;
+		float4 _Tex7_ST;
 		
 		//float3 _TexInvScale0;
 		//float3 _TexInvScale1;
@@ -48,6 +60,7 @@
 		struct Input
 		{
 			float4 color : COLOR;
+			float4 otherFourMatStrengths : TEXCOORD0;
 			float3 worldPos : POSITION;
 			float3 volumeNormal;
 			float4 volumePos;
@@ -61,6 +74,10 @@
 			float4 worldPos = mul(_Object2World, v.vertex);
 			o.volumePos =  mul(_World2Volume, worldPos);
 			o.volumeNormal = v.normal;
+			
+			// The first four material weights are stored in color and are copied by Unity.
+			// But I don't think it copied the tangents (it can't know to) so do that here.
+			o.otherFourMatStrengths = v.tangent;
 		}
 
 		void surf (Input IN, inout SurfaceOutput o)
@@ -75,8 +92,12 @@
 			// (roughly 0.5 as that's where the isosurface is). Make them sum
 			// to one, though Cubiquity should probably be changed to do this.
 			half4 materialStrengths = IN.color;
-			half materialStrengthsSum = materialStrengths.x + materialStrengths.y + materialStrengths.z + materialStrengths.w;
-			materialStrengths /= materialStrengthsSum;			
+			half4 otherFourMaterialStrengths = IN.otherFourMatStrengths;
+			half materialStrengthsSum = 
+				materialStrengths.x + materialStrengths.y + materialStrengths.z + materialStrengths.w +
+				otherFourMaterialStrengths.x + otherFourMaterialStrengths.y + otherFourMaterialStrengths.z + otherFourMaterialStrengths.w;
+			materialStrengths /= materialStrengthsSum;
+			otherFourMaterialStrengths /= materialStrengthsSum;
 			
 			// Texture coordinates are calculated from the model
 			// space position, scaled by a user-supplied factor.
@@ -98,6 +119,11 @@
 			diffuse += texTriplanar(_Tex1, texCoords, _Tex1_ST, dx, dy, triplanarBlendWeights * materialStrengths.g);
 			diffuse += texTriplanar(_Tex2, texCoords, _Tex2_ST, dx, dy, triplanarBlendWeights * materialStrengths.b);
 			diffuse += texTriplanar(_Tex3, texCoords, _Tex3_ST, dx, dy, triplanarBlendWeights * materialStrengths.a);
+			
+			diffuse += texTriplanar(_Tex4, texCoords, _Tex4_ST, dx, dy, triplanarBlendWeights * otherFourMaterialStrengths.r);
+			diffuse += texTriplanar(_Tex5, texCoords, _Tex5_ST, dx, dy, triplanarBlendWeights * otherFourMaterialStrengths.g);
+			diffuse += texTriplanar(_Tex6, texCoords, _Tex6_ST, dx, dy, triplanarBlendWeights * otherFourMaterialStrengths.b);
+			diffuse += texTriplanar(_Tex7, texCoords, _Tex7_ST, dx, dy, triplanarBlendWeights * otherFourMaterialStrengths.a);
 			
 #if BRUSH_MARKER_ON
 			float brushStrength = 0.0f;
