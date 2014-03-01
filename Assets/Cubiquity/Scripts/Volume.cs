@@ -6,7 +6,21 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
-	public class Volume : MonoBehaviour
+	/// Base class representing a three-dimensional grid of voxels. 
+	/**
+	 * Volumes are probably the single most fundamental concept of %Cubiquity. They essentially provide a 3D array of voxels which the user can
+	 * modify at will, and they take care of synchronizing and maintaining a mesh representation of the voxels for rendering and collision detection.
+	 *
+	 * The Volume class itself is actually an abstract base class which cannot be instantiated by user code directly. Instead is serves as a base
+	 * for the ColoredCubesVolume and TerrainVolume and encapsulates some of the common behaviour which such derived classes need. It is used in
+	 * conjunction with the VolumeData, VolumeRenderer and VolumeCollider to form a structure as given below:
+	 *
+	 * Diagram of volume structure here.
+	 *
+	 * Note how this is conceptually similar to the way that Unity's mesh classes are structured, where the MeshFilter works in conjunction with 
+	 * the Mesh, MeshRenderer and MeshCollider classes.
+	 */
+	public abstract class Volume : MonoBehaviour
 	{
 		/// Sets an upper limit on the rate at which the mesh representation is updated to match the volume data.
 		/**
@@ -83,7 +97,7 @@ namespace Cubiquity
 			//OnEnable()/OnDisable(). Therefore we just set a flag to say that the root node shot be deleted at the next update cycle.
 			//
 			// We set the flag here (rather than OnDisable() where it might make more sense) because the flag doesn't survive the
-			// script reload, and we don't really wnt to serialize it.
+			// script reload, and we don't really want to serialize it.
 			RequestFlushInternalData();
 			
 			allEnabledVolumes.Add(this);
@@ -102,9 +116,9 @@ namespace Cubiquity
 		// We do not serialize the root octree node but in practice we have still seen some issues. It seems that Unity does
 		// still serialize other data (meshes, etc) in the scene even though the root game object which they are a child of
 		// is not serialize. Actually this needs more investigation. Problematic scenarios include when saving the scene, 
-		// switching from edit mode to play mode (which includes implicit serialzation), or when changing and recompiling scripts.
+		// switching from edit mode to play mode (which includes implicit serialization), or when changing and recompiling scripts.
 		//
-		// To handle thee scenarios we need the ability to explititly destroy the root node, rather than just not serializing it.
+		// To handle thee scenarios we need the ability to explicitly destroy the root node, rather than just not serializing it.
 		public void FlushInternalData()
 		{
 			DestroyImmediate(rootOctreeNodeGameObject);
