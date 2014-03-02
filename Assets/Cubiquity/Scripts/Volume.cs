@@ -132,11 +132,14 @@ namespace Cubiquity
 			// Disconnect the edit-mode update. It will be reconnected in OnEnable() if we are in edit mode.
 			// We don't need to stop the Syncronization() coroutine as this happens automatically:
 			// http://answers.unity3d.com/questions/34169/does-deactivating-a-gameobject-automatically-stop.html
-			EditorApplication.update -= EditModeUpdate;
+			#if UNITY_EDITOR
+				EditorApplication.update -= EditModeUpdate;
+			#endif
 			
 			allEnabledVolumes.Remove(this);
 		}
 		
+		#if UNITY_EDITOR
 		void EditModeUpdate()
 		{
 			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
@@ -144,6 +147,7 @@ namespace Cubiquity
 			
 			Synchronize();
 		}
+		#endif
 		
 		public void RequestFlushInternalData()
 		{
@@ -167,8 +171,10 @@ namespace Cubiquity
 			// Perform the syncronization.
 			while(true)
 			{
-				// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
-				DebugUtils.Assert(EditorApplication.isPlaying, "Synchronization coroutine is not expected to be executing in edit mode!");
+				#if UNITY_EDITOR
+					// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
+					DebugUtils.Assert(EditorApplication.isPlaying, "Synchronization coroutine is not expected to be executing in edit mode!");
+				#endif
 				
 				Synchronize();
 				yield return null;
