@@ -94,12 +94,10 @@ namespace Cubiquity
 				Debug.LogWarning("Root octree node is already set. This is probably a bug in Cubiquity for Unity3D, but it is not serious.");
 				FlushInternalData();
 			}
-			
-			StartCoroutine(Synchronization());
 		}
 		
 		void OnEnable()
-		{
+		{			
 			// When switching to MonoDevelop, editing code, and then switching back to Unity, some kind of scene reload is performed.
 			// It's actually a bit unclear, but it results in a new octree being built without the old one being destroyed first. It
 			// seems Awake/OnDestroy() are not called as part of this process, and we are not allowed to modify the scene graph from
@@ -116,15 +114,23 @@ namespace Cubiquity
 			// handle background loading of the volume. Therefore we define a new function 'EditModeUpdate' and connect it to the editor's
 			// update delegate.
 			#if UNITY_EDITOR
-				if(!EditorApplication.isPlayingOrWillChangePlaymode)
+				if(!EditorApplication.isPlaying)
 				{
 					EditorApplication.update += EditModeUpdate;
 				}
+				else
+				{
+					StartCoroutine(Synchronization());
+				}
+			#else
+				StartCoroutine(Synchronization());
 			#endif
 		}
 		
 		void OnDisable()
 		{
+			Debug.Log("Volume.OnDisable()");
+			
 			// Disconnect the edit-mode update. It will be reconnected in OnEnable() if we are in edit mode.
 			EditorApplication.update -= EditModeUpdate;
 			
@@ -135,7 +141,7 @@ namespace Cubiquity
 		{
 			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
 			#if UNITY_EDITOR
-				if(EditorApplication.isPlayingOrWillChangePlaymode)
+				if(EditorApplication.isPlaying)
 				{
 					Debug.LogWarning("EditModeUpdate() is not expected to be executing in play mode!");
 				}
@@ -162,10 +168,10 @@ namespace Cubiquity
 		}
 		
 		IEnumerator Synchronization()
-		{
+		{		
 			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
 			#if UNITY_EDITOR
-				if(!EditorApplication.isPlayingOrWillChangePlaymode)
+				if(!EditorApplication.isPlaying)
 				{
 					Debug.LogWarning("Synchronization coroutine is not expected to be executing in edit mode!");
 				}
