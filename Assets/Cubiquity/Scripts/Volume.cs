@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 using Cubiquity.Impl;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Cubiquity
 {
 	/// Base class representing a three-dimensional grid of voxels. 
@@ -20,6 +24,7 @@ namespace Cubiquity
 	 * Note how this is conceptually similar to the way that Unity's mesh classes are structured, where the MeshFilter works in conjunction with 
 	 * the Mesh, MeshRenderer and MeshCollider classes.
 	 */
+	[ExecuteInEditMode]
 	public abstract class Volume : MonoBehaviour
 	{
 		/// Sets an upper limit on the rate at which the mesh representation is updated to match the volume data.
@@ -32,8 +37,12 @@ namespace Cubiquity
 		 * individually. Therefore this property controls how many of the octree nodes will be resynchronized each frame. A small value will result
 		 * in a better frame rate when modifications are being performed, but at the possible expense of the rendered mesh noticeably lagging behind 
 		 * the modifications which are being performed.
+		 * 
+		 * NOTE: This property is currently hidden from the user until we have a better understanding of how it should behave. For example, should
+		 * that same value be used in edit mode vs. play mode? What if there is/isn't a collision mesh? Or what if we want to syncronize every 'x'
+		 * updates rather than 'x' times per update?
 		 */
-		public int maxNodesPerSync = 4;
+		protected int maxNodesPerSync = 4;
 		
 		// Indicates whether the mesh representation is currently up to date with the volume data. Note that this property may
 		// fluctuate rapidly during real-time editing as the system tries to keep up with the users modifications, and also that
@@ -94,18 +103,45 @@ namespace Cubiquity
 			// When switching to MonoDevelop, editing code, and then switching back to Unity, some kind of scene reload is performed.
 			// It's actually a bit unclear, but it results in a new octree being built without the old one being destroyed first. It
 			// seems Awake/OnDestroy() are not called as part of this process, and we are not allowed to modify the scene graph from
-			//OnEnable()/OnDisable(). Therefore we just set a flag to say that the root node shot be deleted at the next update cycle.
+			// OnEnable()/OnDisable(). Therefore we just set a flag to say that the root node shot be deleted at the next update cycle.
 			//
 			// We set the flag here (rather than OnDisable() where it might make more sense) because the flag doesn't survive the
 			// script reload, and we don't really want to serialize it.
 			RequestFlushInternalData();
 			
 			allEnabledVolumes.Add(this);
+			
+			// When in edit mode a component's Update() function is not normally called, and even if the 'ExecuteInEditMode' attribute
+			// is set then it executes only when something changes. For our purposes we need a continuous stream of updates in order to
+			// handle background loading of the volume. Therefore we define a new function 'EditModeUpdate' and connect it to the editor's
+			// update delegate.
+			#if UNITY_EDITOR
+				if(!EditorApplication.isPlayingOrWillChangePlaymode)
+				{
+					EditorApplication.update += EditModeUpdate;
+				}
+			#endif
 		}
 		
 		void OnDisable()
 		{
+			// Disconnect the edit-mode update. It will be reconnected in OnEnable() if we are in edit mode.
+			EditorApplication.update -= EditModeUpdate;
+			
 			allEnabledVolumes.Remove(this);
+		}
+		
+		void EditModeUpdate()
+		{
+			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
+			#if UNITY_EDITOR
+				if(EditorApplication.isPlayingOrWillChangePlaymode)
+				{
+					Debug.LogWarning("EditModeUpdate() is not expected to be executing in play mode!");
+				}
+			#endif
+			
+			Synchronize();
 		}
 		
 		public void RequestFlushInternalData()
@@ -127,6 +163,15 @@ namespace Cubiquity
 		
 		IEnumerator Synchronization()
 		{
+			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
+			#if UNITY_EDITOR
+				if(!EditorApplication.isPlayingOrWillChangePlaymode)
+				{
+					Debug.LogWarning("Synchronization coroutine is not expected to be executing in edit mode!");
+				}
+			#endif
+			
+			// Perform the syncronization.
 			while(true)
 			{
 				Synchronize();
@@ -134,7 +179,7 @@ namespace Cubiquity
 			}
 		}
 		
-		public virtual void Synchronize()
+		protected virtual void Synchronize()
 		{
 			if(flushRequested)
 			{

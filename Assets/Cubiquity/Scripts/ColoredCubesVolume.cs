@@ -62,7 +62,7 @@ namespace Cubiquity
 			}
 	    }
 		
-		public override void Synchronize()
+		protected override void Synchronize()
 		{			
 			base.Synchronize();
 			
