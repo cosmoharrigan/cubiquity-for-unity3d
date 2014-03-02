@@ -140,12 +140,7 @@ namespace Cubiquity
 		void EditModeUpdate()
 		{
 			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
-			#if UNITY_EDITOR
-				if(EditorApplication.isPlaying)
-				{
-					Debug.LogWarning("EditModeUpdate() is not expected to be executing in play mode!");
-				}
-			#endif
+			DebugUtils.Assert(!EditorApplication.isPlaying, "EditModeUpdate() is not expected to be executing in play mode!");
 			
 			Synchronize();
 		}
@@ -168,18 +163,13 @@ namespace Cubiquity
 		}
 		
 		IEnumerator Synchronization()
-		{		
-			// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
-			#if UNITY_EDITOR
-				if(!EditorApplication.isPlaying)
-				{
-					Debug.LogWarning("Synchronization coroutine is not expected to be executing in edit mode!");
-				}
-			#endif
-			
+		{			
 			// Perform the syncronization.
 			while(true)
 			{
+				// Just a sanity check to make sure our understanding of edit/play mode behaviour is correct.
+				DebugUtils.Assert(EditorApplication.isPlaying, "Synchronization coroutine is not expected to be executing in edit mode!");
+				
 				Synchronize();
 				yield return null;
 			}
