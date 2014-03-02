@@ -149,7 +149,7 @@ namespace Cubiquity
 		}
 		#endif
 		
-		public void RequestFlushInternalData()
+		protected void RequestFlushInternalData()
 		{
 			flushRequested = true;
 		}
@@ -160,7 +160,7 @@ namespace Cubiquity
 		// switching from edit mode to play mode (which includes implicit serialization), or when changing and recompiling scripts.
 		//
 		// To handle thee scenarios we need the ability to explicitly destroy the root node, rather than just not serializing it.
-		public void FlushInternalData()
+		private void FlushInternalData()
 		{
 			DestroyImmediate(rootOctreeNodeGameObject);
 			rootOctreeNodeGameObject = null;
@@ -219,5 +219,44 @@ namespace Cubiquity
 				}
 			}
 		}
+		
+		#if UNITY_EDITOR
+			public class OnSaveHandler : UnityEditor.AssetModificationProcessor
+			{
+			    public static void OnWillSaveAssets( string[] assets )
+			    {
+					Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
+					foreach(Object volume in volumes)
+					{
+						((Volume)volume).FlushInternalData();
+					}
+			    }
+			}
+			
+			[InitializeOnLoad]
+			class OnPlayHandler
+			{
+			    static OnPlayHandler()
+			    {
+					// Catch the event which occurs when switching modes.
+			        EditorApplication.playmodeStateChanged += OnPlaymodeStateChanged;
+			    }
+			 
+			    static void OnPlaymodeStateChanged ()
+			    {
+					// We only need to discard the octree in edit mode, beacause when leaving play mode serialization is not
+					// performed. This event occurs both when leaving the old mode and again when entering the new mode, but 
+					// when entering edit mode the root null should already be null and ddiscarding it again is harmless.
+					if(!EditorApplication.isPlaying)
+					{
+						Object[] volumes = Object.FindObjectsOfType(typeof(Volume));
+						foreach(Object volume in volumes)
+						{
+							((Volume)volume).FlushInternalData();
+						}
+					}
+			    }
+			}
+		#endif
 	}
 }
