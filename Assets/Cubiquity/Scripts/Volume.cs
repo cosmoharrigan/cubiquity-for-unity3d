@@ -128,10 +128,10 @@ namespace Cubiquity
 		}
 		
 		void OnDisable()
-		{
-			Debug.Log("Volume.OnDisable()");
-			
+		{			
 			// Disconnect the edit-mode update. It will be reconnected in OnEnable() if we are in edit mode.
+			// We don't need to stop the Syncronization() coroutine as this happens automatically:
+			// http://answers.unity3d.com/questions/34169/does-deactivating-a-gameobject-automatically-stop.html
 			EditorApplication.update -= EditModeUpdate;
 			
 			allEnabledVolumes.Remove(this);
