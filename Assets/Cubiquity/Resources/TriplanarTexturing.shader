@@ -77,7 +77,9 @@
 			
 			// The first four material weights are stored in color and are copied by Unity.
 			// But I don't think it copied the tangents (it can't know to) so do that here.
-			o.otherFourMatStrengths = v.tangent;
+			//o.otherFourMatStrengths = v.tangent;
+			o.otherFourMatStrengths.xy = v.texcoord.xy;
+			o.otherFourMatStrengths.zw = v.texcoord1.xy;
 		}
 
 		void surf (Input IN, inout SurfaceOutput o)
