@@ -26,24 +26,7 @@ namespace Cubiquity
 	 */
 	[ExecuteInEditMode]
 	public abstract class Volume : MonoBehaviour
-	{
-		/// Sets an upper limit on the rate at which the mesh representation is updated to match the volume data.
-		/**
-		 * %Cubiquity continuously checks whether the the mesh representation (used for rendering and physics) is synchronized with the underlying
-		 * volume data. Such synchronization can be lost whenever the volume data is modified, and %Cubiquity will then regenerate the mesh. This
-		 * regeneration process can take some time, and so typically you want to spread the regeneration over a number of frames.
-		 *
-		 * Internally %Cubiquity breaks down the volume into a number regions each corresponding to an octree node, and these can be resynchronized
-		 * individually. Therefore this property controls how many of the octree nodes will be resynchronized each frame. A small value will result
-		 * in a better frame rate when modifications are being performed, but at the possible expense of the rendered mesh noticeably lagging behind 
-		 * the modifications which are being performed.
-		 * 
-		 * NOTE: This property is currently hidden from the user until we have a better understanding of how it should behave. For example, should
-		 * that same value be used in edit mode vs. play mode? What if there is/isn't a collision mesh? Or what if we want to syncronize every 'x'
-		 * updates rather than 'x' times per update?
-		 */
-		protected int maxNodesPerSync = 4;
-		
+	{		
 		// Indicates whether the mesh representation is currently up to date with the volume data. Note that this property may
 		// fluctuate rapidly during real-time editing as the system tries to keep up with the users modifications, and also that
 		// it may lag a few frames behind the true syncronization state.
@@ -71,17 +54,43 @@ namespace Cubiquity
 			}
 		} private bool mIsMeshSyncronized = false;
 		
+		/// Delegate type used by OnMeshSyncComplete and OnMeshSyncLost
 		public delegate void MeshSyncAction();
+		/// Description here
 		public event MeshSyncAction OnMeshSyncComplete;
+		/// Description here
 		public event MeshSyncAction OnMeshSyncLost;
 		
+		/// Sets an upper limit on the rate at which the mesh representation is updated to match the volume data.
+		/**
+		 * %Cubiquity continuously checks whether the the mesh representation (used for rendering and physics) is synchronized with the underlying
+		 * volume data. Such synchronization can be lost whenever the volume data is modified, and %Cubiquity will then regenerate the mesh. This
+		 * regeneration process can take some time, and so typically you want to spread the regeneration over a number of frames.
+		 *
+		 * Internally %Cubiquity breaks down the volume into a number regions each corresponding to an octree node, and these can be resynchronized
+		 * individually. Therefore this property controls how many of the octree nodes will be resynchronized each frame. A small value will result
+		 * in a better frame rate when modifications are being performed, but at the possible expense of the rendered mesh noticeably lagging behind 
+		 * the modifications which are being performed.
+		 * 
+		 * NOTE: This property is currently hidden from the user until we have a better understanding of how it should behave. For example, should
+		 * that same value be used in edit mode vs. play mode? What if there is/isn't a collision mesh? Or what if we want to syncronize every 'x'
+		 * updates rather than 'x' times per update?
+		 */
+		/// \cond
+		protected int maxNodesPerSync = 4;
+		/// \endcond
+
+		// The root node of our octree. It is protected so that derived classes can use it, but users
+		// are not supposed to create derived classes themselves so we hide this property from the docs.
+		/// \cond
 		protected GameObject rootOctreeNodeGameObject;
+		/// \endcond
 		
 		private bool flushRequested;
 		
 		private int previousLayer = -1;
 		
-		protected void Awake()
+		void Awake()
 		{
 			if(rootOctreeNodeGameObject != null)
 			{
@@ -140,10 +149,13 @@ namespace Cubiquity
 		}
 		#endif
 		
+		// Protected so that derived classes can access it, but users derive their own classes so we hide it from the docs.
+		/// \cond
 		protected void RequestFlushInternalData()
 		{
 			flushRequested = true;
 		}
+		/// \endcond
 		
 		// We do not serialize the root octree node but in practice we have still seen some issues. It seems that Unity does
 		// still serialize other data (meshes, etc) in the scene even though the root game object which they are a child of
@@ -157,7 +169,7 @@ namespace Cubiquity
 			rootOctreeNodeGameObject = null;
 		}
 		
-		IEnumerator Synchronization()
+		private IEnumerator Synchronization()
 		{			
 			// Perform the syncronization.
 			while(true)
@@ -172,6 +184,8 @@ namespace Cubiquity
 			}
 		}
 		
+		// Protected so that derived classes can access it, but users derive their own classes so we hide it from the docs.
+		/// \cond
 		protected virtual void Synchronize()
 		{
 			if(flushRequested)
@@ -210,9 +224,10 @@ namespace Cubiquity
 				}
 			}
 		}
+		/// \endcond
 		
 		#if UNITY_EDITOR
-			public class OnSaveHandler : UnityEditor.AssetModificationProcessor
+			private class OnSaveHandler : UnityEditor.AssetModificationProcessor
 			{
 			    public static void OnWillSaveAssets( string[] assets )
 			    {
@@ -225,7 +240,7 @@ namespace Cubiquity
 			}
 			
 			[InitializeOnLoad]
-			class OnPlayHandler
+			private class OnPlayHandler
 			{
 			    static OnPlayHandler()
 			    {
