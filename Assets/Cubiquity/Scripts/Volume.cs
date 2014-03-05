@@ -19,7 +19,7 @@ namespace Cubiquity
 	 * for the ColoredCubesVolume and TerrainVolume and encapsulates some of the common behaviour which such derived classes need. It is used in
 	 * conjunction with the VolumeData, VolumeRenderer and VolumeCollider to form a structure as given below:
 	 *
-	 * Diagram of volume structure here.
+	 * \image html VolumeHierarchy.png
 	 *
 	 * Note how this is conceptually similar to the way that Unity's mesh classes are structured, where the MeshFilter works in conjunction with 
 	 * the Mesh, MeshRenderer and MeshCollider classes.
@@ -73,7 +73,7 @@ namespace Cubiquity
 			}
 		} private bool mIsMeshSyncronized = false;
 		
-		/// Delegate type used by OnMeshSyncComplete and OnMeshSyncLost
+		/// Delegate type used by OnMeshSyncComplete() and OnMeshSyncLost()
 		public delegate void MeshSyncAction();
 		/// This event is fired once the mesh representation is up-to-date with the volume data.
 		/**
