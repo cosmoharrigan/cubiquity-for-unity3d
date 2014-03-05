@@ -27,18 +27,28 @@ namespace Cubiquity
 	[ExecuteInEditMode]
 	public abstract class Volume : MonoBehaviour
 	{		
-		// The name of the dataset to load from disk.
+		
 		[SerializeField]
 		private VolumeData mData = null;
+		/// Represents the actual 3D grid of voxels describing your object or environment.
+		/**
+		 * You can acces the VolumeData through this property in order to get/set the voxels on an individual basis, or to assign an existing 
+		 * instance of VolumeData which you have created elsewhere. Modifying or assigning the volume data will cause the mesh representation
+		 * to be automatically updated.
+		 */
 		public VolumeData data
 	    {
 	        get { return this.mData; }
 			set { this.mData = value; RequestFlushInternalData(); }
 	    }
 		
-		// Indicates whether the mesh representation is currently up to date with the volume data. Note that this property may
-		// fluctuate rapidly during real-time editing as the system tries to keep up with the users modifications, and also that
-		// it may lag a few frames behind the true syncronization state.
+		/// Indicates whether the mesh representation is currently up to date with the volume data.
+		/**
+		 * Note that this property may fluctuate rapidly during real-time editing as the system tries to keep up with the users
+		 * modifications, and also that it may lag a few frames behind the true syncronization state.
+		 * 
+		 * \sa OnMeshSyncComplete, OnMeshSyncLost
+		 */
 		public bool isMeshSyncronized
 		{
 			get { return mIsMeshSyncronized; }
@@ -65,9 +75,32 @@ namespace Cubiquity
 		
 		/// Delegate type used by OnMeshSyncComplete and OnMeshSyncLost
 		public delegate void MeshSyncAction();
-		/// Description here
+		/// This event is fired once the mesh representation is up-to-date with the volume data.
+		/**
+		 * The process of keeping the mesh data syncronized to the volume data is computationally expensive, and it is quite possible for the
+		 * mesh to lag behind. This is particularly common when fresh volume data is first assigned as it can take a few seconds for the initial
+		 * mesh to be generated. If you wish to wait for the mesh to be generated before (e.g.) spawning your player object then you can use
+		 * this event for this purpose.
+		 * 
+		 * The mesh can also lag beind during intensive editing operations, and this can cause a series of OnMeshSyncComplete events to occur
+		 * as the system repeatedly catches up. Therefore, in the previous player-spawning example you would probably want to disconnect the
+		 * event after the first one has occured.
+		 * 
+		 * Please see MeshSyncHandler.cs in the provided examples for a demonstration of usage.
+		 * 
+		 * \sa isMeshSyncronized, OnMeshSyncLost
+		 */
 		public event MeshSyncAction OnMeshSyncComplete;
-		/// Description here
+		
+		/// This event is fired if the mesh representation is no longer up-to-date with the volume data.
+		/**
+		 * Syncronization between the mesh and the volume data will be lost when you first assign new volume data, and also during editing
+		 * operations.
+		 * 
+		 * Please see MeshSyncHandler.cs in the provided examples for a demonstration of usage.
+		 * 
+		 * \sa isMeshSyncronized, OnMeshSyncComplete
+		 */
 		public event MeshSyncAction OnMeshSyncLost;
 		
 		/// Sets an upper limit on the rate at which the mesh representation is updated to match the volume data.
