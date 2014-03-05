@@ -12,14 +12,11 @@ namespace Cubiquity
 {	
 	[ExecuteInEditMode]
 	public class TerrainVolume : Volume
-	{		
-		// The name of the dataset to load from disk.
-		[SerializeField]
-		private TerrainVolumeData mData = null;
-		public TerrainVolumeData data
+	{
+		public new TerrainVolumeData data
 	    {
-	        get { return this.mData; }
-			set { this.mData = value; RequestFlushInternalData(); }
+	        get { return (TerrainVolumeData)base.data; }
+			set { base.data = value; }
 	    }
 		
 		public static GameObject CreateGameObject(TerrainVolumeData data)
@@ -33,7 +30,7 @@ namespace Cubiquity
 			terrainVolumeGameObject.AddComponent<TerrainVolumeCollider>();
 			
 			// Set the provided data.
-			terrainVolume.mData = data;
+			terrainVolume.data = data;
 			
 			return terrainVolumeGameObject;
 		}

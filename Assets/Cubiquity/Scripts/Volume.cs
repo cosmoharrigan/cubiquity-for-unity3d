@@ -27,6 +27,15 @@ namespace Cubiquity
 	[ExecuteInEditMode]
 	public abstract class Volume : MonoBehaviour
 	{		
+		// The name of the dataset to load from disk.
+		[SerializeField]
+		private VolumeData mData = null;
+		public VolumeData data
+	    {
+	        get { return this.mData; }
+			set { this.mData = value; RequestFlushInternalData(); }
+	    }
+		
 		// Indicates whether the mesh representation is currently up to date with the volume data. Note that this property may
 		// fluctuate rapidly during real-time editing as the system tries to keep up with the users modifications, and also that
 		// it may lag a few frames behind the true syncronization state.

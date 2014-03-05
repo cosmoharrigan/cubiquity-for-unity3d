@@ -11,14 +11,11 @@ namespace Cubiquity
 {	
 	[ExecuteInEditMode]
 	public class ColoredCubesVolume : Volume
-	{	
-		// The name of the dataset to load from disk.
-		[SerializeField]
-		private ColoredCubesVolumeData mData = null;
-		public ColoredCubesVolumeData data
+	{
+		public new ColoredCubesVolumeData data
 	    {
-	        get { return this.mData; }
-			set { this.mData = value; RequestFlushInternalData(); }
+	        get { return (ColoredCubesVolumeData)base.data; }
+			set { base.data = value; }
 	    }
 		
 		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
@@ -32,7 +29,7 @@ namespace Cubiquity
 			coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeCollider>();
 			
 			// Set the provided data.
-			coloredCubesVolume.mData = data;
+			coloredCubesVolume.data = data;
 			
 			return coloredCubesVolumeGameObject;
 		}
