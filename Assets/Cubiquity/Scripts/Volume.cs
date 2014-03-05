@@ -157,14 +157,10 @@ namespace Cubiquity
 			Synchronize();
 		}
 		#endif
-		
-		// Protected so that derived classes can access it, but users derive their own classes so we hide it from the docs.
-		/// \cond
-		protected void RequestFlushInternalData()
+		private void RequestFlushInternalData()
 		{
 			flushRequested = true;
 		}
-		/// \endcond
 		
 		// We do not serialize the root octree node but in practice we have still seen some issues. It seems that Unity does
 		// still serialize other data (meshes, etc) in the scene even though the root game object which they are a child of
