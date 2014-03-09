@@ -93,7 +93,12 @@ namespace Cubiquity
 		}
 		
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
-		{			
+		{
+			if(Application.isPlaying && basePath == Paths.StreamingAssets)
+			{
+				Debug.LogWarning("You should not create a voxel database in 'Paths.StreamingAssets' when in play mode. Use 'Paths.TemporaryCache' instead");
+			}
+			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.basePath = basePath;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
@@ -122,6 +127,18 @@ namespace Cubiquity
 		private void OnDisable()
 		{
 			ShutdownCubiquityVolume();
+			
+			// If the voxel database was created in the temporary cache
+			// then we can be sure the user has no further use for it.
+			if(basePath == Paths.TemporaryCache)
+			{
+				File.Delete(fullPathToVoxelDatabase);
+			}
+			
+			if(File.Exists(fullPathToVoxelDatabase))
+			{
+				Debug.LogWarning("Failed to delete voxel database from temporary cache");
+			}
 		}
 		
 		protected abstract void InitializeEmptyCubiquityVolume(Region region);
