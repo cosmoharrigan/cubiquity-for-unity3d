@@ -39,7 +39,14 @@ namespace Cubiquity
 		public VolumeData data
 	    {
 	        get { return this.mData; }
-			set { this.mData = value; RequestFlushInternalData(); }
+			set
+			{
+				if(this.mData != value)
+				{
+					this.mData = value;
+					RequestFlushInternalData();
+				}
+			}
 	    }
 		
 		/// Indicates whether the mesh representation is currently up to date with the volume data.

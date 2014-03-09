@@ -174,7 +174,7 @@ namespace Cubiquity
 		
 		private void DrawSettingsControls()
 		{
-			EditorGUILayout.ObjectField("Volume Data", terrainVolume.data, typeof(TerrainVolumeData), true);
+			terrainVolume.data = EditorGUILayout.ObjectField("Volume Data", terrainVolume.data, typeof(TerrainVolumeData), true) as TerrainVolumeData;
 		}
 		
 		private void DrawInstructions( string message)
