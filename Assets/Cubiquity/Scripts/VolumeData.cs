@@ -127,7 +127,10 @@ namespace Cubiquity
 		private void OnDisable()
 		{
 			ShutdownCubiquityVolume();
-			
+		}
+		
+		private void OnDestroy()
+		{
 			// If the voxel database was created in the temporary cache
 			// then we can be sure the user has no further use for it.
 			if(basePath == Paths.TemporaryCache)
