@@ -37,6 +37,13 @@ namespace Cubiquity
 		{
 			get
 			{
+				if(relativePathToVoxelDatabase.Length == 0)
+				{
+					throw new System.ArgumentException(@"The relative path to the voxel database should never be empty.
+						Perhaps you created the VolumeData with ScriptableObject.CreateInstance(), rather than with
+						CreateEmptyVolumeData() or CreateFromVoxelDatabase()?");
+				}
+				
 				string basePathString = null;
 				switch(basePath)
 				{
@@ -53,8 +60,12 @@ namespace Cubiquity
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
-		[System.NonSerialized] // Internal variables aren't serialized anyway?
-		internal uint? volumeHandle = null;
+		protected uint? mVolumeHandle = null;
+		public uint? volumeHandle
+		{
+			get { return mVolumeHandle; }
+			protected set { mVolumeHandle = value; }
+		}
 		
 		// Don't really like having this defined here. The base node size should be a rendering property rather than a
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
