@@ -4,14 +4,11 @@ using System;
 using System.IO;
 using System.Collections;
 
-using Cubiquity; // See the comment below on why we are not in the Cubiquity namespace.
+using Cubiquity;
 using Cubiquity.Impl;
 
-// It seems it is not possible to put VolumeData (and its derived classes) inside the Cubiquity namespace. Doing 
-// so appears to prevent the user from creating an asset and then drag-and-dropping it onto a GUI widget in the 
-// inspector. There are a number of known issues with namespaces in Unity and this appears to be an example.
-//namespace Cubiquity
-//{
+namespace Cubiquity
+{
 	[System.Serializable]
 	public sealed class ColoredCubesVolumeData : VolumeData
 	{		
@@ -98,4 +95,4 @@ using Cubiquity.Impl;
 			}
 		}
 	}
-//}
+}
