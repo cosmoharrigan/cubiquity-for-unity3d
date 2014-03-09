@@ -132,7 +132,12 @@ namespace Cubiquity
 			if(paintPressed)
 			{
 				DrawPaintControls();
-			}			
+			}
+			
+			if(settingsPressed)
+			{
+				DrawSettingsControls();
+			}
 			
 			// Warn about unlicensed version.
 			EditorGUILayout.LabelField(warningLabelContent, GUILayout.Height(64));
@@ -169,6 +174,7 @@ namespace Cubiquity
 		
 		private void DrawSettingsControls()
 		{
+			EditorGUILayout.ObjectField("Volume Data", terrainVolume.data, typeof(TerrainVolumeData), true);
 		}
 		
 		private void DrawInstructions( string message)
