@@ -75,10 +75,10 @@ namespace Cubiquity
 		// and client code could potentially create a number of volumes on quick sucession.  
 		protected static System.Random randomIntGenerator = new System.Random();
 		
-		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
+		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.basePath = basePath;
+			volumeData.basePath = Paths.StreamingAssets;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
 			volumeData.InitializeExistingCubiquityVolume();

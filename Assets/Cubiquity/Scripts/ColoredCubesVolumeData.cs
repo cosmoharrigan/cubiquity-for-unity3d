@@ -12,9 +12,9 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class ColoredCubesVolumeData : VolumeData
 	{		
-		public static ColoredCubesVolumeData CreateFromVoxelDatabase(Paths basePath, string relativePathToVoxelDatabase)
+		public static ColoredCubesVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
 		{
-			return CreateFromVoxelDatabase<ColoredCubesVolumeData>(basePath, relativePathToVoxelDatabase);
+			return CreateFromVoxelDatabase<ColoredCubesVolumeData>(relativePathToVoxelDatabase);
 		}
 		
 		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region)

@@ -59,7 +59,7 @@ namespace Cubiquity
 		[MenuItem ("Assets/Create/Terrain Volume Data")]
 		static void CreateTerrainVolumeData()
 		{			
-			TerrainVolumeData data = TerrainVolumeData.CreateFromVoxelDatabase(VolumeData.Paths.StreamingAssets, "SmoothVoxeliensTerrain.vdb");
+			TerrainVolumeData data = TerrainVolumeData.CreateFromVoxelDatabase("SmoothVoxeliensTerrain.vdb");
 			
 			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);
 		}

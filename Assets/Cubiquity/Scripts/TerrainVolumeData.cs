@@ -12,9 +12,9 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
 	{
-		public static TerrainVolumeData CreateFromVoxelDatabase(Paths basePath, string relativePathToVoxelDatabase)
+		public static TerrainVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
 		{
-			return CreateFromVoxelDatabase<TerrainVolumeData>(basePath, relativePathToVoxelDatabase);
+			return CreateFromVoxelDatabase<TerrainVolumeData>(relativePathToVoxelDatabase);
 		}
 		
 		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
