@@ -33,7 +33,7 @@ namespace Cubiquity
 		[SerializeField]
 		private string relativePathToVoxelDatabase;
 		
-		protected string fullPathToVoxelDatabase
+		public string fullPathToVoxelDatabase
 		{
 			get
 			{
