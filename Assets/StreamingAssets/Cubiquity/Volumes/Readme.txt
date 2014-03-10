@@ -1,1 +1,0 @@
-This readme exists because Git does not allow us to commit an empty folder to Git.
