@@ -24,7 +24,7 @@ namespace Cubiquity
 					Debug.LogError("We're sorry, but Cubiquity for Unity3D is currently only supported on Windows. We hope to support more platfors in the future.");
 				}
 	
-		        string sourcePath = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity");
+		        string sourcePath = System.IO.Path.Combine(Application.streamingAssetsPath, "Cubiquity/SDK/");
 		        string destPath =  System.IO.Path.Combine(Application.dataPath, "..");
 		
 		        // Use Path class to manipulate file and directory paths. 

@@ -11,7 +11,7 @@ namespace Cubiquity
 		public class CubiquityDLL
 		{
 			#if UNITY_EDITOR
-				private const string dllToImport = "Assets/StreamingAssets/Cubiquity/CubiquityC";
+				private const string dllToImport = "Assets/StreamingAssets/Cubiquity/SDK/CubiquityC";
 			#else
 				private const string dllToImport = "CubiquityC";
 			#endif
