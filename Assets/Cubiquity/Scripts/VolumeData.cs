@@ -89,18 +89,27 @@ namespace Cubiquity
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
 		{
 			string pathToCreateVoxelDatabase = GeneratePathToVoxelDatabase();
-			return CreateEmptyVolumeData<VolumeDataType>(region, Paths.TemporaryCache, pathToCreateVoxelDatabase);
+			
+			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
+			volumeData.basePath = Paths.TemporaryCache;
+			volumeData.relativePathToVoxelDatabase = pathToCreateVoxelDatabase;
+			
+			volumeData.InitializeEmptyCubiquityVolume(region);
+			
+			return volumeData;
 		}
 		
-		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, Paths basePath, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
+		// If the user is providing a name for the voxel database then it follows that they want to make use of it later.
+		// In this case it should not be in the temp folder so we put it in streaming assets.
+		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
-			if(Application.isPlaying && basePath == Paths.StreamingAssets)
+			if(Application.isPlaying)
 			{
-				Debug.LogWarning("You should not create a voxel database in 'Paths.StreamingAssets' when in play mode. Use 'Paths.TemporaryCache' instead");
+				Debug.LogWarning("You should not provide a path when creating empty volume data in play mode.");
 			}
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.basePath = basePath;
+			volumeData.basePath = Paths.StreamingAssets;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
 			volumeData.InitializeEmptyCubiquityVolume(region);
@@ -136,11 +145,11 @@ namespace Cubiquity
 			if(basePath == Paths.TemporaryCache)
 			{
 				File.Delete(fullPathToVoxelDatabase);
-			}
-			
-			if(File.Exists(fullPathToVoxelDatabase))
-			{
-				Debug.LogWarning("Failed to delete voxel database from temporary cache");
+				
+				if(File.Exists(fullPathToVoxelDatabase))
+				{
+					Debug.LogWarning("Failed to delete voxel database from temporary cache");
+				}
 			}
 		}
 		

@@ -22,9 +22,9 @@ namespace Cubiquity
 			return CreateEmptyVolumeData<TerrainVolumeData>(region);
 		}
 		
-		public static TerrainVolumeData CreateEmptyVolumeData(Region region, Paths basePath, string relativePathToVoxelDatabase)
+		public static TerrainVolumeData CreateEmptyVolumeData(Region region, string relativePathToVoxelDatabase)
 		{
-			return CreateEmptyVolumeData<TerrainVolumeData>(region, basePath, relativePathToVoxelDatabase);
+			return CreateEmptyVolumeData<TerrainVolumeData>(region, relativePathToVoxelDatabase);
 		}
 		
 		public MaterialSet GetVoxel(int x, int y, int z)

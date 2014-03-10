@@ -29,7 +29,7 @@ namespace CubiquityExamples
 			
 			int earthRadius = 15;
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
-			TerrainVolumeData result = TerrainVolumeData.CreateEmptyVolumeData(volumeBounds, VolumeData.Paths.TemporaryCache, VolumeData.GeneratePathToVoxelDatabase());
+			TerrainVolumeData result = TerrainVolumeData.CreateEmptyVolumeData(volumeBounds);
 			
 			TerrainVolumeGenerator.GeneratePlanet(result, 15, 14, 0, 0);
 			

@@ -22,9 +22,9 @@ namespace Cubiquity
 			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region);
 		}
 		
-		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region, Paths basePath, string relativePathToVoxelDatabase)
+		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region, string relativePathToVoxelDatabase)
 		{
-			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region, basePath, relativePathToVoxelDatabase);
+			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region, relativePathToVoxelDatabase);
 		}
 		
 		public QuantizedColor GetVoxel(int x, int y, int z)
