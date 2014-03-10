@@ -71,10 +71,6 @@ namespace Cubiquity
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
 		protected static uint DefaultBaseNodeSize = 32;
 		
-		// We use a static Random for making filenames, as Randoms are seeded by timestamp
-		// and client code could potentially create a number of volumes on quick sucession.  
-		protected static System.Random randomIntGenerator = new System.Random();
-		
 		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
@@ -88,7 +84,7 @@ namespace Cubiquity
 		
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
 		{
-			string pathToCreateVoxelDatabase = GeneratePathToVoxelDatabase();
+			string pathToCreateVoxelDatabase = Impl.Utility.GenerateRandomVoxelDatabaseName();
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.basePath = Paths.TemporaryCache;
@@ -156,11 +152,5 @@ namespace Cubiquity
 		protected abstract void InitializeEmptyCubiquityVolume(Region region);
 		protected abstract void InitializeExistingCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
-		
-		public static string GeneratePathToVoxelDatabase()
-		{
-			// Generate a random filename from an integer
-			return randomIntGenerator.Next().ToString("X8") + ".vdb";
-		}
 	}
 }

@@ -15,7 +15,9 @@ namespace Cubiquity
 			int height = 32;
 			int depth = 128;
 			
-			TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), VolumeData.GeneratePathToVoxelDatabase());
+			TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), Impl.Utility.GenerateRandomVoxelDatabaseName());
+			
+			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);
 			
 			// Create some ground in the terrain so it shows up in the editor.
 			// Soil as a base (mat 1) and then a couple of layers of grass (mat 2).
@@ -71,7 +73,9 @@ namespace Cubiquity
 			int height = 32;
 			int depth = 256;
 			
-			ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), VolumeData.GeneratePathToVoxelDatabase());
+			ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), Impl.Utility.GenerateRandomVoxelDatabaseName());
+			
+			ScriptableObjectUtility.CreateAssetFromInstance<ColoredCubesVolumeData>(data);
 			
 			GameObject coloredCubesGameObject = ColoredCubesVolume.CreateGameObject(data);
 			

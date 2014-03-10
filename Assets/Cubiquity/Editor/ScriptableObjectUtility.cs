@@ -4,11 +4,10 @@ using System.IO;
 
 namespace Cubiquity
 {
+	// The contents of this calss are taken/derived from here:
+	// http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
 	public static class ScriptableObjectUtility
 	{
-		/// <summary>
-		//	This makes it easy to create, name and place unique new ScriptableObject asset files.
-		/// </summary>
 		public static T CreateAsset<T> () where T : ScriptableObject
 		{
 			T asset = ScriptableObject.CreateInstance<T> ();
