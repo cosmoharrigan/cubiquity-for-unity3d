@@ -175,6 +175,19 @@ namespace Cubiquity
 		private void DrawSettingsControls()
 		{
 			terrainVolume.data = EditorGUILayout.ObjectField("Volume Data", terrainVolume.data, typeof(TerrainVolumeData), true) as TerrainVolumeData;
+			
+			EditorGUILayout.BeginVertical();
+				GUILayout.Label("Create And Assign Terrain Volume Data:");
+				if(GUILayout.Button("Empty Volume Data..."))
+				{
+				}
+				
+				if(GUILayout.Button("From Voxel Database..."))
+				{
+					TerrainVolumeData data = TerrainVolumeDataAsset.CreateFromVoxelDatabase();
+					terrainVolume.data = data;					
+				}
+			EditorGUILayout.EndVertical();
 		}
 		
 		private void DrawInstructions( string message)
