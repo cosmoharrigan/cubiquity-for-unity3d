@@ -12,7 +12,7 @@ namespace Cubiquity
 	[System.Serializable]
 	public abstract class VolumeData : ScriptableObject
 	{
-		public enum Paths { StreamingAssets, TemporaryCache };
+		private enum Paths { StreamingAssets, TemporaryCache };
 		
 	    public Region enclosingRegion
 	    {

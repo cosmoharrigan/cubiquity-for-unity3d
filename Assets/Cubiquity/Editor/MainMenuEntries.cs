@@ -58,12 +58,16 @@ namespace Cubiquity
 			}
 		}
 		
-		[MenuItem ("Assets/Create/Terrain Volume Data")]
-		static void CreateTerrainVolumeData()
+		[MenuItem ("Assets/Create/Terrain Volume Data/Empty Volume Data")]
+		static void CreateEmptyTerrainVolumeDataAsset()
 		{			
-			TerrainVolumeData data = TerrainVolumeData.CreateFromVoxelDatabase("SmoothVoxeliensTerrain.vdb");
-			
-			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);
+			//TerrainVolumeDataAsset.CreateFromVoxelDatabase();
+		}
+		
+		[MenuItem ("Assets/Create/Terrain Volume Data/From Voxel Database...")]
+		static void CreateTerrainVolumeDataAssetFromVoxelDatabase()
+		{			
+			TerrainVolumeDataAsset.CreateFromVoxelDatabase();
 		}
 		
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
