@@ -88,7 +88,15 @@ namespace Cubiquity
 		protected static uint DefaultBaseNodeSize = 32;
 		/// \endcond
 		
-		/// Docs here...
+		/// Create an instance of VolumeData from an existing voxel database.
+		/**
+		 * It is possible for %Cubiquity voxel databse files to be created outside of the %Cubiquity for Unity3D ecosystem (see the \ref secCubiquity
+		 * "user manual" if you are not clear on the difference between 'Cubiquity and 'Cubiquity for Unity3D'). For example, the %Cubiquity SDK contains
+		 * importers for converting a variety of external file formats into voxel databases. This function provides a way for you to create a VolumeData
+		 * which is linked to such a user provided voxel database.
+		 * 
+		 * \param relativePathToVoxelDatabase The 
+		 */
 		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();

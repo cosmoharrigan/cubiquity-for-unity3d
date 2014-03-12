@@ -12,6 +12,13 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
 	{
+		/**
+		 * Start here...
+		 * 
+		 * \copydoc CreateFromVoxelDatabase<VolumeDataType>
+		 * 
+		 * End here...
+		 */
 		public static TerrainVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
 		{
 			return CreateFromVoxelDatabase<TerrainVolumeData>(relativePathToVoxelDatabase);
