@@ -9,6 +9,19 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
+	/// Base class representing the actual 3D grid of voxel values
+	/**
+	 * This class primarily serves as a light-weight wrapper around the \ref secVoxelDatabase "voxel databases" which are used by the %Cubiquity engine,
+	 * allowing them to be treated as Unity3D assets. The voxel databases themselves are typically stored in the 'Streaming Assets' or 'Temporary Cache'
+	 * folder (depending on the usage scenario), with the actual path being specified by the 'fullPathToVoxelDatabase' property. The VolumeData and it's
+	 * subclasses then forward requests such as finding the dimensions of the voxel data or getting/setting the values of the individual voxels.
+	 * 
+	 * An instance of VolumeData can be created from an existing voxel database, or it can create an empty voxel database on demand. The class also
+	 * abstracts the properties and functionality which are common to all types of volume data regardless of the type of the underlying voxel. Note that
+	 * users should not interact with the VolumeData directly but should instead work with one of the derived classes.
+	 * 
+	 * \sa TerrainVolumeData, ColoredCubesVolumeData
+	 */
 	[System.Serializable]
 	public abstract class VolumeData : ScriptableObject
 	{
@@ -60,17 +73,22 @@ namespace Cubiquity
 		
 		// If set, this identifies the volume to the Cubiquity DLL. It can
 		// be tested against null to find if the volume is currently valid.
+		/// \cond
 		protected uint? mVolumeHandle = null;
 		public uint? volumeHandle
 		{
 			get { return mVolumeHandle; }
 			protected set { mVolumeHandle = value; }
 		}
+		/// \endcond
 		
 		// Don't really like having this defined here. The base node size should be a rendering property rather than a
 		// property of the actual volume data. Need to make this change in the underlying Cubiquity library as well though.
+		/// \cond
 		protected static uint DefaultBaseNodeSize = 32;
+		/// \endcond
 		
+		/// Docs here...
 		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
