@@ -13,6 +13,8 @@ namespace Cubiquity
 				private const string fileName = "CubiquityC.dll";
 			#elif UNITY_STANDALONE_LINUX
 				private const string fileName = "libCubiquityC.so";
+			#elif UNITY_STANDALONE_OSX
+				private const string fileName = "libCubiquityC.dylib";
 			#endif
 		
 			public static void ValidateAndFix()
