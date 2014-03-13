@@ -25,7 +25,7 @@ namespace Cubiquity
 	[System.Serializable]
 	public abstract class VolumeData : ScriptableObject
 	{
-		private enum Paths { StreamingAssets, TemporaryCache };
+		private enum VoxelDatabasePaths { Streaming, Temporary };
 		
 	    public Region enclosingRegion
 	    {
@@ -41,7 +41,7 @@ namespace Cubiquity
 	    }
 		
 		[SerializeField]
-		private Paths basePath;
+		private VoxelDatabasePaths basePath;
 		
 		[SerializeField]
 		private string relativePathToVoxelDatabase;
@@ -60,10 +60,10 @@ namespace Cubiquity
 				string basePathString = null;
 				switch(basePath)
 				{
-				case Paths.StreamingAssets:
-					basePathString = Application.streamingAssetsPath;
+				case VoxelDatabasePaths.Streaming:
+					basePathString = Paths.voxelDatabases;
 					break;
-				case Paths.TemporaryCache:
+				case VoxelDatabasePaths.Temporary:
 					basePathString = Application.temporaryCachePath;
 					break;
 				}
@@ -95,12 +95,12 @@ namespace Cubiquity
 		 * importers for converting a variety of external file formats into voxel databases. This function provides a way for you to create a VolumeData
 		 * which is linked to such a user provided voxel database.
 		 * 
-		 * \param relativePathToVoxelDatabase The 
+		 * \param relativePathToVoxelDatabase The path to the .vdb files which should be relative to the location given by Paths.voxelDatabases.
 		 */
 		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.basePath = Paths.StreamingAssets;
+			volumeData.basePath = VoxelDatabasePaths.Streaming;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
 			volumeData.InitializeExistingCubiquityVolume();
@@ -113,7 +113,7 @@ namespace Cubiquity
 			string pathToCreateVoxelDatabase = Impl.Utility.GenerateRandomVoxelDatabaseName();
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.basePath = Paths.TemporaryCache;
+			volumeData.basePath = VoxelDatabasePaths.Temporary;
 			volumeData.relativePathToVoxelDatabase = pathToCreateVoxelDatabase;
 			
 			volumeData.InitializeEmptyCubiquityVolume(region);
@@ -131,7 +131,7 @@ namespace Cubiquity
 			}
 			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
-			volumeData.basePath = Paths.StreamingAssets;
+			volumeData.basePath = VoxelDatabasePaths.Streaming;
 			volumeData.relativePathToVoxelDatabase = relativePathToVoxelDatabase;
 			
 			volumeData.InitializeEmptyCubiquityVolume(region);
@@ -162,9 +162,9 @@ namespace Cubiquity
 		
 		private void OnDestroy()
 		{
-			// If the voxel database was created in the temporary cache
+			// If the voxel database was created in the temporary location
 			// then we can be sure the user has no further use for it.
-			if(basePath == Paths.TemporaryCache)
+			if(basePath == VoxelDatabasePaths.Temporary)
 			{
 				File.Delete(fullPathToVoxelDatabase);
 				

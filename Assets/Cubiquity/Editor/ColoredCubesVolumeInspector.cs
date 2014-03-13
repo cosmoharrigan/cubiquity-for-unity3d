@@ -90,24 +90,13 @@ namespace Cubiquity
 			
 			if(GUILayout.Button("Load Voxel Database..."))
 			{			
-				string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Application.streamingAssetsPath, "vdb");
+				string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Paths.voxelDatabases, "vdb");
 				
-				/*Uri uriToVoxelDatabase = new Uri(pathToVoxelDatabase);	
-				Uri uriToStreamingAssets = new Uri(Application.streamingAssetsPath + Path.PathSeparator);			
-				Uri relativeUri = uriToStreamingAssets.MakeRelativeUri(uriToVoxelDatabase);			
-				string relativePathToVoxelDatabase = relativeUri.ToString();*/
-				
-				string relativePathToVoxelDatabase = Paths.MakeRelativePath(Application.streamingAssetsPath + Path.DirectorySeparatorChar, pathToVoxelDatabase);
+				string relativePathToVoxelDatabase = Paths.MakeRelativePath(Paths.voxelDatabases + Path.DirectorySeparatorChar, pathToVoxelDatabase);
 				
 				ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateFromVoxelDatabase(relativePathToVoxelDatabase);
 				
 				coloredCubesVolume.data = data;
-				
-				/*string pathToVoxelDatabase = "C:/Code/cubiquity-for-unity3d/Assets/StreamingAssets/0D2705DA.vdb";
-				string streamingAssetsPath = "C:/Code/cubiquity-for-unity3d/Assets/StreamingAssets" + Path.DirectorySeparatorChar;
-				
-				string relativePath = MakeRelativePath(streamingAssetsPath, pathToVoxelDatabase);
-				Debug.Log(relativePath);*/
 			}
 			
 			// Warn about unlicensed version.

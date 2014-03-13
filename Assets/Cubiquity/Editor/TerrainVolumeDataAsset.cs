@@ -10,8 +10,8 @@ namespace Cubiquity
 	{
 		public static TerrainVolumeData CreateFromVoxelDatabase()
 		{
-			string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Application.streamingAssetsPath, "vdb");
-			string relativePathToVoxelDatabase = Paths.MakeRelativePath(Application.streamingAssetsPath + Path.DirectorySeparatorChar, pathToVoxelDatabase);
+			string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Paths.voxelDatabases, "vdb");
+			string relativePathToVoxelDatabase = Paths.MakeRelativePath(Paths.voxelDatabases + Path.DirectorySeparatorChar, pathToVoxelDatabase);
 			TerrainVolumeData data = TerrainVolumeData.CreateFromVoxelDatabase(relativePathToVoxelDatabase);
 			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);
 			return data;
