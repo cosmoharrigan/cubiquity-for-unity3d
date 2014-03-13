@@ -108,6 +108,14 @@ namespace Cubiquity
 			return volumeData;
 		}
 		
+		/// Creates an instance of VolumeData and a corresponding voxel database.
+		/**
+		 * This function will normally be used if you want to create a VolumeData at runtime. Because no filename is provided for the voxel database it
+		 * will be created in a temporary folder and will be deleted when the VolumeData is destroyed. If you wish to create a persistant VolumeData then
+		 * you should use the other version of this function.
+		 * 
+		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
+		 */
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
 		{
 			string pathToCreateVoxelDatabase = Impl.Utility.GenerateRandomVoxelDatabaseName();
@@ -121,10 +129,20 @@ namespace Cubiquity
 			return volumeData;
 		}
 		
-		// If the user is providing a name for the voxel database then it follows that they want to make use of it later.
-		// In this case it should not be in the temp folder so we put it in streaming assets.
+		/// Creates an instance of VolumeData and a corresponding voxel database.
+		/**
+		 * This version of the function accepts a filename which will be given to the voxel database which is created. The path is relative to
+		 * Paths.voxelDatabases and the voxel database will not be deleted when the VolumeData is destroyed, so you have the option to reuse it later.
+		 * Note that you should only use this function from edit mode, as otherwise the streaming assets folder might not be writable (particularly
+		 * standalone builds).
+		 * 
+		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
+		 * \param relativePathToVoxelDatabase The path where the voxel database should be created, repative to the location given by Paths.voxelDatabases.
+		 */
 		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
+			// If the user is providing a name for the voxel database then it follows that they want to make use of it later.
+			// In this case it should not be in the temp folder so we put it in streaming assets.
 			if(Application.isPlaying)
 			{
 				Debug.LogWarning("You should not provide a path when creating empty volume data in play mode.");
@@ -175,8 +193,10 @@ namespace Cubiquity
 			}
 		}
 		
+		/// \cond
 		protected abstract void InitializeEmptyCubiquityVolume(Region region);
 		protected abstract void InitializeExistingCubiquityVolume();
 		protected abstract void ShutdownCubiquityVolume();
+		/// \endcond
 	}
 }
