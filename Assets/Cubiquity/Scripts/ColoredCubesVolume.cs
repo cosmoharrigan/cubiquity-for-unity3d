@@ -12,6 +12,9 @@ namespace Cubiquity
 	[ExecuteInEditMode]
 	public class ColoredCubesVolume : Volume
 	{
+		/**
+		 * \copydoc Volume::data
+		 */
 		public new ColoredCubesVolumeData data
 	    {
 	        get { return (ColoredCubesVolumeData)base.data; }

@@ -13,6 +13,9 @@ namespace Cubiquity
 	[ExecuteInEditMode]
 	public class TerrainVolume : Volume
 	{
+		/**
+		 * \copydoc Volume::data
+		 */
 		public new TerrainVolumeData data
 	    {
 	        get { return (TerrainVolumeData)base.data; }
