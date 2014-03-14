@@ -27,6 +27,14 @@ namespace Cubiquity
 	{
 		private enum VoxelDatabasePaths { Streaming, Temporary };
 		
+		/// Gets the dimensions of the VolumeData.
+		/**
+		 * %Cubiquity voxel databases (and by extension the VolumeData) have a fixed size which is specified on creation. You should not attempt to access
+		 * and location outside of this range.
+		 * 
+		 * \return The dimensions of the volume. The values are inclusive, so you can safely access the voxel at the positions given by Region.lowerCorner
+		 * and Region.upperCorner.
+		 */
 	    public Region enclosingRegion
 	    {
 	        get
@@ -46,6 +54,16 @@ namespace Cubiquity
 		[SerializeField]
 		private string relativePathToVoxelDatabase;
 		
+		/// Gets the full path to the voxel database which backs this instance.
+		/**
+		 * The full path to the voxel database is derived from the relative path which you can optionally specify at creation time, and the base path
+		 * which depends on the way the instance was created. See CreateEmptyVolumeData<VolumeDataType>() and CreateFromVoxelDatabase<VolumeDataType>()
+		 * for more information about how the base path is chosen.
+		 * 
+		 * This property is provided mostly for informational and debugging purposes as you are unlikely to directly make use of it.
+		 * 
+		 * \return The full path to the voxel database
+		 */
 		public string fullPathToVoxelDatabase
 		{
 			get
