@@ -8,26 +8,31 @@ namespace Cubiquity
 	namespace Impl
 	{
 		public class Installation
-		{
-			#if UNITY_STANDALONE_WIN
-				private const string fileName = "CubiquityC.dll";
-			#elif UNITY_STANDALONE_LINUX
-				private const string fileName = "libCubiquityC.so";
-			#elif UNITY_STANDALONE_OSX
-				private const string fileName = "libCubiquityC.dylib";
-			#endif
-		
+		{		
 			public static void ValidateAndFix()
-			{
-			//#if !UNITY_EDITOR
-				if( (Application.platform != RuntimePlatform.WindowsEditor) &&
-					(Application.platform != RuntimePlatform.WindowsPlayer) )
+			{	
+				// Get the name of the library we will copy (different per platform).
+				string fileName = "";
+				switch(Application.platform)
 				{
-					Debug.LogError("We're sorry, but Cubiquity for Unity3D is currently only supported on Windows. We hope to support more platfors in the future.");
+				case RuntimePlatform.WindowsEditor:
+				case RuntimePlatform.WindowsPlayer:
+					fileName = "CubiquityC.dll";
+					break;
+				case RuntimePlatform.OSXEditor:
+				case RuntimePlatform.OSXPlayer:
+					fileName = "libCubiquityC.dylib";
+					break;
+				case RuntimePlatform.LinuxPlayer:
+					fileName = "libCubiquityC.so";
+					break;
+				default:
+					Debug.LogError("We're sorry, but Cubiquity for Unity3D is not currently supported on your platform");
+					return;
 				}
-	
+				
+				// Copy the native code library from the SDK to the working directory.
 		        string sourcePath = Paths.SDK;
-		        //string destPath =  System.IO.Path.Combine(Application.dataPath, ".."); // Next to the executable
 				string destPath = System.IO.Directory.GetCurrentDirectory();
 		
 		        // Use Path class to manipulate file and directory paths. 
@@ -51,9 +56,7 @@ namespace Cubiquity
 					
 					if(!checksumsMatch)
 					{
-						Debug.LogWarning("The file " + fileName + " in the project root folder appears to be the wrong version (or corrupt). " 
-							+ "We have a copy in '" + sourcePath + "' and will use this version to overwrite the project root. "
-							+ " If for some reason you do not want this automatic fix in the future you can disable it by editing Installation.cs");
+						Debug.Log("Updating " + fileName + " in the project root folder as it doesn't match the version in the Cubiquity SDK.");
 						
 						try
 						{
@@ -70,9 +73,7 @@ namespace Cubiquity
 				}
 				else
 				{
-					Debug.LogWarning("The file " + fileName + " was not found in the project root, and will be copied there automatically. This warning "
-						+ "is normal the first time you use Cubiquity in a project but you should be concerned if you continue to see it after that."
-						+ " If for some reason you do not want this automatic fix in the future you can disable it by editing Installation.cs");
+					Debug.Log("Copying " + fileName + " to the project root folder.");
 					
 					try
 					{
@@ -88,9 +89,8 @@ namespace Cubiquity
 				
 				if(System.IO.File.Exists(destFile) == false)
 				{
-					Debug.LogWarning("The Cubiquity DLL was not found on startup, and this problem was not resolved.");
+					Debug.LogError("The Cubiquity DLL was not found in the project root folder, and this problem was not resolved.");
 				}
-			//#endif
 			}
 			
 			// From http://stackoverflow.com/q/1177607
