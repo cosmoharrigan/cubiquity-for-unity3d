@@ -19,7 +19,7 @@ namespace Cubiquity
 		
 			public static void ValidateAndFix()
 			{
-			#if !UNITY_EDITOR
+			//#if !UNITY_EDITOR
 				if( (Application.platform != RuntimePlatform.WindowsEditor) &&
 					(Application.platform != RuntimePlatform.WindowsPlayer) )
 				{
@@ -27,7 +27,8 @@ namespace Cubiquity
 				}
 	
 		        string sourcePath = Paths.SDK;
-		        string destPath =  System.IO.Path.Combine(Application.dataPath, ".."); // Next to the executable
+		        //string destPath =  System.IO.Path.Combine(Application.dataPath, ".."); // Next to the executable
+				string destPath = System.IO.Directory.GetCurrentDirectory();
 		
 		        // Use Path class to manipulate file and directory paths. 
 		        string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
@@ -89,7 +90,7 @@ namespace Cubiquity
 				{
 					Debug.LogWarning("The Cubiquity DLL was not found on startup, and this problem was not resolved.");
 				}
-			#endif
+			//#endif
 			}
 			
 			// From http://stackoverflow.com/q/1177607

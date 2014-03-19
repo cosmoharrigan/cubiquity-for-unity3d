@@ -10,11 +10,11 @@ namespace Cubiquity
 	{
 		public class CubiquityDLL
 		{
-			#if UNITY_EDITOR
-				private const string dllToImport = "Assets/StreamingAssets/Cubiquity/SDK/CubiquityC";
-			#else
+			//#if UNITY_EDITOR
+				//private const string dllToImport = "Assets/StreamingAssets/Cubiquity/SDK/CubiquityC";
+			//#else
 				private const string dllToImport = "CubiquityC";
-			#endif
+			//#endif
 				
 			// This static constructor is supposed to make sure that the Cubiquity.dll is in the right place before the DllImport is done.
 			// It doesn't seem to work, because in Standalone builds the message below is printed after the exception about the .dll not
