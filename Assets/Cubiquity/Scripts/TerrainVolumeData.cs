@@ -9,6 +9,11 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
+	/// An inplementation of VolumeData which stores a MaterialSet for each voxel.
+	/**
+	 * This class provides the actual 3D grid of material weights which are used by the TerrainVolume. You can use the provided interface to directly
+	 * manipulate the volume by getting or setting the weights of each voxel.
+	 */
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
 	{
@@ -36,6 +41,13 @@ namespace Cubiquity
 			return CreateEmptyVolumeData<TerrainVolumeData>(region, relativePathToVoxelDatabase);
 		}
 		
+		/// Gets the material weights of the specified position.
+		/**
+		 * \param x The 'x' position of the voxel to get.
+		 * \param y The 'y' position of the voxel to get.
+		 * \param z The 'z' position of the voxel to get.
+		 * \return The material weights of the voxel.
+		 */
 		public MaterialSet GetVoxel(int x, int y, int z)
 		{
 			MaterialSet materialSet;
@@ -51,6 +63,13 @@ namespace Cubiquity
 			return materialSet;
 		}
 		
+		/// Sets the material weights of the specified position.
+		/**
+		 * \param x The 'x' position of the voxel to set.
+		 * \param y The 'y' position of the voxel to set.
+		 * \param z The 'z' position of the voxel to set.
+		 * \param materialSet The material weights the voxel should be set to.
+		 */
 		public void SetVoxel(int x, int y, int z, MaterialSet materialSet)
 		{
 			if(volumeHandle.HasValue)
