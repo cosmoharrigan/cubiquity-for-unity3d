@@ -10,6 +10,29 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {	
+	/// Allows the creation of dynamic terrains featuring caves and overhangs.
+	/**
+	 * The TerrainVolume behaves as a logical extention to Unity's built in terrains, but using a true volumetric (3D) represnetation of the world
+	 * instead of a 2D heightmap. This allows the construction of features such as caves and overhangs which are not normally possible in Unity. It
+	 * is also far more flexible in terms of the modifications which can be performed at runtime, allowing (for example) a tunnel to be dug into a
+	 * hillside. This kind of modification is not possible using Unity's built in terrains because it would result in a structure which cannot be 
+	 * represented by the heightmap.
+	 * 
+	 * Aside from these enhancements, Cubiquity's TerrainVolume provides similar functionality to the standard Unity terrain. Tools are provided to
+	 * sculpt that shape of the terrain and also to paint on it with a number of materials. The TerrainVolume can also be modified from code by 
+	 * getting the underlying TerrainVolumeData and manipulating it directly though the provided API. This allows you to write your own tools or
+	 * actions as required by your specific gameplay mechanics.
+	 * 
+	 * // Picture
+	 * 
+	 * Each voxel of the TerrainVolume represent the material which exists at that location. More accuratly, a voxel can actually represent a *combination*
+	 * of materials, such that it could be 50% rock, 40% soil, and 10% sand, for example. Please see the documentation on MaterialSet for a more
+	 * comprehensive coverage of this.
+	 * 
+	 * The TerrainVolume class is used in conjunction with TerrainVolumeData, TerrainVolumeRenderer, and TerrainVolumeCollider. Each of these derives
+	 * from a base class, and you should see the documentation and diagram accompanying the Volume class for an understanding of how they all fit
+	 * together.
+	 */
 	[ExecuteInEditMode]
 	public class TerrainVolume : Volume
 	{
