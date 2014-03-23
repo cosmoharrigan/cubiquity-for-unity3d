@@ -4,9 +4,8 @@ using System.Runtime.InteropServices;
 
 namespace Cubiquity
 {
+	/// Represents the combination of materials which a given voxel is composed of.
 	/**
-	 * Represents the combination of materials which a given voxel is composed of.
-	 * 
 	 * The use of MaterialSets is one of the more unusual and powerful aspects of the Cubiquity voxel engine,
 	 * and it is important to their use in order to effectivly modify the TerrainVolume through scripts. For
 	 * simplicity we begin by considering how other voxel engines represent materials and then show how the
@@ -14,10 +13,10 @@ namespace Cubiquity
 	 * 
 	 * Most voxel terrain engines (including Cubiquity) are based on the Marching Cubes algorithm, in which the
 	 * shape of the terrain is defined by an underlying density field. A basic understanding of this algorithm is
-	 * useful to get maximum benefit from the system, so you may want to consult the links below before going
+	 * useful to get maximum benefit from the system, so you may want to consult the link below before going
 	 * further:
 	 * 
-	 * * Marching cubes links go here...
+	 * * <a href="https://en.wikipedia.org/wiki/Marching_cubes">The Marching Cubes algorithm on Wikipedia</a> 
 	 * 
 	 * Some voxel terrain engines extend this principle by storing a material identifier (an integer) with each 
 	 * voxel, in addition to the required density value. This material identifier is used at runtime to decide
@@ -75,19 +74,19 @@ namespace Cubiquity
 	 * code to procedurally generate volumes. You may find it useful to loosly follow the following process when
 	 * devising your noise functions for procudural generation.
 	 * 
-	 * 1) Start by only using a single material weight, and only set it to either '0' or '255'. Your mesh will have
+	 * 1. Start by only using a single material weight, and only set it to either '0' or '255'. Your mesh will have
 	 * a jagged appearance but at this point you are only interested in defining the general shape of your world.
 	 * 
-	 * 2) Move to using full range of values (from 0 to 255) but continue to only use a single material weight. During
+	 * 2. Move to using full range of values (from 0 to 255) but continue to only use a single material weight. During
 	 * this stage you are trying to perfect the shape of your world and ensure that you have smooth surfaces where
 	 * you want them.
 	 * 
-	 * 3) Begin working with multiple materials, but only write to a single material for any given voxel. That is,
+	 * 3. Begin working with multiple materials, but only write to a single material for any given voxel. That is,
 	 * you might decide that a given voxel is 'rock' and it's neighbour is 'snow', but at this point no voxel is a 
 	 * combination of the two. However, the actual value which you write can continue to be thr continuous (0 to 255)
 	 * value which you derived in the previous step.
 	 * 
-	 * 4) (Optional) You may finally decide that some voxel should be composed of multiple materials. From the
+	 * 4. (Optional) You may finally decide that some voxel should be composed of multiple materials. From the
 	 * previous steps you already know what the sum should be, so you just need to decide how to distribute the values
 	 * to give this sum.
 	 * 
@@ -97,7 +96,7 @@ namespace Cubiquity
 	 * may have some performance impact when generating, but it is more intuitive so might be a good starting point 
 	 * at least.
 	 * 
-	 * Do not that this is just a suggestion, and you may want to adopt a different workflow. It's worked for us though,
+	 * Do note that this is just a suggestion, and you may want to adopt a different workflow. It's worked for us though,
 	 * and it's generally good to break the process down into such a series of smaller steps.
 	 *
 	 */
