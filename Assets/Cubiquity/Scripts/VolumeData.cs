@@ -106,11 +106,12 @@ namespace Cubiquity
 		protected static uint DefaultBaseNodeSize = 32;
 		/// \endcond
 		
-		/// Create an instance of VolumeData from an existing voxel database.
+		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
+		/// Create an instance of VolumeData (or one of its subclasses) from an existing voxel database.
 		/**
 		 * It is possible for %Cubiquity voxel databse files to be created outside of the %Cubiquity for Unity3D ecosystem (see the \ref secCubiquity
 		 * "user manual" if you are not clear on the difference between 'Cubiquity and 'Cubiquity for Unity3D'). For example, the %Cubiquity SDK contains
-		 * importers for converting a variety of external file formats into voxel databases. This function provides a way for you to create a VolumeData
+		 * importers for converting a variety of external file formats into voxel databases. This function provides a way for you to create volume data
 		 * which is linked to such a user provided voxel database.
 		 * 
 		 * \param relativePathToVoxelDatabase The path to the .vdb files which should be relative to the location given by Paths.voxelDatabases.
@@ -126,10 +127,11 @@ namespace Cubiquity
 			return volumeData;
 		}
 		
-		/// Creates an instance of VolumeData and a corresponding voxel database.
+		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
+		/// Creates an instance of VolumeData (or one of its subclasses) and a corresponding voxel database.
 		/**
-		 * This function will normally be used if you want to create a VolumeData at runtime. Because no filename is provided for the voxel database it
-		 * will be created in a temporary folder and will be deleted when the VolumeData is destroyed. If you wish to create a persistant VolumeData then
+		 * This function will normally be used if you want to create volume data at runtime. Because no filename is provided for the voxel database it
+		 * will be created in a temporary folder and will be deleted when the volume data is destroyed. If you wish to create a persistant volume data then
 		 * you should use the other version of this function.
 		 * 
 		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
@@ -147,10 +149,11 @@ namespace Cubiquity
 			return volumeData;
 		}
 		
-		/// Creates an instance of VolumeData and a corresponding voxel database.
+		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
+		/// Creates an instance of VolumeData (or one of its subclasses) and a corresponding voxel database.
 		/**
 		 * This version of the function accepts a filename which will be given to the voxel database which is created. The path is relative to
-		 * Paths.voxelDatabases and the voxel database will not be deleted when the VolumeData is destroyed, so you have the option to reuse it later.
+		 * Paths.voxelDatabases and the voxel database will not be deleted when the volume data is destroyed, so you have the option to reuse it later.
 		 * Note that you should only use this function from edit mode, as otherwise the streaming assets folder might not be writable (particularly
 		 * standalone builds).
 		 * 

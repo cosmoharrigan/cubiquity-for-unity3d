@@ -11,17 +11,26 @@ namespace Cubiquity
 {
 	[System.Serializable]
 	public sealed class ColoredCubesVolumeData : VolumeData
-	{		
+	{
+		/** 
+		 * \copydoc CreateFromVoxelDatabase<VolumeDataType>(string)
+		 */
 		public static ColoredCubesVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
 		{
 			return CreateFromVoxelDatabase<ColoredCubesVolumeData>(relativePathToVoxelDatabase);
 		}
 		
+		/** 
+		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region)
+		 */
 		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region)
 		{
 			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region);
 		}
 		
+		/** 
+		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region, string)
+		 */
 		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region, string relativePathToVoxelDatabase)
 		{
 			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region, relativePathToVoxelDatabase);
@@ -54,6 +63,7 @@ namespace Cubiquity
 			}
 		}
 		
+		/// \cond
 		protected override void InitializeEmptyCubiquityVolume(Region region)
 		{				
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
@@ -65,7 +75,9 @@ namespace Cubiquity
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, fullPathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
+		/// \endcond
 
+		/// \cond
 		protected override void InitializeExistingCubiquityVolume()
 		{				
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
@@ -76,7 +88,9 @@ namespace Cubiquity
 				volumeHandle = CubiquityDLL.NewColoredCubesVolumeFromVDB(fullPathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
+		/// \endcond
 		
+		/// \cond
 		protected override void ShutdownCubiquityVolume()
 		{
 			if(volumeHandle.HasValue)
@@ -94,5 +108,6 @@ namespace Cubiquity
 				volumeHandle = null;
 			}
 		}
+		/// \endcond
 	}
 }

@@ -12,23 +12,25 @@ namespace Cubiquity
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
 	{
-		/**
-		 * Start here...
-		 * 
-		 * \copydoc CreateFromVoxelDatabase<VolumeDataType>
-		 * 
-		 * End here...
+		/** 
+		 * \copydoc CreateFromVoxelDatabase<VolumeDataType>(string)
 		 */
 		public static TerrainVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
 		{
 			return CreateFromVoxelDatabase<TerrainVolumeData>(relativePathToVoxelDatabase);
 		}
 		
+		/** 
+		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region)
+		 */
 		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
 		{
 			return CreateEmptyVolumeData<TerrainVolumeData>(region);
 		}
 		
+		/** 
+		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region, string)
+		 */
 		public static TerrainVolumeData CreateEmptyVolumeData(Region region, string relativePathToVoxelDatabase)
 		{
 			return CreateEmptyVolumeData<TerrainVolumeData>(region, relativePathToVoxelDatabase);
@@ -61,6 +63,7 @@ namespace Cubiquity
 			}
 		}
 		
+		/// \cond
 		protected override void InitializeEmptyCubiquityVolume(Region region)
 		{			
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
@@ -72,7 +75,9 @@ namespace Cubiquity
 					region.upperCorner.x, region.upperCorner.y, region.upperCorner.z, fullPathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
-
+		/// \endcond
+		
+		/// \cond
 		protected override void InitializeExistingCubiquityVolume()
 		{			
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
@@ -83,7 +88,9 @@ namespace Cubiquity
 				volumeHandle = CubiquityDLL.NewTerrainVolumeFromVDB(fullPathToVoxelDatabase, DefaultBaseNodeSize);
 			}
 		}
+		/// \endcond
 		
+		/// \cond
 		protected override void ShutdownCubiquityVolume()
 		{
 			// Shutdown could get called multiple times. E.g by OnDisable() and then by OnDestroy().
@@ -102,5 +109,6 @@ namespace Cubiquity
 				volumeHandle = null;
 			}
 		}
+		/// \endcond
 	}
 }
