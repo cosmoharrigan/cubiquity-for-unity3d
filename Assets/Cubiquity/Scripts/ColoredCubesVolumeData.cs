@@ -9,6 +9,11 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
+	/// An inplementation of VolumeData which stores a QuantizedColor for each voxel.
+	/**
+	 * This class provides the actual 3D grid of color values which are used by the ColoredCubesVolume. You can use the provided interface to directly
+	 * manipulate the volume by getting or setting the color of each voxel.
+	 */
 	[System.Serializable]
 	public sealed class ColoredCubesVolumeData : VolumeData
 	{
@@ -36,6 +41,13 @@ namespace Cubiquity
 			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region, relativePathToVoxelDatabase);
 		}
 		
+		/// Gets the color of the specified position.
+		/**
+		 * \param x The 'x' position of the voxel to get.
+		 * \param y The 'y' position of the voxel to get.
+		 * \param z The 'z' position of the voxel to get.
+		 * \return The color of the voxel.
+		 */
 		public QuantizedColor GetVoxel(int x, int y, int z)
 		{
 			QuantizedColor result;
@@ -51,6 +63,13 @@ namespace Cubiquity
 			return result;
 		}
 		
+		/// Sets the color of the specified position.
+		/**
+		 * \param x The 'x' position of the voxel to set.
+		 * \param y The 'y' position of the voxel to set.
+		 * \param z The 'z' position of the voxel to set.
+		 * \param quantizedColor The color the voxel should be set to.
+		 */
 		public void SetVoxel(int x, int y, int z, QuantizedColor quantizedColor)
 		{
 			if(volumeHandle.HasValue)
