@@ -10,7 +10,7 @@ using UnityEditor;
 
 namespace Cubiquity
 {
-	/// Base class representing a three-dimensional grid of voxels. 
+	/// Base class representing behaviour common to all volumes.
 	/**
 	 * Volumes are probably the single most fundamental concept of %Cubiquity. They essentially provide a 3D array of voxels which the user can
 	 * modify at will, and they take care of synchronizing and maintaining a mesh representation of the voxels for rendering and collision detection.
