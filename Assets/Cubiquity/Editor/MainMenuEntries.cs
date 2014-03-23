@@ -24,7 +24,7 @@ namespace Cubiquity
 			TerrainVolumeGenerator.GenerateFloor(data, 6, (uint)1, 8, (uint)2);
 			
 			// Now create the terrain game object from the data.
-			GameObject terrain = TerrainVolume.CreateGameObject(data);
+			GameObject terrain = TerrainVolume.CreateGameObject(data, true, true);
 			
 			// And select it, so the user can get straight on with editing.
 			Selection.activeGameObject = terrain;
@@ -81,7 +81,7 @@ namespace Cubiquity
 			
 			ScriptableObjectUtility.CreateAssetFromInstance<ColoredCubesVolumeData>(data);
 			
-			GameObject coloredCubesGameObject = ColoredCubesVolume.CreateGameObject(data);
+			GameObject coloredCubesGameObject = ColoredCubesVolume.CreateGameObject(data, true, true);
 			
 			// And select it, so the user can get straight on with editing.
 			Selection.activeGameObject = coloredCubesGameObject;

@@ -9,6 +9,18 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {	
+	/// Allows environments to be built from millions of colored cubes
+	/**
+	 * The ColoredCubesVolume can be used to achieve retro-style environents which capture the visual essence of pixel art but extended into three
+	 * dimensions. Large numbers of cubes can be added or removed each frame in order to create highly dynamic worlds.
+	 * 
+	 * // Picture
+	 * 
+	 * Conceptually this kind of volume is easy to understand. Access to the underlying voxel data can be obtained through the 'data' property,
+	 * and this returns a instance of ColoredCubesVolumeData with each voxel of the data being a QuantizedColor. The ColoredCubesVolume and
+	 * ColoredCubesVolumeData are used in conjunction with the ColoredCubesRenderer and ColoredCubesCollider. Please see the documentation of
+	 * the Volume class for more details and a diagram showing how these components are related.
+	 */
 	[ExecuteInEditMode]
 	public class ColoredCubesVolume : Volume
 	{
@@ -21,19 +33,31 @@ namespace Cubiquity
 			set { base.data = value; }
 	    }
 		
-		public static GameObject CreateGameObject(ColoredCubesVolumeData data)
+		/// Convinience method for creating a GameObject with a set of colored cubes components attached.
+		/**
+		 * Adding a volume to a scene requires creating a GameObject and then attching the required Cubiquity components such a renderer and a
+		 * collider. This method simply automates the process and also attaches the provided volume data.
+		 * 
+		 * \param data The volume data which should be attached to the construced volume.
+		 * \param addRenderer Specifies whether a renderer component should be added so that the volume is displayed.
+		 * \param addCollider Specifies whether a collider component should be added so that the volume can participate in collisions.
+		 */
+		public static GameObject CreateGameObject(ColoredCubesVolumeData data, bool addRenderer, bool addCollider)
 		{
 			// Create our main game object representing the volume.
 			GameObject coloredCubesVolumeGameObject = new GameObject("Colored Cubes Volume");
 			
-			//Add the requied components.
+			//Add the required volume component.
 			ColoredCubesVolume coloredCubesVolume = coloredCubesVolumeGameObject.GetOrAddComponent<ColoredCubesVolume>();
-			coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeRenderer>();
-			coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeCollider>();
 			
 			// Set the provided data.
 			coloredCubesVolume.data = data;
 			
+			// Add the renderer and collider if desired.
+			if(addRenderer) { coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeRenderer>(); }
+			if(addCollider) { coloredCubesVolumeGameObject.AddComponent<ColoredCubesVolumeCollider>(); }
+			
+			// Return the created object
 			return coloredCubesVolumeGameObject;
 		}
 		
@@ -62,6 +86,7 @@ namespace Cubiquity
 			}
 	    }
 		
+		/// \cond
 		protected override void Synchronize()
 		{			
 			base.Synchronize();
@@ -109,5 +134,6 @@ namespace Cubiquity
 				}
 			}
 		}
+		/// \endcond
 	}
 }

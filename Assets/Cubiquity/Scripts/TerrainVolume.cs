@@ -45,19 +45,31 @@ namespace Cubiquity
 			set { base.data = value; }
 	    }
 		
-		public static GameObject CreateGameObject(TerrainVolumeData data)
+		/// Convinience method for creating a GameObject with a set of terrain components attached.
+		/**
+		 * Adding a volume to a scene requires creating a GameObject and then attching the required Cubiquity components such a renderer and a
+		 * collider. This method simply automates the process and also attaches the provided volume data.
+		 * 
+		 * \param data The volume data which should be attached to the construced volume.
+		 * \param addRenderer Specifies whether a renderer component should be added so that the volume is displayed.
+		 * \param addCollider Specifies whether a collider component should be added so that the volume can participate in collisions.
+		 */
+		public static GameObject CreateGameObject(TerrainVolumeData data, bool addRenderer, bool addCollider)
 		{
 			// Create our main game object representing the volume.
 			GameObject terrainVolumeGameObject = new GameObject("Terrain Volume");
 			
-			//Add the requied components.
+			//Add the required volume component.
 			TerrainVolume terrainVolume = terrainVolumeGameObject.GetOrAddComponent<TerrainVolume>();
-			terrainVolumeGameObject.AddComponent<TerrainVolumeRenderer>();
-			terrainVolumeGameObject.AddComponent<TerrainVolumeCollider>();
 			
 			// Set the provided data.
 			terrainVolume.data = data;
 			
+			// Add the renderer and collider if desired.
+			if(addRenderer) { terrainVolumeGameObject.AddComponent<TerrainVolumeRenderer>(); }
+			if(addCollider) { terrainVolumeGameObject.AddComponent<TerrainVolumeCollider>(); }
+			
+			// Return the created object
 			return terrainVolumeGameObject;
 		}
 		
@@ -87,6 +99,7 @@ namespace Cubiquity
 			}
 	    }
 		
+		/// \cond
 		protected override void Synchronize()
 		{
 			base.Synchronize();
@@ -117,5 +130,6 @@ namespace Cubiquity
 				}
 			}
 		}
+		/// \endcond
 	}
 }
