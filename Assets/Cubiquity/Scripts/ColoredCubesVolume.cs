@@ -14,7 +14,7 @@ namespace Cubiquity
 	 * The ColoredCubesVolume can be used to achieve retro-style environents which capture the visual essence of pixel art but extended into three
 	 * dimensions. Large numbers of cubes can be added or removed each frame in order to create highly dynamic worlds.
 	 * 
-	 * // Picture
+	 * \image html cubic-terrain.jpg
 	 * 
 	 * Conceptually this kind of volume is easy to understand. Access to the underlying voxel data can be obtained through the 'data' property,
 	 * and this returns a instance of ColoredCubesVolumeData with each voxel of the data being a QuantizedColor. The ColoredCubesVolume and

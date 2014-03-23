@@ -23,7 +23,7 @@ namespace Cubiquity
 	 * getting the underlying TerrainVolumeData and manipulating it directly though the provided API. This allows you to write your own tools or
 	 * actions as required by your specific gameplay mechanics.
 	 * 
-	 * // Picture
+	 * \image html smooth-terrain.jpg
 	 * 
 	 * Each voxel of the TerrainVolume represent the material which exists at that location. More accuratly, a voxel can actually represent a *combination*
 	 * of materials, such that it could be 50% rock, 40% soil, and 10% sand, for example. Please see the documentation on MaterialSet for a more
