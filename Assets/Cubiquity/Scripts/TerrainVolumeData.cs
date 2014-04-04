@@ -9,7 +9,7 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
-	/// An inplementation of VolumeData which stores a MaterialSet for each voxel.
+	/// An implementation of VolumeData which stores a MaterialSet for each voxel.
 	/**
 	 * This class provides the actual 3D grid of material weights which are used by the TerrainVolume. You can use the provided interface to directly
 	 * manipulate the volume by getting or setting the weights of each voxel.
@@ -97,7 +97,7 @@ namespace Cubiquity
 		/// \endcond
 		
 		/// \cond
-		protected override void InitializeExistingCubiquityVolume()
+		public override void InitializeExistingCubiquityVolume()
 		{			
 			// This function might get called multiple times. E.g the user might call it striaght after crating the volume (so
 			// they can add some initial data to the volume) and it might then get called again by OnEnable(). Handle this safely.
@@ -110,7 +110,7 @@ namespace Cubiquity
 		/// \endcond
 		
 		/// \cond
-		protected override void ShutdownCubiquityVolume()
+		public override void ShutdownCubiquityVolume()
 		{
 			// Shutdown could get called multiple times. E.g by OnDisable() and then by OnDestroy().
 			if(volumeHandle.HasValue)

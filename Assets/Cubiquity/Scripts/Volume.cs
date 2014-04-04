@@ -150,7 +150,14 @@ namespace Cubiquity
 		}
 		
 		void OnEnable()
-		{			
+		{	
+			// Ideally the VolumeData would handle it's own initialization and shutdown, but it's OnEnable()/OnDisable() methods don't seems to be
+			// called when switching between edit/play mode if it has been turned into an asset. Therefore we do it here as well just to be sure.
+			if(data != null)
+			{
+				data.InitializeExistingCubiquityVolume();
+			}
+			
 			// When switching to MonoDevelop, editing code, and then switching back to Unity, some kind of scene reload is performed.
 			// It's actually a bit unclear, but it results in a new octree being built without the old one being destroyed first. It
 			// seems Awake/OnDestroy() are not called as part of this process, and we are not allowed to modify the scene graph from
@@ -186,6 +193,13 @@ namespace Cubiquity
 			#if UNITY_EDITOR
 				EditorApplication.update -= EditModeUpdate;
 			#endif
+			
+			// Ideally the VolumeData would handle it's own initialization and shutdown, but it's OnEnable()/OnDisable() methods don't seems to be
+			// called when switching between edit/play mode if it has been turned into an asset. Therefore we do it here as well just to be sure.
+			if(data != null)
+			{
+				data.ShutdownCubiquityVolume();
+			}
 		}
 		
 		#if UNITY_EDITOR

@@ -185,7 +185,10 @@ namespace Cubiquity
 		}
 		
 		private void OnEnable()
-		{			
+		{	
+			// Note: For some reason this function is not called when transitioning between edit/play mode if this scriptable 
+			// object has been turned into an asset. Therefore we also call Initialize...()/Shutdown...() from the Volume class.
+			
 			// This OnEnable() function is called as soon as the VolumeData is instantiated, but at this point it has not yet
 			// been initilized with the path and so in this case we cannot yet initialize the underlying Cubiquity volume.
 			if(relativePathToVoxelDatabase != null)
@@ -196,6 +199,8 @@ namespace Cubiquity
 		
 		private void OnDisable()
 		{
+			// Note: For some reason this function is not called when transitioning between edit/play mode if this scriptable 
+			// object has been turned into an asset. Therefore we also call Initialize...()/Shutdown...() from the Volume class.
 			ShutdownCubiquityVolume();
 		}
 		
@@ -216,8 +221,8 @@ namespace Cubiquity
 		
 		/// \cond
 		protected abstract void InitializeEmptyCubiquityVolume(Region region);
-		protected abstract void InitializeExistingCubiquityVolume();
-		protected abstract void ShutdownCubiquityVolume();
+		public abstract void InitializeExistingCubiquityVolume();
+		public abstract void ShutdownCubiquityVolume();
 		/// \endcond
 	}
 }
