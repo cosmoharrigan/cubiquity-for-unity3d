@@ -11,6 +11,7 @@ namespace Cubiquity
 		public class CubiquityDLL
 		{
 			private const string dllToImport = "CubiquityC";
+			private static string logFilePath;
 				
 			// This static constructor is supposed to make sure that the Cubiquity.dll is in the right place before the DllImport is done.
 			// It doesn't seem to work, because in Standalone builds the message below is printed after the exception about the .dll not
@@ -18,14 +19,28 @@ namespace Cubiquity
 			static CubiquityDLL()
 			{				
 				Installation.ValidateAndFix();
+				
+				logFilePath = GetLogFilePath();
 			}
 			
 			private static void Validate(int returnCode)
 			{
 				if(returnCode < 0)
 				{
-					throw new CubiquityException("An exception occured inside Cubiquity. Please see the log file for details");
+					throw new CubiquityException("An exception occured inside Cubiquity. Please see `" + logFilePath + "` for more details");
 				}
+			}
+			
+			////////////////////////////////////////////////////////////////////////////////
+			// Logging functions
+			////////////////////////////////////////////////////////////////////////////////
+			[DllImport (dllToImport)]
+			private static extern IntPtr cuGetLogFilePath();
+			public static string GetLogFilePath()
+			{
+				IntPtr result = cuGetLogFilePath();
+				string stringResult = Marshal.PtrToStringAnsi(result);
+				return stringResult;
 			}
 			
 			////////////////////////////////////////////////////////////////////////////////
