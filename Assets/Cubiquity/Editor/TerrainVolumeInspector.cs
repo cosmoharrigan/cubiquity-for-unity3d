@@ -180,12 +180,20 @@ namespace Cubiquity
 				GUILayout.Label("Create And Assign Terrain Volume Data:");
 				if(GUILayout.Button("Empty Volume Data..."))
 				{
+					TerrainVolumeData data = TerrainVolumeDataAsset.CreateEmptyVolumeData();
+					if(data != null)
+					{
+						terrainVolume.data = data;
+					}
 				}
 				
 				if(GUILayout.Button("From Voxel Database..."))
 				{
 					TerrainVolumeData data = TerrainVolumeDataAsset.CreateFromVoxelDatabase();
-					terrainVolume.data = data;					
+					if(data != null)
+					{
+						terrainVolume.data = data;
+					}
 				}
 			EditorGUILayout.EndVertical();
 		}

@@ -61,7 +61,7 @@ namespace Cubiquity
 		[MenuItem ("Assets/Create/Terrain Volume Data/Empty Volume Data...")]
 		static void CreateEmptyTerrainVolumeDataAsset()
 		{			
-			//TerrainVolumeDataAsset.CreateFromVoxelDatabase();
+			TerrainVolumeDataAsset.CreateEmptyVolumeData();
 		}
 		
 		[MenuItem ("Assets/Create/Terrain Volume Data/From Voxel Database...")]
