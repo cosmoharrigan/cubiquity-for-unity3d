@@ -43,12 +43,6 @@ namespace Cubiquity
 		public void OnEnable()
 		{
 		    coloredCubesVolume = target as ColoredCubesVolume;
-			
-			Texture2D warnIcon = EditorGUIUtility.FindTexture("console.warnicon");
-			warningLabelContent = new GUIContent("This version of Cubiquity is for \n" +
-				"non-commercial and evaluation use\n" +
-				"only. Please see LICENSE.txt for\n" +
-				"further details.", warnIcon);
 		}
 		
 		public override void OnInspectorGUI()
@@ -100,7 +94,9 @@ namespace Cubiquity
 			}
 			
 			// Warn about unlicensed version.
-			EditorGUILayout.LabelField(warningLabelContent, GUILayout.Height(64));
+			EditorGUILayout.Space();
+			EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation" +
+				"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
 		}
 		
 		public void OnSceneGUI()

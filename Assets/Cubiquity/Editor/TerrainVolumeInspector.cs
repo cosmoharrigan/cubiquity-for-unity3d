@@ -68,12 +68,6 @@ namespace Cubiquity
 			brushTextures[2] = Resources.Load("Icons/MediumBrush") as Texture;
 			brushTextures[3] = Resources.Load("Icons/MediumHardBrush") as Texture;
 			brushTextures[4] = Resources.Load("Icons/HardBrush") as Texture;
-			
-			Texture2D warnIcon = EditorGUIUtility.FindTexture("console.warnicon");
-			warningLabelContent = new GUIContent("This version of Cubiquity is for \n" +
-				"non-commercial and evaluation use\n" +
-				"only. Please see LICENSE.txt for\n" +
-				"further details.", warnIcon);
 		}
 		
 		public override void OnInspectorGUI()
@@ -140,7 +134,9 @@ namespace Cubiquity
 			}
 			
 			// Warn about unlicensed version.
-			EditorGUILayout.LabelField(warningLabelContent, GUILayout.Height(64));
+			EditorGUILayout.Space();
+			EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation" +
+				"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
 		}
 		
 		private void DrawSculptControls()
@@ -174,28 +170,8 @@ namespace Cubiquity
 		
 		private void DrawSettingsControls()
 		{
-			terrainVolume.data = EditorGUILayout.ObjectField("Volume Data", terrainVolume.data, typeof(TerrainVolumeData), true) as TerrainVolumeData;
-			
-			EditorGUILayout.BeginVertical();
-				GUILayout.Label("Create And Assign Terrain Volume Data:");
-				if(GUILayout.Button("Empty Volume Data..."))
-				{
-					TerrainVolumeData data = TerrainVolumeDataAsset.CreateEmptyVolumeData();
-					if(data != null)
-					{
-						terrainVolume.data = data;
-					}
-				}
-				
-				if(GUILayout.Button("From Voxel Database..."))
-				{
-					TerrainVolumeData data = TerrainVolumeDataAsset.CreateFromVoxelDatabase();
-					if(data != null)
-					{
-						terrainVolume.data = data;
-					}
-				}
-			EditorGUILayout.EndVertical();
+			DrawInstructions("Create new volume data through 'Main Menu -> Assets -> Create -> Terrain Volume Data' and then assign it below.");
+			terrainVolume.data = EditorGUILayout.ObjectField("Volume Data: ", terrainVolume.data, typeof(TerrainVolumeData), true) as TerrainVolumeData;
 		}
 		
 		private void DrawInstructions( string message)
