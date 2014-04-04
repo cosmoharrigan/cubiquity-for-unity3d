@@ -32,7 +32,7 @@ namespace Cubiquity
 				}
 				
 				// Copy the native code library from the SDK to the working directory.
-		        string sourcePath = Paths.SDK + "/lib";
+		        string sourcePath = Paths.SDK;
 				string destPath = System.IO.Directory.GetCurrentDirectory();
 		
 		        // Use Path class to manipulate file and directory paths. 
