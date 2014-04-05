@@ -31,17 +31,6 @@ namespace Cubiquity
 			return data;
 		}
 		
-		public static TerrainVolumeData CreateEmptyVolumeData()
-		{
-			// Get the dimensions
-			int width = 128;
-			int height = 32;
-			int depth = 128;
-			
-			// Pass through to the other version of the method.
-			return CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));	
-		}
-		
 		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
 		{			
 			TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(region, Impl.Utility.GenerateRandomVoxelDatabaseName());
