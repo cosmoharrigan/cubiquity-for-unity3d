@@ -8,7 +8,7 @@ namespace Cubiquity
 	// http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
 	public static class ScriptableObjectUtility
 	{
-		public static T CreateAsset<T> () where T : ScriptableObject
+		/*public static T CreateAsset<T> () where T : ScriptableObject
 		{
 			T asset = ScriptableObject.CreateInstance<T> ();
 	 
@@ -31,7 +31,7 @@ namespace Cubiquity
 			Selection.activeObject = asset;
 			
 			return asset;
-		}
+		}*/
 		
 		public static void CreateAssetFromInstance<T> (T instance) where T : ScriptableObject
 		{	 

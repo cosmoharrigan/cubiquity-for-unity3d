@@ -18,31 +18,63 @@ namespace Cubiquity
 			}
 				
 			string relativePathToVoxelDatabase = Paths.MakeRelativePath(Paths.voxelDatabases + Path.DirectorySeparatorChar, pathToVoxelDatabase);
+			
+			// Pass through to the other version of the method.
+			return CreateFromVoxelDatabase(relativePathToVoxelDatabase);
+		}
+		
+		public static TerrainVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
+		{			
 			TerrainVolumeData data = TerrainVolumeData.CreateFromVoxelDatabase(relativePathToVoxelDatabase);
-			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);
+			string assetName = Path.GetFileNameWithoutExtension(relativePathToVoxelDatabase);
+			CreateAssetFromInstance<TerrainVolumeData>(data, assetName);
 			return data;
 		}
 		
 		public static TerrainVolumeData CreateEmptyVolumeData()
 		{
-			int width = 64;
+			// Get the dimensions
+			int width = 128;
 			int height = 32;
-			int depth = 64;
+			int depth = 128;
 			
-			TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1), Impl.Utility.GenerateRandomVoxelDatabaseName());
-			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);			
+			// Pass through to the other version of the method.
+			return CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));	
+		}
+		
+		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
+		{			
+			TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(region, Impl.Utility.GenerateRandomVoxelDatabaseName());
+			CreateAssetFromInstance<TerrainVolumeData>(data);			
 			return data;
 		}
 		
-		/*public static TerrainVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
-		{
-			TerrainVolumeData data = TerrainVolumeData.CreateFromVoxelDatabase(relativePathToVoxelDatabase);
-			ScriptableObjectUtility.CreateAssetFromInstance<TerrainVolumeData>(data);
-			return data;
-		}*/
-		
-		/*protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
-		{
-		}*/
+		// The contents of this method are taken/derived from here:
+		// http://wiki.unity3d.com/index.php?title=CreateScriptableObjectAsset
+		private static void CreateAssetFromInstance<T> (T instance, string assetName = "") where T : ScriptableObject
+		{	 
+			string path = AssetDatabase.GetAssetPath (Selection.activeObject);
+			if (path == "") 
+			{
+				path = "Assets";
+			} 
+			else if (Path.GetExtension (path) != "") 
+			{
+				path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
+			}
+			
+			if(assetName == "")
+			{
+				assetName = "New " + typeof(T).ToString();
+			}
+	 
+			string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/" + assetName + ".asset");
+	 
+			AssetDatabase.CreateAsset (instance, assetPathAndName);
+	 
+			AssetDatabase.SaveAssets ();
+			EditorUtility.FocusProjectWindow ();
+			Selection.activeObject = instance;
+		}
 	}
 }
