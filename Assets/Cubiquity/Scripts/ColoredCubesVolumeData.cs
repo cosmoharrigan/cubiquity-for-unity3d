@@ -7,8 +7,11 @@ using System.Collections;
 using Cubiquity;
 using Cubiquity.Impl;
 
-namespace Cubiquity
-{
+// VolumeData and it's subclasses are not in the Cubiquity namespace because it seems to cause problems with 'EditorGUILayout.ObjectField(...)'.
+// Specifically the pop-up window (which appears when click the small circle with the dot in it) does not display the other volume data assets 
+// in the project if the Cubiquity namespace is used. This appears to simply be a namespace-related bug in Unity.
+//namespace Cubiquity
+//{
 	/// An implementation of VolumeData which stores a QuantizedColor for each voxel.
 	/**
 	 * This class provides the actual 3D grid of color values which are used by the ColoredCubesVolume. You can use the provided interface to directly
@@ -129,4 +132,4 @@ namespace Cubiquity
 		}
 		/// \endcond
 	}
-}
+//}
