@@ -5,12 +5,12 @@ using System.Collections;
 
 namespace Cubiquity
 {	
-	[CustomEditor (typeof(TerrainVolumeData))]
-	public class TerrainVolumeDataInspector : Editor
+	[CustomEditor (typeof(ColoredCubesVolumeData))]
+	public class ColoredCubesVolumeDataInspector : Editor
 	{
 		public override void OnInspectorGUI()
 		{
-			TerrainVolumeData data = target as TerrainVolumeData;
+			ColoredCubesVolumeData data = target as ColoredCubesVolumeData;
 			
 			EditorGUILayout.LabelField("Full path to voxel database:", EditorStyles.boldLabel);
 			EditorGUILayout.HelpBox(data.fullPathToVoxelDatabase, MessageType.None);
