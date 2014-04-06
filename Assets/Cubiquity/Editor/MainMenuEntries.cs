@@ -59,14 +59,21 @@ namespace Cubiquity
 		[MenuItem ("Assets/Create/Terrain Volume Data/Empty Volume Data...")]
 		static void CreateEmptyTerrainVolumeDataAsset()
 		{			
-			//TerrainVolumeDataAsset.CreateEmptyVolumeData();
-			ScriptableWizard.DisplayWizard<CreateEmptyVolumeDataAssetWizard>("Create Light", "Create");
+			ScriptableWizard.DisplayWizard<CreateEmptyTerrainVolumeDataAssetWizard>("Create Light", "Create");
 		}
 		
 		[MenuItem ("Assets/Create/Terrain Volume Data/From Voxel Database...")]
 		static void CreateTerrainVolumeDataAssetFromVoxelDatabase()
-		{			
-			TerrainVolumeDataAsset.CreateFromVoxelDatabase();
+		{	
+			string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Paths.voxelDatabases, "vdb");
+			
+			if(pathToVoxelDatabase.Length != 0)
+			{
+				string relativePathToVoxelDatabase = Paths.MakeRelativePath(Paths.voxelDatabases + Path.DirectorySeparatorChar, pathToVoxelDatabase);
+			
+				// Pass through to the other version of the method.
+				TerrainVolumeDataAsset.CreateFromVoxelDatabase(relativePathToVoxelDatabase);
+			}
 		}
 		
 		[MenuItem ("GameObject/Create Other/Colored Cubes Volume")]
