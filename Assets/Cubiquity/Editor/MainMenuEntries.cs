@@ -59,7 +59,7 @@ namespace Cubiquity
 		[MenuItem ("Assets/Create/Terrain Volume Data/Empty Volume Data...")]
 		static void CreateEmptyTerrainVolumeDataAsset()
 		{			
-			ScriptableWizard.DisplayWizard<CreateEmptyTerrainVolumeDataAssetWizard>("Create Light", "Create");
+			ScriptableWizard.DisplayWizard<CreateEmptyTerrainVolumeDataAssetWizard>("Create Terrain Volume Data", "Create");
 		}
 		
 		[MenuItem ("Assets/Create/Terrain Volume Data/From Voxel Database...")]
@@ -107,6 +107,26 @@ namespace Cubiquity
 						data.SetVoxel(x, y, z, floorColor);
 					}
 				}
+			}
+		}
+		
+		[MenuItem ("Assets/Create/Colored Cubes Volume Data/Empty Volume Data...")]
+		static void CreateEmptyColoredCubesVolumeDataAsset()
+		{			
+			ScriptableWizard.DisplayWizard<CreateEmptyColoredCubesVolumeDataAssetWizard>("Create Colored Cubes Volume Data", "Create");
+		}
+		
+		[MenuItem ("Assets/Create/Colored Cubes Volume Data/From Voxel Database...")]
+		static void CreateColoredCubesVolumeDataAssetFromVoxelDatabase()
+		{	
+			string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Paths.voxelDatabases, "vdb");
+			
+			if(pathToVoxelDatabase.Length != 0)
+			{
+				string relativePathToVoxelDatabase = Paths.MakeRelativePath(Paths.voxelDatabases + Path.DirectorySeparatorChar, pathToVoxelDatabase);
+			
+				// Pass through to the other version of the method.
+				VolumeDataAsset.CreateFromVoxelDatabase<ColoredCubesVolumeData>(relativePathToVoxelDatabase);
 			}
 		}
 	}
