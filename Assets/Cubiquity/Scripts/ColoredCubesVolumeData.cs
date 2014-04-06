@@ -19,7 +19,7 @@ using Cubiquity.Impl;
 	 * 
 	 * Instances of this class should be created using the templatized 'Create...()' functions in the VolumeData base class. For example:
 	 * 
-	 * \snippet "Maze From Image\ColoredCubeMazeFromImage.cs" DoxygenSnippet-CreateEmptyColoredCubesVolumeData
+	 * \snippet MazeFromImage\ColoredCubeMazeFromImage.cs DoxygenSnippet-CreateEmptyColoredCubesVolumeData
 	 * 
 	 * Note that you <em>should not</em> use ScriptableObject.CreateInstance(...) to create instances of classes derived from VolumeData.
 	 */

@@ -19,7 +19,7 @@ using Cubiquity.Impl;
 	 * 
 	 * Instances of this class should be created using the templatized 'Create...()' functions in the VolumeData base class. For example:
 	 * 
-	 * \snippet "Procedural Generation\ProceduralTerrainVolume.cs" DoxygenSnippet-CreateEmptyTerrainVolumeData
+	 * \snippet ProceduralGeneration\ProceduralTerrainVolume.cs DoxygenSnippet-CreateEmptyTerrainVolumeData
 	 * 
 	 * Note that you <em>should not</em> use ScriptableObject.CreateInstance(...) to create instances of classes derived from VolumeData.
 	 */
