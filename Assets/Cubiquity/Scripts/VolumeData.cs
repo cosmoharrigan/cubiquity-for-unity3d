@@ -119,7 +119,8 @@ using Cubiquity.Impl;
 		 * 
 		 * \param relativePathToVoxelDatabase The path to the .vdb files which should be relative to the location given by Paths.voxelDatabases.
 		 */
-		protected static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
+		/// \cond
+		public static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.basePath = VoxelDatabasePaths.Streaming;
@@ -129,6 +130,7 @@ using Cubiquity.Impl;
 			
 			return volumeData;
 		}
+		/// \endcond
 		
 		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
 		/// Creates an instance of VolumeData (or one of its subclasses) and a corresponding voxel database.
@@ -139,7 +141,8 @@ using Cubiquity.Impl;
 		 * 
 		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
 		 */
-		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
+		/// \cond
+		public static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
 		{
 			string pathToCreateVoxelDatabase = Cubiquity.Impl.Utility.GenerateRandomVoxelDatabaseName();
 			
@@ -151,6 +154,7 @@ using Cubiquity.Impl;
 			
 			return volumeData;
 		}
+		/// \endcond
 		
 		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
 		/// Creates an instance of VolumeData (or one of its subclasses) and a corresponding voxel database.
@@ -163,7 +167,8 @@ using Cubiquity.Impl;
 		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
 		 * \param relativePathToVoxelDatabase The path where the voxel database should be created, repative to the location given by Paths.voxelDatabases.
 		 */
-		protected static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
+		/// \cond
+		public static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
 			// If the user is providing a name for the voxel database then it follows that they want to make use of it later.
 			// In this case it should not be in the temp folder so we put it in streaming assets.
@@ -180,6 +185,7 @@ using Cubiquity.Impl;
 			
 			return volumeData;
 		}
+		/// \cond
 		
 		private void Awake()
 		{
