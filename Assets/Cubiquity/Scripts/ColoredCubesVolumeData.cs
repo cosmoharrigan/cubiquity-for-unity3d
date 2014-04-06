@@ -16,34 +16,16 @@ using Cubiquity.Impl;
 	/**
 	 * This class provides the actual 3D grid of color values which are used by the ColoredCubesVolume. You can use the provided interface to directly
 	 * manipulate the volume by getting or setting the color of each voxel.
+	 * 
+	 * Instances of this class should be created using the templatized 'Create...()' functions in the VolumeData base class. For example:
+	 * 
+	 * \snippet "Maze From Image\ColoredCubeMazeFromImage.cs" DoxygenSnippet-CreateEmptyColoredCubesVolumeData
+	 * 
+	 * Note that you <em>should not</em> use ScriptableObject.CreateInstance(...) to create instances of classes derived from VolumeData.
 	 */
 	[System.Serializable]
 	public sealed class ColoredCubesVolumeData : VolumeData
-	{
-		/** 
-		 * \copydoc CreateFromVoxelDatabase<VolumeDataType>(string)
-		 */
-		public static ColoredCubesVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
-		{
-			return CreateFromVoxelDatabase<ColoredCubesVolumeData>(relativePathToVoxelDatabase);
-		}
-		
-		/** 
-		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region)
-		 */
-		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region)
-		{
-			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region);
-		}
-		
-		/** 
-		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region, string)
-		 */
-		public static ColoredCubesVolumeData CreateEmptyVolumeData(Region region, string relativePathToVoxelDatabase)
-		{
-			return CreateEmptyVolumeData<ColoredCubesVolumeData>(region, relativePathToVoxelDatabase);
-		}
-		
+	{	
 		/// Gets the color of the specified position.
 		/**
 		 * \param x The 'x' position of the voxel to get.

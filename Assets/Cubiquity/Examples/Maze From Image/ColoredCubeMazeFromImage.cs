@@ -21,8 +21,11 @@ public class ColoredCubeMazeFromImage : MonoBehaviour
 		int height = 32;
 		int depth = mazeImage.height;
 		
-		// Start with some empty volume data and we'll write our maze into this..
-		ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
+		// Start with some empty volume data and we'll write our maze into this.
+		/// [DoxygenSnippet-CreateEmptyColoredCubesVolumeData]
+		// Create an empty ColoredCubesVolumeData with dimensions width * height * depth
+		ColoredCubesVolumeData data = VolumeData.CreateEmptyVolumeData<ColoredCubesVolumeData>(new Region(0, 0, 0, width-1, height-1, depth-1));
+		/// [DoxygenSnippet-CreateEmptyColoredCubesVolumeData]
 		
 		//Get the main volume component
 		ColoredCubesVolume coloredCubesVolume = gameObject.GetComponent<ColoredCubesVolume>();

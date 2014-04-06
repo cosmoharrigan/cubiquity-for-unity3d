@@ -88,7 +88,7 @@ namespace Cubiquity
 				
 				string relativePathToVoxelDatabase = Paths.MakeRelativePath(Paths.voxelDatabases + Path.DirectorySeparatorChar, pathToVoxelDatabase);
 				
-				ColoredCubesVolumeData data = ColoredCubesVolumeData.CreateFromVoxelDatabase(relativePathToVoxelDatabase);
+				ColoredCubesVolumeData data = VolumeData.CreateFromVoxelDatabase<ColoredCubesVolumeData>(relativePathToVoxelDatabase);
 				
 				coloredCubesVolume.data = data;
 			}

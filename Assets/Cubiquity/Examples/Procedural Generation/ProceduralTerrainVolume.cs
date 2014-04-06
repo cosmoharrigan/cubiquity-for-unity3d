@@ -23,7 +23,10 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		int depth = 256;
 		
 		// FIXME - Where should we delete this?
-		TerrainVolumeData data = TerrainVolumeData.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
+		/// [DoxygenSnippet-CreateEmptyTerrainVolumeData]
+		// Create an empty TerrainVolumeData with dimensions width * height * depth
+		TerrainVolumeData data = VolumeData.CreateEmptyVolumeData<TerrainVolumeData>(new Region(0, 0, 0, width-1, height-1, depth-1));
+		/// [DoxygenSnippet-CreateEmptyTerrainVolumeData]
 		
 		TerrainVolume volume = GetComponent<TerrainVolume>();
 		TerrainVolumeRenderer volumeRenderer = GetComponent<TerrainVolumeRenderer>();

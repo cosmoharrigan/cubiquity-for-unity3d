@@ -109,8 +109,6 @@ using Cubiquity.Impl;
 		protected static uint DefaultBaseNodeSize = 32;
 		/// \endcond
 		
-		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
-		/// Create an instance of VolumeData (or one of its subclasses) from an existing voxel database.
 		/**
 		 * It is possible for %Cubiquity voxel databse files to be created outside of the %Cubiquity for Unity3D ecosystem (see the \ref secCubiquity
 		 * "user manual" if you are not clear on the difference between 'Cubiquity and 'Cubiquity for Unity3D'). For example, the %Cubiquity SDK contains
@@ -119,7 +117,6 @@ using Cubiquity.Impl;
 		 * 
 		 * \param relativePathToVoxelDatabase The path to the .vdb files which should be relative to the location given by Paths.voxelDatabases.
 		 */
-		/// \cond
 		public static VolumeDataType CreateFromVoxelDatabase<VolumeDataType>(string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{			
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
@@ -130,10 +127,7 @@ using Cubiquity.Impl;
 			
 			return volumeData;
 		}
-		/// \endcond
 		
-		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
-		/// Creates an instance of VolumeData (or one of its subclasses) and a corresponding voxel database.
 		/**
 		 * This function will normally be used if you want to create volume data at runtime. Because no filename is provided for the voxel database it
 		 * will be created in a temporary folder and will be deleted when the volume data is destroyed. If you wish to create a persistant volume data then
@@ -141,7 +135,6 @@ using Cubiquity.Impl;
 		 * 
 		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
 		 */
-		/// \cond
 		public static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region) where VolumeDataType : VolumeData
 		{
 			string pathToCreateVoxelDatabase = Cubiquity.Impl.Utility.GenerateRandomVoxelDatabaseName();
@@ -154,10 +147,7 @@ using Cubiquity.Impl;
 			
 			return volumeData;
 		}
-		/// \endcond
 		
-		// Note: This documentation gets copied to subclasses. Therefore generally avoid referring to 'VolumeData' specifically.
-		/// Creates an instance of VolumeData (or one of its subclasses) and a corresponding voxel database.
 		/**
 		 * This version of the function accepts a filename which will be given to the voxel database which is created. The path is relative to
 		 * Paths.voxelDatabases and the voxel database will not be deleted when the volume data is destroyed, so you have the option to reuse it later.
@@ -167,7 +157,6 @@ using Cubiquity.Impl;
 		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
 		 * \param relativePathToVoxelDatabase The path where the voxel database should be created, repative to the location given by Paths.voxelDatabases.
 		 */
-		/// \cond
 		public static VolumeDataType CreateEmptyVolumeData<VolumeDataType>(Region region, string relativePathToVoxelDatabase) where VolumeDataType : VolumeData
 		{
 			// If the user is providing a name for the voxel database then it follows that they want to make use of it later.
@@ -185,7 +174,6 @@ using Cubiquity.Impl;
 			
 			return volumeData;
 		}
-		/// \cond
 		
 		private void Awake()
 		{

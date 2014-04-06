@@ -15,7 +15,7 @@ namespace Cubiquity
 		
 		void OnWizardCreate()
 		{
-	        TerrainVolumeData data = TerrainVolumeDataAsset.CreateEmptyVolumeData(new Region(0, 0, 0, width-1, height-1, depth-1));
+	        TerrainVolumeData data = VolumeDataAsset.CreateEmptyVolumeData<TerrainVolumeData>(new Region(0, 0, 0, width-1, height-1, depth-1));
 			
 			if(generateFloor)
 			{

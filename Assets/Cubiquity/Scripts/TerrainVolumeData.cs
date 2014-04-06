@@ -16,34 +16,16 @@ using Cubiquity.Impl;
 	/**
 	 * This class provides the actual 3D grid of material weights which are used by the TerrainVolume. You can use the provided interface to directly
 	 * manipulate the volume by getting or setting the weights of each voxel.
+	 * 
+	 * Instances of this class should be created using the templatized 'Create...()' functions in the VolumeData base class. For example:
+	 * 
+	 * \snippet "Procedural Generation\ProceduralTerrainVolume.cs" DoxygenSnippet-CreateEmptyTerrainVolumeData
+	 * 
+	 * Note that you <em>should not</em> use ScriptableObject.CreateInstance(...) to create instances of classes derived from VolumeData.
 	 */
 	[System.Serializable]
 	public sealed class TerrainVolumeData : VolumeData
-	{
-		/** 
-		 * \copydoc CreateFromVoxelDatabase<VolumeDataType>(string)
-		 */
-		public static TerrainVolumeData CreateFromVoxelDatabase(string relativePathToVoxelDatabase)
-		{
-			return CreateFromVoxelDatabase<TerrainVolumeData>(relativePathToVoxelDatabase);
-		}
-		
-		/** 
-		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region)
-		 */
-		public static TerrainVolumeData CreateEmptyVolumeData(Region region)
-		{
-			return CreateEmptyVolumeData<TerrainVolumeData>(region);
-		}
-		
-		/** 
-		 * \copydoc CreateEmptyVolumeData<VolumeDataType>(Region, string)
-		 */
-		public static TerrainVolumeData CreateEmptyVolumeData(Region region, string relativePathToVoxelDatabase)
-		{
-			return CreateEmptyVolumeData<TerrainVolumeData>(region, relativePathToVoxelDatabase);
-		}
-		
+	{	
 		/// Gets the material weights of the specified position.
 		/**
 		 * \param x The 'x' position of the voxel to get.
