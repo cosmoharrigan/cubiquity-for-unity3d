@@ -17,6 +17,7 @@ namespace Cubiquity
 		private static bool mAddMode = true;
 		private static bool mDeleteMode = false;
 		private static bool mPaintMode = false;
+		private static bool mSettingsMode = false;
 		
 		private static bool addMode
 		{
@@ -34,6 +35,12 @@ namespace Cubiquity
 		{
 			get { return mPaintMode; }
 			set { if(mPaintMode != value) { mPaintMode = value; OnEditorToolChanged(); } }
+		}
+		
+		private static bool settingsMode
+		{
+			get { return mSettingsMode; }
+			set { if(mSettingsMode != value) { mSettingsMode = value; OnEditorToolChanged(); } }
 		}
 		
 		Color paintColor = Color.white;
@@ -58,31 +65,50 @@ namespace Cubiquity
 			EditorGUILayout.LabelField("a tool from the options below");
 			
 			EditorGUILayout.BeginHorizontal();
-			if(GUILayout.Toggle(addMode, "Add cubes", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
+			if(GUILayout.Toggle(addMode, "Add", EditorStyles.miniButtonLeft, GUILayout.Height(24)))
 			{
 				addMode = true;
 				deleteMode = false;
 				paintMode = false;
+				settingsMode = false;
 			}
 			
-			if(GUILayout.Toggle(deleteMode, "Delete cubes", EditorStyles.miniButtonMid, GUILayout.Height(24)))
+			if(GUILayout.Toggle(deleteMode, "Delete", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				addMode = false;
 				deleteMode = true;
 				paintMode = false;
+				settingsMode = false;
 			}
 			
-			if(GUILayout.Toggle(paintMode, "Paint cubes", EditorStyles.miniButtonRight, GUILayout.Height(24)))
+			if(GUILayout.Toggle(paintMode, "Paint", EditorStyles.miniButtonMid, GUILayout.Height(24)))
 			{
 				addMode = false;
 				deleteMode = false;
 				paintMode = true;
+				settingsMode = false;
+			}
+			if(GUILayout.Toggle(settingsMode, "Settings", EditorStyles.miniButtonRight, GUILayout.Height(24)))
+			{
+				addMode = false;
+				deleteMode = false;
+				paintMode = false;
+				settingsMode = true;
 			}
 			EditorGUILayout.EndHorizontal();
 			
-			paintColor = EditorGUILayout.ColorField(paintColor, GUILayout.Width(200));
+			if(addMode || paintMode)
+			{
+				paintColor = EditorGUILayout.ColorField(paintColor, GUILayout.Width(200));
+			}
 			
-			if(GUILayout.Button("Load Voxel Database..."))
+			if(settingsMode)
+			{
+				DrawInstructions("Create new volume data through 'Main Menu -> Assets -> Create -> Colored Cubes Volume Data' and then assign it below.");
+				coloredCubesVolume.data = EditorGUILayout.ObjectField("Volume Data: ", coloredCubesVolume.data, typeof(ColoredCubesVolumeData), true) as ColoredCubesVolumeData;
+			}
+			
+			/*if(GUILayout.Button("Load Voxel Database..."))
 			{			
 				string pathToVoxelDatabase = EditorUtility.OpenFilePanel("Choose a Voxel Database (.vdb) file to load", Paths.voxelDatabases, "vdb");
 				
@@ -91,12 +117,19 @@ namespace Cubiquity
 				ColoredCubesVolumeData data = VolumeData.CreateFromVoxelDatabase<ColoredCubesVolumeData>(relativePathToVoxelDatabase);
 				
 				coloredCubesVolume.data = data;
-			}
+			}*/
 			
 			// Warn about unlicensed version.
 			EditorGUILayout.Space();
 			EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation " +
 				"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
+		}
+		
+		private void DrawInstructions( string message)
+		{
+			EditorGUILayout.LabelField("Instructions", EditorStyles.boldLabel);
+			EditorGUILayout.HelpBox(message, MessageType.None);
+			EditorGUILayout.Space();
 		}
 		
 		public void OnSceneGUI()
@@ -165,6 +198,7 @@ namespace Cubiquity
 				mAddMode = false;
 				mDeleteMode = false;
 				mPaintMode = false;
+				mSettingsMode = false;
 			}
 		}
 	}
