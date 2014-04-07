@@ -184,7 +184,7 @@ namespace Cubiquity
 		private void DrawBrushSelector()
 		{
 			EditorGUILayout.LabelField("Brushes", EditorStyles.boldLabel);
-			selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 5, 50);
+			selectedBrush = DrawTextureSelectionGrid(selectedBrush, brushTextures, 50);
 			EditorGUILayout.Space();
 		}
 		
@@ -204,7 +204,7 @@ namespace Cubiquity
 					diffuseMaps[i] = terrainVolume.GetComponent<TerrainVolumeRenderer>().material.GetTexture("_Tex" + i) as Texture2D;
 				}
 			}
-			selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 3, 80);
+			selectedTexture = DrawTextureSelectionGrid(selectedTexture, diffuseMaps, 80);
 			
 			EditorGUILayout.Space();
 		}
@@ -226,21 +226,26 @@ namespace Cubiquity
 			EditorGUILayout.Space();
 		}
 		
-		private int DrawTextureSelectionGrid(int selected, Texture[] images, int xCount, int thumbnailSize)
+		private int DrawTextureSelectionGrid(int selected, Texture[] images, int thumbnailSize)
 		{
 			// Don't think the selection grid handles wrapping automatically, so we compute it ourselves.
 			int imageThumbnailSize = thumbnailSize;
-			int inspectorWidth = Screen.width;			
+			int scrollbarWidth = 20; // Just a guess
+			int inspectorWidth = Screen.width - scrollbarWidth;			
 			int widthInThumbnails = inspectorWidth / imageThumbnailSize;
-			int noOfThumbbails = 8;
+			int noOfThumbbails = images.Length;
 			int noOfRows = noOfThumbbails / widthInThumbnails;
 			if(noOfThumbbails % widthInThumbnails != 0)
 			{
 				noOfRows++;
 			}
 			
+			GUILayoutOption[] layoutOptions = new GUILayoutOption[2];
+			layoutOptions[0] = GUILayout.Height(imageThumbnailSize * noOfRows);
+			layoutOptions[1] = GUILayout.MaxWidth(inspectorWidth);
+			
 			//Now draw the texture selection grid
-			return GUILayout.SelectionGrid (selected, images, widthInThumbnails, GUILayout.Height(imageThumbnailSize * noOfRows));
+			return GUILayout.SelectionGrid (selected, images, widthInThumbnails, layoutOptions);
 		}
 		
 		public void OnSceneGUI()
