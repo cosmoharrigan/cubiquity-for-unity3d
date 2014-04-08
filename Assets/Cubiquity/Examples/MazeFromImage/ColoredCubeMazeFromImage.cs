@@ -3,7 +3,7 @@ using System.Collections;
 
 using Cubiquity;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class ColoredCubeMazeFromImage : MonoBehaviour
 {
 	// Use this for initialization
