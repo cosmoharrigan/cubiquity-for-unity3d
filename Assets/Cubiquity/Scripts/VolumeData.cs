@@ -129,9 +129,11 @@ using Cubiquity.Impl;
 		}
 		
 		/**
-		 * This function will normally be used if you want to create volume data at runtime. Because no filename is provided for the voxel database it
-		 * will be created in a temporary folder and will be deleted when the volume data is destroyed. If you wish to create a persistant volume data then
-		 * you should use the other version of this function.
+		 * This function will normally be used if you want to create volume data at runtime. Because no filename is provided the voxel database will be a temporary file and
+		 * will be deleted when the volume data is destroyed. If you wish to create a persistant volume data then you should use the other version of this function.
+		 * 
+		 * Note that it therefore does not make sense to serialize instances of VolumeData created with this version of the function. The 'hideFlags' property is automatically
+		 * set to 'HideFlags.DontSave' to prevent you from doing this.
 		 * 
 		 * \param region A Region instance specifying the dimensions of the volume data. You should not later try to access voxels outside of this range.
 		 */
@@ -142,6 +144,8 @@ using Cubiquity.Impl;
 			VolumeDataType volumeData = ScriptableObject.CreateInstance<VolumeDataType>();
 			volumeData.basePath = VoxelDatabasePaths.Temporary;
 			volumeData.relativePathToVoxelDatabase = pathToCreateVoxelDatabase;
+		
+			volumeData.hideFlags = HideFlags.DontSave; //Don't serialize this instance as it uses a temporary file for the voxel database.
 			
 			volumeData.InitializeEmptyCubiquityVolume(region);
 			

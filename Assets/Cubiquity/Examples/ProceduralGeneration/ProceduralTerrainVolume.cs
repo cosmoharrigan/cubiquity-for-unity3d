@@ -11,7 +11,7 @@ using Cubiquity;
  * is a lot of experimentation required to generate procedural terrains. Feel free to change them and
  * see what happens!
  */
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class ProceduralTerrainVolume : MonoBehaviour
 {
 	// Use this for initialization
@@ -24,7 +24,7 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		// FIXME - Where should we delete this?
 		/// [DoxygenSnippet-CreateEmptyTerrainVolumeData]
-		// Create an empty TerrainVolumeData with dimensions width * height * depth
+		//Create an empty TerrainVolumeData with dimensions width * height * depth
 		TerrainVolumeData data = VolumeData.CreateEmptyVolumeData<TerrainVolumeData>(new Region(0, 0, 0, width-1, height-1, depth-1));
 		/// [DoxygenSnippet-CreateEmptyTerrainVolumeData]
 		
