@@ -14,39 +14,6 @@ namespace Cubiquity
 			private static string logFilePath;
 			
 			const int CU_OK = 0;
-
-			// Standard exceptions, based on list here: http://www.cplusplus.com/reference/exception/exception/
-			const int CU_EXCEPTION = 10;
-			const int CU_BAD_ALLOC = 20;
-			const int CU_BAD_CAST = 30;
-			const int CU_BAD_EXCEPTION = 40;
-			const int CU_BAD_FUNCTION_CALL = 50;
-			const int CU_BAD_TYPE_ID = 60;
-			const int CU_BAD_WEAK_PTR = 70;
-			//const int ios_base::failure // Included below
-			const int CU_LOGIC_ERROR = 80;
-			const int CU_RUNTIME_ERROR = 90;
-		
-			const int CU_DOMAIN_ERROR = 100;
-			const int CU_FUTURE_ERROR = 110;
-			const int CU_INVALID_ARGUMENT = 120;
-			const int CU_LENGTH_ERROR = 130;
-			const int CU_OUT_OF_RANGE = 140;
-		
-			const int CU_OVERFLOW_ERROR = 150;
-			const int CU_RANGE_ERROR = 160;
-			const int CU_SYSTEM_ERROR = 170;
-			const int CU_UNDERFLOW_ERROR = 180;
-		
-			const int CU_BAD_ARRAY_NEW_LENGTH = 190;
-		
-			const int CU_IOS_BASE_FAILURE = 200;
-		
-			// Non-standard exceptions
-			const int SQLITE_ERROR = 210;
-		
-			// Unknown error (caught by ...)
-			const int CU_UNKNOWN_ERROR = 1000;
 				
 			// This static constructor is supposed to make sure that the Cubiquity.dll is in the right place before the DllImport is done.
 			// It doesn't seem to work, because in Standalone builds the message below is printed after the exception about the .dll not
@@ -62,7 +29,9 @@ namespace Cubiquity
 			{
 				if(returnCode != CU_OK)
 				{
-					throw new CubiquityException("An exception occured inside Cubiquity. Error code " + returnCode + ". Please see `" + logFilePath + "` for more details");
+					throw new CubiquityException("An exception has occured inside the Cubiquity native code library.\n" +
+						"Error code \'" + GetErrorCodeAsString(returnCode) + "\' with message \"" + GetLastErrorMessage() + "\".\n" +
+						"Please see the log file '" + logFilePath + "' for more details.\n");
 				}
 			}
 			
@@ -74,6 +43,27 @@ namespace Cubiquity
 			public static string GetLogFilePath()
 			{
 				IntPtr result = cuGetLogFilePath();
+				string stringResult = Marshal.PtrToStringAnsi(result);
+				return stringResult;
+			}
+			
+			////////////////////////////////////////////////////////////////////////////////
+			// Error handling functions
+			////////////////////////////////////////////////////////////////////////////////
+			[DllImport (dllToImport)]
+			private static extern IntPtr cuGetErrorCodeAsString(int errorCode);
+			public static string GetErrorCodeAsString(int errorCode)
+			{
+				IntPtr result = cuGetErrorCodeAsString(errorCode);
+				string stringResult = Marshal.PtrToStringAnsi(result);
+				return stringResult;
+			}
+			
+			[DllImport (dllToImport)]
+			private static extern IntPtr cuGetLastErrorMessage();
+			public static string GetLastErrorMessage()
+			{
+				IntPtr result = cuGetLastErrorMessage();
 				string stringResult = Marshal.PtrToStringAnsi(result);
 				return stringResult;
 			}
