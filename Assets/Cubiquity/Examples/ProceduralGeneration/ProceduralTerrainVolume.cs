@@ -18,9 +18,9 @@ public class ProceduralTerrainVolume : MonoBehaviour
 	void Start()
 	{
 		// The size of the volume we will generate
-		int width = 256;
+		int width = 128;
 		int height = 32;
-		int depth = 256;
+		int depth = 128;
 		
 		// FIXME - Where should we delete this?
 		/// [DoxygenSnippet-CreateEmptyTerrainVolumeData]
