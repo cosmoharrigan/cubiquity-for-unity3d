@@ -50,7 +50,7 @@ namespace Cubiquity
 			renderingMesh.triangles = indices;
 			
 			// FIXME - Get proper bounds
-			renderingMesh.bounds = new Bounds(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(500.0f, 500.0f, 500.0f));
+			renderingMesh.bounds.SetMinMax(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(32.0f, 32.0f, 32.0f));
 			
 			return renderingMesh;
 		}
