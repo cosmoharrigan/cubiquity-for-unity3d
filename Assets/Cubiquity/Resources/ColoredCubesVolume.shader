@@ -60,7 +60,7 @@ Shader "ColoredCubesVolume"
 	    //Add noise - we use model space to prevent noise scrolling if the volume moves.
 	    float noise = positionBasedNoise(float4(IN.volumePos.xyz, 0.1));
         
-        o.Albedo = IN.color + noise;
+        o.Albedo = IN.color.xyz + float3(noise, noise, noise);
         o.Normal = surfaceNormal;
       }
       ENDCG
