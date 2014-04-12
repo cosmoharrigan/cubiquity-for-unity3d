@@ -65,6 +65,5 @@ Shader "ColoredCubesVolume"
       }
       ENDCG
     }
-    Fallback "Diffuse"
   }
   
