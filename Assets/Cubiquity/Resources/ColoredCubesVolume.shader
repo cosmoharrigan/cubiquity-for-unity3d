@@ -11,10 +11,13 @@ Shader "ColoredCubesVolume"
       // Scripts can flip the computed normal by setting this to '-1.0f'.
       float normalMultiplier;
       
+      float4x4 _World2Volume;
+      
       struct Input
       {
           float4 color : COLOR;
           float4 modelPos;
+          float4 volumePos;
       };
       
       #include "ColoredCubesVolumeUtilities.cginc"
@@ -33,6 +36,8 @@ Shader "ColoredCubesVolume"
         
         // Model-space position is use for adding noise.
         o.modelPos = v.vertex;
+        float4 worldPos = mul(_Object2World, v.vertex);
+        o.volumePos =  mul(_World2Volume, worldPos);
       }
       
       void surf (Input IN, inout SurfaceOutput o)
@@ -53,7 +58,7 @@ Shader "ColoredCubesVolume"
 		surfaceNormal *= normalMultiplier;
       	
 	    //Add noise - we use model space to prevent noise scrolling if the volume moves.
-	    float noise = positionBasedNoise(float4(IN.modelPos.xyz, 0.1));
+	    float noise = positionBasedNoise(float4(IN.volumePos.xyz, 0.1));
         
         o.Albedo = IN.color + noise;
         o.Normal = surfaceNormal;
