@@ -4,18 +4,15 @@
 float positionBasedNoise(float4 positionAndStrength)
 {
 	//'floor' is more widely supported than 'round'. Offset consists of:
-	//  - An integer to push us away from the origin (divide by zero causes a ringing artifact
-	//    at one point in the world, and we want to pushthis somewhere it won't be seen.)
 	//  - 0.5 to perform the rounding
 	//  - A tiny offset to prevent sparkes as faces are exactly on rounding boundary.
-	float3 roundedPos = floor(positionAndStrength.xyz + float3(1000.501, 1000.501, 1000.501));
+	float3 roundedPos = floor(positionAndStrength.xyz + float3(0.501, 0.501, 0.501));
 	
-	//Our noise function generate banding for high inputs, so wrap them
-	roundedPos = fmod(roundedPos, float3(17.0, 19.0, 23.0));
-	
-	//Large number is arbitrary, but smaller number lead to banding. '+ 1.0' prevents divide-by-zero
-	float noise = 100000000.0 / (dot(roundedPos, roundedPos) + 1.0);
-	noise = frac(noise);
+	// Based on this: http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+	// I've modified it to use a 3D seed with the third coefficient being a number I picked at random. Because it is 
+	// using a 3D seed the magnitude of the dot product could be much larger, so I've reduced each of the coefficients
+	// by a factor of 10 to limit precision problems for high seed values. We can tweak these further in the future.	
+	float noise = frac(sin(fmod(dot(roundedPos.xyz, float3(1.29898,7.8233, 4.26546)), 3.14)) * 43758.5453);
 	
 	//Scale the noise
 	float halfNoiseStrength = positionAndStrength.w * 0.5;

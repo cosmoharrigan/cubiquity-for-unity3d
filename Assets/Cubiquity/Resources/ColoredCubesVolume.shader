@@ -57,7 +57,7 @@ Shader "ColoredCubesVolume"
       	// flip the normal if required by setting the multiplier to '-1.0f'.
 		surfaceNormal *= normalMultiplier;
       	
-	    //Add noise - we use model space to prevent noise scrolling if the volume moves.
+	    //Add noise - we use volume space to prevent noise scrolling if the volume moves.
 	    float noise = positionBasedNoise(float4(IN.volumePos.xyz, 0.1));
         
         o.Albedo = IN.color.xyz + float3(noise, noise, noise);
