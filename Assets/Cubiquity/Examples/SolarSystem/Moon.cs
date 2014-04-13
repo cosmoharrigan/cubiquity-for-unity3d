@@ -27,11 +27,11 @@ namespace CubiquityExamples
 			
 			material.SetTexture("_Tex0", earthSurfaceTexture);
 			
-			int earthRadius = 15;
-			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
+			int moonRadius = 15;
+			Region volumeBounds = new Region(-moonRadius, -moonRadius, -moonRadius, moonRadius, moonRadius, moonRadius);		
 			TerrainVolumeData result = VolumeData.CreateEmptyVolumeData<TerrainVolumeData>(volumeBounds);
 			
-			TerrainVolumeGenerator.GeneratePlanet(result, 15, 14, 0, 0);
+			TerrainVolumeGenerator.GeneratePlanet(result, moonRadius, moonRadius - 1, 0, 0);
 			
 			volume.data = result;
 		}

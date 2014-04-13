@@ -39,7 +39,8 @@ namespace CubiquityExamples
 			Region volumeBounds = new Region(-earthRadius, -earthRadius, -earthRadius, earthRadius, earthRadius, earthRadius);		
 			TerrainVolumeData result = VolumeData.CreateEmptyVolumeData<TerrainVolumeData>(volumeBounds);
 			
-			TerrainVolumeGenerator.GeneratePlanet(result, 60, 59, 50, 25);
+			// The numbers below control the thinkness of the various layers.
+			TerrainVolumeGenerator.GeneratePlanet(result, earthRadius, earthRadius - 1, earthRadius - 10, earthRadius - 35);
 			
 			volume.data = result;
 		}
