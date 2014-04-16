@@ -16,6 +16,8 @@ namespace Cubiquity
 			[System.NonSerialized]
 			public uint meshLastSyncronised;
 			[System.NonSerialized]
+			public uint volumeRendererLastSyncronised;
+			[System.NonSerialized]
 			public Vector3 lowerCorner;
 			[System.NonSerialized]
 			public GameObject[,,] children;
@@ -84,38 +86,25 @@ namespace Cubiquity
 				{			
 					if(CubiquityDLL.NodeHasMesh(nodeHandle) == 1)
 					{					
-						// Set up the rendering mesh
-						VolumeRenderer volumeRenderer = voxelTerrainGameObject.GetComponent<VolumeRenderer>();
-						if(volumeRenderer != null)
-						{						
-							//Mesh renderingMesh = volumeRenderer.BuildMeshFromNodeHandle(nodeHandle);
-							
-							Mesh renderingMesh = null;
-							if(voxelTerrainGameObject.GetComponent<Volume>().GetType() == typeof(TerrainVolume))
-							{
-								renderingMesh = BuildMeshFromNodeHandleForTerrainVolume(nodeHandle);
-							}
-							else if(voxelTerrainGameObject.GetComponent<Volume>().GetType() == typeof(ColoredCubesVolume))
-							{
-								renderingMesh = BuildMeshFromNodeHandleForColoredCubesVolume(nodeHandle);
-							}
-					
-					        MeshFilter meshFilter = gameObject.GetOrAddComponent<MeshFilter>() as MeshFilter;
-					        MeshRenderer meshRenderer = gameObject.GetOrAddComponent<MeshRenderer>() as MeshRenderer;
-							
-							if(meshFilter.sharedMesh != null)
-							{
-								DestroyImmediate(meshFilter.sharedMesh);
-							}
-							
-					        meshFilter.sharedMesh = renderingMesh;				
-							
-							meshRenderer.sharedMaterial = volumeRenderer.material;
-							
-							#if UNITY_EDITOR
-							EditorUtility.SetSelectedWireframeHidden(meshRenderer, true);
-							#endif
+						// Set up the rendering mesh											
+						Mesh renderingMesh = null;
+						if(voxelTerrainGameObject.GetComponent<Volume>().GetType() == typeof(TerrainVolume))
+						{
+							renderingMesh = BuildMeshFromNodeHandleForTerrainVolume(nodeHandle);
 						}
+						else if(voxelTerrainGameObject.GetComponent<Volume>().GetType() == typeof(ColoredCubesVolume))
+						{
+							renderingMesh = BuildMeshFromNodeHandleForColoredCubesVolume(nodeHandle);
+						}
+				
+				        MeshFilter meshFilter = gameObject.GetOrAddComponent<MeshFilter>() as MeshFilter;
+						
+						if(meshFilter.sharedMesh != null)
+						{
+							DestroyImmediate(meshFilter.sharedMesh);
+						}
+						
+				        meshFilter.sharedMesh = renderingMesh;
 						
 						// Set up the collision mesh
 						VolumeCollider volumeCollider = voxelTerrainGameObject.GetComponent<VolumeCollider>();					
@@ -152,7 +141,24 @@ namespace Cubiquity
 					availableNodeSyncs--;
 					nodeSyncsPerformed++;
 					
-				}		
+				}
+				
+				VolumeRenderer volumeRenderer = voxelTerrainGameObject.GetComponent<VolumeRenderer>();
+				if(volumeRenderer != null)
+				{	
+					if(volumeRendererLastSyncronised < volumeRenderer.lastModified)
+					{
+				        MeshRenderer meshRenderer = gameObject.GetOrAddComponent<MeshRenderer>() as MeshRenderer;			
+						
+						meshRenderer.sharedMaterial = volumeRenderer.material;
+						
+						#if UNITY_EDITOR
+						EditorUtility.SetSelectedWireframeHidden(meshRenderer, true);
+						#endif
+						
+						volumeRendererLastSyncronised = Clock.timestamp;
+					}
+				}
 				
 				//Now syncronise any children
 				for(uint z = 0; z < 2; z++)

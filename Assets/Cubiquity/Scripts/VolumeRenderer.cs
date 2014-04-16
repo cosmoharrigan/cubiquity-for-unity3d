@@ -9,7 +9,7 @@ namespace Cubiquity
 	{
 		public Material material;
 		
-		public bool hasChanged = true;
+		public uint lastModified = Clock.timestamp;
 		
 		// Dummy start method rqured for the 'enabled' checkbox to show up in the inspector.
 		void Start() { }
