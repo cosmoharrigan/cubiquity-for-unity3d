@@ -9,5 +9,10 @@ namespace Cubiquity
 	{
 		public Material material;
 		public abstract Mesh BuildMeshFromNodeHandle(uint nodeHandle);
+		
+		public bool hasChanged = true;
+		
+		// Dummy start method rqured for the 'enabled' checkbox to show up in the inspector.
+		void Start() { }
 	}
 }
