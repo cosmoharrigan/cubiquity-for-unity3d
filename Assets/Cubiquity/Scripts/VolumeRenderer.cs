@@ -9,6 +9,23 @@ namespace Cubiquity
 	{
 		public Material material;
 		
+		public bool receiveShadows
+		/*{
+			get
+			{
+				return mReceiveShadows;
+			}
+			set
+			{
+				if(mReceiveShadows != value)
+				{
+					mReceiveShadows = value;
+					lastModified = Clock.timestamp;
+				}
+			}
+		}
+		private bool mReceiveShadows*/;
+		
 		public uint lastModified = Clock.timestamp;
 		
 		// Dummy start method rqured for the 'enabled' checkbox to show up in the inspector.
