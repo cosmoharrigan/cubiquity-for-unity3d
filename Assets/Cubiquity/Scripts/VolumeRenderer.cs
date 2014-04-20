@@ -10,7 +10,7 @@ namespace Cubiquity
 		public Material material;
 		
 		public bool receiveShadows
-		/*{
+		{
 			get
 			{
 				return mReceiveShadows;
@@ -24,7 +24,8 @@ namespace Cubiquity
 				}
 			}
 		}
-		private bool mReceiveShadows*/;
+		[SerializeField]
+		private bool mReceiveShadows;
 		
 		public uint lastModified = Clock.timestamp;
 		
