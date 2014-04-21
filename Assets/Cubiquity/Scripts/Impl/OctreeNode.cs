@@ -162,9 +162,13 @@ namespace Cubiquity
 				MeshRenderer mr = gameObject.GetComponent<MeshRenderer>();
 				if(vr != null && mr != null)
 				{
-					if(lastSyncronisedWithVolumeRenderer < vr.lastModified)
+					if(mr.enabled != vr.enabled) // Not sure we really need this check?
 					{
 						mr.enabled = vr.enabled;
+					}
+					
+					if(lastSyncronisedWithVolumeRenderer < vr.lastModified)
+					{
 						mr.receiveShadows = vr.receiveShadows;
 						mr.castShadows = vr.castShadows;
 						lastSyncronisedWithVolumeRenderer = Clock.timestamp;
@@ -175,9 +179,14 @@ namespace Cubiquity
 				MeshCollider mc = gameObject.GetComponent<MeshCollider>();
 				if(vc != null && mc != null)
 				{
-					if(lastSyncronisedWithVolumeCollider < vc.lastModified)
+					if(mc.enabled != vc.enabled) // Not sure we really need this check?
 					{
 						mc.enabled = vc.enabled;
+					}
+					
+					if(lastSyncronisedWithVolumeCollider < vc.lastModified)
+					{
+						// Actual syncronization to be filled in in the future when we have something to syncronize.
 						lastSyncronisedWithVolumeCollider = Clock.timestamp;
 					}
 				}
