@@ -16,7 +16,9 @@ namespace Cubiquity
 			[System.NonSerialized]
 			public uint meshLastSyncronised;
 			[System.NonSerialized]
-			public uint volumeRendererLastSyncronised;
+			public uint lastSyncronisedWithVolumeRenderer;
+			[System.NonSerialized]
+			public uint lastSyncronisedWithVolumeCollider;
 			[System.NonSerialized]
 			public Vector3 lowerCorner;
 			[System.NonSerialized]
@@ -160,10 +162,23 @@ namespace Cubiquity
 				MeshRenderer mr = gameObject.GetComponent<MeshRenderer>();
 				if(vr != null && mr != null)
 				{
-					if(volumeRendererLastSyncronised < vr.lastModified)
+					if(lastSyncronisedWithVolumeRenderer < vr.lastModified)
 					{
+						mr.enabled = vr.enabled;
 						mr.receiveShadows = vr.receiveShadows;
 						mr.castShadows = vr.castShadows;
+						lastSyncronisedWithVolumeRenderer = Clock.timestamp;
+					}
+				}
+				
+				VolumeCollider vc = voxelTerrainGameObject.GetComponent<VolumeCollider>();
+				MeshCollider mc = gameObject.GetComponent<MeshCollider>();
+				if(vc != null && mc != null)
+				{
+					if(lastSyncronisedWithVolumeCollider < vc.lastModified)
+					{
+						mc.enabled = vc.enabled;
+						lastSyncronisedWithVolumeCollider = Clock.timestamp;
 					}
 				}
 				

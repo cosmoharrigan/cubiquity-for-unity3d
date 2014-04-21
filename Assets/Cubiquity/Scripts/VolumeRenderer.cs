@@ -9,6 +9,8 @@ namespace Cubiquity
 	{
 		public Material material;
 		
+		private bool previouslyEnabled;
+		
 		public bool castShadows
 		{
 			get
@@ -47,7 +49,20 @@ namespace Cubiquity
 		
 		public uint lastModified = Clock.timestamp;
 		
-		// Dummy start method rqured for the 'enabled' checkbox to show up in the inspector.
-		void Start() { }
+		// A Start/Update method causes the 'enabled' checkbox to show up in the inspector.
+		// We also use these functions to make sure that changing the flag updates the timestamp.
+		void Start()
+		{
+			previouslyEnabled = base.enabled;
+			lastModified = Clock.timestamp;
+		}
+		
+		void Update()
+		{
+			if(enabled != previouslyEnabled)
+			{
+				lastModified = Clock.timestamp;
+			}
+		}
 	}
 }
