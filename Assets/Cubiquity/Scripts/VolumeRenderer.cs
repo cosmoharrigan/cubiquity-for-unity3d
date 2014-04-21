@@ -9,6 +9,24 @@ namespace Cubiquity
 	{
 		public Material material;
 		
+		public bool castShadows
+		{
+			get
+			{
+				return mCastShadows;
+			}
+			set
+			{
+				if(mCastShadows != value)
+				{
+					mCastShadows = value;
+					lastModified = Clock.timestamp;
+				}
+			}
+		}
+		[SerializeField]
+		private bool mCastShadows;
+		
 		public bool receiveShadows
 		{
 			get

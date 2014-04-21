@@ -5,12 +5,12 @@ using System.Collections;
 
 namespace Cubiquity
 {	
-	[CustomEditor (typeof(TerrainVolumeRenderer))]
-	public class TerrainVolumeRendererInspector : Editor
+	[CustomEditor (typeof(ColoredCubesVolumeRenderer))]
+	public class ColoredCubesVolumeRendererInspector : Editor
 	{
 		public override void OnInspectorGUI()
 		{
-			TerrainVolumeRenderer renderer = target as TerrainVolumeRenderer;
+			ColoredCubesVolumeRenderer renderer = target as ColoredCubesVolumeRenderer;
 			
 			float labelWidth = 120.0f;
 			

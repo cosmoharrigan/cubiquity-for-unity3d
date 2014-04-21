@@ -160,9 +160,10 @@ namespace Cubiquity
 				MeshRenderer mr = gameObject.GetComponent<MeshRenderer>();
 				if(vr != null && mr != null)
 				{
-					//if(volumeRendererLastSyncronised < vr.lastModified)
+					if(volumeRendererLastSyncronised < vr.lastModified)
 					{
 						mr.receiveShadows = vr.receiveShadows;
+						mr.castShadows = vr.castShadows;
 					}
 				}
 				
