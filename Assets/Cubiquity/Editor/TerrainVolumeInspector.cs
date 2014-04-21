@@ -159,11 +159,11 @@ namespace Cubiquity
 		
 		private void DrawPaintControls()
 		{
-			DrawInstructions("Select a brush and material below, then click the terrain to paint the material on it.");
+			DrawInstructions("Select a brush and texture below, then click the terrain to paint the texture on it.");
 			
 			DrawBrushSelector();
 			
-			DrawMaterialSelector();
+			DrawTextureSelector();
 			
 			DrawBrushSettings(10.0f, 1.0f);
 		}
@@ -188,9 +188,12 @@ namespace Cubiquity
 			EditorGUILayout.Space();
 		}
 		
-		private void DrawMaterialSelector()
+		private void DrawTextureSelector()
 		{
-			EditorGUILayout.LabelField("Materials", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField("Textures", EditorStyles.boldLabel);
+			
+			EditorGUILayout.HelpBox("The avalible textures are defined by the currently active " +
+				"material, which you can set on the Terrain Volume Renderer component", MessageType.None);
 			
 			Texture2D[] diffuseMaps = new Texture2D[8]; //HARDCODED!!
 			
