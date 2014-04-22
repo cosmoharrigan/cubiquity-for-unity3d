@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace Cubiquity
 {	
+	
+	/// Stores an *approximate* color value with a limited bit-depth.
 	/**
-	 * Stores an *approximate* color value with a limited bit-depth.
-	 *
 	 * The QuantizedColor structure is used to represent the color of the cubes in a colored cubes volume. It provides similar
 	 * functionality to the standard Unity color classes (Color and Color32) but stores the colors with reduced precision.
 	 * This means that if you write a value into one of the color components and then read it back, then the value which 
@@ -26,23 +26,7 @@ namespace Cubiquity
 	 * generally not be visible. Precision is sufficient for most purposes and the quantization artifacts are further hidden
 	 * by applying noise, lighting, and other special effects.
 	 *
-	 * The code below shows some ways of creating and initializing a QuantizedColor:
-	 *
-	 * ...
-	 *
-	 * Because the QuantizedColor is a structure (rather than a class) you can actually skip the initialization by the 'new'
-	 * operator and just get straight to assigning the values:
-	 *
-	 * ...
-	 * 
-	 * It is important to remember that a QuantizedColor is passed by value rather than by reference. As such, you should
-	 * not use the code below to set a voxel value:
-	 *
-	 * ...
-	 *
-	 * But you should do something like the following instead:
-	 *
-	 * ...
+	 * It is important to remember that a QuantizedColor is passed by value rather than by reference.
 	 */
 	public struct QuantizedColor
 	{
