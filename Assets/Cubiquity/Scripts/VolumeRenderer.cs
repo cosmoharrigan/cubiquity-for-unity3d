@@ -13,6 +13,8 @@ namespace Cubiquity
 	 * 
 	 * Remember that Cubiquity acctually draws the volume by creating standard Mesh objects. Internally Cubiquity will copy the properties
 	 * of the VolumeRenderer to the MeshRenderers which are generated.
+	 * 
+	 * \sa VolumeCollider
 	 */
 	public abstract class VolumeRenderer : MonoBehaviour
 	{
