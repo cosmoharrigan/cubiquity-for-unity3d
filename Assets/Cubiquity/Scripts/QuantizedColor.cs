@@ -16,10 +16,9 @@ namespace Cubiquity
 	 *
 	 * There are a couple of reasons why it is desirable for the QuantizedColor class to exhibit this unusual behavior.
 	 * 
-	 * 1. It reduces the size of each voxel in memory, which can become significant when a volume can contain hundreds
+	 *   -# It reduces the size of each voxel in memory, which can become significant when a volume can contain hundreds
 	 * of millions of voxels.
-	 * 
-	 * 2. It makes it more likely that adjacent voxels will have the same color value. This improves compression of the voxel
+	 *   -# It makes it more likely that adjacent voxels will have the same color value. This improves compression of the voxel
 	 * data and also improves rendering performance as adjacent voxels with the same color can be combined.
 	 *
 	 * The effects of quantization may be observed if you try to create smooth gradients, but other than they should
@@ -51,7 +50,7 @@ namespace Cubiquity
 		private static int BlueScaleFactor = MaxInOutValue / ((0x01 << NoOfBlueBits) - 1);
 		private static int AlphaScaleFactor = MaxInOutValue / ((0x01 << NoOfAlphaBits) - 1);
 		
-	    public uint color;
+	    private uint color;
 		
 		public QuantizedColor(byte red, byte green, byte blue, byte alpha)
 		{
@@ -91,6 +90,7 @@ namespace Cubiquity
 			return color32;
 		}
 	
+		/// The red component of the color.
 	    public byte red
 	    {
 	        get
@@ -103,6 +103,7 @@ namespace Cubiquity
 			}
 	    }
 		
+		/// The green component of the color.
 		public byte green
 	    {
 	        get
@@ -115,6 +116,7 @@ namespace Cubiquity
 			}
 	    }
 		
+		/// The blue component of the color.
 		public byte blue
 	    {
 	        get
@@ -127,6 +129,7 @@ namespace Cubiquity
 			}
 	    }
 		
+		/// The alpha component of the color. This should only be set to 0 or 255.
 		public byte alpha
 	    {
 	        get
@@ -139,7 +142,7 @@ namespace Cubiquity
 			}
 	    }
 		
-		uint getBits(int MSB, int LSB)
+		private uint getBits(int MSB, int LSB)
 		{
 			int noOfBitsToGet = (MSB - LSB) + 1;
 
@@ -154,7 +157,7 @@ namespace Cubiquity
 			return result;
 		}
 		
-		void setBits(int MSB, int LSB, uint bitsToSet)
+		private void setBits(int MSB, int LSB, uint bitsToSet)
 		{
 			int noOfBitsToSet = (MSB - LSB) + 1;
 
