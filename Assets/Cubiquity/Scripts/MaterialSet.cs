@@ -112,6 +112,7 @@ namespace Cubiquity
 	 */
 	public struct MaterialSet
 	{		
+		/// The array of weight values controlling the distribution of materials for this voxel.
 		public ByteArray weights;
 	}
 }
