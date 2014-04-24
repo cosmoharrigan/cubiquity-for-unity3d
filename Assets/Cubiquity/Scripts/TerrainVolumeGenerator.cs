@@ -6,7 +6,9 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
-	public static class TerrainVolumeGenerator
+	// These methods aren't documented yet because it's not clear if/how they will change in the future.
+	/// \cond
+	public class TerrainVolumeGenerator
 	{
 		public static void GenerateFloor(TerrainVolumeData volumeData, int lowerLayerHeight, uint lowerLayerMaterial, int upperLayerHeight, uint upperLayerMaterial)
 		{
@@ -97,4 +99,5 @@ namespace Cubiquity
 			}
 		}
 	}
+	/// \cond
 }
