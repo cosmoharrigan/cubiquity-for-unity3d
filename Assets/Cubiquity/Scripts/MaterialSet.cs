@@ -6,12 +6,12 @@ namespace Cubiquity
 {
 	/// Represents the combination of materials which a given voxel is composed of.
 	/**
-	 * The use of MaterialSets is one of the more unusual and powerful aspects of the Cubiquity voxel engine,
+	 * The use of MaterialSets is one of the more unusual and powerful aspects of the %Cubiquity voxel engine,
 	 * and it is important to understand their use in order to effectivly modify the TerrainVolume through scripts.
 	 * For simplicity we begin by considering how other voxel engines represent materials and then show how the
-	 * Cubiquity approach is a logical extension of this.
+	 * %Cubiquity approach is a logical extension of this.
 	 * 
-	 * Most voxel terrain engines (including Cubiquity) are based on the Marching Cubes algorithm, in which the
+	 * Most voxel terrain engines (including %Cubiquity) are based on the Marching Cubes algorithm, in which the
 	 * shape of the terrain is defined by an underlying density field. A basic understanding of this algorithm is
 	 * useful to get maximum benefit from the system, so you may want to consult the link below before going
 	 * further:
@@ -26,7 +26,7 @@ namespace Cubiquity
 	 * * Transitions between adjacent materials are typically quite sharp and visually unappealing.
 	 * * Level of detail is difficult because such a representation is not easily filterable.
 	 * 
-	 * Cubiquity address these shortcomings by adopting a slightly different system. For each voxel we discard
+	 * %Cubiquity address these shortcomings by adopting a slightly different system. For each voxel we discard
 	 * both the density and the material identfier, and instead store a set of material weights. These encode the
 	 * contribution of each material to the voxel, and the density value (required for Marching Cubes) is not
 	 * stored explicitly but is instead computed on-the-fly as the sum of the these weights.
@@ -41,13 +41,13 @@ namespace Cubiquity
 	 * 
 	 * * Image goes here...
 	 * 
-	 * Whereas Cubiquity will represent it like this:
+	 * Whereas %Cubiquity will represent it like this:
 	 * 
 	 * * Image goes here...
 	 * 
 	 * Materials weights do not have to be just 0 or 255, they can be any value within this range. Let's say that our
 	 * voxel is actually on the boundary between rock and another material type such as 'snow'. Most voxel engines cannot
-	 * expresses this, but if we give snow an identifer of '1' (for example) then Cubiquity can represent it as follows:
+	 * expresses this, but if we give snow an identifer of '1' (for example) then %Cubiquity can represent it as follows:
 	 * 
 	 * * Image goes here...
 	 * 
@@ -75,12 +75,12 @@ namespace Cubiquity
 	 * \endcond
 	 * 
 	 * A natural question is 'what happens if the sum of the material
-	 * weights exceeds 255?'. This cannot occur in a traditional voxel engine because the stored density value would
-	 * be limited by it's 8-bit type, but in Cubiquity it would be *possible* to set all material weight to '255' and
+	 * weights exceeds 255'?. This cannot occur in a traditional voxel engine because the stored density value would
+	 * be limited by it's 8-bit type, but in %Cubiquity it would be *possible* to set all material weight to '255' and
 	 * thereby cause the summed value to be significantly greater than this. Basically, you should avoid doing this
 	 * because it will not behave in an intuitive way.
 	 * 
-	 * Practical tips for procedurally generating MaterialSet values
+	 * Practical tips for procedurally generating %MaterialSet values
 	 * -------------------------------------------------------------
 	 * 
 	 * Some of the concepts outlined above may seem confusing, and they do take some getting used to when writing

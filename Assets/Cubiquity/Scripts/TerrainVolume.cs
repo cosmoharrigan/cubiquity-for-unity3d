@@ -18,7 +18,7 @@ namespace Cubiquity
 	 * hillside. This kind of modification is not possible using Unity's built in terrains because it would result in a structure which cannot be 
 	 * represented by the heightmap.
 	 * 
-	 * Aside from these enhancements, Cubiquity's TerrainVolume provides similar functionality to the standard Unity terrain. Tools are provided to
+	 * Aside from these enhancements, %Cubiquity's TerrainVolume provides similar functionality to the standard Unity terrain. Tools are provided to
 	 * sculpt that shape of the terrain and also to paint on it with a number of materials. The TerrainVolume can also be modified from code by 
 	 * getting the underlying TerrainVolumeData and manipulating it directly though the provided API. This allows you to write your own tools or
 	 * actions as required by your specific gameplay mechanics.
