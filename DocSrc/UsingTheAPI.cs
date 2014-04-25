@@ -1,3 +1,3 @@
-/** \page pageUsingTheAPI Using The API 
+/** \page pageUsingTheAPI Using the Cubiquity API
  *
  */

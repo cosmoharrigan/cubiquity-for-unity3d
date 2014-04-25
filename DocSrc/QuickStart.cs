@@ -22,7 +22,7 @@
  *
  * \section secFirstColoredCubesVolume Creating your first colored cubes volume
  *
- * The TerrainVolume presented in the previous section is intended for creating real-world terrain with realistic textures and materials applied. But Cubiquity for Unity3D also supports a second type of voxel environment in which the world is built out of millions of colored cubes. This is not so realistic, but is an increasingly popular approach which has a strong stylistic appeal. Almost any kind of world can be built in this way, and it again provides opportunities for editing the world in response to player actions or gameplay events.
+ * The TerrainVolume presented in the previous section is intended for creating real-world terrain with realistic textures and materials applied. But %Cubiquity for Unity3D also supports a second type of voxel environment in which the world is built out of millions of colored cubes. This is not so realistic, but is an increasingly popular approach which has a strong stylistic appeal. Almost any kind of world can be built in this way, and it again provides opportunities for editing the world in response to player actions or gameplay events.
  *
  * To see this in action you should begin by deleting the terrain volume which you currently have in the scene from the previous section. You can then create a *Colored Cubes Volume* by going to the main menu and selecting `GameObject -> Create Other -> Colored Cubes Volume`. The initial volume should look like that shown below:
  *
@@ -30,7 +30,7 @@
  *
  * As with the Terrain Volume, the Colored Cubes Volume comes with a custom inspector which is shown whenever it is selected. However, the editing facilities of this are currently very limited, and only allow you to create single cubes at a time by left-clicking on the volume. We will probably add more advanced editing in the future, but you should also consider creating your Colored Cubes Volumes in an external application and or generating them procedurally. This is described further in later sections of this user manual.
  *
- * Let's try replacing the volume data with one of the example volumes which comes with Cubiquity. We begin by creating a new asset from an existing .vdb file (see \ref pagePrinciples "Principles of Cubiquity for Unity3D" if you are not familier with these concepts). To do this we go to 'Assets -> Create -> Colored Cubes Volume Data -> From Voxel Database...' and select 'StreamingAssets\Cubiquity\VoxelDatabases\Examples\VoxeliensColoredCubes.vdb' (this is a map from our previous game <a href="http://www.volumesoffun.com/voxeliens/">Voxeliens</a>). This will create an asset called 'VoxeliensColoredCubes' in your project, and if you click on it an look at the inspector you can see it links to the .vdb file you selected.
+ * Let's try replacing the volume data with one of the example volumes which comes with %Cubiquity. We begin by creating a new asset from an existing .vdb file (see \ref pagePrinciples "Principles of Cubiquity for Unity3D" if you are not familier with these concepts). To do this we go to 'Assets -> Create -> Colored Cubes Volume Data -> From Voxel Database...' and select 'StreamingAssets\Cubiquity\VoxelDatabases\Examples\VoxeliensColoredCubes.vdb' (this is a map from our previous game <a href="http://www.volumesoffun.com/voxeliens/">Voxeliens</a>). This will create an asset called 'VoxeliensColoredCubes' in your project, and if you click on it an look at the inspector you can see it links to the .vdb file you selected.
  *
  * We now wish to tell Cubiquity to use the newly created asset as the data for the colored cubes volume which exists in our scene. To do this, select the colored  cubes volume, go to 'Settings' in the inspector, and click the small circle next to the 'Volume Data' field. From here you can select the 'VoxeliensColoredCubes' asset which will cause it be be used as the source data for the volume.
  *
@@ -38,15 +38,12 @@
  *
  * \subsection secRuntimeModifications Modifying the volume at run-time
  *
- * We will now give a quick demonstration of how the volume can be modified during gameplay. Create a new scene and add only a Colored Cubes Volume, a light, and a camera. Feel free to make some basic changes to the Colored Cube Volume if you wish, using the limited editing tools which are provided. Lastly, go to the XXX folder and add the following example scripts to the scene:
+ * We will now give a quick demonstration of how the volume can be modified during gameplay. Go to the 'Assets/Cubiquity/Examples' folder and find the 'ClickToDestroy' script. Drag this on to the Colored Cubes Volume in the scene hierarchy to add it as a component.
  *
- * - Add a XXX script to the camera so that you are able to fly around once you enter play mode.
- * - Add a 'ClickToDestroy' script to the volume as an example of runtime modification.
+ * When you press play you should find you are able to fly around the scene, and that if you left-click on the volume it will create a small explosion which breaks off the cubes in the surrounding area. The separated cubes then fall under gravity and can bounce around the scene. This is simply an example of the kind of functionality we can achieve, and you can learn more by reading the \ref pageUsingTheAPI "Using the Cubiquity API" section later in this user manual, or by looking at the code in ClickToDestroy.cs.
  *
- * When you press play you should find you are able to fly around the scene, and that if you left-click on the volume it will create a small explosion which breaks off the cubes in the area surrounding the click. The separated cubes then fall under gravity and can bounce around the scene. This is simply an example of the kind of functionality we can achieve, and you can learn more by reading the 'Working with volumes from code'[LINK] section later in this user manual, and/or by looking at the code in ClickToDestroy.cs.
+ * \image html ColoredCubesVolumeDestruction.jpg "Destroying a colored cubes volume at runtime"
  *
- * Picture of runtime destruction here...
- *
- * That wraps up the quick start, so feel free to play around with the system some more and move on to the oter chapters when you feel ready.
+ * That wraps up the quick start, so feel free to play around with the system some more and move on to the other chapters when you feel ready.
  *
  */
