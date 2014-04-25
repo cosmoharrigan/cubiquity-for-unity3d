@@ -37,7 +37,7 @@ namespace Cubiquity
 			}
 		}
 		[SerializeField]
-		private bool mCastShadows;
+		private bool mCastShadows = true;
 		
 		/// Controls whether this volume receives shadows.
 		public bool receiveShadows
@@ -56,7 +56,7 @@ namespace Cubiquity
 			}
 		}
 		[SerializeField]
-		private bool mReceiveShadows;
+		private bool mReceiveShadows = true;
 		
 		/// \cond
 		public uint lastModified = Clock.timestamp;
