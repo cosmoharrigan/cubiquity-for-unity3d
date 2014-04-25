@@ -1,4 +1,4 @@
-/** \page pagePrinciples Principles
+/** \page pagePrinciples Principles of Cubiquity for Unity3D
  *
  * We have worked hard to make both the visual and the programmatic interface to Cubiquity for Unity3D as simple and intuitive as possible. However, there is no getting around the fact that internally it is a powerful and flexible system, and with this comes a certain amount of complexity. Having a high-level understanding of how the system is working internally will help you to make more effective use of it, particularly when using it from code.
  *
