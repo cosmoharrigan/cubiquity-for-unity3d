@@ -99,5 +99,5 @@ namespace Cubiquity
 			}
 		}
 	}
-	/// \cond
+	/// \endcond
 }
