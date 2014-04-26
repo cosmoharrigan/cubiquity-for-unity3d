@@ -30,9 +30,33 @@
  * 
  * \subsection secVoxelDatabase The Cubiquity Voxel Database Format
  *
- * Voxel environments can get very large (potentially containing billions of voxels) so efficient storage of such worlds is of utmost importance. The Cubiquity voxel engine stores a volume as a *Voxel Database*, which is a single file containing all the voxels in the volume. Internally it is actually an SQLite [LINK] database and so can be opened with an SQLite viewer such as .... Such as tool will let you view certain properties of the volume such as its dimensions, but you won't be able to gain any meaningful insight into the voxel data itself as it is stored in an efficient compressed format.
- *
- * Cubiquity for Unity3D wraps these voxel databases with a class called VoxelData, and more specifically with its subclasses called TerrainVolumeData and ColoredCubesVolumeData. These classes provides functions to retrieve and modify individual voxel values, and can also be saved to disk as a Unity3D asset. Full details of using these classes to interact with voxel databases are presented later in section XXX and in the 'Working with volumes from code' [LINK] section of this user manual.
+ * Voxel environments can get very large (potentially containing billions of voxels) so efficient storage of such worlds is of utmost importance. The Cubiquity voxel engine stores a volume as a *Voxel Database*, which is a single file containing all the voxels in the volume. Internally it is actually an <a href="http://www.sqlite.org">SQLite</a> database and so can be opened with a tool such as <a href="http://sqlitebrowser.sourceforge.net/">SQLite Browser</a>. Such as tool will let you view certain properties of the volume such as its dimensions, but you won't be able to gain any meaningful insight into the voxel data itself as it is stored in an efficient compressed format.
  * 
  * \section Understanding Cubiquity for Unity3D
+ *
+ * As mentioned previously, *Cubiquity for Unity3D* is the integration layer which connects our Cubiquity voxel engine to Unity3D. It does this by wrapping voxel databases as Unity3D assets, converting the generated mesh to the the required format, and providing Unity3D materials to control the appearance of your voxel objects. These and other aspects of the system are discussed in this section.
+ *
+ * We have tried to make the design and interface as consistent as possible with the approaches used elsewhere in Unity. To this end we have adopted a compoent-based model in which the user can add a GameObject to a scene, give it a 'Volume' component to make it into a voxel object, and then add VolumeRenderer and VolumeCollider components to control it's behaviour. With this in mind, the structure of a typical volume is as follows:
+ *
+ * \image html VolumeComposition.png "The structure of a typical volume"
+ *
+ * Note that the components shown are actually the base classes and in practice are never used directly. Instead you will use a particular set of subclasses (such as TerrainVolume, TerrainVolumeData, TerrainVolumeRenderer and TerrainVolumeCollider) depending on the kind of volume you would like to create. We now look at each of these components in more detail.
+ *
+ * \subsection The Volume Component
+ *
+ * Adding a Volume component to a GameObject makes it into a voxel object. The Volume class does not provide much functionality on its own as most behaviour (rendering, physics, etc) is implemented in the other related components. Instead the class acts more to tie the other components together.
+ *
+ * Volume components also have custom inspector implemented which allow you to edit the volume in an intuitive way. For example, the TerrainVolume has a custom inspector which exposes the sculpting and painting tools which can be used to build your own terrain in the Unity3D editor. The inspector also has a 'Settings' panel where you can choose which volume data is being used.
+ *
+ * \subsection The VolumeRenderer Component
+ *
+ * The VolumeRenderer Component...
+ *
+ * \subsection The VolumeCollider Component
+ *
+ * The VolumeCollider Component...
+ *
+ * \subsection The VolumeData Component and Cubiquity Assets
+ *
+ * Cubiquity for Unity3D wraps voxel databases with a class called VolumeData, and more specifically with its subclasses called TerrainVolumeData and ColoredCubesVolumeData. These are very thin wrappers, which basically just store the filename of the voxel database and provide functions to get and set the voxel values. 
  */
