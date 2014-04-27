@@ -50,7 +50,7 @@
  *
  * \subsubsection secPaintMode Paint Mode
  *
- * Textures can be applied to the terrain by using Cubiquity's paint mode.
+ * Textures can be applied to the terrain by using %Cubiquity's paint mode.
  *
  * \image html PaintTools.png "Paint mode options for applying textures to the terrain."
  *
@@ -58,7 +58,7 @@
  *
  * \subsubsection secSettingsMode Settings Mode
  *
- * Currently the only setting which is exposed is the volume data which is being rendered. You can drag new volume data onto this field, or click the small circle to select from a pop-up window. More settings will be exposed in future versions of Cubiquity.
+ * Currently the only setting which is exposed is the volume data which is being rendered. You can drag new volume data onto this field, or click the small circle to select from a pop-up window. More settings will be exposed in future versions of %Cubiquity.
  *
  * \image html SettingsTools.png "Settings currently lets you change the volume data which is being used."
  *
@@ -98,7 +98,7 @@
  *
  * \section secNewVolData Creating New Volume Data And Assets
  *
- * When you create a volume through the main menu Cubiquity for Unity3D will automatically create an almost-empty volume data (with just a floor) to accompany it. It is quite possible you will want to replace this volume data with a larger empty one or to import a Cubiquity voxel database which you have generated elsewhere. Both of these can be achieved through the 'Assets' menu as shown below:
+ * When you create a volume through the main menu %Cubiquity for Unity3D will automatically create an almost-empty volume data (with just a floor) to accompany it. It is quite possible you will want to replace this volume data with a larger empty one or to import a %Cubiquity voxel database which you have generated elsewhere. Both of these can be achieved through the 'Assets' menu as shown below:
  *
  * \image html CreateNewVolumeData.png "Note that there are separate entries for the two volume types (terrain vs. colored cubes)."
  *
@@ -114,7 +114,7 @@
  *
  * \subsection secFromVoxelDatabase Creating From An Existing Voxel Database
  *
- * If you already have a Cubiquity '.vdb' file then you can use this menu item to create a volume data which will reference it (see LINK HERE for ideas about how you might create an existing voxel database). You will be presented with a standard file selection dialog from which you can choose the .vdb file that you wish to wrap. Take care to ensure that the .vdb file you select contains a type of data (MaterialSet vs. QuantizedColors) matching the type of volume you are working with (terrain volume vs. colored cubes volume).
+ * If you already have a %Cubiquity '.vdb' file then you can use this menu item to create a volume data which will reference it (see LINK HERE for ideas about how you might create an existing voxel database). You will be presented with a standard file selection dialog from which you can choose the .vdb file that you wish to wrap. Take care to ensure that the .vdb file you select contains a type of data (MaterialSet vs. QuantizedColors) matching the type of volume you are working with (terrain volume vs. colored cubes volume).
  *
  */
  
