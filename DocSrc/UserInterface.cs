@@ -44,7 +44,17 @@
  *
  * \subsubsection secSmoothMode Smooth Mode
  *
+ * Picture here
+ *
+ * The smooth mode is used to eliminate jagged edges and sharp features on the terrain, as well as softening the boundary between different textures. It does this by averaging together a voxel with it's neighbours - a  kind of 3D equivalent to the 'blur' operation found in many 2D image editors. It is again possible to change the falloff, radius, and opacity of the brush performing the smoothing.
+ *
  * \subsubsection secPaintMode Paint Mode
+ *
+ * Textures can be applied to the terrain by using Cubiquity's paint mode.
+ *
+ * Picture here
+ *
+ * Note that the range of available textures is defined by the currently applied material, and this can be changed via \ref secRendererComp as discussed later. The textures are not simply painted onto the mesh but are instead painted into the volume - i.e. the brush is not a circle but a sphere which also changes the texture of underground voxels. You can see the effect of this if you choose a large brush, paint part of the terrain, and then dig into the part which you have painted.
  *
  * \subsubsection secSettingsMode Settings Mode
  *
