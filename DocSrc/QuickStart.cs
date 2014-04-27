@@ -40,7 +40,7 @@
  *
  * We will now give a quick demonstration of how the volume can be modified during gameplay. Go to the 'Assets/Cubiquity/Examples' folder and find the 'ClickToDestroy' script. Drag this on to the Colored Cubes Volume in the scene hierarchy to add it as a component.
  *
- * When you press play you should find you are able to fly around the scene, and that if you left-click on the volume it will create a small explosion which breaks off the cubes in the surrounding area. The separated cubes then fall under gravity and can bounce around the scene. This is simply an example of the kind of functionality we can achieve, and you can learn more by reading the \ref pageUsingTheAPI "Using the API" section later in this user manual, or by looking at the code in ClickToDestroy.cs.
+ * When you press play you should find you are able to fly around the scene, and that if you left-click on the volume it will create a small explosion which breaks off the cubes in the surrounding area. The separated cubes then fall under gravity and can bounce around the scene. This is simply an example of the kind of functionality we can achieve, and you can learn more by reading the <a href="annotated.html"><b>Class List</b></a> later in this user manual, or by looking at the code in ClickToDestroy.cs.
  *
  * \image html ColoredCubesVolumeDestruction.jpg "Destroying a colored cubes volume at runtime"
  *
