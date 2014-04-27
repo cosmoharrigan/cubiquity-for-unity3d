@@ -99,7 +99,7 @@ namespace Cubiquity
 			
 			if(addMode || paintMode)
 			{
-				paintColor = EditorGUILayout.ColorField(paintColor, GUILayout.Width(200));
+				paintColor = EditorGUILayout.ColorField("Voxel Color:", paintColor);
 			}
 			
 			if(settingsMode)

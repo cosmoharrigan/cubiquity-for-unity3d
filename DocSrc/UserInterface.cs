@@ -66,10 +66,30 @@
  *
  * The built in editing capabilities of the colored cubes volume are currently very basic compared to those of the terrain volume, and it is expected that users will instead generate their volume in external applications or via other means (see LINK HERE for various options). However you can use them for making small adjustments.
  *
- * Picture here
+ * \image html ColoredCubesEditingTools.png "The colored cubes volume inspector lets you add, delete, or paint cubes."
+ *
+ * The Add, Delete and Paint options are all applied to a single cube at a time, with the Add and Paint offering the ability to chose a particular color for the voxel to be drawn. There is also a setting panel which, as in the case of Terrain Volumes, allows different volume data to be specified.
  *
  * \section secOtherComps Other Volume Components
+ *
+ * When creating a volume through the main menu %Cubiquity for Unity3D ensures that certain other components are automatically added to the GameObject. These are optional though usually desirable, in particular the default added components provide the ability for the volume to be rendered and to participate in collisions.
+ *
  * \subsection secRendererComp The Volume Renderer
+ *
+ * The VolumeRenderer component (actually one of its subclasses) needs to be added to any volume which you wish to be visible in edit mode or during gameplay. It serves a purpose which is conceptually similar to the standard Unity MeshRenderer, and exposes properties through the inspector shown below:
+ *
+ * \image html TerrainVolumeRenderer.png "Note that 'Material' only exists for the Terrain Volume Renderer and not the Colored CubesVolume Renderer."
+ *
+ * The 'Cast Shadows' flag controls whether this volume get drawn into Unity's shadowmap (i.e. whether it can cast shadows on to other objects) while the 'Receive Shadows' flag controls whether the shadowmap gets sampled when rendering the volume (i.e. whether other object can cast shadows on to the volume). If you want the volume to exhibit self-shadowing then both of these flags need to be set, which is the default.
+ *
+ * In the case of the *terrain volume* the 'Material' field lets the you specify which material should be used for drawing the terrain. The default material uses a technique known as 'triplanar texturing', though you can write and connect your own shaders and materials if you wish (strong graphics programming knowledge required). Even if you don't change the material you can also use this field to open the material so that you can specify which textures should be used. Double-click on the material to open it in the inspector as below:
+ *
+ * \image html TextureSelector.png "You can specify which images are linked to which texture slot."
+ *
+ * From here you can change the images, offsets and scaling factors associated with the different texture slots (currently up to eight). You should see the rendered volume being updated in real-time as you make changes.
+ *
+ * Note that it is not currently possible to change the material associated with a colored cubes volume renderer but this will probably change in the future.
+ *
  * \subsection secColliderComp The Volume Collider
  * \section secNewVolData Creating New Volume Data And Assets
  *
