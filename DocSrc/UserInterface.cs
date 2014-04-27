@@ -91,6 +91,57 @@
  * Note that it is not currently possible to change the material associated with a colored cubes volume renderer but this will probably change in the future.
  *
  * \subsection secColliderComp The Volume Collider
+ *
+ * The VolumeCollider should be added to a volume if you want it to be able to participate in collisions. This component currently does not expose any properties, but its presence causes a mesh collider to be created for the volume.
+ *
+ * \image html TerrainVolumeRenderer.png "The volume collider does not currently expose any properties."
+ *
  * \section secNewVolData Creating New Volume Data And Assets
  *
+ * When you create a volume through the main menu Cubiquity for Unity3D will automatically create an almost-empty volume data (with just a floor) to accompany it. It is quite possible you will want to replace this volume data with a larger empty one or to import a Cubiquity voxel database which you have generated elsewhere. Both of these can be achieved through the 'Assets' menu as shown below:
+ *
+ * \image html CreateNewVolumeData.png "Note that there are separate entries for the two volume types (terrain vs. colored cubes)."
+ *
+ * For both terrain volumes and colored cubes volumes you have the option to create 'Empty Volume Data...' or 'From Voxel Database'. In both cases %Cubiquity will also add the volume data to Unity's asset database, meaning an asset file will appear in your project. You can drag this on the the 'Volume Data' field in the 'Settings' tab of the volume inspector in order to set this as the active volume data for the volume.
+ * 
+ * \subsection secEmptyVolData Creating Empty Volume Data
+ *
+ * Selecting this option will present a dialog similar to the one below:
+ *
+ * \image html CreateEmptyVolumeData.png "You can configure the parameters of the new empty volume."
+ *
+ * From here you can specify the size of your desired volume as well as whether it should include a floor. Note that the dimensions you specify should not be too large (probably 512 is the limit for a reasonable desktop PC). The floor flag controls whether the first few layers of the volume are filled solid - you almost certainly want this as otherwise you will not be able to see the volume and will have no starting point for further editing.
+ *
+ * \subsection secFromVoxelDatabase Creating From An Existing Voxel Database
+ *
+ * If you already have a Cubiquity '.vdb' file then you can use this menu item to create a volume data which will reference it (see LINK HERE for ideas about how you might create an existing voxel database). You will be presented with a standard file selection dialog from which you can choose the .vdb file that you wish to wrap. Take care to ensure that the .vdb file you select contains a type of data (MaterialSet vs. QuantizedColors) matching the type of volume you are working with (terrain volume vs. colored cubes volume).
+ *
  */
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
