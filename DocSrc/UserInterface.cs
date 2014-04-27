@@ -8,7 +8,7 @@
  *
  * A new terrain volume or colored cubes volume can be added to the scene via the main menu.
  *
- * Picture of menu here...
+ * \image html CreateNewVolume.png "Creating a new volume through the main menu"
  *
  * This adds a new game object to the scene and automatically attaches Volume, Volume Renderer, and VolumeCollider components. It also creates a small volume data with just the floor filled in so that you have something from which to start your editing. Note that you are not given any options during the creation process (it is intended to be a simple one-click-and-you're-done' interface), but you can later create bigger/different volume data as discussed in the section on \ref secNewVolData.
  *
@@ -16,11 +16,11 @@
  *
  * Because a %Cubiquity volume is just a GameObject with some specific components attached, it can be transformed much like any other object in Unity. Try selecting a volume and clicking one of the following buttons on the toolbar:
  *
- * Picture of toolbar
+ * \image html TransformControls.png "The standard controls can be used to translate, rotate and scale your volume"
  *
  * You should see the corresponding transform gizmo appear on the volume and you can use this to manipulate it. As you drag the mouse you will see the transform changing in the inspector, and you can also also enter the desired transform directly.
  *
- * Picture of transformed volume with gizmo and inspector highlighted.
+ * \image html TransformedVolume.jpg "A volume after undergoing some transformations, with the transform gizmo and transform component highlighted."
  *
  * \section secEditVolumes Editing Volumes
  *
@@ -30,13 +30,13 @@
  *
  * When a terrain volume is selected you should see the 'Terrain Volume (Script)' component in the inspector.
  *
- * Picture here
+ * \image html EditingTools.png "Click the tool buttons to open the corresponding options"
  *
  * You can cycle through the tabs to access the various functionality which is available:
  *
  * \subsubsection secSculptMode Sculpt Mode
  *
- * Picture here
+ * \image html SculptTools.png "Sculpt mode options for changing the terrain shape."
  *
  * This mode is used to make most changes to the shape of the terrain. You can choose the desired brush (gentle vs. sharp falloff) and set the brush's radius. The 'Opacity' setting controls how quickly the changes are applied, so having the slider to the left will allow finer control than having to the right.
  *
@@ -44,7 +44,7 @@
  *
  * \subsubsection secSmoothMode Smooth Mode
  *
- * Picture here
+ * \image html SmoothTools.png "Smooth mode options (currently the same as for sculpting)"
  *
  * The smooth mode is used to eliminate jagged edges and sharp features on the terrain, as well as softening the boundary between different textures. It does this by averaging together a voxel with it's neighbours - a  kind of 3D equivalent to the 'blur' operation found in many 2D image editors. It is again possible to change the falloff, radius, and opacity of the brush performing the smoothing.
  *
@@ -52,13 +52,22 @@
  *
  * Textures can be applied to the terrain by using Cubiquity's paint mode.
  *
- * Picture here
+ * \image html PaintTools.png "Paint mode options for applying textures to the terrain."
  *
  * Note that the range of available textures is defined by the currently applied material, and this can be changed via \ref secRendererComp as discussed later. The textures are not simply painted onto the mesh but are instead painted into the volume - i.e. the brush is not a circle but a sphere which also changes the texture of underground voxels. You can see the effect of this if you choose a large brush, paint part of the terrain, and then dig into the part which you have painted.
  *
  * \subsubsection secSettingsMode Settings Mode
  *
+ * Currently the only setting which is exposed is the volume data which is being rendered. You can drag new volume data onto this field, or click the small circle to select from a pop-up window. More settings will be exposed in future versions of Cubiquity.
+ *
+ * \image html SettingsTools.png "Settings currently lets you change the volume data which is being used."
+ *
  * \subsection secEditColCubesVolumes Editing Colored Cubes Volumes
+ *
+ * The built in editing capabilities of the colored cubes volume are currently very basic compared to those of the terrain volume, and it is expected that users will instead generate their volume in external applications or via other means (see LINK HERE for various options). However you can use them for making small adjustments.
+ *
+ * Picture here
+ *
  * \section secOtherComps Other Volume Components
  * \subsection secRendererComp The Volume Renderer
  * \subsection secColliderComp The Volume Collider
