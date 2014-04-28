@@ -6,7 +6,7 @@
  *
  * %Cubiquity for Unity3D supports two types of voxel environments. We will begin by looking at the *Terrain Volume* which, as the name suggests, is intended for representing natural terrains. From a user point of view it is similar to Unity3D's built-in terrain, but additionally supports caves, overhangs, and flexible run-time editing.
  *
- * Begin by opening the scene 'EmptySceneWithLighting' in the 'Assets/Cubiquity/Examples' folder. Now create a Terrain Volume from within the Unity3D editor by going to the main menu and selecting `GameObject -> Create Other -> Terrain Volume`. The terrain volume will be created at the origin of your scene and should appear as shown in the image below:
+ * Begin by opening the scene 'EmptySceneWithLighting' in the `Assets/Cubiquity/Examples` folder. Now create a Terrain Volume from within the Unity3D editor by going to the main menu and selecting `GameObject -> Create Other -> Terrain Volume`. The terrain volume will be created at the origin of your scene and should appear as shown in the image below:
  * 
  * \image html NewTerrainVolume.jpg "A newly created terrain volume"
  *
@@ -30,9 +30,9 @@
  *
  * As with the Terrain Volume, the Colored Cubes Volume comes with a custom inspector which is shown whenever it is selected. However, the editing facilities of this are currently very limited, and only allow you to create single cubes at a time by left-clicking on the volume. We will probably add more advanced editing in the future, but you should also consider creating your Colored Cubes Volumes in an external application and or generating them procedurally. This is described further in later sections of this user manual.
  *
- * Let's try replacing the volume data with one of the example volumes which comes with %Cubiquity. We begin by creating a new asset from an existing .vdb file (see \ref pagePrinciples "Main Principles" if you are not familiar with these concepts). To do this we go to 'Assets -> Create -> Colored Cubes Volume Data -> From Voxel Database...' and select 'StreamingAssets\Cubiquity\VoxelDatabases\Examples\VoxeliensColoredCubes.vdb' (this is a map from our previous game <a href="http://www.volumesoffun.com/voxeliens/">Voxeliens</a>). This will create an asset called 'VoxeliensColoredCubes' in your project, and if you click on it an look at the inspector you can see it links to the .vdb file you selected.
+ * Let's try replacing the volume data with one of the example volumes which comes with %Cubiquity. We begin by creating a new asset from an existing .vdb file (see \ref pagePrinciples "Main Principles" if you are not familiar with these concepts). To do this we go to `Assets -> Create -> Colored Cubes Volume Data -> From Voxel Database...` and select 'StreamingAssets\Cubiquity\VoxelDatabases\Examples\VoxeliensColoredCubes.vdb' (this is a map from our previous game <a href="http://www.volumesoffun.com/voxeliens/">Voxeliens</a>). This will create an asset called 'VoxeliensColoredCubes' in your project, and if you click on it an look at the inspector you can see it links to the .vdb file you selected.
  *
- * We now wish to tell Cubiquity to use the newly created asset as the data for the colored cubes volume which exists in our scene. To do this, select the colored  cubes volume, go to 'Settings' in the inspector, and click the small circle next to the 'Volume Data' field. From here you can select the 'VoxeliensColoredCubes' asset which will cause it be be used as the source data for the volume.
+ * We now wish to tell %Cubiquity to use the newly created asset as the data for the colored cubes volume which exists in our scene. To do this, select the colored  cubes volume, go to 'Settings' in the inspector, and click the small circle next to the 'Volume Data' field. From here you can select the 'VoxeliensColoredCubes' asset which will cause it be be used as the source data for the volume.
  *
  * \image html VoxeliensColoredCubesVolume.jpg "The colored cubes volume after importing our map from Voxeliens"
  *
