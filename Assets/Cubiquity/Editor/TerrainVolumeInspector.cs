@@ -133,10 +133,13 @@ namespace Cubiquity
 				DrawSettingsControls();
 			}
 			
-			// Warn about unlicensed version.
-			EditorGUILayout.Space();
-			EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation " +
-				"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
+			if(!Licensing.isCommercial)
+			{
+				// Warn about unlicensed version.
+				EditorGUILayout.Space();
+				EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation " +
+					"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
+			}
 		}
 		
 		private void DrawSculptControls()
