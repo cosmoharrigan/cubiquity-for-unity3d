@@ -64,7 +64,7 @@
  *
  * \subsection secEditColCubesVolumes Editing Colored Cubes Volumes
  *
- * The built in editing capabilities of the colored cubes volume are currently very basic compared to those of the terrain volume, and it is expected that users will instead generate their volume in external applications or via other means (see LINK HERE for various options). However you can use them for making small adjustments.
+ * The built in editing capabilities of the colored cubes volume are currently very basic compared to those of the terrain volume, and it is expected that users will instead generate their volume in external applications or via other means (see \ref pageObtainingVolDat for various options). However you can use them for making small adjustments.
  *
  * \image html ColoredCubesEditingTools.png "The colored cubes volume inspector lets you add, delete, or paint cubes."
  *
