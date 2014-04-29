@@ -14,17 +14,23 @@
  *
  * `ConvertToVDB.exe -i input.vox -o output.vdb`
  *
- * You can then copy the resulting .vdb into the `StreamingAssets\Cubiquity\VoxelDatabases` folder before followint the instruction in \ref secFromVoxelDatabase to import it into Unity.
+ * You can then copy the resulting .vdb into the `StreamingAssets\Cubiquity\VoxelDatabases` folder before following the instruction in \ref secFromVoxelDatabase to import it into Unity.
  *
  * \subsection secImageSlices
  *
- * Note that both Magica and image slices are only appropriate for importing colored cubes volumes. Currently there are no methods for creating terrain volumes *outside* of %Cubiquity for Unity3D, but you can still create them procedually as discussed later.
+ * The same tool can be used to import colored cubes volume from a series of color images representing slices through the volume (see `Assets\Cubiquity\Examples\VolumeData\VoxeliensLevel3` for an example of such a series of slices). This provides means to get data into Cubiquity from any other application provided you can write an exporter to output thse slices. You can also use this approach if you want to write a standalone program which generates volume data offline and which can then be imported into Cubiquity (this is faster than generating volumes though C# scripts).
+ *
+ * You can call the converter in the same way as before, but providing a path to a folder containing image slices rather than to a Magica Voxel .vox file:
+ *
+ * `ConvertToVDB.exe -i input.vox -o output.vdb`
+ *
+ * Note that both Magica Voxel and image slices are only appropriate for importing colored cubes volumes. Currently there are no methods for creating terrain volumes *outside* of %Cubiquity for Unity3D, but you can still create them procedurally as discussed later.
  *
  * \section secGenerating Generating Volume Data Through Scripts
  *
  * %Cubiquity for Unity3D provides a very simple but powerful API for generating volumes through code. Each volume is essentially just a 3D grid of voxel values, and the API gives you direct access to these through the VolumeData's GetVoxel(...) and SetVoxel(...) methods. You can then choose any method you wish to decide which values should be written to which voxels. Common approaches include:
  *
- * Using a noise function: Evalutaing a 3D noise function (such as Perlin noise or Simplex noise) at each point on the grid can generate both natural and surreal environments. Multiple octaves of noise can be combined to add additional detail. Please see the 'Procedural Generation' example in the examples folder.
+ * Using a noise function: Evaluating a 3D noise function (such as Perlin noise or Simplex noise) at each point on the grid can generate both natural and surreal environments. Multiple octaves of noise can be combined to add additional detail. Please see the 'Procedural Generation' example in the examples folder.
  *
  * Reading an input image: The 'Maze' example (see the examples folder) reads a 2D image of a maze and sets the height of voxel columns based of whether the corresponding pixel is black or white. The same principle can be applied to generating a terrain from a heightmap.
  *
