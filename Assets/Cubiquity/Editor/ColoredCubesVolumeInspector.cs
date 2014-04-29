@@ -99,7 +99,7 @@ namespace Cubiquity
 			
 			if(addMode || paintMode)
 			{
-				paintColor = EditorGUILayout.ColorField(paintColor, GUILayout.Width(200));
+				paintColor = EditorGUILayout.ColorField("Voxel Color:", paintColor);
 			}
 			
 			if(settingsMode)
@@ -119,10 +119,13 @@ namespace Cubiquity
 				coloredCubesVolume.data = data;
 			}*/
 			
-			// Warn about unlicensed version.
-			EditorGUILayout.Space();
-			EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation " +
-				"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
+			if(!Licensing.isCommercial)
+			{
+				// Warn about unlicensed version.
+				EditorGUILayout.Space();
+				EditorGUILayout.HelpBox("This version of Cubiquity is for non-commercial and evaluation " +
+					"use only. Please see LICENSE.txt for further details.", MessageType.Warning);
+			}
 		}
 		
 		private void DrawInstructions( string message)

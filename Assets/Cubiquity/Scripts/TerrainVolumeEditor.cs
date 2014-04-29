@@ -6,7 +6,9 @@ using Cubiquity.Impl;
 
 namespace Cubiquity
 {
-	public static class TerrainVolumeEditor
+	// These methods aren't documented yet because it's not clear if/how they will change in the future.
+	/// \cond
+	public class TerrainVolumeEditor
 	{
 		public static void SculptTerrainVolume(TerrainVolume volume, float centerX, float centerY, float centerZ, float brushInnerRadius, float brushOuterRadius, float amount)
 		{
@@ -42,4 +44,5 @@ namespace Cubiquity
 			}
 		}*/
 	}
+	/// \endcond
 }

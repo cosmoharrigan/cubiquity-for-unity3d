@@ -1,6 +1,8 @@
-/** \page pageTroubleShooting TroubleShooting
+/** \page pageTroubleShooting Trouble Shooting
+ *
+ * We hope that %Cubiquity for Unity3D runs smoothly for you, but if you have any problems then you should check this page for potential solutions.
  * 
- * CheckConsistency: Transform child can't be loaded
+ * \section secCheckConsistency CheckConsistency: Transform child can't be loaded
  *
  * This error message is caused by what appears to be undesirable behavior with regards to the way Unity handles the 'DontSave' flag. Specifically, if the 'DontSave' flag is set on a GameObject in the scene hierarchy then Unity still serializes *references* to that GameObject even though it does not serialize the GameObject itself. This behavior is problematic for various parts of %Cubiquity as we rely heavily of generating GameObjects at runtime (including in edit mode) and naturally we don't want them serialized to disk.
  *
