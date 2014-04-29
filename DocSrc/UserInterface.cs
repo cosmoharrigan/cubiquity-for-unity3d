@@ -114,7 +114,7 @@
  *
  * \subsection secFromVoxelDatabase Creating From An Existing Voxel Database
  *
- * If you already have a %Cubiquity '.vdb' file then you can use this menu item to create a volume data which will reference it (see LINK HERE for ideas about how you might create an existing voxel database). You will be presented with a standard file selection dialog from which you can choose the .vdb file that you wish to wrap. Take care to ensure that the .vdb file you select contains a type of data (MaterialSet vs. QuantizedColors) matching the type of volume you are working with (terrain volume vs. colored cubes volume).
+ * If you already have a %Cubiquity '.vdb' file then you can use this menu item to create a volume data which will reference it (see \ref pageObtainingVolDat for ideas about how you might create an existing voxel database). You will be presented with a standard file selection dialog from which you can choose the .vdb file that you wish to wrap. Take care to ensure that the .vdb file you select contains a type of data (MaterialSet vs. QuantizedColors) matching the type of volume you are working with (terrain volume vs. colored cubes volume).
  *
  */
  
