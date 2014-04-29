@@ -18,6 +18,10 @@
  * \par
  * The easiest way to get started making voxel environments is to use the built-in editing tools. These are embedded within the Unity3D editor, and they let you directly manipulate your worlds though the scene view. You can create worlds, edit them, and set rendering or physical properties. In this section of the user manual we take you though all the tools which are at your disposal and give tips for getting the most out of them. \ref pageUserInterface "Read more..."
  *
+ * \subpage pageTroubleShooting "Trouble Shooting"
+ * \par
+ * Sometimes things can go wrong, and if they do then this is the place to look for help. \ref pageTroubleShooting "Read more..."
+ *
  * <a href="annotated.html"><b>Class List</b></a>
  * \par
  * %Cubiquity for Unity3D provides a clean and elegant API for working with volumes. You can use this API to create volumes procedurally or import them from external sources, modify your volumes in response to in-game events (such as explosions), or implement custom editing tools for your players to use. This section describes the classes and method which you can use for this purpose <a href="annotated.html"><b>Read more...</b></a>
