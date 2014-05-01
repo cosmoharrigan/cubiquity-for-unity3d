@@ -90,11 +90,6 @@ namespace Cubiquity
 			// And select it, so the user can get straight on with editing.
 			Selection.activeGameObject = coloredCubesGameObject;
 			
-			// Set up our material	
-			Shader shader = Shader.Find("ColoredCubesVolume");
-			Material material = new Material(shader);
-			coloredCubesGameObject.GetComponent<ColoredCubesVolumeRenderer>().material = material;
-			
 			int floorThickness = 8;
 			QuantizedColor floorColor = new QuantizedColor(192, 192, 192, 255);
 			

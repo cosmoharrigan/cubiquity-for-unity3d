@@ -1,4 +1,4 @@
-Shader "ColoredCubesVolume"
+Shader "ColoredCubes"
 {	
     SubShader
     {
@@ -20,7 +20,7 @@ Shader "ColoredCubesVolume"
           float4 volumePos;
       };
       
-      #include "ColoredCubesVolumeUtilities.cginc"
+      #include "ColoredCubesUtilities.cginc"
 
 		
 		
