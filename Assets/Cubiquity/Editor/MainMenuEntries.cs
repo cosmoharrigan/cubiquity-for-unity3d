@@ -27,10 +27,6 @@ namespace Cubiquity
 			// And select it, so the user can get straight on with editing.
 			Selection.activeGameObject = terrain;
 			
-			// Set up our material	
-			Material material = new Material(Shader.Find("TriplanarTexturing"));
-			terrain.GetComponent<TerrainVolumeRenderer>().material = material;
-			
 			// Set up the default textures
 			Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
 			Texture2D soilTexture = Resources.Load("Textures/Soil") as Texture2D;
@@ -39,6 +35,7 @@ namespace Cubiquity
 			// It's possible the textures won't actually be found, as they are just examples and the
 			// user might have decided not to include them when importing Cubiquity. This doesn't
 			// matter and just means the uer will have to set up their own textures.
+			Material material = terrain.GetComponent<TerrainVolumeRenderer>().material;
 			if(rockTexture != null && soilTexture != null && grassTexture != null)
 			{
 				material.SetTexture("_Tex0", rockTexture);

@@ -33,22 +33,18 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		volume.data = data;
 		
-		// Set up our material	
-		Material material = new Material(Shader.Find("TriplanarTexturing"));
-		volumeRenderer.material = material;
-		
 		// Set up the default textures
 		Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
 		Texture2D soilTexture = Resources.Load("Textures/Soil") as Texture2D;
 		Texture2D grassTexture = Resources.Load("Textures/Grass") as Texture2D;
 		
 		//Assign the textures to the appropriate material slots.
-		material.SetTexture("_Tex0", rockTexture);
-		material.SetTextureScale("_Tex0", new Vector2(0.062f, 0.062f));
-		material.SetTexture("_Tex1", soilTexture);
-		material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));			
-		material.SetTexture("_Tex2", grassTexture);
-		material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
+		volumeRenderer.material.SetTexture("_Tex0", rockTexture);
+		volumeRenderer.material.SetTextureScale("_Tex0", new Vector2(0.062f, 0.062f));
+		volumeRenderer.material.SetTexture("_Tex1", soilTexture);
+		volumeRenderer.material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));			
+		volumeRenderer.material.SetTexture("_Tex2", grassTexture);
+		volumeRenderer.material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
 		
 		// At this point our volume is set up and ready to use. The remaining code is responsible
 		// for iterating over all the voxels and filling them according to our noise functions.
