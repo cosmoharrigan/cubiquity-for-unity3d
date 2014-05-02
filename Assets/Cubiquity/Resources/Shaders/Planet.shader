@@ -2,7 +2,10 @@
 {
 	Properties
 	{
-		_Tex0 ("Base (RGB)", CUBE) = "white" {}
+		_Tex0 ("Surface Texture", CUBE) = "white" {}
+		_Tex1 ("Layer 1 Texture", 2D) = "white" {}
+		_Tex2 ("Layer 2 Texture", 2D) = "white" {}
+		_Tex3 ("Layer 3 Texture", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -14,7 +17,7 @@
 		#pragma target 3.0
 		#pragma glsl
 		
-		#include "Assets/Cubiquity/Resources/TerrainVolumeUtilities.cginc"
+		#include "TerrainVolumeUtilities.cginc"
 		
 		samplerCUBE _Tex0;
 		
