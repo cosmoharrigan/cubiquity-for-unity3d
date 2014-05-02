@@ -208,7 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba582b797ce3ad14e9569c9dade105c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 1221512697}
+  material: {fileID: 2100000, guid: f96d57c7047b0964a9e5cf282d227bb1, type: 2}
+  mCastShadows: 1
+  mReceiveShadows: 1
 --- !u!114 &350165472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,76 +524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992b2845a670118419db00082497b55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &1221512697
-Material:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: TriplanarTexturing
-  m_Shader: {fileID: 4800000, guid: 1caca2db8f6a85441b19b319a7fae750, type: 3}
-  m_ShaderKeywords: []
-  m_SavedProperties:
-    serializedVersion: 2
-    m_TexEnvs:
-      data:
-        first:
-          name: _Tex0
-        second:
-          m_Texture: {fileID: 2800000, guid: c6c07e201ceca3443af08cff1b1fadb5, type: 3}
-          m_Scale: {x: .061999999, y: .061999999}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex1
-        second:
-          m_Texture: {fileID: 2800000, guid: 80ba9c91035caa14f8722f8bc573b136, type: 3}
-          m_Scale: {x: .125, y: .125}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex2
-        second:
-          m_Texture: {fileID: 2800000, guid: bb38bb14b5e175f4ca16975ae08541d0, type: 3}
-          m_Scale: {x: .125, y: .125}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex3
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex4
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex5
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex6
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex7
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-    m_Floats: {}
-    m_Colors: {}
 --- !u!1 &1384605462
 GameObject:
   m_ObjectHideFlags: 1
