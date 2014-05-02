@@ -33,17 +33,9 @@ public class ProceduralTerrainVolume : MonoBehaviour
 		
 		volume.data = data;
 		
-		// Set up the default textures
-		Texture2D rockTexture = Resources.Load("Textures/Rock") as Texture2D;
-		Texture2D soilTexture = Resources.Load("Textures/Soil") as Texture2D;
-		Texture2D grassTexture = Resources.Load("Textures/Grass") as Texture2D;
-		
-		//Assign the textures to the appropriate material slots.
-		volumeRenderer.material.SetTexture("_Tex0", rockTexture);
+		// This example looks better if we adjust the scaling factors on the textures.
 		volumeRenderer.material.SetTextureScale("_Tex0", new Vector2(0.062f, 0.062f));
-		volumeRenderer.material.SetTexture("_Tex1", soilTexture);
-		volumeRenderer.material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));			
-		volumeRenderer.material.SetTexture("_Tex2", grassTexture);
+		volumeRenderer.material.SetTextureScale("_Tex1", new Vector2(0.125f, 0.125f));	
 		volumeRenderer.material.SetTextureScale("_Tex2", new Vector2(0.125f, 0.125f));
 		
 		// At this point our volume is set up and ready to use. The remaining code is responsible
