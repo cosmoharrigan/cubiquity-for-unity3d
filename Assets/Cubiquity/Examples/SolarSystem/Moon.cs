@@ -18,14 +18,6 @@ namespace CubiquityExamples
 			moonOrbitPoint = transform.parent.gameObject;
 			
 			TerrainVolume volume = GetComponent<TerrainVolume>();
-			TerrainVolumeRenderer volumeRenderer = GetComponent<TerrainVolumeRenderer>();
-			
-			Material material = new Material(Shader.Find("Planet"));
-			volumeRenderer.material = material;
-			
-			Cubemap earthSurfaceTexture = Resources.Load("Textures/MoonSurface") as Cubemap;			
-			
-			material.SetTexture("_Tex0", earthSurfaceTexture);
 			
 			int moonRadius = 15;
 			Region volumeBounds = new Region(-moonRadius, -moonRadius, -moonRadius, moonRadius, moonRadius, moonRadius);		

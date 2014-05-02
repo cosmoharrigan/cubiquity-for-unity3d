@@ -203,49 +203,6 @@ Transform:
   - {fileID: 550297957}
   - {fileID: 194239279}
   m_Father: {fileID: 0}
---- !u!21 &314003673
-Material:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: TriplanarTexturing
-  m_Shader: {fileID: 4800000, guid: 1caca2db8f6a85441b19b319a7fae750, type: 3}
-  m_ShaderKeywords:
-  - BRUSH_MARKER_OFF
-  m_SavedProperties:
-    serializedVersion: 2
-    m_TexEnvs:
-      data:
-        first:
-          name: _Tex0
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex1
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _Tex3
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-    m_Floats: {}
-    m_Colors: {}
 --- !u!1 &550297956
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +360,7 @@ GameObject:
   - 114: {fileID: 1100178565}
   - 114: {fileID: 1100178566}
   - 114: {fileID: 1100178567}
+  - 114: {fileID: 1100178568}
   m_Layer: 0
   m_Name: MoonPlaceholder
   m_TagString: Untagged
@@ -457,9 +415,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba582b797ce3ad14e9569c9dade105c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 314003673}
+  material: {fileID: 2100000, guid: aa30f23e52e941746a754495c183edcc, type: 2}
   mCastShadows: 1
   mReceiveShadows: 1
+--- !u!114 &1100178568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1100178563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc1839ae5e58e743a487271c6168708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1794607570
 GameObject:
   m_ObjectHideFlags: 0
