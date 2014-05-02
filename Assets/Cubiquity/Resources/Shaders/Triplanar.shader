@@ -1,14 +1,14 @@
 ﻿Shader "Triplanar"
 {
 	Properties {
-		_Tex0 ("Base (RGB)", 2D) = "white" {}
-		_Tex1 ("Base (RGB)", 2D) = "white" {}
-		_Tex2 ("Base (RGB)", 2D) = "white" {}
-		_Tex3 ("Base (RGB)", 2D) = "white" {}
-		_Tex4 ("Base (RGB)", 2D) = "white" {}
-		_Tex5 ("Base (RGB)", 2D) = "white" {}
-		_Tex6 ("Base (RGB)", 2D) = "white" {}
-		_Tex7 ("Base (RGB)", 2D) = "white" {}
+		_Tex0 ("Texture 0", 2D) = "white" {}
+		_Tex1 ("Texture 1", 2D) = "white" {}
+		_Tex2 ("Texture 2", 2D) = "white" {}
+		_Tex3 ("Texture 3", 2D) = "white" {}
+		_Tex4 ("Texture 4", 2D) = "white" {}
+		_Tex5 ("Texture 5", 2D) = "white" {}
+		_Tex6 ("Texture 6", 2D) = "white" {}
+		_Tex7 ("Texture 7", 2D) = "white" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
