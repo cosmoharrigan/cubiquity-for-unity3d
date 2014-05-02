@@ -147,6 +147,7 @@ GameObject:
   - 114: {fileID: 1302112038}
   - 114: {fileID: 1302112037}
   - 114: {fileID: 1302112036}
+  - 114: {fileID: 1302112040}
   m_Layer: 0
   m_Name: Terrain Volume
   m_TagString: Untagged
@@ -202,6 +203,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1302112040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1302112035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc1839ae5e58e743a487271c6168708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1690653741
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,8 +282,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1690653741}
-  m_LocalRotation: {x: .376869649, y: .160430014, z: -.0664522946, w: .909843743}
-  m_LocalPosition: {x: 64, y: 128, z: -32}
+  m_LocalRotation: {x: .209060386, y: .675864577, z: -.20931083, w: .675048053}
+  m_LocalPosition: {x: -45.229248, y: 71.6852112, z: 59.367012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
