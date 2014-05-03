@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: VoxeliensColoredCubes
   m_EditorClassIdentifier: 
   basePath: 0
-  relativePathToVoxelDatabase: Examples\VoxeliensColoredCubes.vdb
+  relativePathToVoxelDatabase: Examples/VoxeliensColoredCubes.vdb

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: VoxeliensTerrain
   m_EditorClassIdentifier: 
   basePath: 0
-  relativePathToVoxelDatabase: Examples\VoxeliensTerrain.vdb
+  relativePathToVoxelDatabase: Examples/VoxeliensTerrain.vdb

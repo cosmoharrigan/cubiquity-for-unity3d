@@ -73,7 +73,7 @@ namespace Cubiquity
 				}
 				else
 				{
-					Debug.Log("Copying " + fileName + " to the project root folder.");
+					Debug.Log("Setting up Cubiquity for Unity3D by copying " + fileName + " to the project root folder.");
 					
 					try
 					{

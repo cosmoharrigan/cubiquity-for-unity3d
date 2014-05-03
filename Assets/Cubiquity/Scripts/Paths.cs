@@ -69,7 +69,11 @@ namespace Cubiquity
 	
 	        if (toUri.Scheme.ToUpperInvariant() == "FILE")
 	        {
-	            relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+				// Note: We don't use the platforms 'DirectorySeparatorChar' here because we save the result (e.g. path to .vdb)
+				// and we need that to work cross-platform. E.g., if we create a VolumeData asset from Windows then we should not
+				// use the Windows '\' seperator as this won't work when we try to load the asset on OS X.
+	            relativePath = relativePath.Replace(Path.DirectorySeparatorChar, '/');
+				relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, '/');
 	        }
 	
 	        return relativePath;
