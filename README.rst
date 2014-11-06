@@ -3,28 +3,27 @@ Cubiquity For Unity3D
 
 Introduction
 ------------
-Cubiquity is a free voxel terrain asset for Unity Free and Pro. It uses the power of native code to create environments which can be dynamically modified in both the Unity editor and also in-game, enabling dynamic digging, building, and destruction. It is currently in active development, and you can follow its progress in this Git repository.
-
+Cubiquity for Unity3D is an integration layer between our Cubiquity voxel engine and Unity. It allows the creation of volumetric (voxel-based) environments which can be dynamically modified in both the Unity editor and also in-game, enabling dynamic digging, building, and destruction. It uses the power of native code for optimal performance and memory usage, yet still works with both the Free and Pro versions of Unity.
 
 .. image:: http://i.imgur.com/jGP69pV.jpg
    :target: http://youtu.be/6z0jd-J8QMQ
 *Our tank demo shows how a voxel environment can be destroyed in real-time* `(download) <http://www.volumesoffun.com/downloads/Cubiquity/CubiquityUnity3DTest3.zip>`_
 
-Key Features (mostly work in progress!)
----------------------------------------
+Key Features
+------------
 - Supports two kinds of voxel environment – cubic and smooth
 
   - Build your world from millions of tiny colored cubes to create detailed 3D worlds. 
   
-  - Create realistic terrains with powerful sculpting tools (coming soon).
+  - Create realistic terrains with powerful sculpting tools.
   
 - Advanced Graphical capabilities
 
-  - Flexible material system supports arbitrary blending between multiple materials (coming soon).  
+  - Flexible material system supports arbitrary blending between multiple materials.  
   
   - Level-of-detail meshes ensure fast operation across a range of hardware.
   
-  - Supports Unity's Surface Shader system to allow easy customisation of appearance.
+  - Supports Unity's Surface Shader system to allow easy customization of appearance.
   
   - Works with real-time shadows and other dynamic lighting solutions.
   
@@ -56,13 +55,13 @@ Key Features (mostly work in progress!)
 
   - Available free for non-commercial and evaluation use (see LICENSE.txt).
   
-  - A commercial license will be available in the future for a fee.
+  - A commercial license is available through the Unity Asset Store
   
 More details
 ------------
 For many years we have been actively developing the `PolyVox voxel terrain library <http://www.volumesoffun.com/polyvox-about/>`_ which has been used `by several games and engines <http://www.volumesoffun.com/polyvox-projects/>`_. PolyVox is an extremely powerful and flexible library, but requires an advanced knowledge of C++ and graphics programming to use effectively. Therefore we have recently introduced Cubiquity as a higher-level and easier to use interface to this functionality.
 
-Cubiquity is independent of any particular game engine, but this Git repository provides the integration layer which connects Cubiquity to the Unity3D engine. It is this combination of the Cubiquity library and the integration layer which we will be making available for download from our website and also through the Unity3D asset store.
+Cubiquity is independent of any particular game engine, but this Git repository provides the integration layer which connects Cubiquity to the Unity3D engine. It is this combination of the Cubiquity library and the integration layer which we are making available for download from our website and also through the Unity3D asset store.
 
 Follow Us
 ---------
